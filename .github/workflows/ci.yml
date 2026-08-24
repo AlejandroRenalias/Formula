@@ -31,4 +31,7 @@ jobs:
         run: python -m pytest tests/
 
       - name: Audit Python dependencies
-        run: python -m pip_audit
+        # Temporary documented exception: FastF1 -> signalrcore 1.0.2 hard-pins
+        # msgpack 1.1.2. Formula does not use SignalR live timing/MessagePack.
+        # Remove this as soon as upstream permits msgpack >=1.2.1. See Issue #4.
+        run: python -m pip_audit --ignore-vuln PYSEC-2026-3625
