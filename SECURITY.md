@@ -22,3 +22,11 @@ The repository must never contain real API keys, access tokens, passwords, `.env
 ## Dependency security
 
 CI runs `pip-audit` against the resolved Python environment. Dependabot is configured to surface dependency updates. A green audit reduces known-dependency risk but is not a guarantee that the application has no vulnerabilities.
+
+### Temporary upstream exception
+
+`PYSEC-2026-3625` / `CVE-2026-57585` affects `msgpack 1.1.2`. The current upstream chain `fastf1 3.8.3 -> signalrcore 1.0.2` hard-pins that version even though the fixed `msgpack 1.2.1` is available.
+
+Formula currently uses FastF1 historical-session loading only; it does not use FastF1's SignalR live-timing client or opt into SignalR MessagePack protocol handling, which is the affected code path. CI therefore carries one explicit, documented `pip-audit` exception for this advisory while Issue #4 tracks the upstream fix.
+
+This exception must be removed as soon as `signalrcore` permits a fixed msgpack version, and it must be reassessed before any FastF1 live-timing/MessagePack functionality is added.
