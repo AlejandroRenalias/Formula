@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install project
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+          python -m pip install "pip-audit==2.10.1"
+
+      - name: Run tests
+        run: python -m pytest tests/
+
+      - name: Scan Python source with Bandit
+        run: python -m bandit -r src -q
+
+      - name: Audit Python dependencies
+        # Temporary documented exception: FastF1 -> signalrcore 1.0.2 hard-pins
+        # msgpack 1.1.2. Formula does not use SignalR live timing/MessagePack.
+        # Remove this as soon as upstream permits msgpack >=1.2.1. See Issue #4.
+        run: python -m pip_audit --ignore-vuln PYSEC-2026-3625
