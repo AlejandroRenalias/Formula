@@ -5,18 +5,21 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "formula-pitwall"
 version = "0.1.0"
-description = "Hybrid Deterministic and Multi-Agent F1 Pit Wall Strategy System"
+description = "Hybrid deterministic and multi-agent Formula 1 pit-wall strategy system"
 readme = "README.md"
 requires-python = ">=3.10"
+authors = [
+    { name = "AlejandroRenalias" }
+]
+keywords = ["formula-1", "strategy", "fastf1", "streamlit", "multi-agent"]
 dependencies = [
     "pydantic>=2.7.0,<3.0.0",
     "pandas>=2.2.0,<3.0.0",
     "numpy>=1.26.0,<3.0.0",
     "fastf1>=3.4.0",
     "plotly>=5.22.0",
-    "streamlit>=1.35.0",
-    "rich>=13.7.0",
-    "pytest>=8.2.0"
+    "streamlit>=1.54.0,<2.0.0",
+    "rich>=13.7.0"
 ]
 
 [project.optional-dependencies]
@@ -25,6 +28,12 @@ dev = [
     "pytest-cov>=5.0.0"
 ]
 
+[project.urls]
+Repository = "https://github.com/AlejandroRenalias/Formula"
+
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["src*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
