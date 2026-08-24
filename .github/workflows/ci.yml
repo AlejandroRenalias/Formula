@@ -30,6 +30,9 @@ jobs:
       - name: Run tests
         run: python -m pytest tests/
 
+      - name: Scan Python source with Bandit
+        run: python -m bandit -r src -q
+
       - name: Audit Python dependencies
         # Temporary documented exception: FastF1 -> signalrcore 1.0.2 hard-pins
         # msgpack 1.1.2. Formula does not use SignalR live timing/MessagePack.
