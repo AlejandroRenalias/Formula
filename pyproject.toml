@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "formula-pitwall"
+version = "0.1.0"
+description = "Hybrid Deterministic and Multi-Agent F1 Pit Wall Strategy System"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pydantic>=2.7.0,<3.0.0",
+    "pandas>=2.2.0,<3.0.0",
+    "numpy>=1.26.0,<3.0.0",
+    "fastf1>=3.4.0",
+    "plotly>=5.22.0",
+    "streamlit>=1.35.0",
+    "rich>=13.7.0",
+    "pytest>=8.2.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2.0",
+    "pytest-cov>=5.0.0"
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
