@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import ast
 import os
 import subprocess
 from dataclasses import dataclass, asdict
@@ -34,7 +35,9 @@ class ReviewInput:
 
 def collect_git_evidence(repository_root: Path, max_diff_chars: int) -> tuple[str, tuple[str, ...], str]:
     status = _git_command(repository_root, ["status", "--porcelain", "--untracked-files=all"])
-    diff = _git_command(repository_root, ["diff", "HEAD", "--no-ext-diff", "--binary"])
+    tracked_diff = _git_command(repository_root, ["diff", "HEAD", "--no-ext-diff", "--binary"])
+    untracked_diff = _untracked_file_evidence(repository_root, status)
+    diff = tracked_diff + untracked_diff
     if len(diff) > max_diff_chars:
         raise EvidenceError(f"Git diff exceeds configured review limit ({max_diff_chars} characters)")
     paths = tuple(_status_path(line) for line in status.splitlines() if line.strip())
@@ -69,7 +72,10 @@ def redact_secrets(value: str) -> str:
 
 
 def _git_command(root: Path, args: list[str]) -> str:
-    result = subprocess.run(["git", *args], cwd=root, capture_output=True, text=True, check=False)
+    try:
+        result = subprocess.run(["git", *args], cwd=root, capture_output=True, text=True, check=False)
+    except (OSError, UnicodeError) as exc:
+        raise EvidenceError(f"Git evidence collection failed: {exc}") from exc
     if result.returncode != 0:
         raise EvidenceError(f"Git evidence collection failed: {result.stderr.strip()}")
     return result.stdout
@@ -79,4 +85,59 @@ def _status_path(line: str) -> str:
     path = line[3:] if len(line) >= 4 else line
     if " -> " in path:
         path = path.rsplit(" -> ", 1)[-1]
+    return _decode_git_path(path)
+
+
+def _untracked_file_evidence(root: Path, status: str) -> str:
+    sections: list[tuple[str, str]] = []
+    repository = root.resolve(strict=True)
+    for line in status.splitlines():
+        if not line.startswith("?? "):
+            continue
+        status_path = _status_path(line)
+        relative_path = Path(status_path)
+        if relative_path.is_absolute():
+            raise EvidenceError(f"Untracked path is outside the repository: {status_path}")
+        raw_candidate = root / relative_path
+        candidate = raw_candidate.resolve(strict=False)
+        try:
+            display_path = candidate.relative_to(repository).as_posix()
+        except ValueError as exc:
+            raise EvidenceError(f"Untracked path is outside the repository: {status_path}") from exc
+        if raw_candidate.is_symlink() or not candidate.is_file():
+            raise EvidenceError(f"Untracked path is not an ordinary file: {status_path}")
+        try:
+            content = candidate.read_bytes().decode("utf-8")
+        except (OSError, UnicodeError) as exc:
+            raise EvidenceError(f"Unable to read untracked UTF-8 file: {status_path}") from exc
+        if "\x00" in content:
+            raise EvidenceError(f"Untracked file is binary: {status_path}")
+        sections.append((display_path, _format_untracked_diff(display_path, content)))
+    return "".join(section for _, section in sorted(sections))
+
+
+def _format_untracked_diff(path: str, content: str) -> str:
+    lines = content.splitlines()
+    body = "".join(f"+{line}\n" for line in lines)
+    if not lines:
+        body = ""
+    return (
+        f"diff --git a/{path} b/{path}\n"
+        "new file mode 100644\n"
+        "--- /dev/null\n"
+        f"+++ b/{path}\n"
+        f"@@ -0,0 +1,{len(lines)} @@\n"
+        f"{body}"
+    )
+
+
+def _decode_git_path(path: str) -> str:
+    if len(path) >= 2 and path[0] == '"' and path[-1] == '"':
+        try:
+            decoded = ast.literal_eval(path)
+        except (SyntaxError, ValueError) as exc:
+            raise EvidenceError(f"Unable to decode Git path: {path}") from exc
+        if not isinstance(decoded, str):
+            raise EvidenceError(f"Unable to decode Git path: {path}")
+        return decoded
     return path

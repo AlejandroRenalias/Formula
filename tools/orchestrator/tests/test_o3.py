@@ -1,10 +1,12 @@
 import json
+import subprocess
 
 from formula_orchestrator.codex_executor import CodexExecutionResult
 from formula_orchestrator.config import OrchestratorConfig
-from formula_orchestrator.evidence import ReviewInput
+from formula_orchestrator.evidence import ReviewInput, collect_git_evidence
 from formula_orchestrator.o3 import run_codex_test_review_smoke, run_review_smoke
 from formula_orchestrator.reviewer import ReviewDecision, ReviewResult
+from formula_orchestrator.smoke import SafetyVerification
 from formula_orchestrator.test_runner import TestRunResult
 from .test_preflight import make_repo
 
@@ -101,6 +103,50 @@ def test_oversized_evidence_skips_reviewer(tmp_path, monkeypatch):
     reviewer = FakeReviewer(passing_review())
     result = run_codex_test_review_smoke(config_for(root), FakeCodex(marker), FakeTests(passing_tests()), reviewer)
     assert result.run_record.final_status == "REVIEW_INPUT_TOO_LARGE" and reviewer.calls == 0
+
+
+def test_untracked_utf8_contents_reach_reviewer_and_are_not_staged(tmp_path, monkeypatch):
+    root = make_repo(tmp_path); monkeypatch.setenv("OPENAI_API_KEY", "fake")
+    monkeypatch.setattr("formula_orchestrator.smoke.verify_smoke_safety", lambda *args: SafetyVerification(True, (), True, "test"))
+    new_file = root / "tests" / "new_test.py"
+    content = "def test_new_file():\n    assert 'visible' == 'visible'\n"
+
+    def create_file(root, task, run_id):
+        new_file.write_text(content, encoding="utf-8")
+        marker(root, task, run_id)
+
+    reviewer = FakeReviewer(passing_review())
+    result = run_codex_test_review_smoke(config_for(root), FakeCodex(create_file), FakeTests(passing_tests()), reviewer)
+    assert result.run_record.final_status == "SUCCESS"
+    assert "+def test_new_file():\n" in reviewer.input.git_diff
+    assert "+    assert 'visible' == 'visible'\n" in reviewer.input.git_diff
+    assert "new file mode" in reviewer.input.git_diff and "tests/new_test.py" in reviewer.input.git_diff
+    status = subprocess.run(["git", "status", "--porcelain", "--untracked-files=all"], cwd=root, capture_output=True, text=True, check=True).stdout
+    assert "A  tests/new_test.py" not in status and "?? tests/new_test.py" in status
+
+
+def test_oversized_untracked_file_skips_reviewer(tmp_path, monkeypatch):
+    root = make_repo(tmp_path); monkeypatch.setenv("OPENAI_API_KEY", "fake")
+    monkeypatch.setattr("formula_orchestrator.smoke.verify_smoke_safety", lambda *args: SafetyVerification(True, (), True, "test"))
+
+    def create_file(root, task, run_id):
+        (root / "tests" / "large_test.py").write_text("x" * 500, encoding="utf-8")
+        marker(root, task, run_id)
+
+    reviewer = FakeReviewer(passing_review())
+    result = run_codex_test_review_smoke(
+        config_for(root, review_max_diff_chars=100), FakeCodex(create_file), FakeTests(passing_tests()), reviewer
+    )
+    assert result.run_record.final_status == "REVIEW_INPUT_TOO_LARGE" and reviewer.calls == 0
+
+
+def test_ignored_files_are_excluded_from_review_evidence(tmp_path):
+    root = make_repo(tmp_path)
+    ignored = root / "tools" / "orchestrator" / ".run-logs" / "ignored.txt"
+    ignored.parent.mkdir(parents=True)
+    ignored.write_text("must not appear", encoding="utf-8")
+    diff, paths, status = collect_git_evidence(root, 10_000)
+    assert "ignored.txt" not in diff and "ignored.txt" not in status and all("ignored.txt" not in path for path in paths)
 
 
 def test_review_input_redacts_credentials_and_review_smoke_has_no_codex(tmp_path, monkeypatch):
