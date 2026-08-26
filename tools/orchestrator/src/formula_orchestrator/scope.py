@@ -11,7 +11,7 @@ class TaskScope:
     repository_root: Path
     allowed_paths: tuple[str, ...] = ()
     allowed_roots: tuple[str, ...] = ()
-    forbidden_paths: tuple[str, ...] = (".git", ".env", ".env.example", ".gitignore", "pyproject.toml", "uv.lock", "tools/orchestrator/src", "tools/orchestrator/tests", "tools/orchestrator/pyproject.toml", "tools/orchestrator/uv.lock", "tools/orchestrator/.env.example")
+    forbidden_paths: tuple[str, ...] = (".git", ".env", ".env.*", ".env.example", ".gitignore", "pyproject.toml", "uv.lock", "tools/orchestrator/src", "tools/orchestrator/tests", "tools/orchestrator/pyproject.toml", "tools/orchestrator/uv.lock", "tools/orchestrator/.env.example")
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "repository_root", Path(self.repository_root).resolve())
@@ -29,6 +29,11 @@ class TaskScope:
     def _matches(path: str, patterns: tuple[str, ...], exact: bool = False) -> bool:
         for pattern in patterns:
             normalized = Path(pattern).as_posix().strip("/")
+            if normalized.endswith(".*"):
+                prefix = normalized[:-2]
+                if path == prefix or path.startswith(prefix + "."):
+                    return True
+                continue
             if exact and path == normalized:
                 return True
             if not exact and (path == normalized or path.startswith(normalized + "/")):
