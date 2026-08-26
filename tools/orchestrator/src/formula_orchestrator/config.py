@@ -42,6 +42,7 @@ class OrchestratorConfig:
     test_timeout_seconds: float = 300
     review_max_diff_chars: int = 20_000
     review_max_output_chars: int = 12_000
+    repair_max_input_chars: int = 40_000
     run_log_directory: Path | None = None
 
     def __post_init__(self) -> None:
@@ -51,6 +52,8 @@ class OrchestratorConfig:
             object.__setattr__(self, "run_log_directory", root / "tools" / "orchestrator" / ".run-logs")
         else:
             object.__setattr__(self, "run_log_directory", Path(self.run_log_directory).expanduser().resolve())
+        if isinstance(self.max_repair_loops, bool) or not isinstance(self.max_repair_loops, int):
+            raise ValueError("max_repair_loops must be an integer")
         if self.max_repair_loops < 0:
             raise ValueError("max_repair_loops must be non-negative")
         if not self.coordinator.model.strip() or not self.codex.model.strip():
@@ -61,6 +64,10 @@ class OrchestratorConfig:
             raise ValueError("test_timeout_seconds must be positive")
         if self.review_max_diff_chars <= 0 or self.review_max_output_chars <= 0:
             raise ValueError("review evidence limits must be positive")
+        if self.repair_max_input_chars <= 0:
+            raise ValueError("repair_max_input_chars must be positive")
+        if self.max_repair_loops > 2:
+            raise ValueError("max_repair_loops cannot exceed 2")
         try:
             self.run_log_directory.relative_to(root)
         except ValueError as exc:

@@ -2,7 +2,7 @@
 
 This is isolated development tooling around Formula. It is not part of the Formula F1 strategy application.
 
-O0 provides configuration, deterministic repository preflight, a minimal run-record model, safety invariants, and a `check` CLI command. It deliberately does not call GPT, execute Codex, edit files, run repair loops, or perform Git automation. The intended future orchestration layer is the official OpenAI Agents SDK and its experimental workspace-scoped Codex tool; that integration belongs to a later milestone.
+O0–O4 provide isolated configuration, deterministic repository preflight, workspace-scoped Codex execution, local test and GPT review gates, bounded repair control, run records, and safety invariants. O4's `repair-smoke` is the only repair CLI: it operates on an ignored fixture and is not a general Formula task runner. The official OpenAI Agents SDK and its experimental workspace-scoped Codex tool remain behind the execution boundary.
 
 ## Check
 
@@ -13,6 +13,12 @@ uv run --project tools/orchestrator formula-orchestrator check
 ```
 
 The default repository root is discovered dynamically. Set `FORMULA_REPOSITORY_ROOT` to check another Formula checkout. A dirty tree, missing expected directories, missing repository, or non-Git directory causes a non-zero exit.
+
+O4 repair fixture smoke:
+
+```powershell
+uv run --project tools/orchestrator formula-orchestrator repair-smoke
+```
 
 ## Safety contract
 

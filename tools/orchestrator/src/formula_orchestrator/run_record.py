@@ -36,6 +36,10 @@ class RunRecord:
     review_duration_seconds: float | None = None
     review_usage: dict[str, Any] | None = None
     review_error: str | None = None
+    baseline: dict[str, Any] | None = None
+    cycles: list[dict[str, Any]] = field(default_factory=list)
+    repair_count: int = 0
+    last_failure: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         data = asdict(self)

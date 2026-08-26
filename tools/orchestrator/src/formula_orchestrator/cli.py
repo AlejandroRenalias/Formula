@@ -9,12 +9,13 @@ from .preflight import PreflightError, run_preflight, validate_repository
 from .smoke import run_smoke
 from .o2 import run_codex_test_smoke
 from .o3 import run_codex_test_review_smoke, run_review_smoke
+from .o4 import BoundedRepairController, run_repair_smoke
 from .test_runner import FormulaTestRunner
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="formula-orchestrator")
-    parser.add_argument("command", choices=("check", "codex-smoke", "test-gate", "codex-test-smoke", "review-smoke", "codex-test-review-smoke"), help="run an orchestrator command")
+    parser.add_argument("command", choices=("check", "codex-smoke", "test-gate", "codex-test-smoke", "review-smoke", "codex-test-review-smoke", "repair-smoke"), help="run an orchestrator command")
     args = parser.parse_args(argv)
     if args.command == "check":
         try:
@@ -79,5 +80,16 @@ def main(argv: list[str] | None = None) -> int:
             print(f"O3 smoke failed: {result.run_record.error or result.run_record.final_status}")
             return 1
         print(f"O3 smoke passed; run record: {result.run_record.run_id}")
+        return 0
+    if args.command == "repair-smoke":
+        try:
+            result = run_repair_smoke(OrchestratorConfig.from_environment())
+        except (FileNotFoundError, PreflightError, ValueError) as exc:
+            print(f"Repair smoke failed before execution: {exc}")
+            return 1
+        if result.run_record.final_status != "SUCCESS":
+            print(f"Repair smoke failed: {result.run_record.error or result.run_record.final_status}")
+            return 1
+        print(f"Repair smoke passed; run record: {result.run_record.run_id}")
         return 0
     return 2

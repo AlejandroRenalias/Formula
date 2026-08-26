@@ -19,7 +19,7 @@ class CodexExecutionResult:
 
 
 class CodexExecutor:
-    """Execute exactly one bounded Codex task through the official SDK."""
+    """Execute exactly one bounded workspace Codex task through the official SDK."""
 
     async def execute(
         self,
@@ -38,7 +38,7 @@ class CodexExecutor:
         except Exception as exc:  # SDK import/configuration failures are failures.
             return CodexExecutionResult(success=False, error=f"Agents SDK Codex integration unavailable: {exc}")
 
-        del run_id  # The task text carries the safe, caller-assigned run context.
+        del run_id  # The caller-assigned run context remains local to orchestration.
         thread_id: str | None = None
         usage: dict[str, Any] | None = None
 
@@ -65,8 +65,8 @@ class CodexExecutor:
                 on_stream=on_stream,
             )
             agent = Agent(
-                name="Formula O1 Codex Smoke",
-                instructions="Use the codex tool exactly once to perform the supplied bounded smoke task, then summarize the result.",
+                name="Formula Bounded Codex Executor",
+                instructions="Use the codex tool exactly once to perform the supplied bounded workspace task, then summarize the result.",
                 model=model.model,
                 tools=[tool],
             )
@@ -100,4 +100,3 @@ def _safe_usage(value: Any) -> dict[str, Any]:
 
 def _safe_value(value: Any) -> Any:
     return value if isinstance(value, (str, int, float, bool, type(None))) else str(value)
-
