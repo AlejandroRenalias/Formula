@@ -7,6 +7,7 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
 DEFAULT_TEST_COMMAND = "uv run --with pytest python -m pytest tests/ -q"
+SUPPORTED_REASONING_EFFORTS = frozenset(("low", "medium", "high"))
 
 
 def discover_repository_root(start: Path | None = None) -> Path:
@@ -28,15 +29,25 @@ def discover_repository_root(start: Path | None = None) -> Path:
 class ModelConfig:
     """Non-secret model selection; credentials remain in the process environment."""
 
-    model: str = "gpt-5.4"
+    model: str = "gpt-5.6-luna"
+    reasoning_effort: str = "medium"
     provider: str = "openai"
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.model, str) or not self.model.strip():
+            raise ValueError("model name must be non-empty")
+        if not isinstance(self.reasoning_effort, str) or not self.reasoning_effort.strip():
+            raise ValueError("reasoning_effort must be non-empty")
+        if self.reasoning_effort not in SUPPORTED_REASONING_EFFORTS:
+            supported = ", ".join(sorted(SUPPORTED_REASONING_EFFORTS))
+            raise ValueError(f"unsupported reasoning_effort {self.reasoning_effort!r}; expected one of: {supported}")
 
 
 @dataclass(frozen=True)
 class OrchestratorConfig:
     repository_root: Path = field(default_factory=discover_repository_root)
     coordinator: ModelConfig = field(default_factory=ModelConfig)
-    codex: ModelConfig = field(default_factory=lambda: ModelConfig(model="gpt-5.4"))
+    codex: ModelConfig = field(default_factory=ModelConfig)
     max_repair_loops: int = 2
     test_command: str = DEFAULT_TEST_COMMAND
     test_timeout_seconds: float = 300
@@ -56,8 +67,6 @@ class OrchestratorConfig:
             raise ValueError("max_repair_loops must be an integer")
         if self.max_repair_loops < 0:
             raise ValueError("max_repair_loops must be non-negative")
-        if not self.coordinator.model.strip() or not self.codex.model.strip():
-            raise ValueError("coordinator and codex model names must be non-empty")
         if not self.test_command.strip():
             raise ValueError("test_command must be non-empty")
         if self.test_timeout_seconds <= 0:

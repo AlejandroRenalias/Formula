@@ -7,7 +7,7 @@ import pytest
 
 from formula_orchestrator.codex_executor import CodexExecutionResult
 from formula_orchestrator.cli import main
-from formula_orchestrator.config import OrchestratorConfig
+from formula_orchestrator.config import ModelConfig, OrchestratorConfig
 from formula_orchestrator.o4 import O4Result
 from formula_orchestrator.reviewer import ReviewDecision, ReviewResult
 from formula_orchestrator.o5 import (
@@ -124,6 +124,8 @@ def test_prepare_is_local_and_runs_baseline(tmp_path, monkeypatch):
     assert runner.calls == 1
     assert result.plan_path.is_file()
     assert result.plan.approval_token == result.plan.plan_fingerprint[:16]
+    assert result.plan.coordinator_reasoning_effort == "medium"
+    assert result.plan.codex_reasoning_effort == "medium"
 
 
 @pytest.mark.parametrize("test_result,status", [
@@ -176,7 +178,9 @@ def test_plan_edit_invalidates_approval(tmp_path, monkeypatch):
     ("baseline_head_sha", "0" * 40),
     ("baseline_branch", "other-branch"),
     ("coordinator_model", "different-coordinator"),
+    ("coordinator_reasoning_effort", "high"),
     ("codex_model", "different-codex"),
+    ("codex_reasoning_effort", "high"),
     ("test_command", "pytest"),
     ("test_timeout_seconds", 301.0),
     ("allowed_paths", ["src/other.py"]),
@@ -243,6 +247,16 @@ def test_stale_head_and_policy_are_rejected_before_controller(tmp_path, monkeypa
     assert getattr(error.value, "status", None) == "PLAN_STALE"
 
 
+@pytest.mark.parametrize("role", ["coordinator", "codex"])
+def test_reasoning_effort_drift_makes_approved_plan_stale(tmp_path, monkeypatch, role):
+    root, config, result, _ = prepared(tmp_path, monkeypatch)
+    monkeypatch.setenv("OPENAI_API_KEY", "fake")
+    drifted = config_for(root, **{role: ModelConfig(model="gpt-5.6-luna", reasoning_effort="high")})
+    with pytest.raises(O5Error) as error:
+        run_task(result.plan_path, result.approval_token, drifted, controller_factory=FakeController)
+    assert error.value.status == "PLAN_STALE"
+
+
 def test_single_use_marker_and_final_evidence(tmp_path, monkeypatch):
     root, config, result, _ = prepared(tmp_path, monkeypatch)
     monkeypatch.setenv("OPENAI_API_KEY", "fake")
@@ -288,7 +302,7 @@ def test_canonical_task_text_is_reproducible():
     plan = PreparedTaskPlan.model_validate({
         "schema_version": 1, "task_id": "task-one", "title": "Title", "objective": "Objective", "acceptance_criteria": ["First", "Second"],
         "allowed_paths": ["src/a.py"], "allowed_roots": [], "forbidden_paths": [], "scope_risk": "NARROW", "baseline_head_sha": "h", "baseline_branch": "main",
-        "baseline_test_status": "PASS", "baseline_test_exit_code": 0, "test_command": "pytest", "test_timeout_seconds": 1.0, "coordinator_model": "review", "codex_model": "codex",
+        "baseline_test_status": "PASS", "baseline_test_exit_code": 0, "test_command": "pytest", "test_timeout_seconds": 1.0, "coordinator_model": "review", "coordinator_reasoning_effort": "medium", "codex_model": "codex", "codex_reasoning_effort": "medium",
         "configured_max_repair_loops": 2, "approved_repair_limit": 2, "prepared_at": "now", "repository_path": "root", "plan_fingerprint": "f", "approval_token": "f" * 16,
     })
     assert canonical_task_text(plan) == canonical_task_text(plan)
@@ -298,12 +312,15 @@ def test_cli_task_prepare_and_task_run_return_success(tmp_path, monkeypatch, cap
     plan = SimpleNamespace(
         task_id="task-one", baseline_head_sha="head", baseline_test_status="PASS", scope_risk="NARROW",
         allowed_paths=["src/placeholder.py"], allowed_roots=[], approved_repair_limit=2,
-        codex_model="codex", coordinator_model="review",
+        codex_model="codex", codex_reasoning_effort="medium", coordinator_model="review", coordinator_reasoning_effort="medium",
     )
     prepared_result = SimpleNamespace(plan=plan, plan_path=tmp_path / "plan.json", approval_token="0123456789abcdef")
     monkeypatch.setattr("formula_orchestrator.cli.prepare_task", lambda task_file, config: prepared_result)
     assert main(["task-prepare", "--task-file", "task.json"]) == 0
-    assert "No Codex execution has occurred" in capsys.readouterr().out
+    output = capsys.readouterr().out
+    assert "Codex model: codex" in output and "Codex reasoning: medium" in output
+    assert "Reviewer model: review" in output and "Reviewer reasoning: medium" in output
+    assert "No Codex execution has occurred" in output
     run_result = SimpleNamespace(run_record=SimpleNamespace(final_status="READY_FOR_HUMAN_REVIEW", error=None))
     monkeypatch.setattr("formula_orchestrator.cli.run_task", lambda plan_file, token, config: run_result)
     assert main(["task-run", "--plan-file", "plan.json", "--approve", "0123456789abcdef"]) == 0

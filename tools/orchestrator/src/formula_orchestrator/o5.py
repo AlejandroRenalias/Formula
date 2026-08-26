@@ -128,7 +128,9 @@ class PreparedTaskPlan(BaseModel):
     test_command: str
     test_timeout_seconds: float
     coordinator_model: str
+    coordinator_reasoning_effort: str
     codex_model: str
+    codex_reasoning_effort: str
     configured_max_repair_loops: int
     approved_repair_limit: int
     prepared_at: str
@@ -397,7 +399,9 @@ def _build_plan(request: TaskRequest, scope: TaskScope, config: OrchestratorConf
         "test_command": config.test_command,
         "test_timeout_seconds": config.test_timeout_seconds,
         "coordinator_model": config.coordinator.model,
+        "coordinator_reasoning_effort": config.coordinator.reasoning_effort,
         "codex_model": config.codex.model,
+        "codex_reasoning_effort": config.codex.reasoning_effort,
         "configured_max_repair_loops": config.max_repair_loops,
         "approved_repair_limit": request.repair_limit,
         "prepared_at": _now().isoformat(),
@@ -433,7 +437,12 @@ def _verify_current_policy(plan: PreparedTaskPlan, config: OrchestratorConfig) -
         raise O5Error("PLAN_STALE", "Configured Formula repository differs from the prepared plan")
     if config.test_command != plan.test_command or config.test_timeout_seconds != plan.test_timeout_seconds:
         raise O5Error("PLAN_STALE", "Deterministic test policy differs from the prepared plan")
-    if config.coordinator.model != plan.coordinator_model or config.codex.model != plan.codex_model:
+    if (
+        config.coordinator.model != plan.coordinator_model
+        or config.coordinator.reasoning_effort != plan.coordinator_reasoning_effort
+        or config.codex.model != plan.codex_model
+        or config.codex.reasoning_effort != plan.codex_reasoning_effort
+    ):
         raise O5Error("PLAN_STALE", "Model configuration differs from the prepared plan")
     if config.max_repair_loops != plan.configured_max_repair_loops:
         raise O5Error("PLAN_STALE", "Repair policy differs from the prepared plan")

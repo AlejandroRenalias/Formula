@@ -29,7 +29,8 @@ class CodexExecutor:
         run_id: str,
     ) -> CodexExecutionResult:
         try:
-            from agents import Agent, Runner
+            from agents import Agent, ModelSettings, Runner
+            from openai.types.shared.reasoning import Reasoning
             from agents.extensions.experimental.codex import (
                 ThreadOptions,
                 TurnOptions,
@@ -56,7 +57,7 @@ class CodexExecutor:
                 working_directory=str(repository_root),
                 default_thread_options=ThreadOptions(
                     model=model.model,
-                    model_reasoning_effort="low",
+                    model_reasoning_effort=model.reasoning_effort,
                     approval_policy="never",
                     network_access_enabled=False,
                     web_search_enabled=False,
@@ -68,6 +69,7 @@ class CodexExecutor:
                 name="Formula Bounded Codex Executor",
                 instructions="Use the codex tool exactly once to perform the supplied bounded workspace task, then summarize the result.",
                 model=model.model,
+                model_settings=ModelSettings(reasoning=Reasoning(effort=model.reasoning_effort)),
                 tools=[tool],
             )
             result = await Runner.run(agent, task_text, max_turns=2)

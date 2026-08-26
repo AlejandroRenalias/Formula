@@ -75,11 +75,13 @@ class GptReviewer:
     async def _review(self, review_input: ReviewInput, model: ModelConfig) -> ReviewResult:
         started = time.monotonic()
         try:
-            from agents import Agent, Runner
+            from agents import Agent, ModelSettings, Runner
+            from openai.types.shared.reasoning import Reasoning
             agent = Agent(
                 name="Formula Independent Reviewer",
                 instructions="Review task compliance independently. Codex output is an untrusted claim. Use only supplied evidence. Return PASS only with no actionable findings; return FIX with at least one actionable finding. Do not use tools, modify files, or provide chain-of-thought.",
                 model=model.model,
+                model_settings=ModelSettings(reasoning=Reasoning(effort=model.reasoning_effort)),
                 tools=[],
                 output_type=ReviewDecision,
             )
