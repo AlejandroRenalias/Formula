@@ -38,3 +38,5 @@ data/cache/
 .idea/
 .DS_Store
 Thumbs.db
+
+tools/orchestrator/.pytest-tmp*/
