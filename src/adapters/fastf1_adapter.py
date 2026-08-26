@@ -1,6 +1,5 @@
 """FastF1 Data Adapter with strict structural knowledge cutoff."""
-import os
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 import fastf1
@@ -26,10 +25,43 @@ from src.calculators.pace_model import PaceModel
 from src.calculators.pit_loss_model import PitLossModel
 from src.calculators.traffic_model import TrafficModel
 
-# Configure FastF1 cache directory
 CACHE_DIR = Path("data/cache")
-CACHE_DIR.mkdir(parents=True, exist_ok=True)
-fastf1.Cache.enable_cache(str(CACHE_DIR))
+
+
+class FastF1AdapterError(RuntimeError):
+    """Contextual error raised when FastF1 cannot acquire or load a session."""
+
+
+def _seconds(value) -> float:
+    """Return a lap duration in seconds for FastF1/pandas timedelta values."""
+    if pd.isna(value):
+        return 0.0
+    if hasattr(value, "total_seconds"):
+        return float(value.total_seconds())
+    return float(value)
+
+
+def _historical_timestamp(session, lap_time) -> datetime:
+    """Combine FastF1's session start and lap-relative time as a UTC instant."""
+    session_date = getattr(session, "date", None)
+    if session_date is None or pd.isna(session_date):
+        raise ValueError("Session timing metadata is missing session.date.")
+
+    start = pd.Timestamp(session_date)
+    if start.tzinfo is None:
+        start = start.tz_localize(timezone.utc)
+    else:
+        start = start.tz_convert(timezone.utc)
+
+    if pd.isna(lap_time):
+        raise ValueError("Requested lap is missing FastF1 Time timing metadata.")
+    if hasattr(lap_time, "to_pytimedelta"):
+        relative = lap_time.to_pytimedelta()
+    elif isinstance(lap_time, timedelta):
+        relative = lap_time
+    else:
+        relative = timedelta(seconds=float(lap_time))
+    return (start + relative).to_pydatetime()
 
 COMPOUND_MAP = {
     "SOFT": TireCompound.SOFT,
@@ -46,9 +78,17 @@ class FastF1Adapter:
     @classmethod
     def load_session(cls, year: int, race_name: str, session_type: str = "R") -> fastf1.core.Session:
         """Loads and caches a FastF1 session."""
-        session = fastf1.get_session(year, race_name, session_type)
-        session.load(telemetry=False, weather=True, laps=True)
-        return session
+        try:
+            CACHE_DIR.mkdir(parents=True, exist_ok=True)
+            fastf1.Cache.enable_cache(str(CACHE_DIR))
+            session = fastf1.get_session(year, race_name, session_type)
+            session.load(telemetry=False, weather=True, laps=True)
+            return session
+        except Exception as exc:
+            raise FastF1AdapterError(
+                f"Failed to acquire/load FastF1 session "
+                f"{year} {race_name!r} ({session_type!r}): {exc}"
+            ) from exc
 
     @classmethod
     def create_race_state_at_lap(
@@ -71,11 +111,18 @@ class FastF1Adapter:
         if driver_laps.empty:
             raise ValueError(f"Driver '{subject_driver}' not found in session laps.")
 
-        driver_laps_up_to_current = driver_laps[driver_laps["LapNumber"] <= current_lap].copy()
-        if driver_laps_up_to_current.empty:
-            raise ValueError(f"No laps found for driver '{subject_driver}' up to lap {current_lap}.")
+        requested_laps = driver_laps[driver_laps["LapNumber"] == current_lap].copy()
+        if requested_laps.empty:
+            raise ValueError(f"No completed lap {current_lap} found for driver '{subject_driver}'.")
+        requested_laps = requested_laps[requested_laps["Time"].notna() & requested_laps["LapTime"].notna()]
+        if requested_laps.empty:
+            raise ValueError(
+                f"Completed lap {current_lap} for driver '{subject_driver}' "
+                "does not have sufficient timing data (Time and LapTime)."
+            )
 
-        latest_lap_row = driver_laps_up_to_current.iloc[-1]
+        latest_lap_row = requested_laps.sort_values("Time").iloc[-1]
+        driver_laps_up_to_current = driver_laps[driver_laps["Time"] <= latest_lap_row["Time"]].copy()
         cutoff_time = latest_lap_row["Time"]
 
         # 2. Structural slicing of all session data <= cutoff_time
@@ -87,7 +134,7 @@ class FastF1Adapter:
         current_compound = COMPOUND_MAP.get(curr_compound_str, TireCompound.MEDIUM)
         stint_len = int(latest_lap_row.get("TyreLife", 1)) if pd.notna(latest_lap_row.get("TyreLife")) else 1
         pos = int(latest_lap_row.get("Position", 1)) if pd.notna(latest_lap_row.get("Position")) else 1
-        last_lap_s = latest_lap_row["LapTime"].total_seconds() if pd.notna(latest_lap_row["LapTime"]) else 90.0
+        last_lap_s = _seconds(latest_lap_row["LapTime"]) if pd.notna(latest_lap_row["LapTime"]) else 90.0
 
         # Used compounds up to cutoff
         used_comp_strings = driver_laps_up_to_current["Compound"].dropna().unique()
@@ -109,7 +156,7 @@ class FastF1Adapter:
         lap_history: List[LapObservation] = []
         for _, row in driver_laps_up_to_current.iterrows():
             lap_num = int(row["LapNumber"])
-            lap_t_s = row["LapTime"].total_seconds() if pd.notna(row["LapTime"]) else 0.0
+            lap_t_s = _seconds(row["LapTime"]) if pd.notna(row["LapTime"]) else 0.0
             comp = COMPOUND_MAP.get(str(row.get("Compound", "MEDIUM")).upper(), TireCompound.MEDIUM)
             age = int(row.get("TyreLife", lap_num)) if pd.notna(row.get("TyreLife")) else lap_num
             track_st_raw = str(row.get("TrackStatus", "1"))
@@ -170,7 +217,7 @@ class FastF1Adapter:
                     current_compound=d_comp,
                     tyre_age_laps=d_age,
                     gap_to_subject_s=approx_gap,
-                    last_lap_time_s=last_d_lap["LapTime"].total_seconds() if pd.notna(last_d_lap["LapTime"]) else None,
+                    last_lap_time_s=_seconds(last_d_lap["LapTime"]) if pd.notna(last_d_lap["LapTime"]) else None,
                     is_in_pit=pd.notna(last_d_lap.get("PitInTime")),
                     pit_stop_count=int(d_laps["PitInTime"].notna().sum()),
                 )
@@ -208,12 +255,12 @@ class FastF1Adapter:
 
         total_laps_in_race = int(session.total_laps) if hasattr(session, "total_laps") and session.total_laps else 52
 
-        now_dt = datetime.now(timezone.utc)
+        historical_timestamp = _historical_timestamp(session, cutoff_time)
         return RaceState(
             current_lap=current_lap,
             total_laps=total_laps_in_race,
-            timestamp=now_dt,
-            knowledge_cutoff=now_dt,
+            timestamp=historical_timestamp,
+            knowledge_cutoff=historical_timestamp,
             subject_driver=subject_state,
             competitors=competitors,
             track_status=current_track_status,
