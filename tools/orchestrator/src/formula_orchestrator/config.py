@@ -40,6 +40,8 @@ class OrchestratorConfig:
     max_repair_loops: int = 2
     test_command: str = DEFAULT_TEST_COMMAND
     test_timeout_seconds: float = 300
+    review_max_diff_chars: int = 20_000
+    review_max_output_chars: int = 12_000
     run_log_directory: Path | None = None
 
     def __post_init__(self) -> None:
@@ -57,6 +59,8 @@ class OrchestratorConfig:
             raise ValueError("test_command must be non-empty")
         if self.test_timeout_seconds <= 0:
             raise ValueError("test_timeout_seconds must be positive")
+        if self.review_max_diff_chars <= 0 or self.review_max_output_chars <= 0:
+            raise ValueError("review evidence limits must be positive")
         try:
             self.run_log_directory.relative_to(root)
         except ValueError as exc:

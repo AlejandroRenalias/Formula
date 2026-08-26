@@ -15,7 +15,6 @@ class RunRecord:
     started_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     finished_at: datetime | None = None
     test_result: str | None = None
-    review_verdict: str | None = None
     loop_count: int = 0
     final_status: str = "NOT_STARTED"
     task_type: str = "bootstrap"
@@ -30,6 +29,13 @@ class RunRecord:
     test_duration_seconds: float | None = None
     test_timed_out: bool | None = None
     test_output: dict[str, str] | None = None
+    reviewer_model: str | None = None
+    review_verdict: str | None = None
+    review_summary: str | None = None
+    review_findings: list[dict[str, Any]] | None = None
+    review_duration_seconds: float | None = None
+    review_usage: dict[str, Any] | None = None
+    review_error: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         data = asdict(self)
