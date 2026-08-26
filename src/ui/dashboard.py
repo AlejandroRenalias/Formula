@@ -15,6 +15,7 @@ from src.ui.components.decision_card import render_decision_card
 from src.ui.components.factor_breakdown import render_factor_breakdown
 from src.ui.components.specialist_cards import render_specialist_cards
 from src.ui.components.telemetry_charts import render_telemetry_charts
+from src.ui.components.llm_resolution import render_llm_resolution
 
 
 def run_dashboard():
@@ -137,6 +138,7 @@ def run_dashboard():
 
     # 5. Top Primary Decision Card
     render_decision_card(decision)
+    render_llm_resolution(decision)
 
     # 6. Factor Breakdown & Telemetry Charts
     c1, c2 = st.columns([1, 1])

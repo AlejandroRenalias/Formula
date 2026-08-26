@@ -2,7 +2,7 @@
 from datetime import datetime
 from enum import Enum
 from typing import Dict, List, Optional, Any
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, ConfigDict, field_validator
 
 from src.core.provenance import DataSource, DataQuality, ProvenanceMetric
 
@@ -200,6 +200,64 @@ class AgentReport(BaseModel):
     veto_reason: Optional[str] = None
 
 
+class LLMChiefResolution(BaseModel):
+    """Validated, immutable LLM interpretation of a deterministic decision."""
+    model_config = ConfigDict(frozen=True)
+
+    confirmed_candidate_id: str = Field(..., description="Candidate ID the Chief endorses.")
+    overridden: bool = Field(default=False)
+    override_reason: Optional[str] = Field(default=None)
+    strategic_rationale: str = Field(...)
+    minority_concerns_acknowledged: List[str] = Field(default_factory=list)
+    confidence: ConfidenceLevel
+    cited_evidence_ids: List[str] = Field(default_factory=list)
+    uncertainty: Optional[str] = None
+
+    def validate_against_evidence(self, evidence: Any, decision: Any) -> None:
+        """Reject unknown candidates/evidence and silent or reasonless overrides."""
+        valid_candidate_ids = {c.candidate_id for c in evidence.candidates}
+        if self.confirmed_candidate_id not in valid_candidate_ids:
+            raise ValueError(
+                f"Chief confirmed candidate ID '{self.confirmed_candidate_id}' "
+                "is not in the supplied evidence packet candidates."
+            )
+
+        deterministic_winner = decision.selected_candidate.candidate_id
+        diverges = self.confirmed_candidate_id != deterministic_winner
+        if diverges and not self.overridden:
+            raise ValueError(
+                f"Chief endorsed '{self.confirmed_candidate_id}' but deterministic winner is "
+                f"'{deterministic_winner}'. Set overridden=True and populate override_reason."
+            )
+        if self.overridden and not self.override_reason:
+            raise ValueError(
+                "Chief resolution has overridden=True but override_reason is empty. "
+                "An explicit reason is required."
+            )
+
+        valid_ids = set()
+        for candidate in evidence.candidates:
+            valid_ids.update(candidate.factors.keys())
+        for report in evidence.specialist_evaluations:
+            for factors in report.candidate_factors.values():
+                valid_ids.update(factors.keys())
+        valid_ids.update([
+            "track_temp_c", "air_temp_c", "rainfall", "humidity_pct", "wind_speed_kmh",
+            "rain_probability", "expected_arrival_laps", "intensity",
+            "recent_pace_trend_s_per_lap", "degradation_rate_s_per_lap",
+            "clean_air_potential_lap_time_s", "green_pit_loss_s", "vsc_pit_loss_s",
+            "sc_pit_loss_s", "current_pit_loss_s", "expected_rejoin_position",
+            "expected_rejoin_gap_to_traffic_s", "rejoin_traffic_density_penalty_s",
+            "track_status",
+        ])
+        for ref in self.cited_evidence_ids:
+            if ref not in valid_ids:
+                raise ValueError(
+                    f"Chief cited evidence ID '{ref}' is not a valid factor or metric ID "
+                    "from the supplied evidence packet."
+                )
+
+
 class NextTrigger(BaseModel):
     """Conditions under which the next strategy meeting should be called."""
     condition_description: str
@@ -208,7 +266,7 @@ class NextTrigger(BaseModel):
 
 
 class StrategyDecision(BaseModel):
-    """Final strategic decision issued by the Chief Strategist."""
+    """Final deterministic decision plus optional LLM resolution metadata."""
     lap: int
     selected_candidate: StrategyCandidate
     all_candidates: List[StrategyCandidate] = Field(
@@ -229,3 +287,13 @@ class StrategyDecision(BaseModel):
     conflict_summary: Optional[str] = None
     debate_held: bool = False
     debate_transcript: Optional[str] = None
+    rejected_candidates: Dict[str, str] = Field(
+        default_factory=dict,
+        description="Candidate ID -> deterministic legality rejection reason.",
+    )
+    # This is interpretation metadata only. The deterministic winner, scores,
+    # candidate list, and evidence remain the authoritative fields above.
+    llm_chief_resolution: Optional[LLMChiefResolution] = Field(
+        default=None,
+        description="Optional validated LLM Chief resolution; never replaces deterministic results.",
+    )

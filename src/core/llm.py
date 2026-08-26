@@ -15,6 +15,7 @@ from src.core.models import (
     ObservedWeather,
     ConfidenceLevel,
     StrategyDecision,
+    LLMChiefResolution,
 )
 
 
@@ -167,94 +168,6 @@ class LLMDebateResult(BaseModel):
     initial_opinions: List[LLMSpecialistOpinion]
     debate_responses: List[LLMDebateResponse]
     debate_round: int = Field(default=1, description="Always 1 — no further rounds permitted.")
-
-
-# ---------------------------------------------------------------------------
-# Chief Strategist resolution contract (Milestone 2D)
-# ---------------------------------------------------------------------------
-
-class LLMChiefResolution(BaseModel):
-    """
-    Structured Chief Strategist LLM resolution produced after the one-round debate.
-    The Chief reads the deterministic decision and the full debate, then:
-      - confirms the deterministic winner, OR
-      - flags concern and notes an explicit, auditable reason.
-    The Chief may NOT invent a new candidate, modify any score, or override
-    deterministic ranking silently.
-    Immutable once produced.
-    """
-    model_config = ConfigDict(frozen=True)
-
-    confirmed_candidate_id: str = Field(
-        ...,
-        description="Candidate ID the Chief endorses. Must be from the deterministic ranking.",
-    )
-    overridden: bool = Field(
-        default=False,
-        description=(
-            "True only when the Chief endorses a candidate other than the deterministic top pick. "
-            "Requires override_reason to be populated."
-        ),
-    )
-    override_reason: Optional[str] = Field(
-        default=None,
-        description="Mandatory explicit reason when overridden=True.",
-    )
-    strategic_rationale: str = Field(
-        ..., description="Plain-language explanation of why this candidate is endorsed."
-    )
-    minority_concerns_acknowledged: List[str] = Field(
-        default_factory=list,
-        description="Specialist concerns noted by the Chief but not decisive.",
-    )
-    confidence: ConfidenceLevel
-    cited_evidence_ids: List[str] = Field(
-        default_factory=list,
-        description="Evidence/factor IDs from the packet that informed this resolution.",
-    )
-    uncertainty: Optional[str] = None
-
-    def validate_against_evidence(
-        self, evidence: LLMEvidencePacket, decision: StrategyDecision
-    ) -> None:
-        """
-        Validates:
-        1. confirmed_candidate_id is a known candidate from the evidence packet.
-        2. If overridden=True, override_reason must be populated.
-        3. All cited_evidence_ids exist in the evidence packet.
-        4. The Chief does not silently diverge: overridden must be True whenever
-           confirmed_candidate_id != the deterministic selected_candidate.
-        """
-        valid_candidate_ids = {c.candidate_id for c in evidence.candidates}
-
-        if self.confirmed_candidate_id not in valid_candidate_ids:
-            raise ValueError(
-                f"Chief confirmed candidate ID '{self.confirmed_candidate_id}' "
-                "is not in the supplied evidence packet candidates."
-            )
-
-        deterministic_winner = decision.selected_candidate.candidate_id
-        diverges = self.confirmed_candidate_id != deterministic_winner
-
-        if diverges and not self.overridden:
-            raise ValueError(
-                f"Chief endorsed '{self.confirmed_candidate_id}' but deterministic winner is "
-                f"'{deterministic_winner}'. Set overridden=True and populate override_reason."
-            )
-
-        if self.overridden and not self.override_reason:
-            raise ValueError(
-                "Chief resolution has overridden=True but override_reason is empty. "
-                "An explicit reason is required."
-            )
-
-        valid_ids = _valid_evidence_ids(evidence)
-        for ref in self.cited_evidence_ids:
-            if ref not in valid_ids:
-                raise ValueError(
-                    f"Chief cited evidence ID '{ref}' is not a valid factor or metric ID "
-                    "from the supplied evidence packet."
-                )
 
 
 # ---------------------------------------------------------------------------

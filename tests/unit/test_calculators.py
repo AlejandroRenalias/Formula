@@ -112,7 +112,8 @@ def test_rules_engine_validation():
         description="Stay out",
     )
     legal, reason = RulesEngine.is_candidate_legal(
-        illegal_stay_out, subject, current_lap=56, total_laps=57, is_wet_race=False, season=2024
+        illegal_stay_out, subject, current_lap=56, total_laps=57,
+        dry_compound_rule_exempt=False, season=2024
     )
     assert not legal
     assert "must pit for a second dry compound" in reason
