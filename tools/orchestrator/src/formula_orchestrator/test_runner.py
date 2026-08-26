@@ -39,6 +39,16 @@ class TestRunResult:
         return TestGateStatus.PASS if self.passed else TestGateStatus.FAIL
 
 
+def is_repairable_test_failure(result: TestRunResult) -> bool:
+    """Only a completed process with exit code 1 is eligible for repair."""
+    return (
+        not result.passed
+        and not result.timed_out
+        and result.execution_error is None
+        and result.exit_code == 1
+    )
+
+
 class FormulaTestRunner:
     def __init__(self, output_limit: int = MAX_PERSISTED_OUTPUT) -> None:
         if output_limit <= 0:

@@ -19,7 +19,7 @@ from .reviewer import ReviewResult, ReviewVerdict
 from .run_record import RunRecord
 from .scope import TaskScope
 from .smoke import ExecutorProtocol, require_authentication, _write_record
-from .test_runner import FormulaTestRunner, TestRunResult
+from .test_runner import FormulaTestRunner, TestRunResult, is_repairable_test_failure
 
 
 class ReviewerProtocol(Protocol):
@@ -35,6 +35,30 @@ class O4Result:
     run_record: RunRecord
     last_test_result: TestRunResult | None = None
     last_review_result: ReviewResult | None = None
+
+
+class FixtureObservationError(RuntimeError):
+    pass
+
+
+@dataclass(frozen=True)
+class FixtureObservation:
+    path: Path
+    content: str
+
+    @property
+    def evidence(self) -> str:
+        return f"observed_content={self.content!r}"
+
+
+def observe_fixture(path: Path, max_chars: int = 4_096) -> FixtureObservation:
+    try:
+        content = path.read_text(encoding="utf-8")
+    except OSError as exc:
+        raise FixtureObservationError(f"Could not read repair-smoke fixture: {exc}") from exc
+    if len(content) > max_chars:
+        raise FixtureObservationError("Repair-smoke fixture observation exceeds the configured bound")
+    return FixtureObservation(path, content)
 
 
 class BoundedRepairController:
@@ -111,6 +135,14 @@ class BoundedRepairController:
             record.test_timed_out = last_test.timed_out
             record.test_output = {"stdout": last_test.stdout, "stderr": last_test.stderr}
             if not last_test.passed:
+                if not is_repairable_test_failure(last_test):
+                    self._append_cycle(record, execution_index, execution_type, repair_attempt, repair_trigger, mutation, last_test, None, "TEST_INFRA_FAILED")
+                    record.final_status = "TEST_INFRA_FAILED"
+                    record.last_failure = "TEST_INFRA_FAILED"
+                    record.error = _test_infrastructure_error(last_test)
+                    record.finished_at = _now()
+                    _write_record(self.config, record)
+                    return O4Result(record, last_test, last_review)
                 self._append_cycle(record, execution_index, execution_type, repair_attempt, repair_trigger, mutation, last_test, None, "TEST_FAILED")
                 record.last_failure = "TEST_FAILED"
                 if repair_count >= self.config.max_repair_loops:
@@ -288,14 +320,26 @@ def run_repair_smoke(config: OrchestratorConfig, executor: ExecutorProtocol | No
     require_authentication()
     run_id = uuid.uuid4().hex
     fixture = config.run_log_directory / f"repair-smoke-{run_id}.txt"
-    fixture.parent.mkdir(parents=True, exist_ok=True)
-    fixture.write_text("status=needs-repair\n", encoding="utf-8")
-    scope = TaskScope(config.repository_root, allowed_paths=(fixture.relative_to(config.repository_root).as_posix(),))
     record = RunRecord(run_id=run_id, task_id=run_id, task_type="repair-smoke", stage="bounded-repair", started_at=_now(), baseline={"head_sha": baseline.head_sha, "branch": baseline.branch, "status": baseline.status}, repair_count=0)
+    try:
+        fixture.parent.mkdir(parents=True, exist_ok=True)
+        fixture.write_text("status=needs-repair\n", encoding="utf-8")
+    except OSError as exc:
+        record.final_status = "FIXTURE_SETUP_FAILED"; record.error = f"Could not create repair-smoke fixture: {exc}"; record.finished_at = _now(); _write_record(config, record)
+        return O4Result(record)
+    scope = TaskScope(config.repository_root, allowed_paths=(fixture.relative_to(config.repository_root).as_posix(),))
     reviewer = reviewer or GptReviewer()
     executor = executor or CodexExecutor()
-    initial_input = ReviewInput("The artifact must contain exactly status=ready.", "Initial fixture is status=needs-repair.", "", (fixture.relative_to(config.repository_root).as_posix(),), "", "PASS", "fixture setup complete", "", "PASS", run_id)
-    initial_review = reviewer.review(sanitize_review_input(initial_input, config.review_max_output_chars), config.coordinator)
+    try:
+        initial_observation = observe_fixture(fixture)
+    except FixtureObservationError as exc:
+        record.final_status = "FIXTURE_OBSERVATION_FAILED"; record.error = str(exc); record.finished_at = _now(); _write_record(config, record)
+        return O4Result(record)
+    initial_input = ReviewInput("The artifact must contain exactly status=ready. The deterministic fixture observation is authoritative evidence.", "Initial fixture observation was collected from disk.", "", (fixture.relative_to(config.repository_root).as_posix(),), "", "PASS", initial_observation.evidence, "", "PASS", run_id)
+    try:
+        initial_review = reviewer.review(sanitize_review_input(initial_input, config.review_max_output_chars), config.coordinator)
+    except Exception as exc:
+        initial_review = ReviewResult(False, duration_seconds=0.0, error=f"Reviewer execution failed: {exc}")
     record.review_verdict = initial_review.decision.verdict.value if initial_review.decision else None
     if not initial_review.success or initial_review.decision is None or initial_review.decision.verdict is not ReviewVerdict.FIX:
         record.final_status = "REVIEW_FAILED"
@@ -308,7 +352,11 @@ def run_repair_smoke(config: OrchestratorConfig, executor: ExecutorProtocol | No
         record.finished_at = _now(); _write_record(config, record)
         return O4Result(record, None, initial_review)
 
-    before = capture_execution_snapshot(config.repository_root)
+    try:
+        before = capture_execution_snapshot(config.repository_root)
+    except MutationSafetyError as exc:
+        record.final_status = "SAFETY_FAILED"; record.error = str(exc); record.finished_at = _now(); _write_record(config, record)
+        return O4Result(record, None, initial_review)
     request = RepairRequest(run_id, 1, RepairTrigger.REVIEW_FINDINGS, "The artifact must contain exactly status=ready.", f"allowed_paths={(fixture.relative_to(config.repository_root).as_posix(),)}", (fixture.relative_to(config.repository_root).as_posix(),), "", (), None, None, "", "", tuple(initial_review.decision.findings), "Modify only the one fixture.")
     try:
         prompt = build_repair_prompt(request, config.repair_max_input_chars)
@@ -319,8 +367,12 @@ def run_repair_smoke(config: OrchestratorConfig, executor: ExecutorProtocol | No
         codex_result = asyncio.run(executor.execute(config.repository_root, prompt, config.codex, run_id))
     except Exception as exc:
         codex_result = CodexExecutionResult(False, error=f"Repair execution failed: {exc}")
-    after = capture_execution_snapshot(config.repository_root)
-    mutation = verify_mutation(baseline, before, after, scope)
+    try:
+        after = capture_execution_snapshot(config.repository_root)
+        mutation = verify_mutation(baseline, before, after, scope)
+    except MutationSafetyError as exc:
+        record.final_status = "SAFETY_FAILED"; record.error = str(exc); record.finished_at = _now(); _write_record(config, record)
+        return O4Result(record, None, initial_review)
     record.repair_count = 1
     record.cycles.append({"execution_index": 1, "execution_type": "REPAIR", "repair_attempt": 1, "repair_trigger": RepairTrigger.REVIEW_FINDINGS.value, "changed_paths": list(mutation.changed_paths), "mutation_safety": "PASS" if mutation.passed else "FAIL", "test_result": None, "review_result": "FIX", "cycle_status": "REPAIR_EXECUTED"})
     if not mutation.passed:
@@ -334,12 +386,19 @@ def run_repair_smoke(config: OrchestratorConfig, executor: ExecutorProtocol | No
         record.final_status = "TEST_FAILED"; record.last_failure = "TEST_FAILED"; record.error = fixture_result.execution_error; record.finished_at = _now(); _write_record(config, record)
         return O4Result(record, fixture_result, initial_review)
     try:
+        fresh_observation = observe_fixture(fixture)
         diff, paths, status = collect_git_evidence(config.repository_root, config.review_max_diff_chars)
-        fresh_input = sanitize_review_input(ReviewInput("The artifact must contain exactly status=ready.", codex_result.response_text, diff, tuple(sorted(set(paths) | {fixture.relative_to(config.repository_root).as_posix()})), status, "PASS", fixture_result.stdout, fixture_result.stderr, mutation.message, run_id), config.review_max_output_chars)
-    except EvidenceError as exc:
-        record.final_status = "REVIEW_INPUT_TOO_LARGE"; record.error = str(exc); record.finished_at = _now(); _write_record(config, record)
+        fresh_input = sanitize_review_input(ReviewInput("The artifact must contain exactly status=ready. The deterministic fixture observation is authoritative evidence.", codex_result.response_text, diff, tuple(sorted(set(paths) | {fixture.relative_to(config.repository_root).as_posix()})), status, "PASS", fresh_observation.evidence, fixture_result.stderr, mutation.message, run_id), config.review_max_output_chars)
+    except FixtureObservationError as exc:
+        record.final_status = "FIXTURE_OBSERVATION_FAILED"; record.error = str(exc); record.finished_at = _now(); _write_record(config, record)
         return O4Result(record, fixture_result, initial_review)
-    final_review = reviewer.review(fresh_input, config.coordinator)
+    except EvidenceError as exc:
+        record.final_status = "REVIEW_INPUT_TOO_LARGE" if "exceed" in str(exc).lower() else "GIT_EVIDENCE_FAILED"; record.error = str(exc); record.finished_at = _now(); _write_record(config, record)
+        return O4Result(record, fixture_result, initial_review)
+    try:
+        final_review = reviewer.review(fresh_input, config.coordinator)
+    except Exception as exc:
+        final_review = ReviewResult(False, duration_seconds=0.0, error=f"Reviewer execution failed: {exc}")
     record.review_verdict = final_review.decision.verdict.value if final_review.decision else None
     record.review_summary = final_review.decision.summary if final_review.decision else None
     record.review_findings = [finding.model_dump(mode="json") for finding in final_review.decision.findings] if final_review.decision else None
@@ -360,6 +419,14 @@ def _fixture_test(path: Path) -> TestRunResult:
         return TestRunResult(("fixture-validator",), None, False, "", "", 0.0, False, str(exc))
     passed = content == "status=ready\n"
     return TestRunResult(("fixture-validator",), 0 if passed else 1, passed, "fixture PASS" if passed else "fixture FAIL", "", 0.0, False, None if passed else "Fixture content is not exactly status=ready")
+
+
+def _test_infrastructure_error(result: TestRunResult) -> str:
+    if result.execution_error:
+        return result.execution_error
+    if result.timed_out:
+        return "Test command timed out"
+    return f"Test command failed with non-repairable exit code {result.exit_code!r}"
 
 
 def _attach_review(record: RunRecord, result: ReviewResult) -> None:

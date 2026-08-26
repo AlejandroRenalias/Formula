@@ -19,8 +19,8 @@ def passing_test(text="passed"):
     return TestRunResult(("pytest",), 0, True, text, "", 0.1, False)
 
 
-def failing_test(text="failed", code=1):
-    return TestRunResult(("pytest",), code, False, text, "details", 0.1, False, "tests failed")
+def failing_test(text="failed", code=1, error=None, timed_out=False):
+    return TestRunResult(("pytest",), code, False, text, "details", 0.1, timed_out, error)
 
 
 def pass_review():
@@ -47,6 +47,13 @@ class FakeTests:
     def __init__(self, results): self.results = list(results); self.calls = 0
     def run(self, root, command, timeout):
         result = self.results[min(self.calls, len(self.results) - 1)]; self.calls += 1; return result
+
+
+class RaisingTests:
+    calls = 0
+    def run(self, root, command, timeout):
+        self.calls += 1
+        raise RuntimeError("runner exploded")
 
 
 class FakeReviewer:
@@ -82,6 +89,30 @@ def test_one_test_repair(tmp_path, monkeypatch):
     result, codex, tests, reviewer, _ = run_controller(tmp_path, monkeypatch, [failing_test(), passing_test()], [pass_review()])
     assert result.run_record.final_status == "SUCCESS" and codex.calls == tests.calls == 2 and reviewer.calls == 1
     assert result.run_record.cycles[1]["repair_trigger"] == "TEST_FAILURE"
+
+
+@pytest.mark.parametrize("result", [
+    TestRunResult(("pytest",), None, False, "", "", 0.1, True, "Test command timed out"),
+    TestRunResult(("pytest",), None, False, "", "", 0.1, False, "Test command could not execute"),
+    TestRunResult(("pytest",), 2, False, "", "", 0.1, False, None),
+    TestRunResult(("pytest",), 3, False, "", "", 0.1, False, None),
+    TestRunResult(("pytest",), 4, False, "", "", 0.1, False, None),
+    TestRunResult(("pytest",), 5, False, "", "", 0.1, False, None),
+])
+def test_test_infrastructure_failure_never_consumes_repair_budget(tmp_path, monkeypatch, result):
+    outcome, codex, tests, reviewer, _ = run_controller(tmp_path, monkeypatch, [result], [pass_review()])
+    assert outcome.run_record.final_status == "TEST_INFRA_FAILED"
+    assert outcome.run_record.repair_count == 0
+    assert codex.calls == tests.calls == 1 and reviewer.calls == 0
+    assert outcome.run_record.cycles[0]["cycle_status"] == "TEST_INFRA_FAILED"
+
+
+def test_test_runner_exception_is_infrastructure_failure(tmp_path, monkeypatch):
+    root = make_repo(tmp_path); monkeypatch.setenv("OPENAI_API_KEY", "fake")
+    codex = FakeCodex([mutate_allowed]); tests = RaisingTests(); reviewer = FakeReviewer([pass_review()])
+    outcome = BoundedRepairController(config_for(root)).run("task", scope_for(root), passing_test(), codex, tests, reviewer)
+    assert outcome.run_record.final_status == "TEST_INFRA_FAILED"
+    assert outcome.run_record.repair_count == 0 and codex.calls == 1 and reviewer.calls == 0
 
 
 def test_one_review_repair(tmp_path, monkeypatch):
@@ -205,4 +236,7 @@ def test_repair_smoke_uses_one_codex_repair_and_two_reviews(tmp_path, monkeypatc
     codex = FakeCodex([repair]); reviewer = FakeReviewer([fix_review(), pass_review()])
     result = run_repair_smoke(config_for(root), codex, reviewer)
     assert result.run_record.final_status == "SUCCESS" and codex.calls == 1 and reviewer.calls == 2
+    assert "status=needs-repair" in reviewer.inputs[0].test_stdout
+    assert "status=ready" in reviewer.inputs[1].test_stdout
+    assert reviewer.inputs[0].test_stdout != reviewer.inputs[1].test_stdout
     assert not subprocess.run(["git", "status", "--porcelain"], cwd=root, capture_output=True, text=True).stdout

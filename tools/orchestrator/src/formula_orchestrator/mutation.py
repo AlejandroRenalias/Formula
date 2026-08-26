@@ -62,6 +62,7 @@ def capture_execution_snapshot(repository_root: Path) -> ExecutionSnapshot:
 
 
 def verify_mutation(baseline: BaselineSnapshot, before: ExecutionSnapshot, after: ExecutionSnapshot, scope: TaskScope) -> MutationCheck:
+    """Check resulting workspace state after an execution against baseline and scope."""
     filesystem_delta = _filesystem_delta(before.filesystem, after.filesystem)
     changed = tuple(sorted(set(after.changed_paths) | set(filesystem_delta)))
     delta = tuple(sorted((set(after.changed_paths) - set(before.changed_paths)) | set(filesystem_delta)))
