@@ -18,6 +18,13 @@ class RunRecord:
     review_verdict: str | None = None
     loop_count: int = 0
     final_status: str = "NOT_STARTED"
+    task_type: str = "bootstrap"
+    codex_success: bool | None = None
+    codex_thread_id: str | None = None
+    usage_summary: dict[str, Any] | None = None
+    smoke_marker_path: str | None = None
+    safety_verification: str | None = None
+    error: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         data = asdict(self)

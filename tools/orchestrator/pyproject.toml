@@ -7,7 +7,7 @@ name = "formula-development-orchestrator"
 version = "0.1.0"
 description = "Isolated O0 bootstrap for Formula development orchestration"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = ["openai-agents>=0.14.0,<1.0.0"]
 
 [project.scripts]
 formula-orchestrator = "formula_orchestrator.cli:main"
@@ -20,4 +20,3 @@ packages = ["src/formula_orchestrator"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-

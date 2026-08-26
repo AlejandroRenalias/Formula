@@ -50,6 +50,14 @@ class OrchestratorConfig:
             object.__setattr__(self, "run_log_directory", Path(self.run_log_directory).expanduser().resolve())
         if self.max_repair_loops < 0:
             raise ValueError("max_repair_loops must be non-negative")
+        if not self.coordinator.model.strip() or not self.codex.model.strip():
+            raise ValueError("coordinator and codex model names must be non-empty")
+        if not self.test_command.strip():
+            raise ValueError("test_command must be non-empty")
+        try:
+            self.run_log_directory.relative_to(root)
+        except ValueError as exc:
+            raise ValueError("run_log_directory must remain inside the Formula repository") from exc
 
     @classmethod
     def from_environment(cls) -> "OrchestratorConfig":

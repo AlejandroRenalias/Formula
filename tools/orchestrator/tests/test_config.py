@@ -23,3 +23,11 @@ def test_serialization_contains_no_credentials(tmp_path: Path) -> None:
     assert "OPENAI_API_KEY" not in serialized
     assert "sk-" not in serialized
 
+
+def test_run_log_directory_cannot_escape_repository(tmp_path: Path) -> None:
+    try:
+        OrchestratorConfig(repository_root=tmp_path, run_log_directory=tmp_path.parent / "outside")
+    except ValueError as exc:
+        assert "inside the Formula repository" in str(exc)
+    else:
+        raise AssertionError("run log directory must be workspace-scoped")

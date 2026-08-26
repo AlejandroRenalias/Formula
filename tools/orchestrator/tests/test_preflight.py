@@ -12,6 +12,7 @@ def make_repo(tmp_path: Path) -> Path:
     (root / "src").mkdir(parents=True)
     (root / "tests").mkdir()
     (root / "pyproject.toml").write_text("[project]\nname='formula'\n", encoding="utf-8")
+    (root / ".gitignore").write_text("tools/orchestrator/.run-logs/\n", encoding="utf-8")
     subprocess.run(["git", "init", "-q"], cwd=root, check=True)
     subprocess.run(["git", "config", "user.email", "test@example.com"], cwd=root, check=True)
     subprocess.run(["git", "config", "user.name", "Test User"], cwd=root, check=True)
@@ -44,4 +45,3 @@ def test_non_git_repository_rejected(tmp_path: Path) -> None:
     (root / "tests").mkdir()
     with pytest.raises(PreflightError, match="not a Git repository"):
         run_preflight(OrchestratorConfig(repository_root=root))
-
