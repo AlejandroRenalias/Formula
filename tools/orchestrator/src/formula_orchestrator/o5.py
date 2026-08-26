@@ -17,7 +17,7 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_valida
 from .codex_executor import CodexExecutionResult
 from .config import OrchestratorConfig
 from .evidence import EvidenceError, collect_git_evidence
-from .finalization import FinalizationError, FinalizationPlan, build_finalization_plan, capture_git_state, write_finalization_plan
+from .finalization import FinalizationError, FinalizationPlan, build_finalization_plan, capture_git_state, get_origin_url, write_finalization_plan
 from .mutation import capture_baseline
 from .o4 import BoundedRepairController, O4Result
 from .preflight import PreflightError, run_preflight
@@ -285,14 +285,28 @@ def run_task(
         record.repair_count = o4_result.run_record.repair_count
         evidence = _final_evidence(config)
         record.final_evidence = asdict(evidence)
-        if o4_result.run_record.final_status == "SUCCESS" and evidence.error:
+        final_review = o4_result.last_review_result
+        final_test = o4_result.last_test_result
+        explicit_success_evidence = (
+            o4_result.run_record.final_status == "SUCCESS"
+            and final_test is not None
+            and final_test.passed
+            and final_test.gate_status.value == "PASS"
+            and final_review is not None
+            and final_review.success
+            and final_review.decision is not None
+            and final_review.decision.verdict.value == "PASS"
+        )
+        if o4_result.run_record.final_status == "SUCCESS" and not explicit_success_evidence:
+            record.final_status = "TECHNICAL_FAILED: INCOMPLETE_SUCCESS_EVIDENCE"
+            record.error = "O4 reported SUCCESS without explicit final PASS test and reviewer evidence"
+        elif o4_result.run_record.final_status == "SUCCESS" and evidence.error:
             record.final_status = "TECHNICAL_FAILED: FINAL_EVIDENCE_FAILED"
             record.error = evidence.error
         elif o4_result.run_record.final_status == "SUCCESS":
             try:
                 final_state = capture_git_state(config.repository_root, config.review_max_diff_chars)
-                final_review = o4_result.last_review_result
-                final_test = o4_result.last_test_result
+                push_remote_url = get_origin_url(config.repository_root)
                 finalization_plan = build_finalization_plan(
                     task_id=plan.task_id,
                     o5_run_id=record.run_id,
@@ -308,6 +322,7 @@ def run_task(
                     final_gpt_verdict=final_review.decision.verdict.value if final_review and final_review.decision else "UNKNOWN",
                     commit_message=plan.commit_message,
                     prepared_timestamp=plan.prepared_at,
+                    push_remote_url=push_remote_url,
                 )
                 finalization_path = write_finalization_plan(config, finalization_plan)
                 record.finalization_plan_path = str(finalization_path)
@@ -391,7 +406,6 @@ def _build_plan(request: TaskRequest, scope: TaskScope, config: OrchestratorConf
     normalized = PreparedTaskPlan.model_validate({**values, "plan_fingerprint": "", "approval_token": ""}).model_dump(mode="json")
     normalized.pop("plan_fingerprint")
     normalized.pop("approval_token")
-    normalized.pop("prepared_at")
     fingerprint = _fingerprint(normalized)
     values["plan_fingerprint"] = fingerprint
     values["approval_token"] = fingerprint[:16]
@@ -408,7 +422,6 @@ def _load_and_verify_plan(path: Path, approval_token: str) -> PreparedTaskPlan:
     values = plan.model_dump(mode="json")
     stored_fingerprint = values.pop("plan_fingerprint")
     stored_token = values.pop("approval_token")
-    values.pop("prepared_at")
     actual = _fingerprint(values)
     if stored_fingerprint != actual or stored_token != actual[:16] or approval_token != actual[:16]:
         raise O5Error("APPROVAL_MISMATCH", "Approval token or prepared-plan fingerprint does not match")

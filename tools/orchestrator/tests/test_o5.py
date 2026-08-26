@@ -9,6 +9,7 @@ from formula_orchestrator.codex_executor import CodexExecutionResult
 from formula_orchestrator.cli import main
 from formula_orchestrator.config import OrchestratorConfig
 from formula_orchestrator.o4 import O4Result
+from formula_orchestrator.reviewer import ReviewDecision, ReviewResult
 from formula_orchestrator.o5 import (
     O5Error,
     PreparedTaskPlan,
@@ -68,11 +69,15 @@ class FakeController:
     def run(self, task, scope, baseline_test_result, **kwargs):
         self.__class__.calls.append((self.config, task, scope, baseline_test_result, kwargs))
         record = RunRecord(run_id="o4-run", task_id="task-one", stage="bounded-repair", final_status="SUCCESS", repair_count=1)
-        return O4Result(record, baseline_test_result, None)
+        review = ReviewResult(True, ReviewDecision(verdict="PASS", summary="approved"), duration_seconds=0.1)
+        return O4Result(record, passing_test(), review)
 
 
 def prepared(tmp_path, monkeypatch, task_data=None, tests=None):
     root = make_repo(tmp_path)
+    bare = tmp_path / "origin.git"
+    subprocess.run(["git", "init", "--bare", "-q", str(bare)], check=True)
+    subprocess.run(["git", "remote", "add", "origin", str(bare)], cwd=root, check=True)
     task_file = tmp_path / "task.json"
     task_file.write_text(json.dumps(task_data or request()), encoding="utf-8")
     config = config_for(root)
@@ -147,11 +152,12 @@ def test_fingerprint_changes_for_approval_relevant_fields(tmp_path, monkeypatch)
         assert other.plan.plan_fingerprint != first.plan.plan_fingerprint
 
 
-def test_same_normalized_plan_has_same_fingerprint(tmp_path, monkeypatch):
+def test_separate_preparations_have_distinct_fingerprints(tmp_path, monkeypatch):
     root, config, first, _ = prepared(tmp_path, monkeypatch)
     task_file = tmp_path / "task.json"
     second = prepare_task(task_file, config, FakeTests([passing_test()]))
-    assert second.plan.plan_fingerprint == first.plan.plan_fingerprint
+    assert second.plan.prepared_at != first.plan.prepared_at
+    assert second.plan.plan_fingerprint != first.plan.plan_fingerprint
 
 
 def test_plan_edit_invalidates_approval(tmp_path, monkeypatch):
@@ -162,6 +168,46 @@ def test_plan_edit_invalidates_approval(tmp_path, monkeypatch):
     monkeypatch.setenv("OPENAI_API_KEY", "fake")
     with pytest.raises(O5Error, match="fingerprint"):
         run_task(result.plan_path, result.approval_token, config, controller_factory=FakeController)
+
+
+@pytest.mark.parametrize("field,value", [
+    ("prepared_at", "2000-01-01T00:00:00+00:00"),
+    ("repository_path", "C:/other-formula"),
+    ("baseline_head_sha", "0" * 40),
+    ("baseline_branch", "other-branch"),
+    ("coordinator_model", "different-coordinator"),
+    ("codex_model", "different-codex"),
+    ("test_command", "pytest"),
+    ("test_timeout_seconds", 301.0),
+    ("allowed_paths", ["src/other.py"]),
+    ("approved_repair_limit", 1),
+    ("objective", "tampered objective"),
+    ("acceptance_criteria", ["tampered criterion"]),
+    ("commit_message", "Tampered commit"),
+])
+def test_any_persisted_plan_field_tampering_invalidates_approval(tmp_path, monkeypatch, field, value):
+    _, config, result, _ = prepared(tmp_path, monkeypatch)
+    data = json.loads(result.plan_path.read_text(encoding="utf-8"))
+    data[field] = value
+    result.plan_path.write_text(json.dumps(data), encoding="utf-8")
+    with pytest.raises(O5Error) as error:
+        run_task(result.plan_path, result.approval_token, config, controller_factory=FakeController)
+    assert error.value.status == "APPROVAL_MISMATCH"
+
+
+def test_success_requires_explicit_final_test_and_review_evidence(tmp_path, monkeypatch):
+    root, config, result, _ = prepared(tmp_path, monkeypatch)
+    monkeypatch.setenv("OPENAI_API_KEY", "fake")
+
+    class IncompleteController(FakeController):
+        def run(self, task, scope, baseline_test_result, **kwargs):
+            record = RunRecord(run_id="o4-run", task_id="task-one", stage="bounded-repair", final_status="SUCCESS")
+            return O4Result(record, passing_test(), None)
+
+    outcome = run_task(result.plan_path, result.approval_token, config, test_runner=FakeTests([passing_test()]), controller_factory=IncompleteController)
+    assert outcome.run_record.final_status == "TECHNICAL_FAILED: INCOMPLETE_SUCCESS_EVIDENCE"
+    assert outcome.run_record.finalization_plan_path is None
+    assert outcome.run_record.finalization_token is None
 
 
 def test_approval_gate_blocks_missing_and_wrong_tokens(tmp_path, monkeypatch):

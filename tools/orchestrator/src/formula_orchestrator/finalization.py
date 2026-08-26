@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from pydantic import BaseModel, ConfigDict, ValidationError
+from pydantic import BaseModel, ConfigDict, ValidationError, field_validator
 
 from .config import OrchestratorConfig
 from .scope import TaskScope
@@ -47,10 +47,25 @@ class FinalizationPlan(BaseModel):
     final_gpt_verdict: str
     commit_message: str
     push_remote: str
+    push_remote_url: str
     push_branch: str
     prepared_timestamp: str
     finalization_fingerprint: str
     finalization_token: str
+
+    @field_validator("final_test_result", "final_gpt_verdict")
+    @classmethod
+    def require_pass(cls, value: str) -> str:
+        if value != "PASS":
+            raise ValueError("finalization plans require explicit PASS test and GPT evidence")
+        return value
+
+    @field_validator("push_remote")
+    @classmethod
+    def require_origin(cls, value: str) -> str:
+        if value != "origin":
+            raise ValueError("push_remote must be origin")
+        return value
 
 
 @dataclass(frozen=True)
@@ -86,6 +101,7 @@ def build_finalization_plan(
     final_gpt_verdict: str,
     commit_message: str,
     prepared_timestamp: str,
+    push_remote_url: str,
 ) -> FinalizationPlan:
     values: dict[str, Any] = {
         "schema_version": 1,
@@ -108,6 +124,7 @@ def build_finalization_plan(
         "final_gpt_verdict": final_gpt_verdict,
         "commit_message": commit_message,
         "push_remote": "origin",
+        "push_remote_url": push_remote_url,
         "push_branch": branch,
         "prepared_timestamp": prepared_timestamp,
     }
@@ -133,7 +150,18 @@ def finalize_task(run_file: Path, approval_token: str, config: OrchestratorConfi
     plan_path_value = run_data.get("finalization_plan_path")
     if not plan_path_value:
         raise FinalizationError("RUN_NOT_FINALIZABLE", "The O5 run has no finalization plan")
-    plan = _load_plan(Path(plan_path_value), approval_token)
+    plan_path = Path(plan_path_value).resolve()
+    plan = _load_plan(plan_path, approval_token)
+    expected_plan_path = (config.run_log_directory / "finalization" / f"{plan.o5_run_id}.json").resolve()
+    if (
+        run_data.get("run_id") != plan.o5_run_id
+        or run_data.get("task_id") != plan.task_id
+        or run_data.get("plan_fingerprint") != plan.prepared_plan_fingerprint
+        or run_data.get("o4_run_id") != plan.o4_run_id
+        or run_data.get("finalization_token") != plan.finalization_token
+        or plan_path != expected_plan_path
+    ):
+        raise FinalizationError("RUN_INVALID", "O5 run record and finalization plan identities do not agree")
     if Path(plan.repository_path).resolve() != config.repository_root:
         raise FinalizationError("FINALIZATION_STALE", "Finalization plan repository differs from configured Formula repository")
     marker = config.run_log_directory / "finalized" / f"{plan.finalization_fingerprint}.json"
@@ -147,6 +175,8 @@ def finalize_task(run_file: Path, approval_token: str, config: OrchestratorConfi
     try:
         state = capture_git_state(config.repository_root, config.review_max_diff_chars)
         _validate_pre_stage_state(plan, state)
+        if get_origin_url(config.repository_root) != plan.push_remote_url:
+            raise FinalizationError("FINALIZATION_STALE", "origin URL differs from the approved finalization plan")
         scope = TaskScope(config.repository_root, tuple(plan.allowed_paths), tuple(plan.allowed_roots), tuple(plan.forbidden_paths))
         violations = scope.violations(tuple(plan.final_changed_paths))
         if violations:
@@ -167,14 +197,26 @@ def finalize_task(run_file: Path, approval_token: str, config: OrchestratorConfi
             _update_run_record(run_path, {"finalization_status": "COMMIT_FAILED", "final_status": "COMMIT_FAILED", "error": commit_result.stderr.strip() or "git commit failed"})
             raise FinalizationError("COMMIT_FAILED", commit_result.stderr.strip() or "git commit failed")
         commit_sha = _git(config.repository_root, ["rev-parse", "HEAD"])
+        try:
+            verify_committed_result(config.repository_root, plan, commit_sha)
+        except FinalizationError as exc:
+            _update_run_record(run_path, {"finalization_status": "COMMIT_VERIFICATION_FAILED", "final_status": "COMMIT_VERIFICATION_FAILED", "commit_sha": commit_sha, "error": str(exc)})
+            raise
         branch = _git(config.repository_root, ["symbolic-ref", "--short", "-q", "HEAD"])
         if branch != plan.push_branch or _git_result(config.repository_root, ["remote", "get-url", plan.push_remote]).returncode != 0 or _git(config.repository_root, ["rev-parse", "HEAD"]) != commit_sha:
             _update_run_record(run_path, {"finalization_status": "PUSH_FAILED", "final_status": "PUSH_FAILED", "commit_sha": commit_sha, "push_remote": plan.push_remote, "push_branch": plan.push_branch, "push_success": False, "error": "Push precondition failed; local commit was preserved"})
             raise FinalizationError("PUSH_FAILED", f"Commit {commit_sha} exists locally but push precondition failed")
+        if get_origin_url(config.repository_root) != plan.push_remote_url:
+            _update_run_record(run_path, {"finalization_status": "PUSH_FAILED", "final_status": "PUSH_FAILED", "commit_sha": commit_sha, "push_remote": plan.push_remote, "push_branch": plan.push_branch, "push_success": False, "error": "origin URL changed before push; local commit was preserved"})
+            raise FinalizationError("PUSH_FAILED", "origin URL changed before push; local commit was preserved")
         push_result = _git_result(config.repository_root, ["push", plan.push_remote, plan.push_branch])
         if push_result.returncode != 0:
             _update_run_record(run_path, {"finalization_status": "PUSH_FAILED", "final_status": "PUSH_FAILED", "commit_sha": commit_sha, "push_remote": plan.push_remote, "push_branch": plan.push_branch, "push_success": False, "error": push_result.stderr.strip() or "git push failed"})
             raise FinalizationError("PUSH_FAILED", f"Commit {commit_sha} exists locally but push failed: {push_result.stderr.strip()}")
+        remote_ref = _git_result(config.repository_root, ["ls-remote", plan.push_remote, f"refs/heads/{plan.push_branch}"])
+        if remote_ref.returncode != 0 or not any(line.split()[0] == commit_sha and len(line.split()) > 1 and line.split()[1] == f"refs/heads/{plan.push_branch}" for line in remote_ref.stdout.splitlines() if line.split()):
+            _update_run_record(run_path, {"finalization_status": "PUSH_VERIFICATION_FAILED", "final_status": "PUSH_VERIFICATION_FAILED", "commit_sha": commit_sha, "push_remote": plan.push_remote, "push_branch": plan.push_branch, "push_success": False, "error": "Remote branch could not be verified at the created commit"})
+            raise FinalizationError("PUSH_VERIFICATION_FAILED", f"Remote {plan.push_remote}/{plan.push_branch} did not resolve to {commit_sha}")
         finalized_at = _now().isoformat()
         _update_run_record(run_path, {"finalization_status": "FINALIZED", "final_status": "FINALIZED", "commit_sha": commit_sha, "push_remote": plan.push_remote, "push_branch": plan.push_branch, "push_success": True, "finalized_at": finalized_at, "error": None})
         return FinalizationOutcome("FINALIZED", f"Commit {commit_sha} pushed to {plan.push_remote}/{plan.push_branch}", commit_sha, True)
@@ -190,6 +232,13 @@ def capture_git_state(root: Path, max_diff_chars: int) -> GitState:
     if len(diff) > max_diff_chars:
         raise FinalizationError("FINALIZATION_STALE", "Final diff exceeds configured review limit")
     return GitState(status, _status_paths(status), _staged_paths(status), len(diff), _content_digest(root, _status_paths(status)))
+
+
+def get_origin_url(root: Path) -> str:
+    result = _git_result(root, ["remote", "get-url", "origin"])
+    if result.returncode != 0 or not result.stdout.strip():
+        raise FinalizationError("FINALIZATION_STALE", "Git remote origin is not configured")
+    return result.stdout.strip()
 
 
 def capture_staged_state(root: Path, max_diff_chars: int) -> GitState:
@@ -216,6 +265,22 @@ def _validate_pre_stage_state(plan: FinalizationPlan, state: GitState) -> None:
         raise FinalizationError("FINALIZATION_STALE", "Current HEAD or branch differs from the approved finalization plan")
 
 
+def verify_committed_result(root: Path, plan: FinalizationPlan, commit_sha: str) -> None:
+    parents = _git(root, ["rev-list", "--parents", "-n", "1", commit_sha]).split()
+    branch = _git(root, ["symbolic-ref", "--short", "-q", "HEAD"])
+    if len(parents) != 2 or parents[1] != plan.baseline_head or _git(root, ["rev-parse", "HEAD"]) != commit_sha or branch != plan.push_branch:
+        raise FinalizationError("COMMIT_VERIFICATION_FAILED", "Commit parent, HEAD, or branch does not match the approved result")
+    paths = tuple(sorted(path for path in _git(root, ["diff-tree", "--no-commit-id", "--name-only", "-r", commit_sha]).splitlines() if path))
+    if paths != tuple(sorted(plan.final_changed_paths)):
+        raise FinalizationError("COMMIT_VERIFICATION_FAILED", "Committed paths differ from the approved result")
+    if _content_digest(root, paths, commit=commit_sha) != plan.final_diff_sha256:
+        raise FinalizationError("COMMIT_VERIFICATION_FAILED", "Committed content differs from the approved result")
+    if _git(root, ["log", "-1", "--format=%s", commit_sha]) != plan.commit_message:
+        raise FinalizationError("COMMIT_VERIFICATION_FAILED", "Committed message differs from the approved result")
+    if _git(root, ["status", "--porcelain", "--untracked-files=all"]) or _staged_paths(_git(root, ["status", "--porcelain", "--untracked-files=all"])):
+        raise FinalizationError("COMMIT_VERIFICATION_FAILED", "Committed result left a dirty working tree or index")
+
+
 def _load_plan(path: Path, approval_token: str) -> FinalizationPlan:
     try:
         plan = FinalizationPlan.model_validate_json(path.read_text(encoding="utf-8"))
@@ -234,13 +299,14 @@ def _fingerprint(values: dict[str, Any]) -> str:
     return hashlib.sha256(json.dumps(values, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("utf-8")).hexdigest()
 
 
-def _content_digest(root: Path, paths: tuple[str, ...], staged: bool = False) -> str:
+def _content_digest(root: Path, paths: tuple[str, ...], staged: bool = False, commit: str | None = None) -> str:
     digest = hashlib.sha256()
     for relative in sorted(paths):
         path = root / relative
         digest.update(relative.encode("utf-8")); digest.update(b"\0")
-        if staged:
-            result = _git_result(root, ["show", f":{relative}"])
+        if staged or commit:
+            object_spec = f":{relative}" if staged else f"{commit}:{relative}"
+            result = _git_result(root, ["show", object_spec])
             if result.returncode == 0:
                 data = _normalized_file_bytes(result.stdout_bytes)
                 digest.update(b"present\0"); digest.update(hashlib.sha256(data).digest())
