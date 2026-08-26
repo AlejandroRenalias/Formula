@@ -22,6 +22,17 @@ class PreflightReport:
 
 
 def run_preflight(config: OrchestratorConfig) -> PreflightReport:
+    report = validate_repository(config)
+    status = subprocess.run(["git", "status", "--porcelain"], cwd=config.repository_root, capture_output=True, text=True)
+    if status.returncode != 0:
+        raise PreflightError(f"Unable to inspect Formula Git working tree: {status.stderr.strip()}")
+    if status.stdout:
+        raise PreflightError("Formula working tree is dirty; refusing to start without human review of existing changes")
+    return PreflightReport(report.repository_root, True, True, f"Formula preflight passed: {report.repository_root}")
+
+
+def validate_repository(config: OrchestratorConfig) -> PreflightReport:
+    """Validate repository structure without applying the orchestration clean-tree gate."""
     root = config.repository_root
     if not root.is_dir():
         raise PreflightError(f"Formula repository does not exist: {root}")
@@ -32,9 +43,4 @@ def run_preflight(config: OrchestratorConfig) -> PreflightReport:
     git_root = Path(git_check.stdout.strip()).resolve() if git_check.returncode == 0 else None
     if git_root != root:
         raise PreflightError(f"Formula repository is not a Git repository: {root}")
-    status = subprocess.run(["git", "status", "--porcelain"], cwd=root, capture_output=True, text=True)
-    if status.returncode != 0:
-        raise PreflightError(f"Unable to inspect Formula Git working tree: {status.stderr.strip()}")
-    if status.stdout:
-        raise PreflightError("Formula working tree is dirty; refusing to start without human review of existing changes")
-    return PreflightReport(root, True, True, f"Formula preflight passed: {root}")
+    return PreflightReport(root, True, False, f"Formula repository validation passed: {root}")

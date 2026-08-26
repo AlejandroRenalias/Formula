@@ -25,6 +25,11 @@ class RunRecord:
     smoke_marker_path: str | None = None
     safety_verification: str | None = None
     error: str | None = None
+    test_gate_status: str | None = None
+    test_exit_code: int | None = None
+    test_duration_seconds: float | None = None
+    test_timed_out: bool | None = None
+    test_output: dict[str, str] | None = None
 
     def to_dict(self) -> dict[str, Any]:
         data = asdict(self)

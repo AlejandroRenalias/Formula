@@ -39,6 +39,7 @@ class OrchestratorConfig:
     codex: ModelConfig = field(default_factory=lambda: ModelConfig(model="gpt-5.4"))
     max_repair_loops: int = 2
     test_command: str = DEFAULT_TEST_COMMAND
+    test_timeout_seconds: float = 300
     run_log_directory: Path | None = None
 
     def __post_init__(self) -> None:
@@ -54,6 +55,8 @@ class OrchestratorConfig:
             raise ValueError("coordinator and codex model names must be non-empty")
         if not self.test_command.strip():
             raise ValueError("test_command must be non-empty")
+        if self.test_timeout_seconds <= 0:
+            raise ValueError("test_timeout_seconds must be positive")
         try:
             self.run_log_directory.relative_to(root)
         except ValueError as exc:

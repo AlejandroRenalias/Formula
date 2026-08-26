@@ -44,6 +44,13 @@ def smoke_task(marker_path: Path, run_id: str) -> str:
 def run_smoke(config: OrchestratorConfig, executor: ExecutorProtocol | None = None) -> SmokeResult:
     run_preflight(config)
     _require_authentication()
+    result = run_preflighted_smoke(config, executor)
+    _write_record(config, result.run_record)
+    return result
+
+
+def run_preflighted_smoke(config: OrchestratorConfig, executor: ExecutorProtocol | None = None) -> SmokeResult:
+    """Run the O1 portion after the caller has completed preflight/auth checks."""
     run_id = uuid.uuid4().hex
     marker_path = config.run_log_directory / f"codex-smoke-{run_id}.json"
     marker_path.parent.mkdir(parents=True, exist_ok=True)
@@ -60,7 +67,6 @@ def run_smoke(config: OrchestratorConfig, executor: ExecutorProtocol | None = No
         record.final_status = "CODEX_FAILED"
         record.error = codex_result.error or "Codex returned failure"
         record.finished_at = datetime.now(timezone.utc)
-        _write_record(config, record)
         return SmokeResult(record, codex_result, None)
     safety = verify_smoke_safety(config, marker_path)
     record.safety_verification = safety.message
@@ -70,13 +76,15 @@ def run_smoke(config: OrchestratorConfig, executor: ExecutorProtocol | None = No
     else:
         record.final_status = "SAFETY_FAILED"
         record.error = safety.message
-    _write_record(config, record)
     return SmokeResult(record, codex_result, safety)
 
 
-def _require_authentication() -> None:
+def require_authentication() -> None:
     if not (os.environ.get("OPENAI_API_KEY") or os.environ.get("CODEX_API_KEY")):
         raise PreflightError("Required OpenAI authentication is missing; set OPENAI_API_KEY before codex-smoke")
+
+
+_require_authentication = require_authentication
 
 
 def verify_smoke_safety(config: OrchestratorConfig, marker_path: Path) -> SafetyVerification:
@@ -117,4 +125,3 @@ def _write_record(config: OrchestratorConfig, record: RunRecord) -> None:
     path = config.run_log_directory / f"{record.run_id}.json"
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(record.to_dict(), indent=2, sort_keys=True) + "\n", encoding="utf-8")
-
