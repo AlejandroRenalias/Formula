@@ -1,0 +1,10 @@
+"""Explicit O0 safety invariants used by later stages."""
+
+MAX_AUTOMATIC_REPAIR_LOOPS = 2
+AUTOMATIC_GIT_COMMIT = False
+AUTOMATIC_GIT_PUSH = False
+AUTOMATIC_GIT_MERGE = False
+AUTOMATIC_DEPLOYMENT = False
+HUMAN_APPROVAL_REQUIRED = True
+FAILURE_CAN_BE_PASS = False
+

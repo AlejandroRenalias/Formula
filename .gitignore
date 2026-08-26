@@ -25,6 +25,11 @@ env/
 !.env.example
 .streamlit/secrets.toml
 
+# Formula Development Orchestrator local state
+tools/orchestrator/.run-logs/
+tools/orchestrator/.pytest_cache/
+tools/orchestrator/.pytest-tmp/
+
 # FastF1 generated cache
 data/cache/
 
