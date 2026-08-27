@@ -91,6 +91,63 @@ def test_fastf1_snapshot_uses_exact_completed_lap_and_historical_cutoff():
     assert state.competitors[0].position == 1
 
 
+def test_fastf1_snapshot_weather_ignores_future_observations():
+    session = _FakeSession()
+    state = FastF1Adapter.create_race_state_at_lap(session, 2, subject_driver="NOR")
+
+    session.weather_data.loc[len(session.weather_data)] = {
+        "Time": timedelta(seconds=181), "TrackTemp": 101, "AirTemp": 101,
+        "Rainfall": True, "Humidity": 1,
+    }
+    future_state = FastF1Adapter.create_race_state_at_lap(session, 2, subject_driver="NOR")
+
+    assert future_state.observed_weather == state.observed_weather
+
+
+def test_fastf1_snapshot_track_status_ignores_future_status():
+    session = _FakeSession()
+    state = FastF1Adapter.create_race_state_at_lap(session, 2, subject_driver="NOR")
+    session.laps.loc[session.laps["LapNumber"] == 3, "TrackStatus"] = "5"
+
+    future_state = FastF1Adapter.create_race_state_at_lap(session, 2, subject_driver="NOR")
+
+    assert state.track_status == TrackStatus.GREEN
+    assert future_state.track_status == TrackStatus.GREEN
+
+
+@pytest.mark.parametrize("track_status", ["245", "456", "267", "27", "12"])
+def test_fastf1_snapshot_track_status_concatenated_codes_use_precedence(track_status):
+    session = _FakeSession()
+    session.laps.loc[
+        (session.laps["Driver"] == "NOR") & (session.laps["LapNumber"] == 2),
+        "TrackStatus",
+    ] = track_status
+
+    state = FastF1Adapter.create_race_state_at_lap(session, 2, subject_driver="NOR")
+
+    expected = {
+        "245": TrackStatus.RED_FLAG,
+        "456": TrackStatus.RED_FLAG,
+        "267": TrackStatus.VSC,
+        "27": TrackStatus.VSC,
+        "12": TrackStatus.YELLOW,
+    }[track_status]
+    assert state.track_status == expected
+
+
+def test_fastf1_snapshot_handles_red_flag_status():
+    session = _FakeSession()
+    session.laps.loc[
+        (session.laps["Driver"] == "NOR") & (session.laps["LapNumber"] == 2),
+        "TrackStatus",
+    ] = "5"
+
+    state = FastF1Adapter.create_race_state_at_lap(session, 2, subject_driver="NOR")
+
+    assert state.track_status == TrackStatus.RED_FLAG
+    assert state.lap_history[-1].track_status == TrackStatus.RED_FLAG
+
+
 def test_fastf1_snapshot_requires_exact_completed_lap():
     with pytest.raises(ValueError, match="No completed lap 4"):
         FastF1Adapter.create_race_state_at_lap(_FakeSession(), 4, subject_driver="NOR")

@@ -72,6 +72,20 @@ COMPOUND_MAP = {
 }
 
 
+def _track_status(value) -> TrackStatus:
+    """Map FastF1 track-status codes, including concatenated status values."""
+    raw = "" if pd.isna(value) else str(value).strip()
+    if "5" in raw:
+        return TrackStatus.RED_FLAG
+    if "4" in raw:
+        return TrackStatus.SAFETY_CAR
+    if "6" in raw or "7" in raw:
+        return TrackStatus.VSC
+    if "2" in raw:
+        return TrackStatus.YELLOW
+    return TrackStatus.GREEN
+
+
 class FastF1Adapter:
     """Loads real F1 race sessions from FastF1 and builds strictly time-sliced RaceState snapshots."""
 
@@ -159,20 +173,11 @@ class FastF1Adapter:
             lap_t_s = _seconds(row["LapTime"]) if pd.notna(row["LapTime"]) else 0.0
             comp = COMPOUND_MAP.get(str(row.get("Compound", "MEDIUM")).upper(), TireCompound.MEDIUM)
             age = int(row.get("TyreLife", lap_num)) if pd.notna(row.get("TyreLife")) else lap_num
-            track_st_raw = str(row.get("TrackStatus", "1"))
-            
             is_pit_in = pd.notna(row.get("PitInTime"))
             is_pit_out = pd.notna(row.get("PitOutTime"))
             is_accurate = bool(row.get("IsAccurate", True))
 
-            # Map FastF1 track status code: '1' is Track Clear (Green), '2' Yellow, '4' SC, '6'/'7' VSC
-            status = TrackStatus.GREEN
-            if "4" in track_st_raw:
-                status = TrackStatus.SAFETY_CAR
-            elif "6" in track_st_raw or "7" in track_st_raw:
-                status = TrackStatus.VSC
-            elif "2" in track_st_raw:
-                status = TrackStatus.YELLOW
+            status = _track_status(row.get("TrackStatus", "1"))
 
             usable = is_accurate and status == TrackStatus.GREEN and not is_pit_in and not is_pit_out
 
