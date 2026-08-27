@@ -10,7 +10,10 @@ import uuid
 from pathlib import Path
 from typing import Any
 
+from openai import APIStatusError
+
 from .config import OrchestratorConfig
+from .evidence import redact_secrets
 from .finalization import FinalizationError, FinalizationPlan, finalize_task
 from .o5 import O5Error, PreparedTaskPlan, TaskRequest, prepare_task, run_task
 from .preflight import PreflightError
@@ -245,6 +248,21 @@ async def _run_turn(agent: Any, session: Any, prompt: str, config: OrchestratorC
     return result
 
 
+def _api_error_recovery(config: OrchestratorConfig) -> str:
+    """Render only deterministic local state after an uncertain API outcome."""
+    try:
+        state = inspect_project_state(config)
+    except Exception as exc:
+        return f"Commander recovery inspection failed: {redact_secrets(str(exc))}"
+    latest = state["latest_local_o5"]
+    latest_text = json.dumps(latest, sort_keys=True) if latest is not None else "none"
+    changed_paths = ", ".join(state["changed_paths"]) or "none"
+    return ("Commander recovery state (read-only):\n"
+            f"Branch: {state['branch']}\nHEAD: {state['head']}\nClean: {state['clean']}\n"
+            f"Changed paths: {changed_paths}\nLatest local O5: {latest_text}\n"
+            "Do not retry any approved action until this state has been checked.")
+
+
 def run_commander(config: OrchestratorConfig) -> int:
     require_authentication()
     from agents import SQLiteSession
@@ -265,7 +283,15 @@ def run_commander(config: OrchestratorConfig) -> int:
                 break
             if not prompt.strip():
                 continue
-            result = asyncio.run(_run_turn(agent, session, prompt, config))
+            try:
+                result = asyncio.run(_run_turn(agent, session, prompt, config))
+            except APIStatusError as exc:
+                error = getattr(exc, "body", {}).get("error", {}) if isinstance(getattr(exc, "body", None), dict) else {}
+                message = error.get("message") if isinstance(error, dict) else None
+                detail = redact_secrets(str(message or "The OpenAI API rejected the request."))
+                print(f"Commander API error ({getattr(exc, 'status_code', 'unknown')}): {detail}")
+                print(_api_error_recovery(config))
+                continue
             print(str(result.final_output or ""))
     except KeyboardInterrupt:
         print()

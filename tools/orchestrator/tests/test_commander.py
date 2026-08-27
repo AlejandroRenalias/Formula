@@ -230,3 +230,42 @@ def test_exit_quit_and_eof_are_clean(monkeypatch, tmp_path):
     monkeypatch.setattr("agents.SQLiteSession", lambda *args, **kwargs: object())
     monkeypatch.setattr("builtins.input", lambda prompt="": "exit")
     assert commander.run_commander(config) == 0
+
+
+def test_commander_api_rejection_is_concise_recovers_read_only_and_returns_to_prompt(monkeypatch, tmp_path, capsys):
+    from openai import BadRequestError
+
+    config = config_for(tmp_path)
+    error = BadRequestError(
+        "Error code: 400",
+        response=SimpleNamespace(status_code=400, headers={}, request=SimpleNamespace()),
+        body={"error": {"message": "Invalid schema for function 'prepare_formula_task'.", "param": "tools[1]"}},
+    )
+    answers = iter(["inspect", "exit"])
+    inspections = []
+    runner_calls = []
+
+    def inspect(config):
+        inspections.append(config)
+        return {"branch": "main", "head": "abc123", "clean": False, "changed_paths": ["src/x.py"],
+                "latest_local_o5": {"task_id": "task-1", "final_status": "READY_FOR_HUMAN_REVIEW"}}
+
+    monkeypatch.setattr(commander, "require_authentication", lambda: None)
+    monkeypatch.setattr(commander, "build_commander_agent", lambda config: object())
+    monkeypatch.setattr("agents.SQLiteSession", lambda *args, **kwargs: object())
+    monkeypatch.setattr("builtins.input", lambda prompt="": next(answers))
+    monkeypatch.setattr(commander, "inspect_project_state", inspect)
+    monkeypatch.setattr(commander, "run_task", lambda *args: pytest.fail("run_task must not retry after API failure"))
+    monkeypatch.setattr(commander, "finalize_task", lambda *args: pytest.fail("finalize_task must not retry after API failure"))
+    monkeypatch.setattr(commander, "_run_turn", lambda *args: object())
+    monkeypatch.setattr(commander.asyncio, "run", lambda *args: runner_calls.append(args) or (_ for _ in ()).throw(error))
+    assert commander.run_commander(config) == 0
+    output = capsys.readouterr().out
+    assert "Commander API error (400): Invalid schema for function 'prepare_formula_task'." in output
+    assert "Commander recovery state (read-only):" in output
+    assert "Branch: main" in output and "HEAD: abc123" in output and "Clean: False" in output
+    assert "Changed paths: src/x.py" in output and '"task_id": "task-1"' in output
+    assert "Do not retry any approved action" in output
+    assert "Traceback" not in output
+    assert len(runner_calls) == 1
+    assert inspections == [config]
