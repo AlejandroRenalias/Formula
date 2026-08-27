@@ -192,6 +192,34 @@ def test_max_repair_loops_above_two_is_rejected(tmp_path):
         OrchestratorConfig(repository_root=root, max_repair_loops=3)
 
 
+
+def test_mutation_verifier_ignores_uv_cache_churn(tmp_path):
+    root = make_repo(tmp_path)
+
+    gitignore = root / ".gitignore"
+    gitignore.write_text(
+        gitignore.read_text(encoding="utf-8") + ".uv-cache/\n",
+        encoding="utf-8",
+    )
+    subprocess.run(["git", "add", ".gitignore"], cwd=root, check=True)
+    subprocess.run(["git", "commit", "-qm", "ignore uv cache"], cwd=root, check=True)
+
+    cache_dir = root / ".uv-cache" / "interpreter-v4"
+    cache_dir.mkdir(parents=True)
+    cache_file = cache_dir / "runtime.msgpack"
+    cache_file.write_bytes(b"before")
+
+    baseline = capture_baseline(root)
+    before = capture_execution_snapshot(root)
+
+    cache_file.write_bytes(b"after")
+
+    after = capture_execution_snapshot(root)
+    check = verify_mutation(baseline, before, after, scope_for(root))
+
+    assert check.passed
+    assert ".uv-cache/interpreter-v4/runtime.msgpack" not in check.changed_paths
+
 def test_mutation_verifier_rejects_head_branch_and_index_changes(tmp_path):
     root = make_repo(tmp_path); baseline = capture_baseline(root); before = capture_execution_snapshot(root)
     (root / "src" / "placeholder.py").write_text("changed")

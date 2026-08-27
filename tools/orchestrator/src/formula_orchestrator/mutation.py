@@ -104,7 +104,7 @@ def _filesystem_snapshot(root: Path) -> dict[str, tuple[int, int, str]]:
     for current, directories, files in os.walk(root):
         directories[:] = [
             directory for directory in directories
-            if directory not in {".git", ".venv", ".pytest_cache", "__pycache__"}
+            if directory not in {".git", ".venv", ".pytest_cache", ".uv-cache", "__pycache__"}
             and not directory.startswith(".pytest-tmp")
         ]
         current_path = Path(current)
