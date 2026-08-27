@@ -14,16 +14,19 @@ from .o4 import BoundedRepairController, run_repair_smoke
 from .o5 import O5Error, prepare_task, run_task
 from .finalization import FinalizationError, finalize_task
 from .test_runner import FormulaTestRunner
+from .commander import run_commander
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="formula-orchestrator")
-    parser.add_argument("command", choices=("check", "codex-smoke", "test-gate", "codex-test-smoke", "review-smoke", "codex-test-review-smoke", "repair-smoke", "task-prepare", "task-run", "task-finalize"), help="run an orchestrator command")
+    parser.add_argument("command", choices=("commander", "check", "codex-smoke", "test-gate", "codex-test-smoke", "review-smoke", "codex-test-review-smoke", "repair-smoke", "task-prepare", "task-run", "task-finalize"), help="run an orchestrator command")
     parser.add_argument("--task-file", type=Path, help="structured O5 task request JSON")
     parser.add_argument("--plan-file", type=Path, help="prepared O5 plan JSON")
     parser.add_argument("--run-file", type=Path, help="O5 run record for finalization")
     parser.add_argument("--approve", help="explicit O5 approval token")
     args = parser.parse_args(argv)
+    if args.command == "commander":
+        return run_commander(OrchestratorConfig.from_environment())
     if args.command == "task-prepare":
         if args.task_file is None:
             parser.error("task-prepare requires --task-file")
