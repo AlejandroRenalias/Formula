@@ -4,9 +4,11 @@ from __future__ import annotations
 
 import asyncio
 import json
+import re
 import subprocess
 import sys
 import uuid
+from enum import Enum
 from pathlib import Path
 from typing import Any
 
@@ -18,6 +20,21 @@ from .finalization import FinalizationError, FinalizationPlan, finalize_task
 from .o5 import O5Error, PreparedTaskPlan, TaskRequest, prepare_task, run_task
 from .preflight import PreflightError
 from .smoke import require_authentication
+
+
+_MAX_INSPECTION_BYTES = 1_048_576
+
+
+class _PromptStatus(Enum):
+    COLLECTED = "collected"
+    CANCELLED = "cancelled"
+    EOF = "eof"
+
+
+class _PromptResult:
+    def __init__(self, status: _PromptStatus, prompt: str | None = None) -> None:
+        self.status = status
+        self.prompt = prompt
 
 
 INSTRUCTIONS = """You are Formula Commander, the engineering coordinator, not the implementer.
@@ -133,8 +150,52 @@ def inspect_o5_run(config: OrchestratorConfig, run_path: str) -> dict[str, Any]:
         data = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, UnicodeError, json.JSONDecodeError) as exc:
         raise ValueError(f"invalid O5 run record: {exc}") from exc
-    return {key: data.get(key) for key in ("run_id", "task_id", "final_status", "error", "final_evidence",
-                                            "repair_count", "run_file_path", "finalization_plan_path", "finalization_token")}
+    if not isinstance(data, dict):
+        raise ValueError("invalid O5 run record: top-level JSON value must be an object")
+    result = {key: data.get(key) for key in ("run_id", "task_id", "final_status", "error", "final_evidence",
+                                              "repair_count", "run_file_path", "finalization_plan_path", "finalization_token")}
+    if "o4_run_id" not in data:
+        result["o4_run_id"] = None
+        result["o4_record"] = None
+        return result
+    o4_run_id = data["o4_run_id"]
+    result["o4_run_id"] = o4_run_id
+    result["o4_record"] = _load_authoritative_o4_record(config, o4_run_id, data.get("task_id"))
+    return result
+
+
+def _load_authoritative_o4_record(config: OrchestratorConfig, o4_run_id: Any, o5_task_id: Any) -> dict[str, Any]:
+    """Load only the O4 record named by the trusted O5 record."""
+    if not isinstance(o4_run_id, str) or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]{0,127}", o4_run_id):
+        raise ValueError("invalid O4 run record: malformed O4 run reference")
+    if not isinstance(o5_task_id, str) or not o5_task_id:
+        raise ValueError("invalid O4 run record: missing task identity")
+    root = config.run_log_directory.resolve()
+    path = (root / f"{o4_run_id}.json").resolve()
+    try:
+        path.relative_to(root)
+    except ValueError as exc:
+        raise ValueError("invalid O4 run record: path escapes the configured run-log directory") from exc
+    if not path.is_file():
+        raise ValueError("invalid O4 run record: record does not exist or is not a file")
+    try:
+        if path.stat().st_size > _MAX_INSPECTION_BYTES:
+            raise ValueError("invalid O4 run record: record exceeds inspection limit")
+    except OSError as exc:
+        raise ValueError(f"invalid O4 run record: {exc}") from exc
+    try:
+        o4 = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        raise ValueError(f"invalid O4 run record: {exc}") from exc
+    if not isinstance(o4, dict):
+        raise ValueError("invalid O4 run record: top-level JSON value must be an object")
+    if any(key not in o4 for key in ("run_id", "task_id", "final_status")):
+        raise ValueError("invalid O4 run record: required fields are missing")
+    if o4["run_id"] != o4_run_id or o4["task_id"] != o5_task_id:
+        raise ValueError("invalid O4 run record: identity does not match the O5 reference")
+    if not isinstance(o4["final_status"], str) or not o4["final_status"]:
+        raise ValueError("invalid O4 run record: final_status must be non-empty text")
+    return o4
 
 
 def finalize_ready_task(config: OrchestratorConfig, run_path: str, approval_token: str) -> dict[str, Any]:
@@ -248,6 +309,29 @@ async def _run_turn(agent: Any, session: Any, prompt: str, config: OrchestratorC
     return result
 
 
+def _read_commander_prompt() -> _PromptResult:
+    """Read one prompt, distinguishing a completed paste, cancellation, and EOF."""
+    try:
+        prompt = input("Formula Commander> ")
+    except EOFError:
+        return _PromptResult(_PromptStatus.EOF)
+    if prompt != "paste":
+        return _PromptResult(_PromptStatus.COLLECTED, prompt)
+    print("Paste mode: enter lines; finish with END on its own line")
+    lines: list[str] = []
+    while True:
+        try:
+            line = input("... ")
+        except EOFError:
+            return _PromptResult(_PromptStatus.EOF)
+        except KeyboardInterrupt:
+            return _PromptResult(_PromptStatus.CANCELLED)
+        if line == "END":
+            break
+        lines.append(line)
+    return _PromptResult(_PromptStatus.COLLECTED, "\n".join(lines))
+
+
 def _api_error_recovery(config: OrchestratorConfig) -> str:
     """Render only deterministic local state after an uncertain API outcome."""
     try:
@@ -275,10 +359,14 @@ def run_commander(config: OrchestratorConfig) -> int:
     print("Type 'exit' to quit.")
     try:
         while True:
-            try:
-                prompt = input("Formula Commander> ")
-            except EOFError:
+            read = _read_commander_prompt()
+            if read.status is _PromptStatus.EOF:
                 break
+            if read.status is _PromptStatus.CANCELLED:
+                print("Paste cancelled.")
+                continue
+            prompt = read.prompt
+            assert prompt is not None
             if prompt.strip().lower() in {"exit", "quit"}:
                 break
             if not prompt.strip():

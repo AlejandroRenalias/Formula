@@ -106,6 +106,57 @@ def test_o5_path_must_be_inside_run_logs(tmp_path):
         commander.inspect_o5_run(config, str(outside))
 
 
+def test_inspect_o5_run_loads_authoritative_o4_record(tmp_path):
+    config = config_for(tmp_path)
+    config.run_log_directory.mkdir(parents=True)
+    o4_payload = {"run_id": "o4-run", "task_id": "t", "final_status": "SUCCESS",
+                  "review_verdict": "PASS", "review_summary": "All good",
+                  "review_findings": [{"severity": "HIGH", "evidence": "bad line",
+                                       "required_fix": "repair line"}],
+                  "test_gate_status": "PASS", "cycles": [{"test": "PASS"}],
+                  "repair_count": 1, "safety_verification": "PASS"}
+    (config.run_log_directory / "o4-run.json").write_text(json.dumps(o4_payload), encoding="utf-8")
+    o5 = config.run_log_directory / "o5-run.json"
+    o5.write_text(json.dumps({"run_id": "o5", "task_id": "t", "final_status": "READY",
+                              "final_evidence": {"changed_paths": ["src/x.py"]},
+                              "o4_run_id": "o4-run"}), encoding="utf-8")
+
+    inspected = commander.inspect_o5_run(config, str(o5))
+    assert inspected["final_evidence"] == {"changed_paths": ["src/x.py"]}
+    assert inspected["o4_record"] == o4_payload
+    assert inspected["o4_record"]["review_verdict"] == "PASS"
+    assert inspected["o4_record"]["test_gate_status"] == "PASS"
+    assert "findings" not in inspected
+
+
+def test_inspect_o5_run_fails_closed_for_invalid_o4_records(tmp_path):
+    config = config_for(tmp_path)
+    config.run_log_directory.mkdir(parents=True)
+    cases = [
+        (None, None),
+        ("../outside", None),
+        ("o4-run", {"run_id": "other", "task_id": "t", "final_status": "SUCCESS"}),
+        ("o4-run", {"run_id": "o4-run", "task_id": "t"}),
+        ("o4-run", {"run_id": "o4-run", "task_id": "t", "final_status": ""}),
+    ]
+    for reference, payload in cases:
+        o5 = config.run_log_directory / "o5-run.json"
+        o5.write_text(json.dumps({"run_id": "o5", "task_id": "t", "o4_run_id": reference}), encoding="utf-8")
+        if payload is not None:
+            (config.run_log_directory / "o4-run.json").write_text(json.dumps(payload), encoding="utf-8")
+        with pytest.raises(ValueError, match="invalid O4 run record"):
+            commander.inspect_o5_run(config, str(o5))
+
+
+def test_inspect_o5_run_rejects_non_object_json(tmp_path):
+    config = config_for(tmp_path)
+    config.run_log_directory.mkdir(parents=True)
+    o5 = config.run_log_directory / "o5-run.json"
+    o5.write_text("[]", encoding="utf-8")
+    with pytest.raises(ValueError, match="top-level JSON value must be an object"):
+        commander.inspect_o5_run(config, str(o5))
+
+
 def test_run_approval_is_loaded_from_plan_not_prose(tmp_path):
     config = config_for(tmp_path)
     plan = config.run_log_directory / "prepared.json"
@@ -269,3 +320,79 @@ def test_commander_api_rejection_is_concise_recovers_read_only_and_returns_to_pr
     assert "Traceback" not in output
     assert len(runner_calls) == 1
     assert inspections == [config]
+
+
+def _stub_commander_runtime(monkeypatch, config, prompts, dispatched):
+    answers = iter(prompts)
+    monkeypatch.setattr(commander, "require_authentication", lambda: None)
+    monkeypatch.setattr(commander, "build_commander_agent", lambda config: object())
+    monkeypatch.setattr("agents.SQLiteSession", lambda *args, **kwargs: object())
+
+    def read(prompt=""):
+        try:
+            return next(answers)
+        except StopIteration as exc:
+            raise EOFError from exc
+
+    monkeypatch.setattr("builtins.input", read)
+
+    def run_turn(turn):
+        dispatched.append(turn.cr_frame.f_locals["prompt"])
+        turn.close()
+        return SimpleNamespace(final_output="ok")
+
+    monkeypatch.setattr(commander.asyncio, "run", run_turn)
+
+
+def test_run_commander_submits_completed_paste_once_and_preserves_blanks(tmp_path, monkeypatch):
+    config = config_for(tmp_path)
+    dispatched = []
+    _stub_commander_runtime(monkeypatch, config, ["paste", "first", "", "third", "END", "exit"], dispatched)
+
+    assert commander.run_commander(config) == 0
+    assert dispatched == ["first\n\nthird"]
+
+
+@pytest.mark.parametrize("ordinary_prompt", ["Paste", " PASTE ", ":paste", "/paste"])
+def test_run_commander_only_exact_paste_enters_collection(tmp_path, monkeypatch, ordinary_prompt):
+    config = config_for(tmp_path)
+    dispatched = []
+    _stub_commander_runtime(monkeypatch, config, [ordinary_prompt, "exit"], dispatched)
+
+    assert commander.run_commander(config) == 0
+    assert dispatched == [ordinary_prompt]
+
+
+def test_run_commander_paste_cancel_recovers_to_prompt(tmp_path, monkeypatch):
+    config = config_for(tmp_path)
+    dispatched = []
+    answers = iter(["paste", KeyboardInterrupt(), "recovered", "exit"])
+    monkeypatch.setattr(commander, "require_authentication", lambda: None)
+    monkeypatch.setattr(commander, "build_commander_agent", lambda config: object())
+    monkeypatch.setattr("agents.SQLiteSession", lambda *args, **kwargs: object())
+
+    def read(prompt=""):
+        value = next(answers)
+        if isinstance(value, BaseException):
+            raise value
+        return value
+
+    monkeypatch.setattr("builtins.input", read)
+
+    def run_turn(turn):
+        dispatched.append(turn.cr_frame.f_locals["prompt"])
+        turn.close()
+        return SimpleNamespace(final_output="ok")
+
+    monkeypatch.setattr(commander.asyncio, "run", run_turn)
+    assert commander.run_commander(config) == 0
+    assert dispatched == ["recovered"]
+
+
+def test_run_commander_paste_eof_does_not_dispatch_partial_input(tmp_path, monkeypatch):
+    config = config_for(tmp_path)
+    dispatched = []
+    _stub_commander_runtime(monkeypatch, config, ["paste", "partial line"], dispatched)
+
+    assert commander.run_commander(config) == 0
+    assert dispatched == []
