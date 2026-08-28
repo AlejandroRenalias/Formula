@@ -91,6 +91,20 @@ def test_fastf1_snapshot_uses_exact_completed_lap_and_historical_cutoff():
     assert state.competitors[0].position == 1
 
 
+def test_fastf1_stint_fallback_uses_pit_boundary_when_history_stint_is_missing():
+    session = _FakeSession()
+    subject_rows = session.laps[session.laps["Driver"] == "NOR"]
+    session.laps["Stint"] = pd.NA
+    session.laps["PitInTime"] = session.laps["PitInTime"].astype(object)
+    session.laps.loc[subject_rows.index[1], "PitInTime"] = pd.Timedelta(seconds=179)
+    session.laps.loc[subject_rows.index[1], "Stint"] = 2
+
+    state = FastF1Adapter.create_race_state_at_lap(session, 2, subject_driver="NOR")
+
+    assert state.lap_history[-1].is_pit_in_lap is True
+    assert state.subject_driver.stint_length_laps == 2
+
+
 def test_fastf1_snapshot_weather_ignores_future_observations():
     session = _FakeSession()
     state = FastF1Adapter.create_race_state_at_lap(session, 2, subject_driver="NOR")

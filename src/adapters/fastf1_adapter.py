@@ -86,6 +86,52 @@ def _track_status(value) -> TrackStatus:
     return TrackStatus.GREEN
 
 
+def _completed_laps_at_cutoff(driver_laps: pd.DataFrame, cutoff_time, current_lap: int) -> pd.DataFrame:
+    """Return completed subject laps observable at the requested cutoff."""
+    rows = driver_laps[
+        (driver_laps["Time"] <= cutoff_time)
+        & (driver_laps["LapNumber"] <= current_lap)
+        & driver_laps["Time"].notna()
+        & driver_laps["LapTime"].notna()
+    ].copy()
+    return rows.sort_values(["Time", "LapNumber"], kind="stable")
+
+
+def _subject_stint_length(completed_laps: pd.DataFrame, latest_lap_row) -> int:
+    """Count completed laps in the current stint at the knowledge cutoff."""
+    if "Stint" in completed_laps:
+        stint_values = pd.to_numeric(completed_laps["Stint"], errors="coerce")
+        current_stint = pd.to_numeric(pd.Series([latest_lap_row.get("Stint")]), errors="coerce").iloc[0]
+        metadata_complete = (
+            not stint_values.empty
+            and stint_values.notna().all()
+            and np.isfinite(stint_values).all()
+            and (stint_values > 0).all()
+            and pd.notna(current_stint)
+            and np.isfinite(current_stint)
+            and current_stint > 0
+        )
+        if metadata_complete:
+            return int((stint_values == current_stint).sum())
+
+    # A pit-in lap is still part of the stint just ended.  The following
+    # completed lap (normally marked PitOutTime) starts the new stint.
+    if completed_laps.empty:
+        return 0
+    current_position = len(completed_laps) - 1
+    start = 0
+    if "PitInTime" in completed_laps:
+        prior_pit_in = np.flatnonzero(completed_laps["PitInTime"].notna().to_numpy())
+        prior_pit_in = prior_pit_in[prior_pit_in < current_position]
+        if len(prior_pit_in):
+            start = int(prior_pit_in[-1]) + 1
+    if "PitOutTime" in completed_laps:
+        pit_out = np.flatnonzero(completed_laps["PitOutTime"].notna().to_numpy())
+        if len(pit_out):
+            start = max(start, int(pit_out[-1]))
+    return int(len(completed_laps) - start)
+
+
 class FastF1Adapter:
     """Loads real F1 race sessions from FastF1 and builds strictly time-sliced RaceState snapshots."""
 
@@ -135,8 +181,8 @@ class FastF1Adapter:
                 "does not have sufficient timing data (Time and LapTime)."
             )
 
-        latest_lap_row = requested_laps.sort_values("Time").iloc[-1]
-        driver_laps_up_to_current = driver_laps[driver_laps["Time"] <= latest_lap_row["Time"]].copy()
+        latest_lap_row = requested_laps.sort_values(["Time", "LapNumber"], kind="stable").iloc[-1]
+        driver_laps_up_to_current = _completed_laps_at_cutoff(driver_laps, latest_lap_row["Time"], current_lap)
         cutoff_time = latest_lap_row["Time"]
 
         # 2. Structural slicing of all session data <= cutoff_time
@@ -146,7 +192,7 @@ class FastF1Adapter:
         # 3. Build SubjectDriverState
         curr_compound_str = str(latest_lap_row.get("Compound", "MEDIUM")).upper()
         current_compound = COMPOUND_MAP.get(curr_compound_str, TireCompound.MEDIUM)
-        stint_len = int(latest_lap_row.get("TyreLife", 1)) if pd.notna(latest_lap_row.get("TyreLife")) else 1
+        stint_len = _subject_stint_length(driver_laps_up_to_current, latest_lap_row)
         pos = int(latest_lap_row.get("Position", 1)) if pd.notna(latest_lap_row.get("Position")) else 1
         last_lap_s = _seconds(latest_lap_row["LapTime"]) if pd.notna(latest_lap_row["LapTime"]) else 90.0
 
