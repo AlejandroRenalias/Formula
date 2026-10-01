@@ -11,3 +11,4 @@
 @media(max-width:850px){.hero-grid{grid-template-columns:minmax(0,1fr)}.decision{min-width:0}}
 @media(max-width:450px){h1{font-size:clamp(58px,19vw,86px)}.current-tyre{width:68px}.call-row{gap:12px}}
 @media(max-width:700px){.radio summary,.chief{grid-template-columns:100px minmax(0,1fr) 60px}.radio summary>span:nth-child(2),.chief p{overflow-wrap:anywhere;min-width:0}}
+.field-driver{display:flex;align-items:center;gap:7px}.field-car{width:32px;height:18px;flex:none;overflow:visible}.field-driver .driver-team{margin-left:0}.car-tyres{fill:var(--paper);stroke:#8ca1b5;stroke-width:1}.car-suspension{stroke:currentColor;stroke-width:1.5}.car-cockpit{fill:var(--paper)}

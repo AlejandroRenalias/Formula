@@ -4,6 +4,7 @@
   const $ = id => document.getElementById(id);
   const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const table = (headers, rows) => `<div class="table-scroll"><table class="math-table"><thead><tr>${headers.map(h => `<th>${escape(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(row => `<tr>${row.map(cell => `<td>${escape(cell)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+  const carIcon = colour => `<svg class="field-car" viewBox="0 0 64 32" aria-hidden="true" focusable="false" style="color:${escape(colour)}"><g class="car-tyres"><rect x="11" y="1" width="11" height="7" rx="2"/><rect x="11" y="24" width="11" height="7" rx="2"/><rect x="44" y="2" width="9" height="6" rx="2"/><rect x="44" y="24" width="9" height="6" rx="2"/></g><path class="car-suspension" d="M16 6v20M48 6v20"/><path fill="currentColor" d="M8 11h11l6-3h12l6 5 15 1v4l-15 1-6 5H25l-6-3H8z"/><rect fill="currentColor" x="4" y="6" width="5" height="20" rx="1"/><rect fill="currentColor" x="56" y="4" width="4" height="24" rx="1"/><path class="car-cockpit" d="M27 12h9l4 4-4 4h-9z"/></svg>`;
   let data, example, active = null, track;
 
   function drawMap(loss = track.ghost_rejoin.pit_loss_s) {
@@ -149,7 +150,7 @@
     shown.forEach(s => $(s.assumption).addEventListener('input', event => sliderChanged(s, Number(event.target.value))));
     $('reset').addEventListener('click', () => sliderChanged(shown[0], shown[0].base_index));
     const colours = Object.fromEntries(track.cars.map(c => [c.team,c.team_colour]));
-    $('field').innerHTML = data.field.map(d => `<tr class="${d.selected ? 'selected' : ''}"><td>${escape(d.position)}</td><td><span class="team-mark" style="--team-colour:${colours[d.team] || '#b7c8d8'}"></span><span class="driver-code">${escape(d.driver)}</span><span class="driver-team">${escape(d.team)}</span></td><td>${escape(d.gap)}</td><td><span class="tyre tyre-${escape(d.compound)}">${escape(d.compound[0])}</span></td></tr>`).join('');
+    $('field').innerHTML = data.field.map(d => `<tr class="${d.selected ? 'selected' : ''}"><td>${escape(d.position)}</td><td><div class="field-driver">${carIcon(colours[d.team] || '#b7c8d8')}<span><span class="driver-code">${escape(d.driver)}</span><span class="driver-team">${escape(d.team)}</span></span></div></td><td>${escape(d.gap)}</td><td><span class="tyre tyre-${escape(d.compound)}">${escape(d.compound[0])}</span></td></tr>`).join('');
     $('policy-table').innerHTML = table(['Policy','Expected remaining time / s','Stop budget','Status'],data.policy_rows.map(p => [p.policy,p.time,p.stops,p.status]));
     $('plan-margin').textContent = 'Plan margin: ' + data.plan_margin + ' between the two best policies overall.';
     $('policy-flips').innerHTML = data.policy_flips.map(p => `<details><summary>${escape(p.assumption.replaceAll('_',' '))}</summary><p>${escape(p.text)}</p></details>`).join('');
