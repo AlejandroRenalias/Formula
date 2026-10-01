@@ -60,3 +60,22 @@ def test_map_and_tyre_display_use_cutoff_fixture_and_embedded_assets():
     assert 'id="circuit"' in document and 'id="tyre-ring"' in document
     assert 'assets/circuit-map.js' not in document
     assert 'data:font/ttf;base64,' in document
+
+
+def test_polish_display_preserves_raw_reasoning_and_zoomed_example_data():
+    fixture = json.loads((ROOT / 'tests/fixtures/projection_lap18.json').read_text(encoding='utf-8'))
+    ui = fixture['ui']['display']
+    assert (ui['chart']['window_start'], ui['chart']['window_end']) == (12, 32)
+    groups = {g['id']: g['display'] for g in fixture['scenario_group_margins']}
+    for scenario in ui['chart']['scenarios']:
+        group = groups['rain' if scenario['rain_lap'] is not None else 'no_rain']
+        assert scenario['finish_margin_s'] == group['expected_stay_advantage_s']
+        visible = [p['gain_s'] for p in ui['chart']['observed'] if 12 <= p['lap'] <= 32]
+        visible += [v for plan in scenario['plans'] for lap, v in zip(plan['laps'], plan['gain_s']) if 12 <= lap <= 32]
+        assert scenario['low'] <= min(visible) < max(visible) <= scenario['high']
+    assert all(re.fullmatch(r'\d+%', share['value']) for share in ui['base']['shares'])
+    for short, raw, evaluation in zip(ui['radio'], ui['radio_raw'], fixture['scorer']['specialist_evaluations']):
+        assert short['vote'] == raw['vote']
+        assert raw['text'] == evaluation['rationale']
+        assert raw['candidate'] not in short['text']
+    assert ui['map']['ghost_template'] == 'If you box: P{position}'

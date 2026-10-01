@@ -27723,17 +27723,17 @@
         "shares": [
           {
             "name": "STAY clearly better",
-            "value": "70.0%",
+            "value": "70%",
             "fraction": 0.7000000000000001
           },
           {
             "name": "Too close to call",
-            "value": "29.1%",
+            "value": "29%",
             "fraction": 0.2906250000000002
           },
           {
             "name": "BOX clearly better",
-            "value": "0.9%",
+            "value": "1%",
             "fraction": 0.009375000000000008
           }
         ],
@@ -27771,6 +27771,7 @@
           "S3"
         ],
         "rejoin_template": "If you box: P{position}, {gap} s behind {ahead}",
+        "ghost_template": "If you box: P{position}",
         "clear_rejoin_template": "If you box: P{position}, clear track ahead",
         "map_note": "Synthetic positions \u00b7 approximate pit markers \u00b7 configured rain sector",
         "aria_prefix": "Silverstone at the cutoff. ",
@@ -27807,20 +27808,37 @@
         {
           "role": "Pace & Tyre",
           "vote": "BOX NOW",
-          "text": "Tyre health is at 39% with degradation rate of 0.12 s/lap. Candidate 'box_now_cover_hard' provides best pace/traffic compromise.",
-          "candidate": "box_now_cover_hard"
+          "text": "Mediums are at 39% and losing 0.12 s a lap. Box now for hards and cover VER."
         },
         {
           "role": "Weather",
           "vote": "STAY OUT",
-          "text": "Observed track: DRY (32.0\u00b0C). Rain forecast: 70% probability, ETA: 4 laps.",
-          "candidate": "stay_out_baseline"
+          "text": "Track is dry. Rain 70%, around lap 22. Stay out for now."
         },
         {
           "role": "Race Control",
           "vote": "BOX NOW",
-          "text": "Track Status: GREEN. Pit delta saving: 0.0s. Mandatory compound rule fulfilled: False.",
-          "candidate": "box_now_cover_hard"
+          "text": "Green flags; a stop costs 21.5 s. A second dry compound is still due. Box now for hards and cover VER."
+        }
+      ],
+      "radio_raw": [
+        {
+          "role": "Pace & Tyre",
+          "vote": "BOX NOW",
+          "candidate": "box_now_cover_hard",
+          "text": "Tyre health is at 39% with degradation rate of 0.12 s/lap. Candidate 'box_now_cover_hard' provides best pace/traffic compromise."
+        },
+        {
+          "role": "Weather",
+          "vote": "STAY OUT",
+          "candidate": "stay_out_baseline",
+          "text": "Observed track: DRY (32.0\u00b0C). Rain forecast: 70% probability, ETA: 4 laps."
+        },
+        {
+          "role": "Race Control",
+          "vote": "BOX NOW",
+          "candidate": "box_now_cover_hard",
+          "text": "Track Status: GREEN. Pit delta saving: 0.0s. Mandatory compound rule fulfilled: False."
         }
       ],
       "policy_rows": [
@@ -28622,17 +28640,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "100.0%",
+                    "value": "100%",
                     "fraction": 1.0
                   },
                   {
                     "name": "Too close to call",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   }
                 ],
@@ -28652,17 +28670,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "100.0%",
+                    "value": "100%",
                     "fraction": 1.0
                   },
                   {
                     "name": "Too close to call",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   }
                 ],
@@ -28682,17 +28700,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "70.0%",
+                    "value": "70%",
                     "fraction": 0.7000000000000001
                   },
                   {
                     "name": "Too close to call",
-                    "value": "29.1%",
+                    "value": "29%",
                     "fraction": 0.2906250000000002
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.9%",
+                    "value": "1%",
                     "fraction": 0.009375000000000008
                   }
                 ],
@@ -28712,17 +28730,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "70.0%",
+                    "value": "70%",
                     "fraction": 0.7000000000000001
                   },
                   {
                     "name": "Too close to call",
-                    "value": "29.1%",
+                    "value": "29%",
                     "fraction": 0.2906250000000002
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.9%",
+                    "value": "1%",
                     "fraction": 0.009375000000000008
                   }
                 ],
@@ -28742,17 +28760,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "70.0%",
+                    "value": "70%",
                     "fraction": 0.7000000000000001
                   },
                   {
                     "name": "Too close to call",
-                    "value": "29.1%",
+                    "value": "29%",
                     "fraction": 0.2906250000000002
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.9%",
+                    "value": "1%",
                     "fraction": 0.009375000000000008
                   }
                 ],
@@ -28772,17 +28790,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "70.0%",
+                    "value": "70%",
                     "fraction": 0.7000000000000001
                   },
                   {
                     "name": "Too close to call",
-                    "value": "29.1%",
+                    "value": "29%",
                     "fraction": 0.2906250000000002
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.9%",
+                    "value": "1%",
                     "fraction": 0.009375000000000008
                   }
                 ],
@@ -28802,17 +28820,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "70.0%",
+                    "value": "70%",
                     "fraction": 0.7000000000000001
                   },
                   {
                     "name": "Too close to call",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "30.0%",
+                    "value": "30%",
                     "fraction": 0.30000000000000027
                   }
                 ],
@@ -28832,17 +28850,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "67.8%",
+                    "value": "68%",
                     "fraction": 0.6781250000000001
                   },
                   {
                     "name": "Too close to call",
-                    "value": "2.2%",
+                    "value": "2%",
                     "fraction": 0.021875000000000012
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "30.0%",
+                    "value": "30%",
                     "fraction": 0.30000000000000027
                   }
                 ],
@@ -28862,17 +28880,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "61.3%",
+                    "value": "61%",
                     "fraction": 0.6125000000000002
                   },
                   {
                     "name": "Too close to call",
-                    "value": "4.4%",
+                    "value": "4%",
                     "fraction": 0.043750000000000025
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "34.4%",
+                    "value": "34%",
                     "fraction": 0.3437500000000002
                   }
                 ],
@@ -28892,17 +28910,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "41.6%",
+                    "value": "42%",
                     "fraction": 0.41562500000000013
                   },
                   {
                     "name": "Too close to call",
-                    "value": "17.5%",
+                    "value": "18%",
                     "fraction": 0.17500000000000013
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "40.9%",
+                    "value": "41%",
                     "fraction": 0.4093750000000002
                   }
                 ],
@@ -28922,17 +28940,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "30.0%",
+                    "value": "30%",
                     "fraction": 0.30000000000000027
                   },
                   {
                     "name": "Too close to call",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "70.0%",
+                    "value": "70%",
                     "fraction": 0.7000000000000001
                   }
                 ],
@@ -28952,17 +28970,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "30.0%",
+                    "value": "30%",
                     "fraction": 0.30000000000000027
                   },
                   {
                     "name": "Too close to call",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "70.0%",
+                    "value": "70%",
                     "fraction": 0.7000000000000001
                   }
                 ],
@@ -28982,17 +29000,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "30.0%",
+                    "value": "30%",
                     "fraction": 0.30000000000000027
                   },
                   {
                     "name": "Too close to call",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "70.0%",
+                    "value": "70%",
                     "fraction": 0.7000000000000001
                   }
                 ],
@@ -29012,17 +29030,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "30.0%",
+                    "value": "30%",
                     "fraction": 0.30000000000000027
                   },
                   {
                     "name": "Too close to call",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "70.0%",
+                    "value": "70%",
                     "fraction": 0.7000000000000001
                   }
                 ],
@@ -29042,17 +29060,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "30.0%",
+                    "value": "30%",
                     "fraction": 0.30000000000000027
                   },
                   {
                     "name": "Too close to call",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "70.0%",
+                    "value": "70%",
                     "fraction": 0.7000000000000001
                   }
                 ],
@@ -29072,17 +29090,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "30.0%",
+                    "value": "30%",
                     "fraction": 0.30000000000000027
                   },
                   {
                     "name": "Too close to call",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "70.0%",
+                    "value": "70%",
                     "fraction": 0.7000000000000001
                   }
                 ],
@@ -29102,17 +29120,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "30.0%",
+                    "value": "30%",
                     "fraction": 0.30000000000000027
                   },
                   {
                     "name": "Too close to call",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "70.0%",
+                    "value": "70%",
                     "fraction": 0.7000000000000001
                   }
                 ],
@@ -29132,17 +29150,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "30.0%",
+                    "value": "30%",
                     "fraction": 0.30000000000000027
                   },
                   {
                     "name": "Too close to call",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "70.0%",
+                    "value": "70%",
                     "fraction": 0.7000000000000001
                   }
                 ],
@@ -29162,17 +29180,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "30.0%",
+                    "value": "30%",
                     "fraction": 0.30000000000000027
                   },
                   {
                     "name": "Too close to call",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "70.0%",
+                    "value": "70%",
                     "fraction": 0.7000000000000001
                   }
                 ],
@@ -29192,17 +29210,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "30.0%",
+                    "value": "30%",
                     "fraction": 0.30000000000000027
                   },
                   {
                     "name": "Too close to call",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "70.0%",
+                    "value": "70%",
                     "fraction": 0.7000000000000001
                   }
                 ],
@@ -29222,17 +29240,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "30.0%",
+                    "value": "30%",
                     "fraction": 0.30000000000000027
                   },
                   {
                     "name": "Too close to call",
-                    "value": "6.6%",
+                    "value": "7%",
                     "fraction": 0.06562500000000003
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "63.4%",
+                    "value": "63%",
                     "fraction": 0.6343750000000001
                   }
                 ],
@@ -29252,17 +29270,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "30.0%",
+                    "value": "30%",
                     "fraction": 0.30000000000000027
                   },
                   {
                     "name": "Too close to call",
-                    "value": "10.9%",
+                    "value": "11%",
                     "fraction": 0.10937500000000007
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "59.1%",
+                    "value": "59%",
                     "fraction": 0.5906250000000002
                   }
                 ],
@@ -29282,17 +29300,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "30.0%",
+                    "value": "30%",
                     "fraction": 0.30000000000000027
                   },
                   {
                     "name": "Too close to call",
-                    "value": "32.8%",
+                    "value": "33%",
                     "fraction": 0.32812500000000017
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "37.2%",
+                    "value": "37%",
                     "fraction": 0.3718750000000001
                   }
                 ],
@@ -29312,17 +29330,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "30.0%",
+                    "value": "30%",
                     "fraction": 0.30000000000000027
                   },
                   {
                     "name": "Too close to call",
-                    "value": "43.8%",
+                    "value": "44%",
                     "fraction": 0.4375000000000001
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "26.3%",
+                    "value": "26%",
                     "fraction": 0.2625000000000002
                   }
                 ],
@@ -29342,17 +29360,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "30.0%",
+                    "value": "30%",
                     "fraction": 0.30000000000000027
                   },
                   {
                     "name": "Too close to call",
-                    "value": "50.3%",
+                    "value": "50%",
                     "fraction": 0.5031250000000002
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "19.7%",
+                    "value": "20%",
                     "fraction": 0.19687500000000016
                   }
                 ],
@@ -29372,17 +29390,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "30.0%",
+                    "value": "30%",
                     "fraction": 0.30000000000000027
                   },
                   {
                     "name": "Too close to call",
-                    "value": "65.6%",
+                    "value": "66%",
                     "fraction": 0.6562500000000001
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "4.4%",
+                    "value": "4%",
                     "fraction": 0.043750000000000025
                   }
                 ],
@@ -29402,17 +29420,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "30.0%",
+                    "value": "30%",
                     "fraction": 0.30000000000000027
                   },
                   {
                     "name": "Too close to call",
-                    "value": "70.0%",
+                    "value": "70%",
                     "fraction": 0.7000000000000001
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   }
                 ],
@@ -29432,17 +29450,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "30.0%",
+                    "value": "30%",
                     "fraction": 0.30000000000000027
                   },
                   {
                     "name": "Too close to call",
-                    "value": "70.0%",
+                    "value": "70%",
                     "fraction": 0.7000000000000001
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   }
                 ],
@@ -29462,17 +29480,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "36.6%",
+                    "value": "37%",
                     "fraction": 0.3656250000000002
                   },
                   {
                     "name": "Too close to call",
-                    "value": "63.4%",
+                    "value": "63%",
                     "fraction": 0.6343750000000001
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   }
                 ],
@@ -29492,17 +29510,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "51.9%",
+                    "value": "52%",
                     "fraction": 0.5187500000000002
                   },
                   {
                     "name": "Too close to call",
-                    "value": "48.1%",
+                    "value": "48%",
                     "fraction": 0.4812500000000001
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   }
                 ],
@@ -29522,17 +29540,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "45.9%",
+                    "value": "46%",
                     "fraction": 0.4593750000000001
                   },
                   {
                     "name": "Too close to call",
-                    "value": "18.1%",
+                    "value": "18%",
                     "fraction": 0.18125000000000013
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "35.9%",
+                    "value": "36%",
                     "fraction": 0.3593750000000001
                   }
                 ],
@@ -29552,17 +29570,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "35.0%",
+                    "value": "35%",
                     "fraction": 0.3500000000000001
                   },
                   {
                     "name": "Too close to call",
-                    "value": "26.9%",
+                    "value": "27%",
                     "fraction": 0.2687500000000002
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "38.1%",
+                    "value": "38%",
                     "fraction": 0.38125000000000014
                   }
                 ],
@@ -29582,17 +29600,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "41.6%",
+                    "value": "42%",
                     "fraction": 0.4156250000000001
                   },
                   {
                     "name": "Too close to call",
-                    "value": "22.5%",
+                    "value": "23%",
                     "fraction": 0.22500000000000017
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "35.9%",
+                    "value": "36%",
                     "fraction": 0.3593750000000001
                   }
                 ],
@@ -29612,17 +29630,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "50.3%",
+                    "value": "50%",
                     "fraction": 0.503125
                   },
                   {
                     "name": "Too close to call",
-                    "value": "20.3%",
+                    "value": "20%",
                     "fraction": 0.20312500000000017
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "29.4%",
+                    "value": "29%",
                     "fraction": 0.2937500000000002
                   }
                 ],
@@ -29642,17 +29660,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "100.0%",
+                    "value": "100%",
                     "fraction": 1.0
                   },
                   {
                     "name": "Too close to call",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   }
                 ],
@@ -29679,17 +29697,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "100.0%",
+                    "value": "100%",
                     "fraction": 1.0
                   },
                   {
                     "name": "Too close to call",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   }
                 ],
@@ -29709,17 +29727,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "95.3%",
+                    "value": "95%",
                     "fraction": 0.9531249999999993
                   },
                   {
                     "name": "Too close to call",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "4.7%",
+                    "value": "5%",
                     "fraction": 0.046874999999999965
                   }
                 ],
@@ -29739,17 +29757,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "20.0%",
+                    "value": "20%",
                     "fraction": 0.20000000000000015
                   },
                   {
                     "name": "Too close to call",
-                    "value": "77.5%",
+                    "value": "78%",
                     "fraction": 0.7750000000000006
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "2.5%",
+                    "value": "3%",
                     "fraction": 0.02500000000000001
                   }
                 ],
@@ -29769,17 +29787,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "30.0%",
+                    "value": "30%",
                     "fraction": 0.3
                   },
                   {
                     "name": "Too close to call",
-                    "value": "67.8%",
+                    "value": "68%",
                     "fraction": 0.6781249999999995
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "2.2%",
+                    "value": "2%",
                     "fraction": 0.021874999999999995
                   }
                 ],
@@ -29799,17 +29817,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "40.0%",
+                    "value": "40%",
                     "fraction": 0.40000000000000074
                   },
                   {
                     "name": "Too close to call",
-                    "value": "58.1%",
+                    "value": "58%",
                     "fraction": 0.5812500000000008
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "1.9%",
+                    "value": "2%",
                     "fraction": 0.018750000000000024
                   }
                 ],
@@ -29829,17 +29847,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "50.0%",
+                    "value": "50%",
                     "fraction": 0.5
                   },
                   {
                     "name": "Too close to call",
-                    "value": "48.4%",
+                    "value": "48%",
                     "fraction": 0.484375
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "1.6%",
+                    "value": "2%",
                     "fraction": 0.015625
                   }
                 ],
@@ -29859,17 +29877,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "60.0%",
+                    "value": "60%",
                     "fraction": 0.5999999999999993
                   },
                   {
                     "name": "Too close to call",
-                    "value": "38.7%",
+                    "value": "39%",
                     "fraction": 0.3874999999999997
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "1.2%",
+                    "value": "1%",
                     "fraction": 0.012499999999999983
                   }
                 ],
@@ -29889,17 +29907,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "70.0%",
+                    "value": "70%",
                     "fraction": 0.7000000000000001
                   },
                   {
                     "name": "Too close to call",
-                    "value": "29.1%",
+                    "value": "29%",
                     "fraction": 0.2906250000000002
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.9%",
+                    "value": "1%",
                     "fraction": 0.009375000000000008
                   }
                 ],
@@ -29919,17 +29937,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "80.0%",
+                    "value": "80%",
                     "fraction": 0.7999999999999998
                   },
                   {
                     "name": "Too close to call",
-                    "value": "19.4%",
+                    "value": "19%",
                     "fraction": 0.19374999999999995
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.6%",
+                    "value": "1%",
                     "fraction": 0.006249999999999994
                   }
                 ],
@@ -29949,17 +29967,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "90.0%",
+                    "value": "90%",
                     "fraction": 0.8999999999999999
                   },
                   {
                     "name": "Too close to call",
-                    "value": "9.7%",
+                    "value": "10%",
                     "fraction": 0.0968750000000001
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.3%",
+                    "value": "0%",
                     "fraction": 0.003125000000000001
                   }
                 ],
@@ -29979,17 +29997,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "100.0%",
+                    "value": "100%",
                     "fraction": 1.0
                   },
                   {
                     "name": "Too close to call",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   }
                 ],
@@ -30016,17 +30034,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "13.1%",
+                    "value": "13%",
                     "fraction": 0.1312500000000001
                   },
                   {
                     "name": "Too close to call",
-                    "value": "13.1%",
+                    "value": "13%",
                     "fraction": 0.1312500000000001
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "73.8%",
+                    "value": "74%",
                     "fraction": 0.7375
                   }
                 ],
@@ -30046,17 +30064,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "21.9%",
+                    "value": "22%",
                     "fraction": 0.21875000000000017
                   },
                   {
                     "name": "Too close to call",
-                    "value": "13.1%",
+                    "value": "13%",
                     "fraction": 0.1312500000000001
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "65.0%",
+                    "value": "65%",
                     "fraction": 0.6500000000000001
                   }
                 ],
@@ -30076,17 +30094,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "26.3%",
+                    "value": "26%",
                     "fraction": 0.2625000000000002
                   },
                   {
                     "name": "Too close to call",
-                    "value": "8.8%",
+                    "value": "9%",
                     "fraction": 0.08750000000000005
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "65.0%",
+                    "value": "65%",
                     "fraction": 0.6500000000000001
                   }
                 ],
@@ -30106,17 +30124,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "35.0%",
+                    "value": "35%",
                     "fraction": 0.35000000000000014
                   },
                   {
                     "name": "Too close to call",
-                    "value": "2.2%",
+                    "value": "2%",
                     "fraction": 0.021875000000000012
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "62.8%",
+                    "value": "63%",
                     "fraction": 0.6281250000000002
                   }
                 ],
@@ -30136,17 +30154,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "37.2%",
+                    "value": "37%",
                     "fraction": 0.3718750000000001
                   },
                   {
                     "name": "Too close to call",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "62.8%",
+                    "value": "63%",
                     "fraction": 0.6281250000000002
                   }
                 ],
@@ -30166,17 +30184,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "70.0%",
+                    "value": "70%",
                     "fraction": 0.7000000000000001
                   },
                   {
                     "name": "Too close to call",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "30.0%",
+                    "value": "30%",
                     "fraction": 0.30000000000000027
                   }
                 ],
@@ -30196,17 +30214,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "71.9%",
+                    "value": "72%",
                     "fraction": 0.71875
                   },
                   {
                     "name": "Too close to call",
-                    "value": "12.2%",
+                    "value": "12%",
                     "fraction": 0.12187500000000007
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "15.9%",
+                    "value": "16%",
                     "fraction": 0.15937500000000007
                   }
                 ],
@@ -30226,17 +30244,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "70.0%",
+                    "value": "70%",
                     "fraction": 0.7000000000000001
                   },
                   {
                     "name": "Too close to call",
-                    "value": "29.1%",
+                    "value": "29%",
                     "fraction": 0.2906250000000002
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.9%",
+                    "value": "1%",
                     "fraction": 0.009375000000000008
                   }
                 ],
@@ -30256,17 +30274,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "70.0%",
+                    "value": "70%",
                     "fraction": 0.7000000000000001
                   },
                   {
                     "name": "Too close to call",
-                    "value": "29.1%",
+                    "value": "29%",
                     "fraction": 0.2906250000000002
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.9%",
+                    "value": "1%",
                     "fraction": 0.009375000000000008
                   }
                 ],
@@ -30286,17 +30304,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "70.0%",
+                    "value": "70%",
                     "fraction": 0.7000000000000001
                   },
                   {
                     "name": "Too close to call",
-                    "value": "29.1%",
+                    "value": "29%",
                     "fraction": 0.2906250000000002
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.9%",
+                    "value": "1%",
                     "fraction": 0.009375000000000008
                   }
                 ],
@@ -30316,17 +30334,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "70.0%",
+                    "value": "70%",
                     "fraction": 0.7000000000000001
                   },
                   {
                     "name": "Too close to call",
-                    "value": "29.1%",
+                    "value": "29%",
                     "fraction": 0.2906250000000002
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.9%",
+                    "value": "1%",
                     "fraction": 0.009375000000000008
                   }
                 ],
@@ -30346,17 +30364,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "70.0%",
+                    "value": "70%",
                     "fraction": 0.7000000000000001
                   },
                   {
                     "name": "Too close to call",
-                    "value": "29.1%",
+                    "value": "29%",
                     "fraction": 0.2906250000000002
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.9%",
+                    "value": "1%",
                     "fraction": 0.009375000000000008
                   }
                 ],
@@ -30376,17 +30394,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "70.0%",
+                    "value": "70%",
                     "fraction": 0.7000000000000001
                   },
                   {
                     "name": "Too close to call",
-                    "value": "29.1%",
+                    "value": "29%",
                     "fraction": 0.2906250000000002
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.9%",
+                    "value": "1%",
                     "fraction": 0.009375000000000008
                   }
                 ],
@@ -30413,17 +30431,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "70.0%",
+                    "value": "70%",
                     "fraction": 0.7000000000000001
                   },
                   {
                     "name": "Too close to call",
-                    "value": "29.1%",
+                    "value": "29%",
                     "fraction": 0.2906250000000002
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.9%",
+                    "value": "1%",
                     "fraction": 0.009375000000000008
                   }
                 ],
@@ -30443,17 +30461,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "100.0%",
+                    "value": "100%",
                     "fraction": 1.0
                   },
                   {
                     "name": "Too close to call",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   }
                 ],
@@ -30473,17 +30491,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "26.3%",
+                    "value": "26%",
                     "fraction": 0.2625000000000002
                   },
                   {
                     "name": "Too close to call",
-                    "value": "4.7%",
+                    "value": "5%",
                     "fraction": 0.04687500000000004
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "69.1%",
+                    "value": "69%",
                     "fraction": 0.6906249999999999
                   }
                 ],
@@ -30503,17 +30521,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "55.0%",
+                    "value": "55%",
                     "fraction": 0.55
                   },
                   {
                     "name": "Too close to call",
-                    "value": "12.2%",
+                    "value": "12%",
                     "fraction": 0.12187500000000007
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "32.8%",
+                    "value": "33%",
                     "fraction": 0.32812500000000017
                   }
                 ],
@@ -30533,17 +30551,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "59.1%",
+                    "value": "59%",
                     "fraction": 0.5906250000000001
                   },
                   {
                     "name": "Too close to call",
-                    "value": "40.9%",
+                    "value": "41%",
                     "fraction": 0.40937500000000016
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   }
                 ],
@@ -30563,17 +30581,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "51.6%",
+                    "value": "52%",
                     "fraction": 0.515625
                   },
                   {
                     "name": "Too close to call",
-                    "value": "44.1%",
+                    "value": "44%",
                     "fraction": 0.4406250000000001
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "4.4%",
+                    "value": "4%",
                     "fraction": 0.043750000000000025
                   }
                 ],
@@ -30593,17 +30611,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "62.8%",
+                    "value": "63%",
                     "fraction": 0.6281250000000002
                   },
                   {
                     "name": "Too close to call",
-                    "value": "37.2%",
+                    "value": "37%",
                     "fraction": 0.3718750000000001
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   }
                 ],
@@ -30623,17 +30641,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "67.2%",
+                    "value": "67%",
                     "fraction": 0.6718750000000001
                   },
                   {
                     "name": "Too close to call",
-                    "value": "32.8%",
+                    "value": "33%",
                     "fraction": 0.32812500000000017
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   }
                 ],
@@ -30653,17 +30671,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "99.1%",
+                    "value": "99%",
                     "fraction": 0.990625
                   },
                   {
                     "name": "Too close to call",
-                    "value": "0.9%",
+                    "value": "1%",
                     "fraction": 0.009375000000000008
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   }
                 ],
@@ -30683,17 +30701,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "100.0%",
+                    "value": "100%",
                     "fraction": 1.0
                   },
                   {
                     "name": "Too close to call",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   }
                 ],
@@ -30713,17 +30731,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "100.0%",
+                    "value": "100%",
                     "fraction": 1.0
                   },
                   {
                     "name": "Too close to call",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   }
                 ],
@@ -30743,17 +30761,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "100.0%",
+                    "value": "100%",
                     "fraction": 1.0
                   },
                   {
                     "name": "Too close to call",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   }
                 ],
@@ -30773,17 +30791,17 @@
                 "shares": [
                   {
                     "name": "STAY clearly better",
-                    "value": "100.0%",
+                    "value": "100%",
                     "fraction": 1.0
                   },
                   {
                     "name": "Too close to call",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   },
                   {
                     "name": "BOX clearly better",
-                    "value": "0.0%",
+                    "value": "0%",
                     "fraction": 0.0
                   }
                 ],
@@ -30877,6 +30895,20 @@
           {
             "id": "rain_at_eta",
             "label": "Rain at lap 22",
+            "rain_lap": 22,
+            "rain_label": "Rain arrives",
+            "low": -42,
+            "high": 4,
+            "y_ticks": [
+              -40,
+              -30,
+              -20,
+              -10,
+              0
+            ],
+            "finish_margin_s": 14.8,
+            "finish_margin_label": "+14.8 s",
+            "finish_range_label": "11.8 to 18.7 s",
             "plans": [
               {
                 "policy_id": "box_now",
@@ -31065,6 +31097,22 @@
           {
             "id": "stays_dry",
             "label": "Stays dry",
+            "rain_lap": null,
+            "rain_label": "Rain arrives",
+            "low": -30,
+            "high": 4,
+            "y_ticks": [
+              -30,
+              -25,
+              -20,
+              -15,
+              -10,
+              -5,
+              0
+            ],
+            "finish_margin_s": 0.1,
+            "finish_margin_label": "+0.1 s",
+            "finish_range_label": "-0.2 to 0.5 s",
             "plans": [
               {
                 "policy_id": "box_now",
@@ -31245,6 +31293,20 @@
             "group_label": "Dry samples"
           }
         ],
+        "window_start": 12,
+        "window_end": 32,
+        "window_ticks": [
+          12,
+          16,
+          18,
+          22,
+          26,
+          30,
+          32
+        ],
+        "flag_label": "At the flag",
+        "flag_lap_label": "Lap 52",
+        "finish_scale_s": 14.8,
         "x_ticks": [
           0,
           10,

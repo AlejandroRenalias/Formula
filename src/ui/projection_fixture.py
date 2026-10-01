@@ -46,7 +46,7 @@ def build_projection_view(result, state):
                            else 'This call has the best expected race time across the sampled weather scenarios.'),
                 'confidence': ' '.join(phrases), 'plan': plan,
                 'flip': flips(sweep or rain_sweep),
-                'shares': [{'name': label, 'value': f"{confidence.get(key, 0) * 100:.1f}%", 'fraction': confidence.get(key, 0)}
+                'shares': [{'name': label, 'value': f"{confidence.get(key, 0) * 100:.0f}%", 'fraction': confidence.get(key, 0)}
                            for key, label in (('stay_clearly_better', 'STAY clearly better'),
                                               ('too_close_to_call', 'Too close to call'), ('box_clearly_better', 'BOX clearly better'))],
                 'chief': f"{action(call)}. Projection overrules the legacy scorer: expected advantage {seconds(point['display']['call_margin_s'])} s. Rain risk makes an extra slick stop costly."
@@ -97,7 +97,16 @@ def build_projection_view(result, state):
                                              'label': compound_name[s['compound']], 'loss_s': s['display']['pit_loss_s']} for s in p['stops']],
                                   'stop_label': stop_label})
         group = group_map['rain' if scenario['id'] == 'rain_at_eta' else 'no_rain']['display']
+        window_values = [p['gain_s'] for p in observed if 12 <= p['lap'] <= 32]
+        window_values += [v for p in display_paths for lap, v in zip(p['laps'], p['gain_s']) if 12 <= lap <= 32]
+        low, high = floor((min(window_values) - 1) / 2) * 2, ceil((max(window_values) + 1) / 2) * 2
+        step = 5 if high - low <= 35 else 10
         scenarios.append({'id': scenario['id'], 'label': f"Rain at lap {scenario['rain_lap']}" if scenario['rain_lap'] else 'Stays dry',
+                          'rain_lap': scenario['rain_lap'], 'rain_label': 'Rain arrives',
+                          'low': low, 'high': high, 'y_ticks': list(range(ceil(low / step) * step, high + 1, step)),
+                          'finish_margin_s': group['expected_stay_advantage_s'],
+                          'finish_margin_label': f"{float(group['expected_stay_advantage_s']):+.1f} s",
+                          'finish_range_label': f"{seconds(group['p10_stay_advantage_s'])} to {seconds(group['p90_stay_advantage_s'])} s",
                           'plans': display_paths,
                           'margin_label': f"{float(group['expected_stay_advantage_s']):+.1f} s ({seconds(group['p10_stay_advantage_s'])} to {seconds(group['p90_stay_advantage_s'])})",
                           'group_label': 'Rain samples' if scenario['id'] == 'rain_at_eta' else 'Dry samples'})
@@ -108,13 +117,32 @@ def build_projection_view(result, state):
               'gap': 'LEAD', 'compound': subject.current_compound.value, 'selected': True}]
     field += [{'driver': c.driver, 'team': c.team, 'position': c.position,
                'gap': f"{-c.gap_to_subject_s:+.1f} s", 'compound': c.current_compound.value, 'selected': False} for c in state.competitors]
-    radio = []
+    radio, radio_raw = [], []
+    health = TyreModel.estimate_tyre_condition(subject.current_compound, subject.stint_length_laps)
     candidates = {c['candidate_id']: c for c in result['scorer']['all_candidates']}
     for evaluation in result['scorer']['specialist_evaluations']:
         candidate = candidates[evaluation['recommended_candidate_id']]
-        radio.append({'role': evaluation['agent_name'].replace(' Specialist', ''),
-                      'vote': action(candidate['pit_action']), 'text': evaluation['rationale'],
-                      'candidate': candidate['candidate_id']})
+        role = evaluation['agent_name'].replace(' Specialist', '')
+        box = candidate['pit_action'] == 'BOX_NOW'
+        target = compound_name.get(candidate['target_compound'], 'fresh tyres')
+        call_line = (f"Box now for {target}" if box else 'Stay out for now')
+        if box and candidate['target_driver']:
+            call_line += f" and cover {candidate['target_driver']}"
+        if role == 'Pace & Tyre':
+            text = (f"{compound_name[subject.current_compound.value].capitalize()} are at {health * 100:.0f}% "
+                    f"and losing {state.derived_pace.degradation_rate_s_per_lap.value:.2f} s a lap. {call_line}.")
+        elif role == 'Weather':
+            arrival = assumption['rain_arrival_lap']
+            timing = f", around lap {arrival}" if arrival is not None else ''
+            text = (f"Track is {'wet' if state.observed_weather.rainfall.value else 'dry'}. "
+                    f"Rain {assumption['rain_probability'] * 100:.0f}%{timing}. {call_line}.")
+        else:
+            progress = candidate['target_compound'] and candidate['target_compound'] not in [c.value for c in subject.used_compounds]
+            compound_line = ' A second dry compound is still due.' if progress and len(subject.used_compounds) == 1 else ''
+            text = f"{state.track_status.value.replace('_', ' ').capitalize()} flags; a stop costs {state.pit_loss.current_pit_loss_s:.1f} s.{compound_line} {call_line}."
+        radio.append({'role': role, 'vote': action(candidate['pit_action']), 'text': text})
+        radio_raw.append({'role': role, 'vote': action(candidate['pit_action']),
+                          'candidate': candidate['candidate_id'], 'text': evaluation['rationale']})
     policy_rows = [{'id': p['id'], 'policy': p['label'], 'time': seconds(p['display']['mean_time_to_finish_s']),
                    'stops': str(p['policy']['max_stops']),
                    'status': 'Recommended' if p['id'] == result['recommended'] else 'Legal'} for p in result['plans']]
@@ -136,6 +164,7 @@ def build_projection_view(result, state):
         'marker_labels': {'start_finish': 'S/F', 'pit_entry': 'Pit in', 'pit_exit': 'Pit out'},
         'sector_labels': [f"S{s['sector']}" for s in track['sectors']],
         'rejoin_template': 'If you box: P{position}, {gap} s behind {ahead}',
+        'ghost_template': 'If you box: P{position}',
         'clear_rejoin_template': 'If you box: P{position}, clear track ahead',
         'map_note': 'Synthetic positions · approximate pit markers · configured rain sector',
         'aria_prefix': 'Silverstone at the cutoff. ',
@@ -147,12 +176,15 @@ def build_projection_view(result, state):
                            'health': health, 'health_label': f"{health * 100:.0f}% estimated health", 'letter': subject.current_compound.value[0]},
                        'map': map_display,
                        'tyres': f"{subject.current_compound.value} · {subject.stint_length_laps} laps old · {state.track_status.value}",
-                       'field': field, 'radio': radio, 'policy_rows': policy_rows, 'factor_rows': factor_rows,
+                       'field': field, 'radio': radio, 'radio_raw': radio_raw, 'policy_rows': policy_rows, 'factor_rows': factor_rows,
                        'plan_margin': f"{result['display']['plan_margin_s']:.1f} s", 'sweep_rows': sweep_rows,
                        'assumptions': assumption_rows, 'rain_timing': f"Rain timing ±{spread} laps · uniform · uncalibrated",
                        'policy_flips': [{'assumption': s['assumption'], 'text': str(s['transitions']) if s['transitions'] else s['status']}
                                         for s in result['policy_flip_thresholds']],
                        'sweeps': sweeps, 'chart': {'observed': observed, 'scenarios': scenarios,
+                           'window_start': 12, 'window_end': 32, 'window_ticks': [12, 16, 18, 22, 26, 30, 32],
+                           'flag_label': 'At the flag', 'flag_lap_label': f"Lap {result['horizon_lap']}",
+                           'finish_scale_s': max(1, max(abs(s['finish_margin_s']) for s in scenarios)),
                            'x_ticks': x_ticks, 'y_ticks': y_ticks, 'cutoff': result['cutoff_lap'],
                            'finish': result['horizon_lap'], 'low': low, 'high': high,
                            'flip_lap': next((t['from_value'] for s in result['flip_thresholds'] if s['assumption'] == 'rain_arrival_lap'

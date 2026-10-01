@@ -22,48 +22,57 @@
     const subject = track.cars.find(c => c.driver === display.selected_driver);
     const highlight = Array.from({length:81},(_,i) => xy(geometry.position(track,track.leader.distance_m,
       subject.gap_to_leader_s + loss * i/80)));
-    let svg = `<defs><filter id="rain-soft" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="17"/></filter><pattern id="chequer" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="var(--paper)"/><path d="M0 0h4v4H0zM4 4h4v4H4z" fill="var(--ink)"/></pattern></defs>`;
-    svg += `<path class="rain-cell" d="${line(rainPoints)}"/><path class="circuit-track" d="${line(track.polyline.map(xy))}"/><path class="pit-distance-glow" d="${line(highlight)}"/><path class="pit-distance" d="${line(highlight)}"/>`;
+    const cloud=rainPoints.flatMap(p=>[{x:p.x-22,y:p.y-22},{x:p.x+22,y:p.y+22}]);
+    const cross=(a,b,c)=>(b.x-a.x)*(c.y-a.y)-(b.y-a.y)*(c.x-a.x);
+    const half=ps=>{const h=[];for(const p of ps){while(h.length>1&&cross(h[h.length-2],h[h.length-1],p)<=0)h.pop();h.push(p);}return h;};
+    cloud.sort((a,b)=>a.x-b.x||a.y-b.y);
+    const hull=half(cloud).slice(0,-1).concat(half([...cloud].reverse()).slice(0,-1));
+    let svg = `<defs><pattern id="rain-hatch" width="9" height="9" patternUnits="userSpaceOnUse"><path d="M0 9L9 0" stroke="#74baff" stroke-opacity=".25"/></pattern><filter id="rain-soft" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="17"/></filter><pattern id="chequer" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="var(--paper)"/><path d="M0 0h4v4H0zM4 4h4v4H4z" fill="var(--ink)"/></pattern></defs>`;
+    svg += `<path class="radar-cell" d="${line(hull)}Z"/><path fill="url(#rain-hatch)" d="${line(hull)}Z"/><path class="circuit-track" d="${line(track.polyline.map(xy))}"/><path class="pit-distance" d="${line(highlight)}"/>`;
     const labels = [];
     const addLabel = (p,text,colour='var(--muted)',kind='marker') => labels.push({...p,text,colour,kind});
     const start = pointAt(track.start_finish.distance_m);
     svg += `<rect x="${start.x-7}" y="${start.y-7}" width="14" height="14" fill="url(#chequer)" stroke="var(--ink)" stroke-width=".7"/>`;
-    addLabel(start,display.marker_labels.start_finish);
+
     track.sectors.forEach((sector,i) => {
       const distance = sector.end_distance_m % track.lap_length_m;
       const p = pointAt(distance), before = pointAt((distance-10+track.lap_length_m)%track.lap_length_m), after = pointAt((distance+10)%track.lap_length_m);
       const dx = after.x-before.x, dy = after.y-before.y, length = Math.hypot(dx,dy);
       svg += `<path class="sector-tick" d="M${p.x-dy/length*9} ${p.y+dx/length*9}L${p.x+dy/length*9} ${p.y-dx/length*9}"/>`;
-      addLabel(p,display.sector_labels[i]);
+      const mid=pointAt((sector.start_distance_m+sector.end_distance_m)/2),angle=Math.atan2(mid.y-212,mid.x-330);
+      svg+=`<text class="sector-name" x="${mid.x+23*Math.cos(angle)}" y="${mid.y+23*Math.sin(angle)}" text-anchor="middle">${escape(display.sector_labels[i])}</text>`;
     });
     ['pit_entry','pit_exit'].forEach(key => {
       const p=pointAt(track[key].distance_m);
       svg += `<path class="pit-marker" d="M${p.x} ${p.y-5}l5 5-5 5-5-5z"/>`;
-      addLabel(p,display.marker_labels[key]);
+
     });
     track.cars.forEach(car => {
       const p = xy(car), selected = car.driver === display.selected_driver;
       if (selected) svg += `<circle class="selected-ring" cx="${p.x}" cy="${p.y}" r="12" stroke="${escape(car.team_colour)}"/>`;
       svg += `<circle class="car-dot" data-driver="${escape(car.driver)}" cx="${p.x}" cy="${p.y}" r="${selected?7:5}" fill="${escape(car.team_colour)}"/>`;
-      addLabel(p,car.driver,car.team_colour,'car');
+      addLabel(p,car.driver,'var(--ink)','car');
     });
     const g = xy(ghost);
-    svg += `<circle id="ghost-dot" class="ghost-ring" data-distance="${ghost.distance_m}" data-position="${ghost.position}" cx="${g.x}" cy="${g.y}" r="12" stroke="${escape(display.selected_colour)}"/>`;
-    addLabel(g,display.selected_driver+' · BOX',display.selected_colour,'ghost');
-    // Dedicated side rails, packed in Y order: label boxes never overlap.
-    for (const left of [true,false]) {
-      const rail = labels.filter(p => (p.x<330) === left).sort((a,b) => a.y-b.y);
-      let previous=30;
-      rail.forEach(p => { p.labelY=Math.max(previous+29,Math.min(370,p.y)); previous=p.labelY; });
-      for (let i=rail.length-1;i>=0;i--) rail[i].labelY=Math.min(rail[i].labelY,370-(rail.length-1-i)*29);
-      rail.forEach(p => {
-        const mobile = window.matchMedia('(max-width:450px)').matches;
-        const width = p.text.length * (mobile ? 12 : 8.4);
-        const anchor=left?Math.max(width+12,Math.min(300,p.x-25)):Math.min(648-width,Math.max(360,p.x+25));
-        const elbow=left?anchor+8:anchor-8;
-        svg += `<path class="map-leader" d="M${p.x} ${p.y}L${elbow} ${p.labelY}"/><text data-map-label="${p.kind}" class="map-label" x="${anchor}" y="${p.labelY+4}" text-anchor="${left?'end':'start'}" fill="${escape(p.colour)}">${escape(p.text)}</text>`;
-      });
+    svg += `<circle id="ghost-dot" class="ghost-ring" data-distance="${ghost.distance_m}" data-position="${ghost.position}" cx="${g.x}" cy="${g.y}" r="12" stroke="var(--muted)"/>`;
+    addLabel(g,display.ghost_template.replace('{position}',ghost.position),'var(--ink)','ghost');
+    for(let i=0;i<14;i++){
+      const d=(i+.5)*track.lap_length_m/14,p=pointAt(d),before=pointAt((d-18+track.lap_length_m)%track.lap_length_m),after=pointAt((d+18)%track.lap_length_m);
+      if(labels.some(l=>Math.hypot(l.x-p.x,l.y-p.y)<25))continue;
+      const angle=Math.atan2(after.y-before.y,after.x-before.x)*180/Math.PI;
+      svg+=`<path class="travel-chevron" d="M-4-4L1 0-4 4" transform="translate(${p.x} ${p.y}) rotate(${angle})"/>`;
     }
+    svg+=`<text class="radar-label" x="330" y="32" text-anchor="middle">${escape(display.rain_label)}</text>`;
+    const occupied=[], font=window.matchMedia('(max-width:450px)').matches?18:14;
+    const overlaps=(a,b)=>a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;
+    labels.forEach(p=>{
+      const w=p.text.length*font*.62,h=font+5;
+      const options=[{x:p.x+18,y:p.y-h/2},{x:p.x-18-w,y:p.y-h/2},{x:p.x-w/2,y:p.y-18-h},{x:p.x-w/2,y:p.y+18},{x:p.x+18,y:p.y+12},{x:p.x-18-w,y:p.y+12}];
+      const blocked=r=>occupied.some(o=>overlaps(r,o))||labels.some(o=>o!==p&&overlaps(r,{x:o.x-14,y:o.y-14,w:28,h:28}));
+      const rect=options.find(r=>r.x>8&&r.x+w<652&&r.y>40&&r.y+h<410&&!blocked({...r,w,h}))||options[3];
+      occupied.push({...rect,w,h});
+      svg+=`<text data-map-label="${p.kind}" class="map-label" style="font-size:${font}px" x="${rect.x}" y="${rect.y+font}" fill="${escape(p.colour)}">${escape(p.text)}</text>`;
+    });
     const label = ghost.car_ahead ? display.rejoin_template.replace('{position}',ghost.position).replace('{gap}',ghost.gap_to_car_ahead_s.toFixed(1)).replace('{ahead}',ghost.car_ahead)
       : display.clear_rejoin_template.replace('{position}',ghost.position);
     $('circuit').innerHTML=svg;
@@ -81,31 +90,35 @@
   }
 
   function drawChart() {
-    const chart = data.chart, scenario = chart.scenarios.find(s => s.id === example);
-    const x = lap => 50 + lap / chart.finish * 735;
-    const y = gain => 275 - (gain - chart.low) / (chart.high - chart.low) * 235;
-    const path = points => points.map((p, i) => `${i ? 'L' : 'M'}${x(p.lap)},${y(p.gain_s)}`).join(' ');
-    let svg = chart.y_ticks.map(v => `<path class="grid" d="M50 ${y(v)}H785"/><text class="chart-text axis-label" x="38" y="${y(v)+4}" text-anchor="end">${escape(v)}</text>`).join('');
-    svg += chart.x_ticks.map(v => `<text class="chart-text axis-label" x="${x(v)}" y="299" text-anchor="middle">${escape(v)}</text>`).join('');
-    svg += `<path d="M${x(chart.cutoff)} 25V280" stroke="var(--muted)" stroke-dasharray="3 5"/><text class="chart-text axis-label" x="50" y="18">Observed</text><text class="chart-text axis-label" x="${x(chart.cutoff)+12}" y="18">Projected examples →</text><path class="observed" d="${path(chart.observed)}"/><circle cx="${x(chart.cutoff)}" cy="${y(0)}" r="4" fill="var(--accent)"/>`;
-    const ends = {};
-    scenario.plans.forEach((plan, index) => {
-      const stay = plan.call === 'STAY OUT';
-      const cls = stay ? 'stay-line' : 'box-line';
-      const points = plan.laps.map((lap, i) => ({lap, gain_s: plan.gain_s[i]}));
-      svg += `<path data-policy="${escape(plan.policy_id)}" class="${cls}" d="${path(points)}"/>`;
-      plan.stops.forEach(stop => {
-        const i = plan.laps.indexOf(stop.charged_on_lap);
-        svg += `<circle class="stop-dot" cx="${x(stop.charged_on_lap)}" cy="${y(plan.gain_s[i])}" r="4" stroke="${stay ? 'var(--accent)' : 'var(--ink)'}"><title>${escape(plan.call + ': ' + stop.label + ' after lap ' + stop.lap + ' · ' + stop.loss_s + ' s pit loss')}</title></circle>`;
+    const chart=data.chart,scenario=chart.scenarios.find(s=>s.id===example);
+    const x=lap=>50+(lap-chart.window_start)/(chart.window_end-chart.window_start)*650;
+    const y=gain=>275-(gain-scenario.low)/(scenario.high-scenario.low)*235;
+    const visible=points=>points.filter(p=>p.lap>=chart.window_start&&p.lap<=chart.window_end);
+    const path=points=>visible(points).map((p,i)=>`${i?'L':'M'}${x(p.lap)},${y(p.gain_s)}`).join(' ');
+    let svg=scenario.y_ticks.map(v=>`<path class="grid" d="M50 ${y(v)}H700"/><text class="chart-text axis-label" x="38" y="${y(v)+4}" text-anchor="end">${escape(v)}</text>`).join('');
+    svg+=chart.window_ticks.map(v=>`<text class="chart-text axis-label" x="${x(v)}" y="299" text-anchor="middle">${escape(v)}</text>`).join('');
+    if(scenario.rain_lap!==null)svg+=`<rect class="rain-arrival" x="${x(scenario.rain_lap-.25)}" y="35" width="${x(scenario.rain_lap+.25)-x(scenario.rain_lap-.25)}" height="240"/><text class="chart-text rain-chart-label" x="${x(scenario.rain_lap)+8}" y="52">${escape(scenario.rain_label)}</text>`;
+    svg+=`<path d="M${x(chart.cutoff)} 25V280" stroke="var(--muted)" stroke-dasharray="3 5"/><text class="chart-text axis-label" x="50" y="18">Observed</text><text class="chart-text axis-label" x="${x(chart.cutoff)+12}" y="18">Projected examples →</text><path class="observed" d="${path(chart.observed)}"/>`;
+    const ends=[];
+    scenario.plans.forEach((plan,index)=>{
+      const recommended=plan.call===data.base.call,cls=recommended?'stay-line':'box-line';
+      const points=plan.laps.map((lap,i)=>({lap,gain_s:plan.gain_s[i]}));
+      svg+=`<path data-policy="${escape(plan.policy_id)}" class="${cls}" d="${path(points)}"/>`;
+      plan.stops.filter(stop=>stop.charged_on_lap>=chart.window_start&&stop.charged_on_lap<=chart.window_end).forEach(stop=>{
+        const i=plan.laps.indexOf(stop.charged_on_lap);
+        svg+=`<circle class="stop-dot" cx="${x(stop.charged_on_lap)}" cy="${y(plan.gain_s[i])}" r="4" stroke="${recommended?'var(--accent)':'var(--ink)'}"><title>${escape(plan.call+': '+stop.label+' after lap '+stop.lap+' · '+stop.loss_s+' s pit loss')}</title></circle>`;
       });
-      ends[plan.call] = y(plan.gain_s[plan.gain_s.length - 1]);
-      svg += `<text data-annotation class="chart-text ${stay ? 'accent-text' : ''}" x="50" y="${335 + index * 20}">${escape(plan.call + ' · ' + plan.stop_label)}</text>`;
+      ends.push({call:plan.call,y:y(visible(points).at(-1).gain_s),recommended});
+      svg+=`<text data-annotation class="chart-text ${recommended?'accent-text':''}" x="50" y="${335+index*20}">${escape(plan.call+' · '+plan.stop_label)}</text>`;
     });
-    const near = Math.abs(ends['STAY OUT'] - ends['BOX NOW']) < 22;
-    svg += `<text class="chart-text direct accent-text" x="798" y="${ends['STAY OUT'] - (near ? 12 : 8)}">STAY OUT</text><text class="chart-text direct" x="798" y="${ends['BOX NOW'] + (near ? 16 : 15)}">BOX NOW</text>`;
-    svg += `<path d="M785 ${ends['STAY OUT']}H920M785 ${ends['BOX NOW']}H920M910 ${ends['STAY OUT']}V${ends['BOX NOW']}" fill="none" stroke="var(--muted)"/><text class="chart-text" x="50" y="392">${escape(scenario.group_label + ' · expected margin: ' + scenario.margin_label)}</text>`;
-    if (chart.flip_lap !== null) svg += `<path class="grid" d="M${x(chart.flip_lap)} 30V275"/><text data-annotation class="chart-text axis-label" x="590" y="335">${escape('Call flips after lap ' + chart.flip_lap)}</text>`;
-    $('fork').innerHTML = svg;
+    ends.sort((a,b)=>a.y-b.y).forEach((p,i,all)=>{
+      const near=all.length>1&&Math.abs(all[0].y-all[1].y)<22;
+      svg+=`<text class="chart-text direct ${p.recommended?'accent-text':''}" x="712" y="${p.y+(near?(i?16:-8):4)}">${escape(p.call)}</text>`;
+    });
+    const box=185,stay=box-scenario.finish_margin_s/chart.finish_scale_s*75;
+    svg+=`<path class="flag-divider" d="M815 30V275"/><text class="chart-text direct" x="845" y="50">${escape(chart.flag_label)}</text><text class="chart-text axis-label" x="845" y="68">${escape(chart.flag_lap_label)}</text><path class="flag-bracket" d="M845 ${stay}H975M845 ${box}H975M968 ${stay}V${box}"/><text class="chart-text ${data.base.call==='STAY OUT'?'accent-text':''}" x="845" y="${Math.min(stay,box)-10}">STAY OUT</text><text class="chart-text" x="845" y="${Math.max(stay,box)+20}">BOX NOW</text><text class="chart-text direct" x="845" y="245">${escape(scenario.finish_margin_label)}</text><text class="chart-text axis-label" x="845" y="265">${escape(scenario.finish_range_label)}</text><text class="chart-text axis-label" x="845" y="288">Expected · p10–p90</text>`;
+    if(chart.flip_lap!==null&&chart.flip_lap<=chart.window_end)svg+=`<text data-annotation class="chart-text axis-label" x="50" y="392">${escape('Call flips after lap '+chart.flip_lap)}</text>`;
+    $('fork').innerHTML=svg;
   }
 
   function sliderChanged(sweep, index) {
@@ -158,7 +171,8 @@
     $('rain-timing').textContent = data.rain_timing;
     $('assumption-tags').innerHTML = data.assumptions.map(a => `<div class="assumption"><strong><span class="tag">${escape(a.kind)}</span>${escape(a.name)}</strong><span>${escape(a.value)}</span></div>`).join('');
     $('factor-table').innerHTML = table(['Factor','Weighted points'],data.factor_rows.map(f => [f.factor,f.points]));
-    $('radio-lines').innerHTML = data.radio.map(r => `<details><summary><strong>${escape(r.role)}</strong><span>${escape(r.text)}</span><span class="vote">${escape(r.vote)}</span></summary><p>${escape('Legacy scorer candidate: ' + r.candidate + '. ' + r.text)}</p></details>`).join('');
+    $('radio-lines').innerHTML=data.radio.map(r=>`<div class="radio-line"><strong>${escape(r.role)}</strong><span>${escape(r.text)}</span><span class="vote">${escape(r.vote)}</span></div>`).join('');
+    $('raw-radio').innerHTML=table(['Specialist','Vote','Candidate (internal)','Raw reasoning'],data.radio_raw.map(r=>[r.role,r.vote,r.candidate,r.text]));
     drawChart();
     drawMap();
     window.matchMedia('(max-width:450px)').addEventListener('change', () => {
