@@ -22,7 +22,8 @@ def main():
     for pid in result["ranking"]:
         plan = next(p for p in result["plans"] if p["id"] == pid)
         print(pid, plan["mean_time_to_finish_s"])
-    print("margin_s", result["margin_s"])
+    for key in ("call", "call_margin_s", "plan_margin_s", "call_win_rate"):
+        print(key, result[key])
 
 
 if __name__ == "__main__":

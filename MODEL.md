@@ -31,7 +31,7 @@ charge stop losses in seconds, and evaluate weather-reactive policies.
 `src.calculators.projection.project` projects policies to `state.total_laps`.
 `src.orchestrator.projection_pipeline.run_projection_cycle` is the engine entry
 point for the new decision contract: `recommended` is the finish-legal policy
-with the lowest probability-weighted remaining race time. `margin_s` is its
+with the lowest probability-weighted remaining race time. `plan_margin_s` is its
 expected-time advantage over the second policy, not a score or a difference
 between medians. The existing StrategyPipeline remains usable for compatibility;
 its serialized output is attached under `scorer` as reasoning only. The
@@ -60,6 +60,18 @@ with the scorer. Neither module changes the UI.
   its series and `invalid_probability` remain visible. No legal policy raises an
   explicit error. These are the project's existing simplified rule semantics,
   not a complete sporting-regulations implementation.
+- Schema version 2 separates the immediate `call` (STAY_OUT / BOX_NOW) from the
+  winning policy. `best_policies_by_call` identifies the lowest expected-time
+  legal policy in each action group. `call_margin_s` is the nonnegative expected
+  time advantage of the winning action over the best opposite-action policy.
+  `call_win_rate` is always the probability-weighted share of paired samples in
+  which that best STAY policy beats that best BOX policy, even when BOX wins on
+  expected time. Exact ties do not count as STAY wins. Missing action groups
+  yield null call margin, win rate, and comparison; the available action wins.
+  Policies are selected by expected time once, not re-optimized in each sample.
+- The initial action is committed using scheduled cutoff stops and weather
+  already observed at the cutoff. Sampled future rain cannot trigger an initial
+  stop. Subsequent weather reactions retain the coarse per-lap crossover model.
 
 ### Lap times
 
@@ -116,21 +128,42 @@ with the scorer. Neither module changes the UI.
 
 ### Series, thresholds and reproducibility
 
-- `reference` is the first supplied policy. Each sample's cumulative time is
+- `reference` is the best BOX policy when available, otherwise the first supplied
+  policy. Each sample's cumulative time is
   differenced against that reference **within the same scenario**, then weighted
   median/p10/p90 are computed. Positive = slower than reference. Reference bands
   are therefore zero. These are model sensitivity bands, not calibrated confidence
   intervals; they need not grow monotonically. Absolute expected finish times
   are also returned. A plotted short window must not change the finish ranking.
+- `call_comparison` contains paired STAY-minus-BOX median/p10/p90 time differences
+  between the two best action policies, with negative meaning STAY is faster.
+  These bands are uncertainty in the difference, not quantiles of separate
+  absolute trajectories. `scenarios` supplies distinct rain-at-forecast-ETA and
+  stays-dry absolute cumulative-time paths from zero at cutoff, plus exact stops,
+  using those same two policies and zero pit-loss offset. Scenario probability
+  is the rain/dry branch mass, not the probability of that exact ETA. Zero-mass
+  branches remain as hypothetical illustrations. If ETA is unavailable the rain
+  illustration is omitted rather than inventing an arrival.
 - `stops` is a labelled representative scenario, not the universal stop sequence.
   `policy` contains decision rules; `scenario_stops` records every realized stop
   schedule and weight. Realized stops identify both boundary and charged lap.
-- Flip sweeps use the same seed and policies. Rain arrival covers cutoff+1 to
-  cutoff+20; green pit loss covers 5-45s in 5s steps; hypothetical SC onset covers
+- Flip sweeps use the same seed and policies, re-selecting the best policy in each
+  action group at each value. Primary `flip_thresholds` reports call changes;
+  secondary `policy_flip_thresholds` reports policy changes. Rain arrival defaults
+  to cutoff+1 through cutoff+34, bounded by the finish, at one-lap resolution and
+  adds an explicit `no rain` endpoint (occurrence probability zero). This endpoint
+  overrides current rainfall only for that counterfactual experiment. Probability
+  covers 0-1 in 0.1 steps; green pit loss covers 5-45s in 5s steps; SC onset covers
   cutoff+1 to cutoff+12. Current values are included. Other assumptions stay fixed.
   All winner-change brackets are reported. `flips_at` is the nearest **sampled**
   value whose winner differs from the current winner, not an exact root; multiple
   transitions are possible. `no flip in range` says nothing beyond that range.
+  Each sweep reports its numeric range, configured resolution (null if irregular),
+  units, complete evaluated grid, and whether no rain is included. Inserting the
+  current value may create a smaller local interval. The probability sweep
+  cannot undo already-observed rainfall, which forces occurrence in the model.
+  With no forecast ETA and no observed rain it is explicitly unavailable;
+  positive rain probabilities cannot be tested without inventing arrival data.
 - Parameters and cutoff-derived inputs are serialized under `assumptions`.
   The `measured` kind includes metrics derived from measured/synthetic snapshot
   inputs; it does not imply real-world provenance. The fixture also stores its

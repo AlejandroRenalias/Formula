@@ -124,7 +124,9 @@ def test_finish_compound_constraint_and_wet_exemption():
     result = project(state(), policies, cfg(), include_flips=False)
     assert by_id(result, "illegal")["invalid_probability"] == 1
     assert result["ranking"] == ["box"]
-    assert result["margin_s"] is None
+    assert result["plan_margin_s"] is None
+    assert result["call_margin_s"] is None
+    assert result["call_win_rate"] is None
     with pytest.raises(ValueError, match="compound-compliant"):
         project(state(), policies[:1], cfg(), include_flips=False)
     wet = state(1, 2)
@@ -150,11 +152,14 @@ def test_pit_loss_flip_on_toy_has_known_boundary():
                  rain_sweep_offsets=(), safety_car_sweep_offsets=(), pit_loss_sweep_s=(10, 11, 12, 13, 14))
     # Resetting HARD age after 18 laps saves 18 * 0.04 * 16 = 11.52s.
     result = project(s, policies, config)
-    flip = next(f for f in result["flip_thresholds"] if f["assumption"] == "pit_loss_s")
+    flip = next(f for f in result["policy_flip_thresholds"] if f["assumption"] == "pit_loss_s")
     assert {v["value"]: v["recommended"] for v in flip["sweep"]}[11] == "two"
     assert {v["value"]: v["recommended"] for v in flip["sweep"]}[12] == "one"
     assert flip["transitions"][0]["from_value"] == 11
     assert flip["transitions"][0]["to_value"] == 12
+    call_flip = next(f for f in result["flip_thresholds"] if f["assumption"] == "pit_loss_s")
+    assert call_flip["status"] == "no flip in range"
+    assert call_flip["transitions"] == []  # Both policies BOX now.
 
 
 def test_bad_policies_and_invalid_cutoff_rejected():
@@ -219,3 +224,84 @@ def test_committed_fixture_reproduces_from_its_source_inputs():
     result = run_projection_cycle(RaceState.model_validate(source["state"]),
                                   ProjectionConfig.model_validate(source["config"]))
     assert result == saved
+
+
+def test_call_compares_action_groups_instead_of_runner_up_policy():
+    result = project(state(.7), config=cfg(), include_flips=False)
+    best = result["best_policies_by_call"]
+    assert result["call"] == "STAY_OUT"
+    assert best["STAY_OUT"] == result["recommended"]
+    assert best["BOX_NOW"] == "box_now"
+    difference = by_id(result, best["BOX_NOW"])["mean_time_to_finish_s"] - by_id(result, best["STAY_OUT"])["mean_time_to_finish_s"]
+    assert result["call_margin_s"] == pytest.approx(difference, abs=.0001)
+    assert result["call_margin_s"] > result["plan_margin_s"]
+    assert "margin_s" not in result
+
+
+def test_win_rate_uses_paired_probability_mass_not_winning_call_frequency():
+    result = project(state(.7, 12), plans(), cfg(), include_flips=False)
+    assert result["call"] == "BOX_NOW"
+    assert result["call_win_rate"] == .3  # STAY wins dry; BOX wins rain.
+    bands = result["call_comparison"]
+    assert bands["stay_policy_id"] == "wait" and bands["box_policy_id"] == "box"
+    assert bands["p10"][-1] < 0 < bands["p90"][-1]
+    assert bands["median"] == by_id(result, "wait")["median"]
+    assert bands["p10"] == by_id(result, "wait")["p10"]
+    assert bands["p90"] == by_id(result, "wait")["p90"]
+    reordered = project(state(.7, 12), tuple(reversed(plans())), cfg(), include_flips=False)
+    assert reordered["call_comparison"] == bands
+    assert reordered["call_win_rate"] == result["call_win_rate"]
+
+
+def test_probability_sweep_finds_call_flip_and_arrival_includes_no_rain():
+    result = project(state(.7, 12), plans(), cfg())
+    probability = next(f for f in result["flip_thresholds"] if f["assumption"] == "rain_probability")
+    assert probability["range"] == [0, 1] and probability["resolution"] == .1
+    assert probability["transitions"] == [{"from_value": 0, "to_value": .1,
+                                           "from_call": "STAY_OUT", "to_call": "BOX_NOW"}]
+    arrival = next(f for f in result["flip_thresholds"] if f["assumption"] == "rain_arrival_lap")
+    assert arrival["range"] == [19, 52] and arrival["resolution"] == 1
+    assert arrival["includes_no_rain"]
+    assert arrival["sweep"][-1]["value"] == "no rain"
+    assert arrival["sweep"][-1]["call"] == "STAY_OUT"
+
+
+def test_representative_scenarios_preserve_specific_stop_laps_and_times():
+    s, config = state(.7), cfg()
+    result = project(s, plans(), config, include_flips=False)
+    representatives = {item["id"]: item for item in result["scenarios"]}
+    wet, dry = representatives["rain_at_eta"], representatives["stays_dry"]
+    assert wet["probability"] == .7 and dry["probability"] == pytest.approx(.3)
+    assert wet["rain_lap"] == 22 and dry["rain_lap"] is None
+    for scenario in representatives.values():
+        assert {p["policy_id"] for p in scenario["plans"]} == {"box", "wait"}
+        for plan in scenario["plans"]:
+            assert plan["laps"] == list(range(18, 53))
+            assert plan["cumulative_time"][0] == 0
+            assert len(plan["cumulative_time"]) == len(plan["laps"])
+            assert plan["finish_legal"]
+            policy = next(p for p in plans() if p.id == plan["policy_id"])
+            trace = simulate_policy(_snapshot(s, config), policy, Scenario(scenario["rain_lap"], 0, 1), config)
+            assert plan["cumulative_time"] == [round(t, 4) for t in trace.times]
+    assert [s["lap"] for s in next(p for p in wet["plans"] if p["policy_id"] == "wait")["stops"]] == [22]
+    assert [s["lap"] for s in next(p for p in dry["plans"] if p["policy_id"] == "wait")["stops"]] == [26]
+
+
+def test_sampled_future_rain_cannot_change_the_committed_cutoff_action():
+    result = project(state(1, 1), plans(), cfg(), include_flips=False)
+    assert result["best_policies_by_call"] == {"STAY_OUT": "wait", "BOX_NOW": "box"}
+    for branch in by_id(result, "wait")["scenario_stops"]:
+        assert all(s["lap"] > 18 for s in branch["stops"])
+    assert all(branch["stops"][0]["lap"] == 18 for branch in by_id(result, "box")["scenario_stops"])
+
+
+def test_missing_eta_does_not_invent_a_probability_sweep_or_rain_chart():
+    s = state()
+    s.weather_forecast.expected_arrival_laps.value = None
+    result = project(s, plans(), cfg())
+    flip = next(f for f in result["flip_thresholds"] if f["assumption"] == "rain_probability")
+    assert flip["status"] == "unavailable: rain ETA missing"
+    assert flip["sweep"] == []
+    assert [s["id"] for s in result["scenarios"]] == ["stays_dry"]
+    with pytest.raises(ValueError, match="probability sweep"):
+        cfg(rain_probability_sweep=(1.1,))

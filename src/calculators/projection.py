@@ -62,9 +62,18 @@ class ProjectionConfig(BaseModel):
     max_policies: int = Field(default=6, ge=2, le=20)
     safety_car_lap: int | None = Field(default=None, ge=1)
     safety_car_duration_laps: int = Field(default=2, ge=1)
-    rain_sweep_offsets: tuple[int, ...] = tuple(range(1, 21))
+    rain_sweep_offsets: tuple[int, ...] = tuple(range(1, 35))
+    rain_probability_sweep: tuple[float, ...] = tuple(v / 10 for v in range(11))
     pit_loss_sweep_s: tuple[float, ...] = tuple(float(v) for v in range(5, 46, 5))
     safety_car_sweep_offsets: tuple[int, ...] = tuple(range(1, 13))
+
+    @model_validator(mode="after")
+    def valid_sweep_ranges(self):
+        if any(not 0 <= p <= 1 for p in self.rain_probability_sweep):
+            raise ValueError("Rain probability sweep values must be between zero and one")
+        if any(p < 0 for p in self.pit_loss_sweep_s):
+            raise ValueError("Pit loss sweep values must be nonnegative")
+        return self
 
 
 @dataclass(frozen=True)
@@ -182,6 +191,27 @@ def _pit_loss(state, scenario, lap, config):
         sc_loss_s=max(0, state.pit_loss.sc_pit_loss_s + scenario.pit_offset_s)).current_pit_loss_s
 
 
+def _cutoff_target(state, policy, config):
+    """Commit the initial action using only weather observed at the cutoff."""
+    if policy.max_stops == 0:
+        return None
+    wetness = _wetness(state, Scenario(state.current_lap, 0, 1), state.current_lap, config) if state.observed_weather.rainfall.value else 0
+    crossover = _wet_compound(state, wetness, config) if policy.react_to_weather else None
+    compound = state.subject_driver.current_compound
+    if crossover is not None:
+        return crossover if compound != crossover else None
+    return next((s.compound for s in policy.dry_stops if s.lap == state.current_lap and compound not in WET), None)
+
+
+def _call_summary(state, policies, means, ranking, config):
+    actions = {p.id: "BOX_NOW" if _cutoff_target(state, p, config) is not None else "STAY_OUT" for p in policies}
+    best = {action: next((pid for pid in ranking if actions[pid] == action), None)
+            for action in ("STAY_OUT", "BOX_NOW")}
+    stay, box = best["STAY_OUT"], best["BOX_NOW"]
+    return {"call": actions[ranking[0]], "best_policies_by_call": best,
+            "call_margin_s": round(abs(means[stay] - means[box]), 4) if stay and box else None}
+
+
 def simulate_policy(state: RaceState, policy: Policy, scenario: Scenario,
                     config: ProjectionConfig) -> Trace:
     """Project from the completed-lap boundary to the finish; no scored bonuses."""
@@ -208,6 +238,8 @@ def simulate_policy(state: RaceState, policy: Policy, scenario: Scenario,
         scheduled = next((stop.compound for stop in policy.dry_stops if stop.lap == lap - 1), None)
         target = crossover if crossover is not None and compound != crossover else (
             scheduled if crossover is None and compound not in WET else None)
+        if lap == state.current_lap + 1:
+            target = _cutoff_target(state, policy, config)
         loss = 0.0
         if target is not None and len(stops) < policy.max_stops:
             compound, age = target, 0
@@ -280,7 +312,9 @@ def project(state: RaceState, policies: tuple[Policy, ...] | None = None,
         raise ValueError("Scheduled stop boundaries must be between cutoff and finish")
     scenarios = sample_scenarios(state, config)
     traces, means, ranking = _evaluate(state, policies, scenarios, config)
-    reference = policies[0].id
+    call = _call_summary(state, policies, means, ranking, config)
+    stay, box = (call["best_policies_by_call"][a] for a in ("STAY_OUT", "BOX_NOW"))
+    reference = box or policies[0].id
     weights = [s.weight for s in scenarios]
     plans = []
     laps = list(range(state.current_lap, state.total_laps + 1))
@@ -299,16 +333,56 @@ def project(state: RaceState, policies: tuple[Policy, ...] | None = None,
             "median_position": [_quantile([t.positions[i] for t in traces[policy.id]], weights, .5) for i in range(len(laps))],
             "scenario_stops": [{"rain_lap": s.rain_lap, "weight": s.weight, "stops": t.stops}
                                for t, s in zip(traces[policy.id], scenarios)]})
-    result = {"schema_version": 1, "cutoff_lap": state.current_lap, "horizon_lap": state.total_laps,
+    comparison = None
+    win_rate = None
+    if stay and box:
+        differences = [[a.times[i] - b.times[i] for a, b in zip(traces[stay], traces[box])]
+                       for i in range(len(laps))]
+        comparison = {"stay_policy_id": stay, "box_policy_id": box, "laps": laps,
+            "sign": "STAY minus BOX; negative means STAY is faster",
+            "median": [round(_quantile(v, weights, .5), 4) for v in differences],
+            "p10": [round(_quantile(v, weights, .1), 4) for v in differences],
+            "p90": [round(_quantile(v, weights, .9), 4) for v in differences]}
+        win_rate = round(sum(s.weight for s, a, b in zip(scenarios, traces[stay], traces[box])
+                             if a.times[-1] < b.times[-1]), 6)
+    result = {"schema_version": 2, "cutoff_lap": state.current_lap, "horizon_lap": state.total_laps,
         "reference": {"id": reference, "units": "seconds", "sign": "positive means slower than reference",
                       "comparison": "paired difference within the same weather scenario"},
         "plans": plans, "ranking": ranking, "recommended": ranking[0],
-        "margin_s": round(means[ranking[1]] - means[ranking[0]], 4) if len(ranking) > 1 else None,
+        "plan_margin_s": round(means[ranking[1]] - means[ranking[0]], 4) if len(ranking) > 1 else None,
+        **call, "call_win_rate": win_rate, "call_comparison": comparison,
+        "scenarios": _representative_scenarios(state, policies, call, config),
         "decision_basis": "minimum probability-weighted remaining race time among finish-legal policies",
-        "flip_thresholds": [], "assumptions": _assumptions(state, config), "seed": config.seed}
+        "flip_thresholds": [], "policy_flip_thresholds": [], "assumptions": _assumptions(state, config), "seed": config.seed}
     if include_flips:
-        result["flip_thresholds"] = _flips(state, policies, config, ranking[0])
+        result["flip_thresholds"], result["policy_flip_thresholds"] = _flips(state, policies, config, ranking[0], call["call"])
     return result
+
+
+def _representative_scenarios(state, policies, call, config):
+    probability = 1.0 if state.observed_weather.rainfall.value else state.weather_forecast.rain_probability.value
+    eta = state.weather_forecast.expected_arrival_laps.value
+    rain_lap = state.current_lap if state.observed_weather.rainfall.value else (
+        max(state.current_lap + 1, state.current_lap + int(eta)) if eta is not None else None)
+    definitions = [("rain_at_eta", "Rain at forecast ETA", probability, rain_lap),
+                   ("stays_dry", "Stays dry", 1 - probability, None)]
+    selected = set(pid for pid in call["best_policies_by_call"].values() if pid)
+    results = []
+    for sid, label, mass, arrival in definitions:
+        if sid == "rain_at_eta" and arrival is None:
+            continue
+        projected = []
+        for policy in policies:
+            if policy.id not in selected:
+                continue
+            trace = simulate_policy(state, policy, Scenario(arrival, 0, 1), config)
+            projected.append({"policy_id": policy.id, "laps": list(range(state.current_lap, state.total_laps + 1)),
+                "cumulative_time": [round(t, 4) for t in trace.times], "stops": trace.stops,
+                "finish_legal": trace.legal})
+        results.append({"id": sid, "label": label, "probability": round(mass, 12),
+            "probability_kind": "weather branch mass, not probability of this exact ETA",
+            "rain_lap": arrival, "pit_offset_s": 0, "plans": projected})
+    return results
 
 
 def _assumptions(state, config):
@@ -332,41 +406,76 @@ def _assumptions(state, config):
     return [{"name": name, "value": value, "kind": kind} for name, value, kind in values]
 
 
-def _flips(state, policies, config, current_best):
+def _flips(state, policies, config, current_best, current_call):
     eta = state.weather_forecast.expected_arrival_laps.value
     sweep_definitions = [
         ("rain_arrival_lap", state.current_lap + eta if eta is not None else None,
-         [state.current_lap + offset for offset in config.rain_sweep_offsets if offset >= 0]),
-        ("pit_loss_s", state.pit_loss.green_pit_loss_s, list(config.pit_loss_sweep_s)),
+         [state.current_lap + offset for offset in config.rain_sweep_offsets if 1 <= offset <= state.total_laps - state.current_lap], "laps"),
+        ("rain_probability", state.weather_forecast.rain_probability.value,
+         list(config.rain_probability_sweep), "probability"),
+        ("pit_loss_s", state.pit_loss.green_pit_loss_s, list(config.pit_loss_sweep_s), "seconds"),
         ("safety_car_lap", config.safety_car_lap,
-         [state.current_lap + offset for offset in config.safety_car_sweep_offsets if offset >= 1]),
+         [state.current_lap + offset for offset in config.safety_car_sweep_offsets if offset >= 1], "laps"),
     ]
-    results = []
-    for name, current, grid in sweep_definitions:
+    results, policy_results = [], []
+    for name, current, grid, units in sweep_definitions:
+        configured_grid = sorted(set(grid))
+        steps = [round(b - a, 8) for a, b in zip(configured_grid, configured_grid[1:])]
+        resolution = steps[0] if steps and len(set(steps)) == 1 else None
+        if name == "rain_probability" and eta is None and not state.observed_weather.rainfall.value:
+            unavailable = {"assumption": name, "current": current, "flips_at": None, "flips_to": None,
+                "status": "unavailable: rain ETA missing", "range": [grid[0], grid[-1]] if grid else [],
+                "resolution": resolution, "units": units, "includes_no_rain": False,
+                "transitions": [], "sweep": []}
+            results.append(unavailable)
+            policy_results.append(dict(unavailable))
+            continue
         if current is not None:
             grid.append(current)
         grid = sorted(set(grid))
+        if name == "rain_arrival_lap":
+            grid.append("no rain")
         evaluated = []
         for value in grid:
             trial, cfg = state, config
             if name == "rain_arrival_lap":
-                forecast = state.weather_forecast.model_copy(update={"expected_arrival_laps":
-                    state.weather_forecast.expected_arrival_laps.model_copy(update={"value": value - state.current_lap})})
+                field = "rain_probability" if value == "no rain" else "expected_arrival_laps"
+                number = 0 if value == "no rain" else value - state.current_lap
+                forecast = state.weather_forecast.model_copy(update={field:
+                    getattr(state.weather_forecast, field).model_copy(update={"value": number})})
+                trial = state.model_copy(update={"weather_forecast": forecast})
+                if value == "no rain":
+                    observed = state.observed_weather.model_copy(update={"rainfall":
+                        state.observed_weather.rainfall.model_copy(update={"value": False})})
+                    trial = trial.model_copy(update={"observed_weather": observed})
+            elif name == "rain_probability":
+                forecast = state.weather_forecast.model_copy(update={"rain_probability":
+                    state.weather_forecast.rain_probability.model_copy(update={"value": value})})
                 trial = state.model_copy(update={"weather_forecast": forecast})
             elif name == "pit_loss_s":
                 trial = state.model_copy(update={"pit_loss": state.pit_loss.model_copy(update={"green_pit_loss_s": value})})
             else:
                 cfg = config.model_copy(update={"safety_car_lap": value})
-            _, _, ranking = _evaluate(trial, policies, sample_scenarios(trial, cfg), cfg)
-            evaluated.append({"value": value, "recommended": ranking[0]})
-        transitions = [{"from_value": a["value"], "to_value": b["value"],
-                        "from_plan": a["recommended"], "to_plan": b["recommended"]}
-                       for a, b in zip(evaluated, evaluated[1:]) if a["recommended"] != b["recommended"]]
-        changed = [entry for entry in evaluated if entry["recommended"] != current_best]
-        nearest = min(changed, key=lambda entry: abs(entry["value"] - current)) if changed and current is not None else (changed[0] if changed else None)
-        results.append({"assumption": name, "current": current,
-            "flips_at": nearest["value"] if nearest else None,
-            "flips_to": nearest["recommended"] if nearest else None,
-            "status": "change found on grid" if nearest else "no flip in range",
-            "range": [grid[0], grid[-1]] if grid else [], "transitions": transitions, "sweep": evaluated})
-    return results
+            _, means, ranking = _evaluate(trial, policies, sample_scenarios(trial, cfg), cfg)
+            summary = _call_summary(trial, policies, means, ranking, cfg)
+            evaluated.append({"value": value, "recommended": ranking[0], **summary})
+        for key, current_winner, destination, level in (
+                ("call", current_call, results, "call"),
+                ("recommended", current_best, policy_results, "plan")):
+            transitions = [{"from_value": a["value"], "to_value": b["value"],
+                            f"from_{level}": a[key], f"to_{level}": b[key]}
+                           for a, b in zip(evaluated, evaluated[1:]) if a[key] != b[key]]
+            changed = [entry for entry in evaluated if entry[key] != current_winner]
+            numeric = [entry for entry in changed if isinstance(entry["value"], (int, float))]
+            nearest = (min(numeric, key=lambda entry: abs(entry["value"] - current))
+                       if numeric and current is not None else (changed[0] if changed else None))
+            numeric_grid = [v for v in grid if isinstance(v, (int, float))]
+            destination.append({"assumption": name, "current": current,
+                "flips_at": nearest["value"] if nearest else None,
+                "flips_to": nearest[key] if nearest else None,
+                "status": "change found on grid" if nearest else "no flip in range",
+                "range": [numeric_grid[0], numeric_grid[-1]] if numeric_grid else [],
+                "resolution": resolution, "units": units,
+                "includes_no_rain": name == "rain_arrival_lap",
+                "transitions": transitions, "sweep": evaluated})
+    return results, policy_results

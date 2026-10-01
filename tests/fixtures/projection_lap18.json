@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "cutoff_lap": 18,
   "horizon_lap": 52,
   "reference": {
@@ -6485,9 +6485,1311 @@
     "box_now"
   ],
   "recommended": "wait_to_26",
-  "margin_s": 1.7323,
+  "plan_margin_s": 1.7323,
+  "call": "STAY_OUT",
+  "best_policies_by_call": {
+    "STAY_OUT": "wait_to_26",
+    "BOX_NOW": "box_now"
+  },
+  "call_margin_s": 10.2425,
+  "call_win_rate": 1.0,
+  "call_comparison": {
+    "stay_policy_id": "wait_to_26",
+    "box_policy_id": "box_now",
+    "laps": [
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52
+    ],
+    "sign": "STAY minus BOX; negative means STAY is faster",
+    "median": [
+      0.0,
+      -19.9285,
+      -18.3371,
+      -16.6942,
+      -15.2351,
+      -13.9119,
+      -12.3346,
+      -12.2294,
+      -12.2294,
+      -12.2294,
+      -12.2294,
+      -12.2294,
+      -12.2294,
+      -12.2294,
+      -12.2294,
+      -12.2294,
+      -12.2294,
+      -12.2294,
+      -12.2294,
+      -12.2294,
+      -12.2294,
+      -12.2294,
+      -12.2294,
+      -12.2294,
+      -12.2294,
+      -12.2294,
+      -12.2294,
+      -12.2294,
+      -12.2294,
+      -12.2294,
+      -12.2294,
+      -12.2294,
+      -12.2294,
+      -12.2294,
+      -12.2294
+    ],
+    "p10": [
+      0.0,
+      -21.0578,
+      -19.4664,
+      -17.8419,
+      -17.5411,
+      -17.5411,
+      -17.5411,
+      -17.5411,
+      -17.9411,
+      -17.9411,
+      -17.9411,
+      -17.9411,
+      -17.9411,
+      -17.9411,
+      -17.9411,
+      -17.9411,
+      -17.9411,
+      -17.9411,
+      -17.9411,
+      -17.9411,
+      -17.9411,
+      -17.9411,
+      -17.9411,
+      -17.9411,
+      -17.9411,
+      -17.9411,
+      -17.9411,
+      -17.9411,
+      -17.9411,
+      -17.9411,
+      -17.9411,
+      -17.9411,
+      -17.9411,
+      -17.9411,
+      -17.9411
+    ],
+    "p90": [
+      0.0,
+      -18.8956,
+      -17.3042,
+      -15.6613,
+      -13.967,
+      -12.2213,
+      -10.1375,
+      -8.535,
+      -6.635,
+      13.6114,
+      13.0629,
+      12.5143,
+      11.9657,
+      11.4171,
+      10.8686,
+      10.32,
+      9.7714,
+      9.2229,
+      8.6743,
+      8.1257,
+      7.5771,
+      7.0286,
+      6.48,
+      5.9314,
+      5.3829,
+      4.8343,
+      4.2857,
+      3.7371,
+      3.1886,
+      2.64,
+      2.0914,
+      1.5429,
+      0.9943,
+      0.4457,
+      -0.1029
+    ]
+  },
+  "scenarios": [
+    {
+      "id": "rain_at_eta",
+      "label": "Rain at forecast ETA",
+      "probability": 0.7,
+      "probability_kind": "weather branch mass, not probability of this exact ETA",
+      "rain_lap": 22,
+      "pit_offset_s": 0,
+      "plans": [
+        {
+          "policy_id": "box_now",
+          "laps": [
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52
+          ],
+          "cumulative_time": [
+            0.0,
+            111.41,
+            201.3386,
+            291.2857,
+            387.5514,
+            506.7614,
+            604.5929,
+            702.5457,
+            800.62,
+            898.8157,
+            997.1329,
+            1095.5714,
+            1194.1314,
+            1292.8129,
+            1391.6157,
+            1490.94,
+            1589.9857,
+            1689.1529,
+            1788.4414,
+            1887.8514,
+            1987.3829,
+            2087.0357,
+            2186.81,
+            2286.7057,
+            2386.7229,
+            2486.8614,
+            2587.1214,
+            2687.5029,
+            2788.0057,
+            2888.63,
+            2989.3757,
+            3090.3929,
+            3191.6814,
+            3293.2414,
+            3395.0729
+          ],
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 21.5
+            },
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.5
+            }
+          ],
+          "finish_legal": true
+        },
+        {
+          "policy_id": "wait_to_26",
+          "laps": [
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52
+          ],
+          "cumulative_time": [
+            0.0,
+            91.45,
+            182.97,
+            274.56,
+            372.52,
+            491.73,
+            589.5614,
+            687.5143,
+            785.5886,
+            883.7843,
+            982.1014,
+            1080.54,
+            1179.1,
+            1277.7814,
+            1376.5843,
+            1475.5086,
+            1574.5543,
+            1673.7214,
+            1773.01,
+            1872.42,
+            1971.9514,
+            2071.6043,
+            2171.3786,
+            2271.2743,
+            2371.2914,
+            2471.43,
+            2571.69,
+            2672.0714,
+            2772.5743,
+            2873.1986,
+            2973.9443,
+            3074.9614,
+            3176.25,
+            3277.81,
+            3379.6414
+          ],
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.5
+            }
+          ],
+          "finish_legal": true
+        }
+      ]
+    },
+    {
+      "id": "stays_dry",
+      "label": "Stays dry",
+      "probability": 0.3,
+      "probability_kind": "weather branch mass, not probability of this exact ETA",
+      "rain_lap": null,
+      "pit_offset_s": 0,
+      "plans": [
+        {
+          "policy_id": "box_now",
+          "laps": [
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52
+          ],
+          "cumulative_time": [
+            0.0,
+            111.41,
+            201.3386,
+            291.2857,
+            381.2514,
+            471.2357,
+            561.2386,
+            651.26,
+            741.3,
+            831.3586,
+            921.4357,
+            1011.5314,
+            1101.6457,
+            1191.7786,
+            1281.93,
+            1372.1,
+            1462.2886,
+            1552.4957,
+            1642.7214,
+            1732.9657,
+            1823.2286,
+            1913.51,
+            2003.81,
+            2094.1286,
+            2184.4657,
+            2274.8214,
+            2365.1957,
+            2455.5886,
+            2546.0,
+            2636.43,
+            2726.8786,
+            2817.3457,
+            2907.8314,
+            2998.3357,
+            3088.8586
+          ],
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 21.5
+            }
+          ],
+          "finish_legal": true
+        },
+        {
+          "policy_id": "wait_to_26",
+          "laps": [
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52
+          ],
+          "cumulative_time": [
+            0.0,
+            91.45,
+            182.97,
+            274.56,
+            366.22,
+            457.95,
+            550.15,
+            642.02,
+            733.96,
+            844.97,
+            934.4986,
+            1024.0457,
+            1113.6114,
+            1203.1957,
+            1292.7986,
+            1382.42,
+            1472.06,
+            1561.7186,
+            1651.3957,
+            1741.0914,
+            1830.8057,
+            1920.5386,
+            2010.29,
+            2100.06,
+            2189.8486,
+            2279.6557,
+            2369.4814,
+            2459.3257,
+            2549.1886,
+            2639.07,
+            2728.97,
+            2818.8886,
+            2908.8257,
+            2998.7814,
+            3088.7557
+          ],
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 21.5
+            }
+          ],
+          "finish_legal": true
+        }
+      ]
+    }
+  ],
   "decision_basis": "minimum probability-weighted remaining race time among finish-legal policies",
   "flip_thresholds": [
+    {
+      "assumption": "rain_arrival_lap",
+      "current": 22,
+      "flips_at": 28,
+      "flips_to": "BOX_NOW",
+      "status": "change found on grid",
+      "range": [
+        19,
+        52
+      ],
+      "resolution": 1,
+      "units": "laps",
+      "includes_no_rain": true,
+      "transitions": [
+        {
+          "from_value": 27,
+          "to_value": 28,
+          "from_call": "STAY_OUT",
+          "to_call": "BOX_NOW"
+        },
+        {
+          "from_value": 42,
+          "to_value": 43,
+          "from_call": "BOX_NOW",
+          "to_call": "STAY_OUT"
+        }
+      ],
+      "sweep": [
+        {
+          "value": 19,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 13.8556
+        },
+        {
+          "value": 20,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 13.151
+        },
+        {
+          "value": 21,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 11.5436
+        },
+        {
+          "value": 22,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 10.2425
+        },
+        {
+          "value": 23,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 8.8966
+        },
+        {
+          "value": 24,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 7.4885
+        },
+        {
+          "value": 25,
+          "recommended": "wait_to_30",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_30",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 4.3208
+        },
+        {
+          "value": 26,
+          "recommended": "wait_to_30",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_30",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 2.8877
+        },
+        {
+          "value": 27,
+          "recommended": "wait_to_30",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_30",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.3705
+        },
+        {
+          "value": 28,
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_30",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 0.2812
+        },
+        {
+          "value": 29,
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 2.602
+        },
+        {
+          "value": 30,
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 2.41
+        },
+        {
+          "value": 31,
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 2.218
+        },
+        {
+          "value": 32,
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 2.026
+        },
+        {
+          "value": 33,
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.834
+        },
+        {
+          "value": 34,
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.642
+        },
+        {
+          "value": 35,
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.45
+        },
+        {
+          "value": 36,
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.258
+        },
+        {
+          "value": 37,
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.066
+        },
+        {
+          "value": 38,
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 0.874
+        },
+        {
+          "value": 39,
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 0.682
+        },
+        {
+          "value": 40,
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 0.49
+        },
+        {
+          "value": 41,
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 0.298
+        },
+        {
+          "value": 42,
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 0.106
+        },
+        {
+          "value": 43,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 0.086
+        },
+        {
+          "value": 44,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 0.278
+        },
+        {
+          "value": 45,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 0.47
+        },
+        {
+          "value": 46,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 0.662
+        },
+        {
+          "value": 47,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 0.854
+        },
+        {
+          "value": 48,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.046
+        },
+        {
+          "value": 49,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.238
+        },
+        {
+          "value": 50,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.43
+        },
+        {
+          "value": 51,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.574
+        },
+        {
+          "value": 52,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.676
+        },
+        {
+          "value": "no rain",
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.76
+        }
+      ]
+    },
+    {
+      "assumption": "rain_probability",
+      "current": 0.7,
+      "flips_at": null,
+      "flips_to": null,
+      "status": "no flip in range",
+      "range": [
+        0.0,
+        1.0
+      ],
+      "resolution": 0.1,
+      "units": "probability",
+      "includes_no_rain": false,
+      "transitions": [],
+      "sweep": [
+        {
+          "value": 0.0,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.76
+        },
+        {
+          "value": 0.1,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 2.2059
+        },
+        {
+          "value": 0.2,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 2.9999
+        },
+        {
+          "value": 0.3,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 4.4484
+        },
+        {
+          "value": 0.4,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 5.8969
+        },
+        {
+          "value": 0.5,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 7.3454
+        },
+        {
+          "value": 0.6,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 8.7939
+        },
+        {
+          "value": 0.7,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 10.2425
+        },
+        {
+          "value": 0.8,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 11.691
+        },
+        {
+          "value": 0.9,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 13.1395
+        },
+        {
+          "value": 1.0,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 14.588
+        }
+      ]
+    },
+    {
+      "assumption": "pit_loss_s",
+      "current": 21.5,
+      "flips_at": null,
+      "flips_to": null,
+      "status": "no flip in range",
+      "range": [
+        5.0,
+        45.0
+      ],
+      "resolution": 5.0,
+      "units": "seconds",
+      "includes_no_rain": false,
+      "transitions": [],
+      "sweep": [
+        {
+          "value": 5.0,
+          "recommended": "two_stop_22_38",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "two_stop_22_38",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 2.4159
+        },
+        {
+          "value": 10.0,
+          "recommended": "two_stop_22_38",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "two_stop_22_38",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 2.8977
+        },
+        {
+          "value": 15.0,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 5.6925
+        },
+        {
+          "value": 20.0,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 9.175
+        },
+        {
+          "value": 21.5,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 10.2425
+        },
+        {
+          "value": 25.0,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 12.605
+        },
+        {
+          "value": 30.0,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 16.0262
+        },
+        {
+          "value": 35.0,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 19.5262
+        },
+        {
+          "value": 40.0,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 23.0262
+        },
+        {
+          "value": 45.0,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 26.5262
+        }
+      ]
+    },
+    {
+      "assumption": "safety_car_lap",
+      "current": null,
+      "flips_at": 19,
+      "flips_to": "BOX_NOW",
+      "status": "change found on grid",
+      "range": [
+        19,
+        30
+      ],
+      "resolution": 1,
+      "units": "laps",
+      "includes_no_rain": false,
+      "transitions": [
+        {
+          "from_value": 19,
+          "to_value": 20,
+          "from_call": "BOX_NOW",
+          "to_call": "STAY_OUT"
+        }
+      ],
+      "sweep": [
+        {
+          "value": 19,
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.7925
+        },
+        {
+          "value": 20,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 10.2425
+        },
+        {
+          "value": 21,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 10.2425
+        },
+        {
+          "value": 22,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 12.7399
+        },
+        {
+          "value": 23,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 12.7399
+        },
+        {
+          "value": 24,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 10.2425
+        },
+        {
+          "value": 25,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 10.2425
+        },
+        {
+          "value": 26,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 13.8425
+        },
+        {
+          "value": 27,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 13.8425
+        },
+        {
+          "value": 28,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 10.2425
+        },
+        {
+          "value": 29,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 10.2425
+        },
+        {
+          "value": 30,
+          "recommended": "wait_to_30",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_30",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 12.1102
+        }
+      ]
+    }
+  ],
+  "policy_flip_thresholds": [
     {
       "assumption": "rain_arrival_lap",
       "current": 22,
@@ -6496,8 +7798,11 @@
       "status": "change found on grid",
       "range": [
         19,
-        38
+        52
       ],
+      "resolution": 1,
+      "units": "laps",
+      "includes_no_rain": true,
       "transitions": [
         {
           "from_value": 20,
@@ -6516,88 +7821,498 @@
           "to_value": 28,
           "from_plan": "wait_to_30",
           "to_plan": "box_now"
+        },
+        {
+          "from_value": 42,
+          "to_value": 43,
+          "from_plan": "box_now",
+          "to_plan": "wait_to_22"
         }
       ],
       "sweep": [
         {
           "value": 19,
-          "recommended": "wait_to_22"
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 13.8556
         },
         {
           "value": 20,
-          "recommended": "wait_to_22"
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 13.151
         },
         {
           "value": 21,
-          "recommended": "wait_to_26"
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 11.5436
         },
         {
           "value": 22,
-          "recommended": "wait_to_26"
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 10.2425
         },
         {
           "value": 23,
-          "recommended": "wait_to_26"
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 8.8966
         },
         {
           "value": 24,
-          "recommended": "wait_to_26"
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 7.4885
         },
         {
           "value": 25,
-          "recommended": "wait_to_30"
+          "recommended": "wait_to_30",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_30",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 4.3208
         },
         {
           "value": 26,
-          "recommended": "wait_to_30"
+          "recommended": "wait_to_30",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_30",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 2.8877
         },
         {
           "value": 27,
-          "recommended": "wait_to_30"
+          "recommended": "wait_to_30",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_30",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.3705
         },
         {
           "value": 28,
-          "recommended": "box_now"
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_30",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 0.2812
         },
         {
           "value": 29,
-          "recommended": "box_now"
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 2.602
         },
         {
           "value": 30,
-          "recommended": "box_now"
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 2.41
         },
         {
           "value": 31,
-          "recommended": "box_now"
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 2.218
         },
         {
           "value": 32,
-          "recommended": "box_now"
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 2.026
         },
         {
           "value": 33,
-          "recommended": "box_now"
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.834
         },
         {
           "value": 34,
-          "recommended": "box_now"
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.642
         },
         {
           "value": 35,
-          "recommended": "box_now"
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.45
         },
         {
           "value": 36,
-          "recommended": "box_now"
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.258
         },
         {
           "value": 37,
-          "recommended": "box_now"
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.066
         },
         {
           "value": 38,
-          "recommended": "box_now"
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 0.874
+        },
+        {
+          "value": 39,
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 0.682
+        },
+        {
+          "value": 40,
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 0.49
+        },
+        {
+          "value": 41,
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 0.298
+        },
+        {
+          "value": 42,
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 0.106
+        },
+        {
+          "value": 43,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 0.086
+        },
+        {
+          "value": 44,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 0.278
+        },
+        {
+          "value": 45,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 0.47
+        },
+        {
+          "value": 46,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 0.662
+        },
+        {
+          "value": 47,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 0.854
+        },
+        {
+          "value": 48,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.046
+        },
+        {
+          "value": 49,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.238
+        },
+        {
+          "value": 50,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.43
+        },
+        {
+          "value": 51,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.574
+        },
+        {
+          "value": 52,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.676
+        },
+        {
+          "value": "no rain",
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.76
+        }
+      ]
+    },
+    {
+      "assumption": "rain_probability",
+      "current": 0.7,
+      "flips_at": 0.1,
+      "flips_to": "wait_to_22",
+      "status": "change found on grid",
+      "range": [
+        0.0,
+        1.0
+      ],
+      "resolution": 0.1,
+      "units": "probability",
+      "includes_no_rain": false,
+      "transitions": [
+        {
+          "from_value": 0.1,
+          "to_value": 0.2,
+          "from_plan": "wait_to_22",
+          "to_plan": "wait_to_26"
+        }
+      ],
+      "sweep": [
+        {
+          "value": 0.0,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.76
+        },
+        {
+          "value": 0.1,
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 2.2059
+        },
+        {
+          "value": 0.2,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 2.9999
+        },
+        {
+          "value": 0.3,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 4.4484
+        },
+        {
+          "value": 0.4,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 5.8969
+        },
+        {
+          "value": 0.5,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 7.3454
+        },
+        {
+          "value": 0.6,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 8.7939
+        },
+        {
+          "value": 0.7,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 10.2425
+        },
+        {
+          "value": 0.8,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 11.691
+        },
+        {
+          "value": 0.9,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 13.1395
+        },
+        {
+          "value": 1.0,
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 14.588
         }
       ]
     },
@@ -6611,6 +8326,9 @@
         5.0,
         45.0
       ],
+      "resolution": 5.0,
+      "units": "seconds",
+      "includes_no_rain": false,
       "transitions": [
         {
           "from_value": 10.0,
@@ -6622,43 +8340,103 @@
       "sweep": [
         {
           "value": 5.0,
-          "recommended": "two_stop_22_38"
+          "recommended": "two_stop_22_38",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "two_stop_22_38",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 2.4159
         },
         {
           "value": 10.0,
-          "recommended": "two_stop_22_38"
+          "recommended": "two_stop_22_38",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "two_stop_22_38",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 2.8977
         },
         {
           "value": 15.0,
-          "recommended": "wait_to_26"
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 5.6925
         },
         {
           "value": 20.0,
-          "recommended": "wait_to_26"
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 9.175
         },
         {
           "value": 21.5,
-          "recommended": "wait_to_26"
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 10.2425
         },
         {
           "value": 25.0,
-          "recommended": "wait_to_26"
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 12.605
         },
         {
           "value": 30.0,
-          "recommended": "wait_to_26"
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 16.0262
         },
         {
           "value": 35.0,
-          "recommended": "wait_to_26"
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 19.5262
         },
         {
           "value": 40.0,
-          "recommended": "wait_to_26"
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 23.0262
         },
         {
           "value": 45.0,
-          "recommended": "wait_to_26"
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 26.5262
         }
       ]
     },
@@ -6672,6 +8450,9 @@
         19,
         30
       ],
+      "resolution": 1,
+      "units": "laps",
+      "includes_no_rain": false,
       "transitions": [
         {
           "from_value": 19,
@@ -6701,51 +8482,123 @@
       "sweep": [
         {
           "value": 19,
-          "recommended": "box_now"
+          "recommended": "box_now",
+          "call": "BOX_NOW",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 1.7925
         },
         {
           "value": 20,
-          "recommended": "wait_to_26"
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 10.2425
         },
         {
           "value": 21,
-          "recommended": "wait_to_26"
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 10.2425
         },
         {
           "value": 22,
-          "recommended": "wait_to_22"
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 12.7399
         },
         {
           "value": 23,
-          "recommended": "wait_to_22"
+          "recommended": "wait_to_22",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_22",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 12.7399
         },
         {
           "value": 24,
-          "recommended": "wait_to_26"
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 10.2425
         },
         {
           "value": 25,
-          "recommended": "wait_to_26"
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 10.2425
         },
         {
           "value": 26,
-          "recommended": "wait_to_26"
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 13.8425
         },
         {
           "value": 27,
-          "recommended": "wait_to_26"
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 13.8425
         },
         {
           "value": 28,
-          "recommended": "wait_to_26"
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 10.2425
         },
         {
           "value": 29,
-          "recommended": "wait_to_26"
+          "recommended": "wait_to_26",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_26",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 10.2425
         },
         {
           "value": 30,
-          "recommended": "wait_to_30"
+          "recommended": "wait_to_30",
+          "call": "STAY_OUT",
+          "best_policies_by_call": {
+            "STAY_OUT": "wait_to_30",
+            "BOX_NOW": "box_now"
+          },
+          "call_margin_s": 12.1102
         }
       ]
     }
@@ -7009,7 +8862,38 @@
         17,
         18,
         19,
-        20
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34
+      ],
+      "kind": "config"
+    },
+    {
+      "name": "rain_probability_sweep",
+      "value": [
+        0.0,
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9,
+        1.0
       ],
       "kind": "config"
     },
@@ -7699,7 +9583,34 @@
         17,
         18,
         19,
-        20
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34
+      ],
+      "rain_probability_sweep": [
+        0.0,
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9,
+        1.0
       ],
       "pit_loss_sweep_s": [
         5.0,
