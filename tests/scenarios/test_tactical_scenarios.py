@@ -30,7 +30,7 @@ def test_scenario_vsc_free_pit_stop():
     assert decision.intent == StrategyIntent.SAFETY_CAR_OPPORTUNITY
     assert "neutralised_pit_delta_saving" in decision.score_breakdown
     assert decision.score_breakdown["neutralised_pit_delta_saving"] > 0
-    assert decision.expected_advantage_s > 0.0
+    assert decision.score_margin > 0.0
 
 
 def test_scenario_imminent_rain_crossover():

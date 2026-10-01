@@ -7,6 +7,7 @@ from src.core.models import (
     ConfidenceLevel,
     PitAction,
     TrackStatus,
+    TireCompound,
 )
 
 
@@ -51,7 +52,13 @@ class RuleBasedRaceControlAgent(BaseSpecialistAgent[RaceControlContext]):
                     factors["green_flag_stay_out_preservation"] = +1.0
 
             # 2. Sporting Regulation fulfillment
-            if not context.mandatory_two_compounds_fulfilled and cand.pit_action == PitAction.BOX_NOW:
+            dry_compounds = {TireCompound.SOFT, TireCompound.MEDIUM, TireCompound.HARD}
+            makes_progress = (
+                cand.target_compound in dry_compounds
+                and cand.target_compound not in context.used_compounds
+            ) or cand.target_compound in (TireCompound.INTERMEDIATE, TireCompound.WET)
+            if (not context.mandatory_two_compounds_fulfilled
+                    and cand.pit_action == PitAction.BOX_NOW and makes_progress):
                 factors["mandatory_compound_fulfillment_progress"] = +2.0
 
             total = round(sum(factors.values()), 2)

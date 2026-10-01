@@ -278,7 +278,7 @@ class StrategyDecision(BaseModel):
     intent: StrategyIntent
     target_driver: Optional[str] = None
     rationale: str
-    expected_advantage_s: float
+    score_margin: float
     confidence: ConfidenceLevel
     specialist_evaluations: List[AgentReport]
     score_breakdown: Dict[str, float] = Field(default_factory=dict, description="Final aggregated factors")

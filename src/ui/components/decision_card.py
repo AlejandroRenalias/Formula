@@ -31,7 +31,7 @@ def render_decision_card(decision: StrategyDecision):
                 </div>
                 <div style="text-align: right;">
                     <div style="font-size: 1.4em; font-weight: 700; color: white;">
-                        Score Delta: <span style="color: #00FF66;">+{decision.expected_advantage_s:.1f} pts</span>
+                        Score Delta: <span style="color: #00FF66;">+{decision.score_margin:.1f} pts</span>
                     </div>
                     <div style="margin-top: 5px;">
                         Confidence: <span style="color: {conf_color}; font-weight: 700;">{decision.confidence.value}</span>

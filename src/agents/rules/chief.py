@@ -110,7 +110,7 @@ class RuleBasedChiefStrategist:
             intent=winner.intent,
             target_driver=winner.target_driver,
             rationale=rationale,
-            expected_advantage_s=score_advantage,
+            score_margin=score_advantage,
             confidence=confidence,
             specialist_evaluations=specialist_reports,
             score_breakdown=candidate_aggregated_factors.get(winner.candidate_id, {}),
