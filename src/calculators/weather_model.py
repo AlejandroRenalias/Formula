@@ -7,6 +7,20 @@ class WeatherModel:
     """Calculates track crossover conditions between slick, intermediate, and wet tyres."""
 
     @staticmethod
+    def projection_penalty_s(compound: TireCompound, wetness: float, intensity: str,
+                             slick_wet_penalty_s: float = 18.0,
+                             inter_dry_penalty_s: float = 8.0,
+                             wet_dry_penalty_s: float = 14.0,
+                             heavy_inter_penalty_s: float = 8.0) -> float:
+        """Continuous simplified weather loss for the projection, independent of ETA."""
+        if compound == TireCompound.INTERMEDIATE:
+            return inter_dry_penalty_s * (1 - wetness) + (
+                heavy_inter_penalty_s * wetness if intensity == "HEAVY" else 0.0)
+        if compound == TireCompound.WET:
+            return wet_dry_penalty_s * (1 - wetness)
+        return slick_wet_penalty_s * wetness
+
+    @staticmethod
     def evaluate_crossover(
         observed: ObservedWeather,
         forecast: WeatherForecast,

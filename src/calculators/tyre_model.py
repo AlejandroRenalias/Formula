@@ -54,6 +54,14 @@ TYRE_SPECS: Dict[TireCompound, CompoundSpecs] = {
 class TyreModel:
     """Estimates tyre degradation and stint health."""
 
+    @classmethod
+    def lap_delta_s(cls, compound: TireCompound, age: int, degradation_scale: float = 1.0,
+                    cliff_rate_s: float = 0.15) -> float:
+        """Simple projection loss: compound offset, linear wear and post-cliff wear."""
+        specs = cls.get_compound_specs(compound)
+        return (specs.base_pace_delta_s + specs.degradation_base_rate_s_per_lap * age * degradation_scale
+                + max(0, age - specs.cliff_lap_threshold) * cliff_rate_s)
+
     @staticmethod
     def get_compound_specs(compound: TireCompound) -> CompoundSpecs:
         return TYRE_SPECS.get(compound, TYRE_SPECS[TireCompound.MEDIUM])

@@ -1,0 +1,7731 @@
+{
+  "schema_version": 1,
+  "cutoff_lap": 18,
+  "horizon_lap": 52,
+  "reference": {
+    "id": "box_now",
+    "units": "seconds",
+    "sign": "positive means slower than reference",
+    "comparison": "paired difference within the same weather scenario"
+  },
+  "plans": [
+    {
+      "id": "box_now",
+      "label": "BOX now for HARD; switch at crossover",
+      "policy": {
+        "id": "box_now",
+        "label": "BOX now for HARD; switch at crossover",
+        "dry_stops": [
+          {
+            "lap": 18,
+            "compound": "HARD"
+          }
+        ],
+        "react_to_weather": true,
+        "max_stops": 2
+      },
+      "stops": [
+        {
+          "lap": 18,
+          "charged_on_lap": 19,
+          "compound": "HARD",
+          "pit_loss_s": 20.44373555058746
+        },
+        {
+          "lap": 23,
+          "charged_on_lap": 24,
+          "compound": "INTERMEDIATE",
+          "pit_loss_s": 20.44373555058746
+        }
+      ],
+      "stops_kind": "representative_scenario",
+      "laps": [
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52
+      ],
+      "median": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "p10": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "p90": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mean_time_to_finish_s": 3300.5943,
+      "invalid_probability": 0,
+      "median_position": [
+        1,
+        3,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        1,
+        1
+      ],
+      "scenario_stops": [
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 20.368446439387586
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 21.0036791095025
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 22.855738539014354
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 20.548922422821207
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 21.374993344102432
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 20.588353840719183
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 20.973314431058746
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 22.597836642723088
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 20.507084404767976
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 22.204477087383026
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 21.523224447709385
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 20.648288549101885
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 20.794987484961663
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 22.92703896176952
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 22.315383934835438
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 21.613691874129678
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 21.719622415156717
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 22.47658680981938
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 22.126188076358783
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 20.34449061635122
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 21.703685050970766
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 20.43560689306333
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 20.56954679355408
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 20.39410491452387
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 21.441022483417548
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 22.73693119074255
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 21.765138602094535
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 22.532176979026982
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 21.40799717058282
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 20.44373555058746
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 21.468499982629172
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 21.94492642043411
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 20.368446439387586
+            },
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.368446439387586
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 21.0036791095025
+            },
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.0036791095025
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 22.855738539014354
+            },
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.855738539014354
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 20.548922422821207
+            },
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.548922422821207
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 21.374993344102432
+            },
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.374993344102432
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 20.588353840719183
+            },
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.588353840719183
+            }
+          ]
+        },
+        {
+          "rain_lap": 20,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 20.973314431058746
+            },
+            {
+              "lap": 20,
+              "charged_on_lap": 21,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.973314431058746
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 22.597836642723088
+            },
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.597836642723088
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 20.507084404767976
+            },
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.507084404767976
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 22.204477087383026
+            },
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.204477087383026
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 21.523224447709385
+            },
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.523224447709385
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 20.648288549101885
+            },
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.648288549101885
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 20.794987484961663
+            },
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.794987484961663
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 22.92703896176952
+            },
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.92703896176952
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 22.315383934835438
+            },
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.315383934835438
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 21.613691874129678
+            },
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.613691874129678
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 21.719622415156717
+            },
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.719622415156717
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 22.47658680981938
+            },
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.47658680981938
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 22.126188076358783
+            },
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.126188076358783
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 20.34449061635122
+            },
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.34449061635122
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 21.703685050970766
+            },
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.703685050970766
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 20.43560689306333
+            },
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.43560689306333
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 20.56954679355408
+            },
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.56954679355408
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 20.39410491452387
+            },
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.39410491452387
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 21.441022483417548
+            },
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.441022483417548
+            }
+          ]
+        },
+        {
+          "rain_lap": 20,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 22.73693119074255
+            },
+            {
+              "lap": 20,
+              "charged_on_lap": 21,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.73693119074255
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 21.765138602094535
+            },
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.765138602094535
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 22.532176979026982
+            },
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.532176979026982
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 21.40799717058282
+            },
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.40799717058282
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 20.44373555058746
+            },
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.44373555058746
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 21.468499982629172
+            },
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.468499982629172
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 18,
+              "charged_on_lap": 19,
+              "compound": "HARD",
+              "pit_loss_s": 21.94492642043411
+            },
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.94492642043411
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wait_to_22",
+      "label": "STAY; crossover or dry stop after lap 22",
+      "policy": {
+        "id": "wait_to_22",
+        "label": "STAY; crossover or dry stop after lap 22",
+        "dry_stops": [
+          {
+            "lap": 22,
+            "compound": "HARD"
+          }
+        ],
+        "react_to_weather": true,
+        "max_stops": 2
+      },
+      "stops": [
+        {
+          "lap": 22,
+          "charged_on_lap": 23,
+          "compound": "INTERMEDIATE",
+          "pit_loss_s": 20.794987484961663
+        }
+      ],
+      "stops_kind": "representative_scenario",
+      "laps": [
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52
+      ],
+      "median": [
+        0.0,
+        -19.9285,
+        -18.3371,
+        -16.6942,
+        -15.2351,
+        6.1943,
+        5.92,
+        5.6457,
+        5.3714,
+        5.0971,
+        4.8229,
+        4.5486,
+        4.2743,
+        4.0,
+        3.7257,
+        3.4514,
+        3.1771,
+        2.9029,
+        2.6286,
+        2.3543,
+        2.08,
+        1.8057,
+        1.5314,
+        1.2571,
+        0.9829,
+        0.7086,
+        0.4343,
+        0.16,
+        -0.1143,
+        -0.3886,
+        -0.6629,
+        -0.9371,
+        -1.2114,
+        -1.4857,
+        -1.76
+      ],
+      "p10": [
+        0.0,
+        -21.0578,
+        -19.4664,
+        -17.8419,
+        -17.5411,
+        -17.5411,
+        -17.5411,
+        -17.5411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411
+      ],
+      "p90": [
+        0.0,
+        -18.8956,
+        -17.3042,
+        -15.6613,
+        -13.967,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943
+      ],
+      "mean_time_to_finish_s": 3295.7132,
+      "invalid_probability": 0,
+      "median_position": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "scenario_stops": [
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.368446439387586
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.0036791095025
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 22.855738539014354
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.548922422821207
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.374993344102432
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.588353840719183
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.973314431058746
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 22.597836642723088
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.507084404767976
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 22.204477087383026
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.523224447709385
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.648288549101885
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.794987484961663
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 22.92703896176952
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 22.315383934835438
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.613691874129678
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.719622415156717
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 22.47658680981938
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 22.126188076358783
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.34449061635122
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.703685050970766
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.43560689306333
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.56954679355408
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.39410491452387
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.441022483417548
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 22.73693119074255
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.765138602094535
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 22.532176979026982
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.40799717058282
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.44373555058746
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.468499982629172
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.94492642043411
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.368446439387586
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.0036791095025
+            },
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.0036791095025
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.855738539014354
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.548922422821207
+            },
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.548922422821207
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.374993344102432
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.588353840719183
+            }
+          ]
+        },
+        {
+          "rain_lap": 20,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 20,
+              "charged_on_lap": 21,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.973314431058746
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.597836642723088
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.507084404767976
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.204477087383026
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.523224447709385
+            },
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.523224447709385
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.648288549101885
+            },
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.648288549101885
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.794987484961663
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.92703896176952
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.315383934835438
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.613691874129678
+            },
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.613691874129678
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.719622415156717
+            },
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.719622415156717
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.47658680981938
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 22.126188076358783
+            },
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.126188076358783
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.34449061635122
+            },
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.34449061635122
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.703685050970766
+            },
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.703685050970766
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.43560689306333
+            },
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.43560689306333
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.56954679355408
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.39410491452387
+            },
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.39410491452387
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.441022483417548
+            },
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.441022483417548
+            }
+          ]
+        },
+        {
+          "rain_lap": 20,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 20,
+              "charged_on_lap": 21,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.73693119074255
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.765138602094535
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 22.532176979026982
+            },
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.532176979026982
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.40799717058282
+            },
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.40799717058282
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.44373555058746
+            },
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.44373555058746
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.468499982629172
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.94492642043411
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wait_to_26",
+      "label": "STAY; crossover or dry stop after lap 26",
+      "policy": {
+        "id": "wait_to_26",
+        "label": "STAY; crossover or dry stop after lap 26",
+        "dry_stops": [
+          {
+            "lap": 26,
+            "compound": "HARD"
+          }
+        ],
+        "react_to_weather": true,
+        "max_stops": 2
+      },
+      "stops": [
+        {
+          "lap": 23,
+          "charged_on_lap": 24,
+          "compound": "INTERMEDIATE",
+          "pit_loss_s": 20.44373555058746
+        }
+      ],
+      "stops_kind": "representative_scenario",
+      "laps": [
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52
+      ],
+      "median": [
+        0.0,
+        -19.9285,
+        -18.3371,
+        -16.6942,
+        -15.2351,
+        -13.9119,
+        -12.3346,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294
+      ],
+      "p10": [
+        0.0,
+        -21.0578,
+        -19.4664,
+        -17.8419,
+        -17.5411,
+        -17.5411,
+        -17.5411,
+        -17.5411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411
+      ],
+      "p90": [
+        0.0,
+        -18.8956,
+        -17.3042,
+        -15.6613,
+        -13.967,
+        -12.2213,
+        -10.1375,
+        -8.535,
+        -6.635,
+        13.6114,
+        13.0629,
+        12.5143,
+        11.9657,
+        11.4171,
+        10.8686,
+        10.32,
+        9.7714,
+        9.2229,
+        8.6743,
+        8.1257,
+        7.5771,
+        7.0286,
+        6.48,
+        5.9314,
+        5.3829,
+        4.8343,
+        4.2857,
+        3.7371,
+        3.1886,
+        2.64,
+        2.0914,
+        1.5429,
+        0.9943,
+        0.4457,
+        -0.1029
+      ],
+      "mean_time_to_finish_s": 3290.3519,
+      "invalid_probability": 0,
+      "median_position": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "scenario_stops": [
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 20.368446439387586
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 21.0036791095025
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 22.855738539014354
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 20.548922422821207
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 21.374993344102432
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 20.588353840719183
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 20.973314431058746
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 22.597836642723088
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 20.507084404767976
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 22.204477087383026
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 21.523224447709385
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 20.648288549101885
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 20.794987484961663
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 22.92703896176952
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 22.315383934835438
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 21.613691874129678
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 21.719622415156717
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 22.47658680981938
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 22.126188076358783
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 20.34449061635122
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 21.703685050970766
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 20.43560689306333
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 20.56954679355408
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 20.39410491452387
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 21.441022483417548
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 22.73693119074255
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 21.765138602094535
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 22.532176979026982
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 21.40799717058282
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 20.44373555058746
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 21.468499982629172
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 26,
+              "charged_on_lap": 27,
+              "compound": "HARD",
+              "pit_loss_s": 21.94492642043411
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.368446439387586
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.0036791095025
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.855738539014354
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.548922422821207
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.374993344102432
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.588353840719183
+            }
+          ]
+        },
+        {
+          "rain_lap": 20,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 20,
+              "charged_on_lap": 21,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.973314431058746
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.597836642723088
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.507084404767976
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.204477087383026
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.523224447709385
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.648288549101885
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.794987484961663
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.92703896176952
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.315383934835438
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.613691874129678
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.719622415156717
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.47658680981938
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.126188076358783
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.34449061635122
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.703685050970766
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.43560689306333
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.56954679355408
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.39410491452387
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.441022483417548
+            }
+          ]
+        },
+        {
+          "rain_lap": 20,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 20,
+              "charged_on_lap": 21,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.73693119074255
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.765138602094535
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.532176979026982
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.40799717058282
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.44373555058746
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.468499982629172
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.94492642043411
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wait_to_30",
+      "label": "STAY; crossover or dry stop after lap 30",
+      "policy": {
+        "id": "wait_to_30",
+        "label": "STAY; crossover or dry stop after lap 30",
+        "dry_stops": [
+          {
+            "lap": 30,
+            "compound": "HARD"
+          }
+        ],
+        "react_to_weather": true,
+        "max_stops": 2
+      },
+      "stops": [
+        {
+          "lap": 23,
+          "charged_on_lap": 24,
+          "compound": "INTERMEDIATE",
+          "pit_loss_s": 20.44373555058746
+        }
+      ],
+      "stops_kind": "representative_scenario",
+      "laps": [
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52
+      ],
+      "median": [
+        0.0,
+        -19.9285,
+        -18.3371,
+        -16.6942,
+        -15.2351,
+        -13.9119,
+        -12.3346,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294
+      ],
+      "p10": [
+        0.0,
+        -21.0578,
+        -19.4664,
+        -17.8419,
+        -17.5411,
+        -17.5411,
+        -17.5411,
+        -17.5411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411
+      ],
+      "p90": [
+        0.0,
+        -18.8956,
+        -17.3042,
+        -15.6613,
+        -13.967,
+        -12.2213,
+        -10.1375,
+        -8.535,
+        -6.635,
+        -4.5336,
+        -2.2307,
+        0.2736,
+        2.9793,
+        22.9514,
+        22.1286,
+        21.3057,
+        20.4829,
+        19.66,
+        18.8371,
+        18.0143,
+        17.1914,
+        16.3686,
+        15.5457,
+        14.7229,
+        13.9,
+        13.0771,
+        12.2543,
+        11.4314,
+        10.6086,
+        9.7857,
+        8.9629,
+        8.14,
+        7.3171,
+        6.4943,
+        5.6714
+      ],
+      "mean_time_to_finish_s": 3292.0842,
+      "invalid_probability": 0,
+      "median_position": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "scenario_stops": [
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 20.368446439387586
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 21.0036791095025
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 22.855738539014354
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 20.548922422821207
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 21.374993344102432
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 20.588353840719183
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 20.973314431058746
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 22.597836642723088
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 20.507084404767976
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 22.204477087383026
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 21.523224447709385
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 20.648288549101885
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 20.794987484961663
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 22.92703896176952
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 22.315383934835438
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 21.613691874129678
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 21.719622415156717
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 22.47658680981938
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 22.126188076358783
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 20.34449061635122
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 21.703685050970766
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 20.43560689306333
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 20.56954679355408
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 20.39410491452387
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 21.441022483417548
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 22.73693119074255
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 21.765138602094535
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 22.532176979026982
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 21.40799717058282
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 20.44373555058746
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 21.468499982629172
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 30,
+              "charged_on_lap": 31,
+              "compound": "HARD",
+              "pit_loss_s": 21.94492642043411
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.368446439387586
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.0036791095025
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.855738539014354
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.548922422821207
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.374993344102432
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.588353840719183
+            }
+          ]
+        },
+        {
+          "rain_lap": 20,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 20,
+              "charged_on_lap": 21,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.973314431058746
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.597836642723088
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.507084404767976
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.204477087383026
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.523224447709385
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.648288549101885
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.794987484961663
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.92703896176952
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.315383934835438
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.613691874129678
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.719622415156717
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.47658680981938
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.126188076358783
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.34449061635122
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.703685050970766
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.43560689306333
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.56954679355408
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.39410491452387
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.441022483417548
+            }
+          ]
+        },
+        {
+          "rain_lap": 20,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 20,
+              "charged_on_lap": 21,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.73693119074255
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.765138602094535
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.532176979026982
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.40799717058282
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.44373555058746
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.468499982629172
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.94492642043411
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wait_to_34",
+      "label": "STAY; crossover or dry stop after lap 34",
+      "policy": {
+        "id": "wait_to_34",
+        "label": "STAY; crossover or dry stop after lap 34",
+        "dry_stops": [
+          {
+            "lap": 34,
+            "compound": "HARD"
+          }
+        ],
+        "react_to_weather": true,
+        "max_stops": 2
+      },
+      "stops": [
+        {
+          "lap": 23,
+          "charged_on_lap": 24,
+          "compound": "INTERMEDIATE",
+          "pit_loss_s": 20.44373555058746
+        }
+      ],
+      "stops_kind": "representative_scenario",
+      "laps": [
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52
+      ],
+      "median": [
+        0.0,
+        -19.9285,
+        -18.3371,
+        -16.6942,
+        -15.2351,
+        -13.9119,
+        -12.3346,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294,
+        -12.2294
+      ],
+      "p10": [
+        0.0,
+        -21.0578,
+        -19.4664,
+        -17.8419,
+        -17.5411,
+        -17.5411,
+        -17.5411,
+        -17.5411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411
+      ],
+      "p90": [
+        0.0,
+        -18.8956,
+        -17.3042,
+        -15.6613,
+        -13.967,
+        -12.2213,
+        -10.1375,
+        -8.535,
+        -6.635,
+        -4.5336,
+        -2.2307,
+        0.2736,
+        2.9793,
+        5.8864,
+        8.995,
+        12.305,
+        15.8164,
+        35.5143,
+        34.4171,
+        33.32,
+        32.2229,
+        31.1257,
+        30.0286,
+        28.9314,
+        27.8343,
+        26.7371,
+        25.64,
+        24.5429,
+        23.4457,
+        22.3486,
+        21.2514,
+        20.1543,
+        19.0571,
+        17.96,
+        16.8629
+      ],
+      "mean_time_to_finish_s": 3295.4416,
+      "invalid_probability": 0,
+      "median_position": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "scenario_stops": [
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 20.368446439387586
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 21.0036791095025
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 22.855738539014354
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 20.548922422821207
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 21.374993344102432
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 20.588353840719183
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 20.973314431058746
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 22.597836642723088
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 20.507084404767976
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 22.204477087383026
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 21.523224447709385
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 20.648288549101885
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 20.794987484961663
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 22.92703896176952
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 22.315383934835438
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 21.613691874129678
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 21.719622415156717
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 22.47658680981938
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 22.126188076358783
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 20.34449061635122
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 21.703685050970766
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 20.43560689306333
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 20.56954679355408
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 20.39410491452387
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 21.441022483417548
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 22.73693119074255
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 21.765138602094535
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 22.532176979026982
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 21.40799717058282
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 20.44373555058746
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 21.468499982629172
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 34,
+              "charged_on_lap": 35,
+              "compound": "HARD",
+              "pit_loss_s": 21.94492642043411
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.368446439387586
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.0036791095025
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.855738539014354
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.548922422821207
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.374993344102432
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.588353840719183
+            }
+          ]
+        },
+        {
+          "rain_lap": 20,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 20,
+              "charged_on_lap": 21,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.973314431058746
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.597836642723088
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.507084404767976
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.204477087383026
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.523224447709385
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.648288549101885
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.794987484961663
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.92703896176952
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.315383934835438
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.613691874129678
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.719622415156717
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.47658680981938
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.126188076358783
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.34449061635122
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.703685050970766
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.43560689306333
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.56954679355408
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.39410491452387
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.441022483417548
+            }
+          ]
+        },
+        {
+          "rain_lap": 20,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 20,
+              "charged_on_lap": 21,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.73693119074255
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.765138602094535
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.532176979026982
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.40799717058282
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.44373555058746
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.468499982629172
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.94492642043411
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "two_stop_22_38",
+      "label": "Two dry stops after laps 22 and 38; react to rain",
+      "policy": {
+        "id": "two_stop_22_38",
+        "label": "Two dry stops after laps 22 and 38; react to rain",
+        "dry_stops": [
+          {
+            "lap": 22,
+            "compound": "HARD"
+          },
+          {
+            "lap": 38,
+            "compound": "MEDIUM"
+          }
+        ],
+        "react_to_weather": true,
+        "max_stops": 2
+      },
+      "stops": [
+        {
+          "lap": 22,
+          "charged_on_lap": 23,
+          "compound": "INTERMEDIATE",
+          "pit_loss_s": 20.794987484961663
+        }
+      ],
+      "stops_kind": "representative_scenario",
+      "laps": [
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52
+      ],
+      "median": [
+        0.0,
+        -19.9285,
+        -18.3371,
+        -16.6942,
+        -15.2351,
+        6.1943,
+        5.92,
+        5.6457,
+        5.3714,
+        5.0971,
+        4.8229,
+        4.5486,
+        4.2743,
+        4.0,
+        3.7257,
+        3.4514,
+        3.1771,
+        2.9029,
+        2.6286,
+        2.3543,
+        2.08,
+        5.92,
+        5.92,
+        5.92,
+        5.92,
+        5.92,
+        5.92,
+        5.92,
+        5.92,
+        5.92,
+        5.92,
+        5.6979,
+        4.3921,
+        3.1379,
+        1.935
+      ],
+      "p10": [
+        0.0,
+        -21.0578,
+        -19.4664,
+        -17.8419,
+        -17.5411,
+        -17.5411,
+        -17.5411,
+        -17.5411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411,
+        -17.9411
+      ],
+      "p90": [
+        0.0,
+        -18.8956,
+        -17.3042,
+        -15.6613,
+        -13.967,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943,
+        21.9737,
+        20.1537,
+        18.3851,
+        16.668,
+        15.0023,
+        13.388,
+        11.8251,
+        10.3137,
+        8.8537,
+        7.4451,
+        6.1943,
+        6.1943,
+        6.1943,
+        6.1943
+      ],
+      "mean_time_to_finish_s": 3296.8438,
+      "invalid_probability": 0,
+      "median_position": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        1
+      ],
+      "scenario_stops": [
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.368446439387586
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 20.368446439387586
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.0036791095025
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 21.0036791095025
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 22.855738539014354
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 22.855738539014354
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.548922422821207
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 20.548922422821207
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.374993344102432
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 21.374993344102432
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.588353840719183
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 20.588353840719183
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.973314431058746
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 20.973314431058746
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 22.597836642723088
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 22.597836642723088
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.507084404767976
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 20.507084404767976
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 22.204477087383026
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 22.204477087383026
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.523224447709385
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 21.523224447709385
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.648288549101885
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 20.648288549101885
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.794987484961663
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 20.794987484961663
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 22.92703896176952
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 22.92703896176952
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 22.315383934835438
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 22.315383934835438
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.613691874129678
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 21.613691874129678
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.719622415156717
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 21.719622415156717
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 22.47658680981938
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 22.47658680981938
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 22.126188076358783
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 22.126188076358783
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.34449061635122
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 20.34449061635122
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.703685050970766
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 21.703685050970766
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.43560689306333
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 20.43560689306333
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.56954679355408
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 20.56954679355408
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.39410491452387
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 20.39410491452387
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.441022483417548
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 21.441022483417548
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 22.73693119074255
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 22.73693119074255
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.765138602094535
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 21.765138602094535
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 22.532176979026982
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 22.532176979026982
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.40799717058282
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 21.40799717058282
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.44373555058746
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 20.44373555058746
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.468499982629172
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 21.468499982629172
+            }
+          ]
+        },
+        {
+          "rain_lap": null,
+          "weight": 0.009375000000000001,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.94492642043411
+            },
+            {
+              "lap": 38,
+              "charged_on_lap": 39,
+              "compound": "MEDIUM",
+              "pit_loss_s": 21.94492642043411
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.368446439387586
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.0036791095025
+            },
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.0036791095025
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.855738539014354
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.548922422821207
+            },
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.548922422821207
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.374993344102432
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.588353840719183
+            }
+          ]
+        },
+        {
+          "rain_lap": 20,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 20,
+              "charged_on_lap": 21,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.973314431058746
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.597836642723088
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.507084404767976
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.204477087383026
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.523224447709385
+            },
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.523224447709385
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.648288549101885
+            },
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.648288549101885
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.794987484961663
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.92703896176952
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.315383934835438
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.613691874129678
+            },
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.613691874129678
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.719622415156717
+            },
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.719622415156717
+            }
+          ]
+        },
+        {
+          "rain_lap": 22,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.47658680981938
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 22.126188076358783
+            },
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.126188076358783
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.34449061635122
+            },
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.34449061635122
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.703685050970766
+            },
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.703685050970766
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.43560689306333
+            },
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.43560689306333
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.56954679355408
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.39410491452387
+            },
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.39410491452387
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.441022483417548
+            },
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.441022483417548
+            }
+          ]
+        },
+        {
+          "rain_lap": 20,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 20,
+              "charged_on_lap": 21,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.73693119074255
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.765138602094535
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 22.532176979026982
+            },
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 22.532176979026982
+            }
+          ]
+        },
+        {
+          "rain_lap": 24,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 21.40799717058282
+            },
+            {
+              "lap": 24,
+              "charged_on_lap": 25,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.40799717058282
+            }
+          ]
+        },
+        {
+          "rain_lap": 23,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 22,
+              "charged_on_lap": 23,
+              "compound": "HARD",
+              "pit_loss_s": 20.44373555058746
+            },
+            {
+              "lap": 23,
+              "charged_on_lap": 24,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 20.44373555058746
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.468499982629172
+            }
+          ]
+        },
+        {
+          "rain_lap": 21,
+          "weight": 0.021875,
+          "stops": [
+            {
+              "lap": 21,
+              "charged_on_lap": 22,
+              "compound": "INTERMEDIATE",
+              "pit_loss_s": 21.94492642043411
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "ranking": [
+    "wait_to_26",
+    "wait_to_30",
+    "wait_to_34",
+    "wait_to_22",
+    "two_stop_22_38",
+    "box_now"
+  ],
+  "recommended": "wait_to_26",
+  "margin_s": 1.7323,
+  "decision_basis": "minimum probability-weighted remaining race time among finish-legal policies",
+  "flip_thresholds": [
+    {
+      "assumption": "rain_arrival_lap",
+      "current": 22,
+      "flips_at": 20,
+      "flips_to": "wait_to_22",
+      "status": "change found on grid",
+      "range": [
+        19,
+        38
+      ],
+      "transitions": [
+        {
+          "from_value": 20,
+          "to_value": 21,
+          "from_plan": "wait_to_22",
+          "to_plan": "wait_to_26"
+        },
+        {
+          "from_value": 24,
+          "to_value": 25,
+          "from_plan": "wait_to_26",
+          "to_plan": "wait_to_30"
+        },
+        {
+          "from_value": 27,
+          "to_value": 28,
+          "from_plan": "wait_to_30",
+          "to_plan": "box_now"
+        }
+      ],
+      "sweep": [
+        {
+          "value": 19,
+          "recommended": "wait_to_22"
+        },
+        {
+          "value": 20,
+          "recommended": "wait_to_22"
+        },
+        {
+          "value": 21,
+          "recommended": "wait_to_26"
+        },
+        {
+          "value": 22,
+          "recommended": "wait_to_26"
+        },
+        {
+          "value": 23,
+          "recommended": "wait_to_26"
+        },
+        {
+          "value": 24,
+          "recommended": "wait_to_26"
+        },
+        {
+          "value": 25,
+          "recommended": "wait_to_30"
+        },
+        {
+          "value": 26,
+          "recommended": "wait_to_30"
+        },
+        {
+          "value": 27,
+          "recommended": "wait_to_30"
+        },
+        {
+          "value": 28,
+          "recommended": "box_now"
+        },
+        {
+          "value": 29,
+          "recommended": "box_now"
+        },
+        {
+          "value": 30,
+          "recommended": "box_now"
+        },
+        {
+          "value": 31,
+          "recommended": "box_now"
+        },
+        {
+          "value": 32,
+          "recommended": "box_now"
+        },
+        {
+          "value": 33,
+          "recommended": "box_now"
+        },
+        {
+          "value": 34,
+          "recommended": "box_now"
+        },
+        {
+          "value": 35,
+          "recommended": "box_now"
+        },
+        {
+          "value": 36,
+          "recommended": "box_now"
+        },
+        {
+          "value": 37,
+          "recommended": "box_now"
+        },
+        {
+          "value": 38,
+          "recommended": "box_now"
+        }
+      ]
+    },
+    {
+      "assumption": "pit_loss_s",
+      "current": 21.5,
+      "flips_at": 10.0,
+      "flips_to": "two_stop_22_38",
+      "status": "change found on grid",
+      "range": [
+        5.0,
+        45.0
+      ],
+      "transitions": [
+        {
+          "from_value": 10.0,
+          "to_value": 15.0,
+          "from_plan": "two_stop_22_38",
+          "to_plan": "wait_to_26"
+        }
+      ],
+      "sweep": [
+        {
+          "value": 5.0,
+          "recommended": "two_stop_22_38"
+        },
+        {
+          "value": 10.0,
+          "recommended": "two_stop_22_38"
+        },
+        {
+          "value": 15.0,
+          "recommended": "wait_to_26"
+        },
+        {
+          "value": 20.0,
+          "recommended": "wait_to_26"
+        },
+        {
+          "value": 21.5,
+          "recommended": "wait_to_26"
+        },
+        {
+          "value": 25.0,
+          "recommended": "wait_to_26"
+        },
+        {
+          "value": 30.0,
+          "recommended": "wait_to_26"
+        },
+        {
+          "value": 35.0,
+          "recommended": "wait_to_26"
+        },
+        {
+          "value": 40.0,
+          "recommended": "wait_to_26"
+        },
+        {
+          "value": 45.0,
+          "recommended": "wait_to_26"
+        }
+      ]
+    },
+    {
+      "assumption": "safety_car_lap",
+      "current": null,
+      "flips_at": 19,
+      "flips_to": "box_now",
+      "status": "change found on grid",
+      "range": [
+        19,
+        30
+      ],
+      "transitions": [
+        {
+          "from_value": 19,
+          "to_value": 20,
+          "from_plan": "box_now",
+          "to_plan": "wait_to_26"
+        },
+        {
+          "from_value": 21,
+          "to_value": 22,
+          "from_plan": "wait_to_26",
+          "to_plan": "wait_to_22"
+        },
+        {
+          "from_value": 23,
+          "to_value": 24,
+          "from_plan": "wait_to_22",
+          "to_plan": "wait_to_26"
+        },
+        {
+          "from_value": 29,
+          "to_value": 30,
+          "from_plan": "wait_to_26",
+          "to_plan": "wait_to_30"
+        }
+      ],
+      "sweep": [
+        {
+          "value": 19,
+          "recommended": "box_now"
+        },
+        {
+          "value": 20,
+          "recommended": "wait_to_26"
+        },
+        {
+          "value": 21,
+          "recommended": "wait_to_26"
+        },
+        {
+          "value": 22,
+          "recommended": "wait_to_22"
+        },
+        {
+          "value": 23,
+          "recommended": "wait_to_22"
+        },
+        {
+          "value": 24,
+          "recommended": "wait_to_26"
+        },
+        {
+          "value": 25,
+          "recommended": "wait_to_26"
+        },
+        {
+          "value": 26,
+          "recommended": "wait_to_26"
+        },
+        {
+          "value": 27,
+          "recommended": "wait_to_26"
+        },
+        {
+          "value": 28,
+          "recommended": "wait_to_26"
+        },
+        {
+          "value": 29,
+          "recommended": "wait_to_26"
+        },
+        {
+          "value": 30,
+          "recommended": "wait_to_30"
+        }
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "name": "rain_probability",
+      "value": 0.7,
+      "kind": "forecast"
+    },
+    {
+      "name": "rain_arrival_lap",
+      "value": 22,
+      "kind": "forecast"
+    },
+    {
+      "name": "rain_intensity",
+      "value": "LIGHT",
+      "kind": "forecast"
+    },
+    {
+      "name": "current_rainfall",
+      "value": false,
+      "kind": "measured"
+    },
+    {
+      "name": "subject_last_lap_s",
+      "value": 91.5,
+      "kind": "measured"
+    },
+    {
+      "name": "subject_compound",
+      "value": "MEDIUM",
+      "kind": "measured"
+    },
+    {
+      "name": "subject_tyre_age",
+      "value": 17,
+      "kind": "measured"
+    },
+    {
+      "name": "previously_used_compounds",
+      "value": [
+        "MEDIUM"
+      ],
+      "kind": "measured"
+    },
+    {
+      "name": "track_status_at_cutoff",
+      "value": "GREEN",
+      "kind": "measured"
+    },
+    {
+      "name": "rivals_at_cutoff",
+      "value": [
+        {
+          "driver": "VER",
+          "team": "Red Bull",
+          "position": 2,
+          "current_compound": "HARD",
+          "tyre_age_laps": 5,
+          "gap_to_subject_s": -3.5,
+          "last_lap_time_s": 90.8,
+          "is_in_pit": false,
+          "pit_stop_count": 1
+        },
+        {
+          "driver": "HAM",
+          "team": "Mercedes",
+          "position": 3,
+          "current_compound": "MEDIUM",
+          "tyre_age_laps": 24,
+          "gap_to_subject_s": -18.0,
+          "last_lap_time_s": 91.8,
+          "is_in_pit": false,
+          "pit_stop_count": 0
+        }
+      ],
+      "kind": "measured"
+    },
+    {
+      "name": "derived_degradation_s_per_lap",
+      "value": 0.12,
+      "kind": "measured"
+    },
+    {
+      "name": "green_pit_loss_s",
+      "value": 21.5,
+      "kind": "config"
+    },
+    {
+      "name": "vsc_pit_loss_s",
+      "value": 12.5,
+      "kind": "config"
+    },
+    {
+      "name": "sc_pit_loss_s",
+      "value": 9.5,
+      "kind": "config"
+    },
+    {
+      "name": "tyre_specs",
+      "value": {
+        "SOFT": {
+          "compound": "SOFT",
+          "base_pace_delta_s": 0.0,
+          "expected_life_laps": 18,
+          "cliff_lap_threshold": 15,
+          "degradation_base_rate_s_per_lap": 0.12
+        },
+        "MEDIUM": {
+          "compound": "MEDIUM",
+          "base_pace_delta_s": 0.4,
+          "expected_life_laps": 28,
+          "cliff_lap_threshold": 24,
+          "degradation_base_rate_s_per_lap": 0.07
+        },
+        "HARD": {
+          "compound": "HARD",
+          "base_pace_delta_s": 0.9,
+          "expected_life_laps": 40,
+          "cliff_lap_threshold": 35,
+          "degradation_base_rate_s_per_lap": 0.04
+        },
+        "INTERMEDIATE": {
+          "compound": "INTERMEDIATE",
+          "base_pace_delta_s": 6.5,
+          "expected_life_laps": 30,
+          "cliff_lap_threshold": 25,
+          "degradation_base_rate_s_per_lap": 0.1
+        },
+        "WET": {
+          "compound": "WET",
+          "base_pace_delta_s": 12.0,
+          "expected_life_laps": 35,
+          "cliff_lap_threshold": 30,
+          "degradation_base_rate_s_per_lap": 0.15
+        }
+      },
+      "kind": "config"
+    },
+    {
+      "name": "seed",
+      "value": 18,
+      "kind": "config"
+    },
+    {
+      "name": "samples_per_weather_branch",
+      "value": 32,
+      "kind": "config"
+    },
+    {
+      "name": "rain_eta_spread_laps",
+      "value": 2,
+      "kind": "config"
+    },
+    {
+      "name": "pit_loss_spread_s",
+      "value": 1.5,
+      "kind": "config"
+    },
+    {
+      "name": "wetness_ramp_laps",
+      "value": 2.0,
+      "kind": "config"
+    },
+    {
+      "name": "light_rain_wetness",
+      "value": 0.7,
+      "kind": "config"
+    },
+    {
+      "name": "fuel_effect_s_per_lap",
+      "value": 0.05,
+      "kind": "config"
+    },
+    {
+      "name": "cliff_rate_s",
+      "value": 0.15,
+      "kind": "config"
+    },
+    {
+      "name": "degradation_scale",
+      "value": null,
+      "kind": "config"
+    },
+    {
+      "name": "base_pace_s",
+      "value": null,
+      "kind": "config"
+    },
+    {
+      "name": "slick_wet_penalty_s",
+      "value": 18.0,
+      "kind": "config"
+    },
+    {
+      "name": "inter_dry_penalty_s",
+      "value": 8.0,
+      "kind": "config"
+    },
+    {
+      "name": "wet_dry_penalty_s",
+      "value": 14.0,
+      "kind": "config"
+    },
+    {
+      "name": "heavy_inter_penalty_s",
+      "value": 8.0,
+      "kind": "config"
+    },
+    {
+      "name": "traffic_gap_s",
+      "value": 1.0,
+      "kind": "config"
+    },
+    {
+      "name": "traffic_penalty_s",
+      "value": 0.4,
+      "kind": "config"
+    },
+    {
+      "name": "dry_grid_step_laps",
+      "value": 4,
+      "kind": "config"
+    },
+    {
+      "name": "max_policies",
+      "value": 6,
+      "kind": "config"
+    },
+    {
+      "name": "safety_car_lap",
+      "value": null,
+      "kind": "config"
+    },
+    {
+      "name": "safety_car_duration_laps",
+      "value": 2,
+      "kind": "config"
+    },
+    {
+      "name": "rain_sweep_offsets",
+      "value": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "kind": "config"
+    },
+    {
+      "name": "pit_loss_sweep_s",
+      "value": [
+        5.0,
+        10.0,
+        15.0,
+        20.0,
+        25.0,
+        30.0,
+        35.0,
+        40.0,
+        45.0
+      ],
+      "kind": "config"
+    },
+    {
+      "name": "safety_car_sweep_offsets",
+      "value": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "kind": "config"
+    }
+  ],
+  "seed": 18,
+  "scorer": {
+    "lap": 18,
+    "selected_candidate": {
+      "candidate_id": "box_now_cover_hard",
+      "ui_label": "B",
+      "pit_action": "BOX_NOW",
+      "pace_mode": "NORMAL",
+      "target_compound": "HARD",
+      "intent": "COVER",
+      "target_driver": "VER",
+      "target_lap": 18,
+      "description": "Box now for fresh HARD to cover VER.",
+      "estimated_time_delta_s": 0.0,
+      "candidate_strategy_score": 5.84,
+      "factors": {
+        "tyre_freshness_gain": 3.04,
+        "dry_track_normal_operation": 0.6,
+        "green_flag_full_pit_loss_cost": 0.0,
+        "mandatory_compound_fulfillment_progress": 2.2
+      }
+    },
+    "all_candidates": [
+      {
+        "candidate_id": "box_now_cover_hard",
+        "ui_label": "B",
+        "pit_action": "BOX_NOW",
+        "pace_mode": "NORMAL",
+        "target_compound": "HARD",
+        "intent": "COVER",
+        "target_driver": "VER",
+        "target_lap": 18,
+        "description": "Box now for fresh HARD to cover VER.",
+        "estimated_time_delta_s": 0.0,
+        "candidate_strategy_score": 5.84,
+        "factors": {
+          "tyre_freshness_gain": 3.04,
+          "dry_track_normal_operation": 0.6,
+          "green_flag_full_pit_loss_cost": 0.0,
+          "mandatory_compound_fulfillment_progress": 2.2
+        }
+      },
+      {
+        "candidate_id": "stay_out_conserve_extend",
+        "ui_label": "D",
+        "pit_action": "STAY_OUT",
+        "pace_mode": "CONSERVE",
+        "target_compound": null,
+        "intent": "EXTEND",
+        "target_driver": null,
+        "target_lap": 23,
+        "description": "Stay out and conserve tyres to stretch stint window.",
+        "estimated_time_delta_s": 0.0,
+        "candidate_strategy_score": 2.7,
+        "factors": {
+          "tyre_conservation_benefit": 1.0,
+          "dry_track_normal_operation": 0.6,
+          "green_flag_stay_out_preservation": 1.1
+        }
+      },
+      {
+        "candidate_id": "stay_out_baseline",
+        "ui_label": "A",
+        "pit_action": "STAY_OUT",
+        "pace_mode": "NORMAL",
+        "target_compound": null,
+        "intent": "BASELINE",
+        "target_driver": null,
+        "target_lap": 19,
+        "description": "Stay out on current MEDIUM (17 laps old) at normal pace.",
+        "estimated_time_delta_s": 0.0,
+        "candidate_strategy_score": 1.7,
+        "factors": {
+          "dry_track_normal_operation": 0.6,
+          "green_flag_stay_out_preservation": 1.1
+        }
+      },
+      {
+        "candidate_id": "stay_out_push_overcut",
+        "ui_label": "C",
+        "pit_action": "STAY_OUT",
+        "pace_mode": "PUSH",
+        "target_compound": null,
+        "intent": "OVERCUT",
+        "target_driver": null,
+        "target_lap": 20,
+        "description": "Stay out and push at maximum pace on MEDIUM to build gap before pitting.",
+        "estimated_time_delta_s": 0.0,
+        "candidate_strategy_score": -0.8,
+        "factors": {
+          "pushing_on_dead_tyres_penalty": -2.5,
+          "dry_track_normal_operation": 0.6,
+          "green_flag_stay_out_preservation": 1.1
+        }
+      }
+    ],
+    "pit_action": "BOX_NOW",
+    "target_compound": "HARD",
+    "pace_mode": "NORMAL",
+    "intent": "COVER",
+    "target_driver": "VER",
+    "rationale": "Executed Candidate 'box_now_cover_hard' [B] (BOX_NOW - COVER). Strategy score: 5.8 vs next best: 2.7. Specialist picks: [Pace: box_now_cover_hard | Weather: stay_out_baseline | Race: box_now_cover_hard]. Box now for fresh HARD to cover VER.",
+    "score_margin": 3.14,
+    "confidence": "HIGH",
+    "specialist_evaluations": [
+      {
+        "agent_name": "Pace & Tyre Specialist",
+        "role": "Pace & Tyre Modelling",
+        "recommended_candidate_id": "box_now_cover_hard",
+        "candidate_scores": {
+          "stay_out_baseline": 0.0,
+          "box_now_cover_hard": 3.04,
+          "stay_out_push_overcut": -2.5,
+          "stay_out_conserve_extend": 1.0
+        },
+        "candidate_factors": {
+          "stay_out_baseline": {},
+          "box_now_cover_hard": {
+            "tyre_freshness_gain": 3.04
+          },
+          "stay_out_push_overcut": {
+            "pushing_on_dead_tyres_penalty": -2.5
+          },
+          "stay_out_conserve_extend": {
+            "tyre_conservation_benefit": 1.0
+          }
+        },
+        "confidence": "HIGH",
+        "rationale": "Tyre health is at 39% with degradation rate of 0.12 s/lap. Candidate 'box_now_cover_hard' provides best pace/traffic compromise.",
+        "key_risks": [],
+        "veto": false,
+        "veto_reason": null
+      },
+      {
+        "agent_name": "Weather Specialist",
+        "role": "Meteorology & Crossover",
+        "recommended_candidate_id": "stay_out_baseline",
+        "candidate_scores": {
+          "stay_out_baseline": 0.5,
+          "box_now_cover_hard": 0.5,
+          "stay_out_push_overcut": 0.5,
+          "stay_out_conserve_extend": 0.5
+        },
+        "candidate_factors": {
+          "stay_out_baseline": {
+            "dry_track_normal_operation": 0.5
+          },
+          "box_now_cover_hard": {
+            "dry_track_normal_operation": 0.5
+          },
+          "stay_out_push_overcut": {
+            "dry_track_normal_operation": 0.5
+          },
+          "stay_out_conserve_extend": {
+            "dry_track_normal_operation": 0.5
+          }
+        },
+        "confidence": "MEDIUM",
+        "rationale": "Observed track: DRY (32.0\u00b0C). Rain forecast: 70% probability, ETA: 4 laps.",
+        "key_risks": [],
+        "veto": false,
+        "veto_reason": null
+      },
+      {
+        "agent_name": "Race Control Specialist",
+        "role": "Safety Car, Flags & Regulations",
+        "recommended_candidate_id": "box_now_cover_hard",
+        "candidate_scores": {
+          "stay_out_baseline": 1.0,
+          "box_now_cover_hard": 2.0,
+          "stay_out_push_overcut": 1.0,
+          "stay_out_conserve_extend": 1.0
+        },
+        "candidate_factors": {
+          "stay_out_baseline": {
+            "green_flag_stay_out_preservation": 1.0
+          },
+          "box_now_cover_hard": {
+            "green_flag_full_pit_loss_cost": 0.0,
+            "mandatory_compound_fulfillment_progress": 2.0
+          },
+          "stay_out_push_overcut": {
+            "green_flag_stay_out_preservation": 1.0
+          },
+          "stay_out_conserve_extend": {
+            "green_flag_stay_out_preservation": 1.0
+          }
+        },
+        "confidence": "HIGH",
+        "rationale": "Track Status: GREEN. Pit delta saving: 0.0s. Mandatory compound rule fulfilled: False.",
+        "key_risks": [
+          "Mandatory 2-dry-compound rule has not been fulfilled yet."
+        ],
+        "veto": false,
+        "veto_reason": null
+      }
+    ],
+    "score_breakdown": {
+      "tyre_freshness_gain": 3.04,
+      "dry_track_normal_operation": 0.6,
+      "green_flag_full_pit_loss_cost": 0.0,
+      "mandatory_compound_fulfillment_progress": 2.2
+    },
+    "next_triggers": [
+      {
+        "condition_description": "Post-pit out-lap traffic and delta check",
+        "trigger_type": "HEARTBEAT",
+        "threshold_value": 20.0
+      }
+    ],
+    "conflict_detected": true,
+    "conflict_summary": "Close call between candidates (score margin: 1.01 <= 2.0). Specialists differ: {'Pace & Tyre Specialist': 'box_now_cover_hard', 'Weather Specialist': 'stay_out_baseline', 'Race Control Specialist': 'box_now_cover_hard'}",
+    "debate_held": false,
+    "debate_transcript": null,
+    "rejected_candidates": {},
+    "llm_chief_resolution": null
+  },
+  "disagreement": {
+    "disagrees": true,
+    "comparison": "initial action and compound across scenarios; heuristic candidates are not full policies",
+    "scorer_candidate": "box_now_cover_hard",
+    "scorer_action": "BOX_NOW",
+    "projection_policy": "wait_to_26",
+    "projection_initial_box_probability": 0,
+    "projection_initial_actions": {
+      "STAY_OUT": 1.0
+    },
+    "disagreement_probability": 1.0,
+    "projection_action": "STAY_OUT",
+    "projection_compound": null
+  },
+  "fixture": {
+    "source": "synthetic",
+    "generation": "python -m tools.generate_projection_fixture",
+    "state": {
+      "current_lap": 18,
+      "total_laps": 52,
+      "timestamp": "2024-07-07T14:27:00Z",
+      "knowledge_cutoff": "2024-07-07T14:27:00Z",
+      "subject_driver": {
+        "driver": "NOR",
+        "team": "McLaren",
+        "position": 1,
+        "current_compound": "MEDIUM",
+        "stint_length_laps": 17,
+        "total_pit_stops": 0,
+        "used_compounds": [
+          "MEDIUM"
+        ],
+        "last_lap_time_s": 91.5
+      },
+      "competitors": [
+        {
+          "driver": "VER",
+          "team": "Red Bull",
+          "position": 2,
+          "current_compound": "HARD",
+          "tyre_age_laps": 5,
+          "gap_to_subject_s": -3.5,
+          "last_lap_time_s": 90.8,
+          "is_in_pit": false,
+          "pit_stop_count": 1
+        },
+        {
+          "driver": "HAM",
+          "team": "Mercedes",
+          "position": 3,
+          "current_compound": "MEDIUM",
+          "tyre_age_laps": 24,
+          "gap_to_subject_s": -18.0,
+          "last_lap_time_s": 91.8,
+          "is_in_pit": false,
+          "pit_stop_count": 0
+        }
+      ],
+      "track_status": "GREEN",
+      "observed_weather": {
+        "track_temp_c": {
+          "value": 32.0,
+          "source": "SYNTHETIC",
+          "quality": "HIGH",
+          "notes": null
+        },
+        "air_temp_c": {
+          "value": 22.0,
+          "source": "SYNTHETIC",
+          "quality": "HIGH",
+          "notes": null
+        },
+        "rainfall": {
+          "value": false,
+          "source": "SYNTHETIC",
+          "quality": "HIGH",
+          "notes": null
+        },
+        "humidity_pct": {
+          "value": 65.0,
+          "source": "SYNTHETIC",
+          "quality": "HIGH",
+          "notes": null
+        },
+        "wind_speed_kmh": null
+      },
+      "weather_forecast": {
+        "rain_probability": {
+          "value": 0.7,
+          "source": "SCENARIO_FORECAST",
+          "quality": "HIGH",
+          "notes": null
+        },
+        "expected_arrival_laps": {
+          "value": 4,
+          "source": "SCENARIO_FORECAST",
+          "quality": "HIGH",
+          "notes": null
+        },
+        "intensity": {
+          "value": "LIGHT",
+          "source": "SCENARIO_FORECAST",
+          "quality": "HIGH",
+          "notes": null
+        },
+        "confidence": "HIGH"
+      },
+      "lap_history": [
+        {
+          "lap_number": 1,
+          "lap_time_s": 90.07,
+          "s1_time_s": null,
+          "s2_time_s": null,
+          "s3_time_s": null,
+          "compound": "MEDIUM",
+          "tyre_age_laps": 1,
+          "track_status": "GREEN",
+          "is_pit_in_lap": false,
+          "is_pit_out_lap": true,
+          "usable_for_pace_model": true,
+          "timestamp": "2024-07-07T14:01:00Z"
+        },
+        {
+          "lap_number": 2,
+          "lap_time_s": 90.14,
+          "s1_time_s": null,
+          "s2_time_s": null,
+          "s3_time_s": null,
+          "compound": "MEDIUM",
+          "tyre_age_laps": 2,
+          "track_status": "GREEN",
+          "is_pit_in_lap": false,
+          "is_pit_out_lap": false,
+          "usable_for_pace_model": true,
+          "timestamp": "2024-07-07T14:03:00Z"
+        },
+        {
+          "lap_number": 3,
+          "lap_time_s": 90.21,
+          "s1_time_s": null,
+          "s2_time_s": null,
+          "s3_time_s": null,
+          "compound": "MEDIUM",
+          "tyre_age_laps": 3,
+          "track_status": "GREEN",
+          "is_pit_in_lap": false,
+          "is_pit_out_lap": false,
+          "usable_for_pace_model": true,
+          "timestamp": "2024-07-07T14:04:00Z"
+        },
+        {
+          "lap_number": 4,
+          "lap_time_s": 90.28,
+          "s1_time_s": null,
+          "s2_time_s": null,
+          "s3_time_s": null,
+          "compound": "MEDIUM",
+          "tyre_age_laps": 4,
+          "track_status": "GREEN",
+          "is_pit_in_lap": false,
+          "is_pit_out_lap": false,
+          "usable_for_pace_model": true,
+          "timestamp": "2024-07-07T14:06:00Z"
+        },
+        {
+          "lap_number": 5,
+          "lap_time_s": 90.35,
+          "s1_time_s": null,
+          "s2_time_s": null,
+          "s3_time_s": null,
+          "compound": "MEDIUM",
+          "tyre_age_laps": 5,
+          "track_status": "GREEN",
+          "is_pit_in_lap": false,
+          "is_pit_out_lap": false,
+          "usable_for_pace_model": true,
+          "timestamp": "2024-07-07T14:07:00Z"
+        },
+        {
+          "lap_number": 6,
+          "lap_time_s": 90.42,
+          "s1_time_s": null,
+          "s2_time_s": null,
+          "s3_time_s": null,
+          "compound": "MEDIUM",
+          "tyre_age_laps": 6,
+          "track_status": "GREEN",
+          "is_pit_in_lap": false,
+          "is_pit_out_lap": false,
+          "usable_for_pace_model": true,
+          "timestamp": "2024-07-07T14:09:00Z"
+        },
+        {
+          "lap_number": 7,
+          "lap_time_s": 90.49,
+          "s1_time_s": null,
+          "s2_time_s": null,
+          "s3_time_s": null,
+          "compound": "MEDIUM",
+          "tyre_age_laps": 7,
+          "track_status": "GREEN",
+          "is_pit_in_lap": false,
+          "is_pit_out_lap": false,
+          "usable_for_pace_model": true,
+          "timestamp": "2024-07-07T14:10:00Z"
+        },
+        {
+          "lap_number": 8,
+          "lap_time_s": 90.56,
+          "s1_time_s": null,
+          "s2_time_s": null,
+          "s3_time_s": null,
+          "compound": "MEDIUM",
+          "tyre_age_laps": 8,
+          "track_status": "GREEN",
+          "is_pit_in_lap": false,
+          "is_pit_out_lap": false,
+          "usable_for_pace_model": true,
+          "timestamp": "2024-07-07T14:12:00Z"
+        },
+        {
+          "lap_number": 9,
+          "lap_time_s": 90.63,
+          "s1_time_s": null,
+          "s2_time_s": null,
+          "s3_time_s": null,
+          "compound": "MEDIUM",
+          "tyre_age_laps": 9,
+          "track_status": "GREEN",
+          "is_pit_in_lap": false,
+          "is_pit_out_lap": false,
+          "usable_for_pace_model": true,
+          "timestamp": "2024-07-07T14:13:00Z"
+        },
+        {
+          "lap_number": 10,
+          "lap_time_s": 90.7,
+          "s1_time_s": null,
+          "s2_time_s": null,
+          "s3_time_s": null,
+          "compound": "MEDIUM",
+          "tyre_age_laps": 10,
+          "track_status": "GREEN",
+          "is_pit_in_lap": false,
+          "is_pit_out_lap": false,
+          "usable_for_pace_model": true,
+          "timestamp": "2024-07-07T14:15:00Z"
+        },
+        {
+          "lap_number": 11,
+          "lap_time_s": 90.77,
+          "s1_time_s": null,
+          "s2_time_s": null,
+          "s3_time_s": null,
+          "compound": "MEDIUM",
+          "tyre_age_laps": 11,
+          "track_status": "GREEN",
+          "is_pit_in_lap": false,
+          "is_pit_out_lap": false,
+          "usable_for_pace_model": true,
+          "timestamp": "2024-07-07T14:16:00Z"
+        },
+        {
+          "lap_number": 12,
+          "lap_time_s": 90.84,
+          "s1_time_s": null,
+          "s2_time_s": null,
+          "s3_time_s": null,
+          "compound": "MEDIUM",
+          "tyre_age_laps": 12,
+          "track_status": "GREEN",
+          "is_pit_in_lap": false,
+          "is_pit_out_lap": false,
+          "usable_for_pace_model": true,
+          "timestamp": "2024-07-07T14:18:00Z"
+        },
+        {
+          "lap_number": 13,
+          "lap_time_s": 90.91,
+          "s1_time_s": null,
+          "s2_time_s": null,
+          "s3_time_s": null,
+          "compound": "MEDIUM",
+          "tyre_age_laps": 13,
+          "track_status": "GREEN",
+          "is_pit_in_lap": false,
+          "is_pit_out_lap": false,
+          "usable_for_pace_model": true,
+          "timestamp": "2024-07-07T14:19:00Z"
+        },
+        {
+          "lap_number": 14,
+          "lap_time_s": 90.98,
+          "s1_time_s": null,
+          "s2_time_s": null,
+          "s3_time_s": null,
+          "compound": "MEDIUM",
+          "tyre_age_laps": 14,
+          "track_status": "GREEN",
+          "is_pit_in_lap": false,
+          "is_pit_out_lap": false,
+          "usable_for_pace_model": true,
+          "timestamp": "2024-07-07T14:21:00Z"
+        },
+        {
+          "lap_number": 15,
+          "lap_time_s": 91.05,
+          "s1_time_s": null,
+          "s2_time_s": null,
+          "s3_time_s": null,
+          "compound": "MEDIUM",
+          "tyre_age_laps": 15,
+          "track_status": "GREEN",
+          "is_pit_in_lap": false,
+          "is_pit_out_lap": false,
+          "usable_for_pace_model": true,
+          "timestamp": "2024-07-07T14:22:00Z"
+        },
+        {
+          "lap_number": 16,
+          "lap_time_s": 91.12,
+          "s1_time_s": null,
+          "s2_time_s": null,
+          "s3_time_s": null,
+          "compound": "MEDIUM",
+          "tyre_age_laps": 16,
+          "track_status": "GREEN",
+          "is_pit_in_lap": false,
+          "is_pit_out_lap": false,
+          "usable_for_pace_model": true,
+          "timestamp": "2024-07-07T14:24:00Z"
+        },
+        {
+          "lap_number": 17,
+          "lap_time_s": 91.19,
+          "s1_time_s": null,
+          "s2_time_s": null,
+          "s3_time_s": null,
+          "compound": "MEDIUM",
+          "tyre_age_laps": 17,
+          "track_status": "GREEN",
+          "is_pit_in_lap": false,
+          "is_pit_out_lap": false,
+          "usable_for_pace_model": true,
+          "timestamp": "2024-07-07T14:25:00Z"
+        },
+        {
+          "lap_number": 18,
+          "lap_time_s": 91.26,
+          "s1_time_s": null,
+          "s2_time_s": null,
+          "s3_time_s": null,
+          "compound": "MEDIUM",
+          "tyre_age_laps": 18,
+          "track_status": "GREEN",
+          "is_pit_in_lap": false,
+          "is_pit_out_lap": false,
+          "usable_for_pace_model": true,
+          "timestamp": "2024-07-07T14:27:00Z"
+        }
+      ],
+      "derived_pace": {
+        "recent_pace_trend_s_per_lap": {
+          "value": 0.07,
+          "source": "DERIVED_MODEL",
+          "quality": "HIGH",
+          "notes": "Calculated over 6 clean laps"
+        },
+        "degradation_rate_s_per_lap": {
+          "value": 0.12,
+          "source": "DERIVED_MODEL",
+          "quality": "HIGH",
+          "notes": "Compensated for fuel burn rate"
+        },
+        "clean_air_potential_lap_time_s": {
+          "value": 90.91,
+          "source": "DERIVED_MODEL",
+          "quality": "HIGH",
+          "notes": null
+        },
+        "pace_confidence": "HIGH"
+      },
+      "pit_loss": {
+        "green_pit_loss_s": 21.5,
+        "vsc_pit_loss_s": 12.5,
+        "sc_pit_loss_s": 9.5,
+        "current_pit_loss_s": 21.5,
+        "expected_rejoin_position": 3,
+        "expected_rejoin_gap_to_traffic_s": 3.5,
+        "rejoin_traffic_density_penalty_s": 0.0
+      },
+      "objective": "MAXIMIZE_EXPECTED_POSITION",
+      "risk_profile": "BALANCED"
+    },
+    "config": {
+      "seed": 18,
+      "samples_per_weather_branch": 32,
+      "rain_eta_spread_laps": 2,
+      "pit_loss_spread_s": 1.5,
+      "wetness_ramp_laps": 2.0,
+      "light_rain_wetness": 0.7,
+      "fuel_effect_s_per_lap": 0.05,
+      "cliff_rate_s": 0.15,
+      "degradation_scale": null,
+      "base_pace_s": null,
+      "slick_wet_penalty_s": 18.0,
+      "inter_dry_penalty_s": 8.0,
+      "wet_dry_penalty_s": 14.0,
+      "heavy_inter_penalty_s": 8.0,
+      "traffic_gap_s": 1.0,
+      "traffic_penalty_s": 0.4,
+      "dry_grid_step_laps": 4,
+      "max_policies": 6,
+      "safety_car_lap": null,
+      "safety_car_duration_laps": 2,
+      "rain_sweep_offsets": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "pit_loss_sweep_s": [
+        5.0,
+        10.0,
+        15.0,
+        20.0,
+        25.0,
+        30.0,
+        35.0,
+        40.0,
+        45.0
+      ],
+      "safety_car_sweep_offsets": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ]
+    }
+  }
+}
