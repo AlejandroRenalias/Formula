@@ -27,9 +27,9 @@
     const half=ps=>{const h=[];for(const p of ps){while(h.length>1&&cross(h[h.length-2],h[h.length-1],p)<=0)h.pop();h.push(p);}return h;};
     cloud.sort((a,b)=>a.x-b.x||a.y-b.y);
     const hull=half(cloud).slice(0,-1).concat(half([...cloud].reverse()).slice(0,-1));
-    let svg = `<defs><pattern id="rain-hatch" width="9" height="9" patternUnits="userSpaceOnUse"><path d="M0 9L9 0" stroke="#74baff" stroke-opacity=".25"/></pattern><filter id="rain-soft" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="17"/></filter><pattern id="chequer" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="var(--paper)"/><path d="M0 0h4v4H0zM4 4h4v4H4z" fill="var(--ink)"/></pattern></defs>`;
+    let svg = `<defs><pattern id="rain-hatch" width="9" height="9" patternUnits="userSpaceOnUse"><path d="M0 9L9 0" stroke="#74baff" stroke-opacity=".16"/></pattern><filter id="rain-soft" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="17"/></filter><pattern id="chequer" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="var(--paper)"/><path d="M0 0h4v4H0zM4 4h4v4H4z" fill="var(--ink)"/></pattern></defs>`;
     svg += `<path class="radar-cell" d="${line(hull)}Z"/><path fill="url(#rain-hatch)" d="${line(hull)}Z"/><path class="circuit-track" d="${line(track.polyline.map(xy))}"/><path class="pit-distance" d="${line(highlight)}"/>`;
-    const labels = [];
+    const labels = [], sectorLabelBoxes = [];
     const addLabel = (p,text,colour='var(--muted)',kind='marker') => labels.push({...p,text,colour,kind});
     const start = pointAt(track.start_finish.distance_m);
     svg += `<rect x="${start.x-7}" y="${start.y-7}" width="14" height="14" fill="url(#chequer)" stroke="var(--ink)" stroke-width=".7"/>`;
@@ -39,7 +39,10 @@
       const p = pointAt(distance), before = pointAt((distance-10+track.lap_length_m)%track.lap_length_m), after = pointAt((distance+10)%track.lap_length_m);
       const dx = after.x-before.x, dy = after.y-before.y, length = Math.hypot(dx,dy);
       svg += `<path class="sector-tick" d="M${p.x-dy/length*9} ${p.y+dx/length*9}L${p.x+dy/length*9} ${p.y-dx/length*9}"/>`;
-      const mid=pointAt((sector.start_distance_m+sector.end_distance_m)/2),angle=Math.atan2(mid.y-212,mid.x-330);
+      // S1 is moved along the sector to leave space for the rejoin label.
+      const fraction=sector.sector===1?.85:.5;
+      const mid=pointAt(sector.start_distance_m+(sector.end_distance_m-sector.start_distance_m)*fraction),angle=Math.atan2(mid.y-212,mid.x-330);
+      sectorLabelBoxes.push({x:mid.x+23*Math.cos(angle)-15,y:mid.y+23*Math.sin(angle)-17,w:30,h:23});
       svg+=`<text class="sector-name" x="${mid.x+23*Math.cos(angle)}" y="${mid.y+23*Math.sin(angle)}" text-anchor="middle">${escape(display.sector_labels[i])}</text>`;
     });
     ['pit_entry','pit_exit'].forEach(key => {
@@ -62,8 +65,12 @@
       const angle=Math.atan2(after.y-before.y,after.x-before.x)*180/Math.PI;
       svg+=`<path class="travel-chevron" d="M-4-4L1 0-4 4" transform="translate(${p.x} ${p.y}) rotate(${angle})"/>`;
     }
-    svg+=`<text class="radar-label" x="330" y="32" text-anchor="middle">${escape(display.rain_label)}</text>`;
-    const occupied=[], font=window.matchMedia('(max-width:450px)').matches?18:14;
+    const mobile=window.matchMedia('(max-width:450px)').matches, font=mobile?18:14;
+    const rainEdge=hull.reduce((a,b)=>b.y<a.y?b:a),rainWidth=display.rain_label.length*(mobile?18:12)*.62;
+    const rainX=Math.max(rainWidth/2+8,Math.min(652-rainWidth/2,rainEdge.x));
+    const rainY=rainEdge.y-16;
+    svg+=`<path class="rain-label-link" d="M${rainEdge.x} ${rainEdge.y}L${rainX} ${rainY+5}"/><text class="radar-label" x="${rainX}" y="${rainY}" text-anchor="middle">${escape(display.rain_label)}</text>`;
+    const occupied=[...sectorLabelBoxes,{x:rainX-rainWidth/2,y:rainY-(mobile?18:12),w:rainWidth,h:(mobile?18:12)+5}];
     const overlaps=(a,b)=>a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;
     labels.forEach(p=>{
       const w=p.text.length*font*.62,h=font+5;
@@ -140,6 +147,7 @@
     const download = document.querySelector('footer a[download]');
     download.href = URL.createObjectURL(new Blob([JSON.stringify(fixture, null, 2)], {type:'application/json'}));
     $('operating').textContent = data.operating;
+    $('operating').style.setProperty('--team-colour',data.map.selected_colour);
     $('lap-current').textContent = data.lap_counter.current;
     $('lap-total').textContent = data.lap_counter.total;
     const tyre = data.current_tyre, circumference = 2*Math.PI*39;
