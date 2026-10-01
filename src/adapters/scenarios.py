@@ -3,6 +3,14 @@ from typing import Dict, List, Optional, Any
 from pydantic import BaseModel
 
 
+class TrackScenarioConfig(BaseModel):
+    track_id: str = "silverstone"
+    leader_distance_m: Optional[float] = None
+    leader_before_pit_entry_m: float = 25.0
+    rain_first_sector: int = 2
+    team_colours: Dict[str, str] = {"McLaren": "#FF8000", "Red Bull": "#3671C6", "Mercedes": "#27F4D2"}
+
+
 class ScenarioConfig(BaseModel):
     scenario_id: str
     title: str
@@ -14,6 +22,16 @@ class ScenarioConfig(BaseModel):
     key_decision_laps: List[int]
     description: str
     forecast_timeline: Dict[int, Dict[str, Any]] = {}
+    track: Optional[TrackScenarioConfig] = None
+
+
+SYNTHETIC_LAP18_SCENARIO = ScenarioConfig(
+        scenario_id="synthetic_lap18", title="Synthetic Silverstone cutoff", year=2024,
+        grand_prix="Synthetic scenario", default_driver="NOR", available_drivers=["NOR", "VER", "HAM"],
+        total_laps=52, key_decision_laps=[18], description="Projection fixture; fictional gaps and weather.",
+        track=TrackScenarioConfig(),
+        forecast_timeline={18: {"rain_prob": .70, "arrival_laps": 4, "intensity": "LIGHT"}},
+    )
 
 
 SCENARIOS: Dict[str, ScenarioConfig] = {

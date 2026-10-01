@@ -250,3 +250,47 @@ The custom workspace is the default app view. Historical and legacy data tools
 remain available with `?view=legacy`. The standalone preview runs with
 `python -m tools.serve_projection`, reading the same canonical fixture without
 copying it. The old static scorer study is preserved separately for reference.
+
+## Offline circuit map
+
+`scripts/build_track.py` exports the fastest accurate non-pit lap from the 2024
+British GP qualifying session (RUS, lap 25). FastF1 is only needed to rebuild this
+committed asset, not to load or compute the map. Use `--offline` after caching the
+session. The JSON records the source, reference lap duration and integrated
+telemetry distance. This is a static reference asset, not telemetry from the
+synthetic cutoff or a source of later race outcomes.
+
+The line is resampled to 301 equally spaced distance stations. X/Y are centered
+and scaled together to preserve aspect ratio; the endpoint is closed to the
+start to remove the positional timing-line seam. The independent, denser time
+profile preserves measured speed changes. Sector boundaries interpolate the
+reference sector times into distance. Integrated lap distance is approximate
+and is not forced to the circuit's official length.
+
+Pit entry/exit default to 96% / 4% of the reference distance, explicitly tagged
+`config`, approximate and uncalibrated. Override with the exporter's marker
+fraction arguments; these are not actual surveyed pit markers. The synthetic
+scenario's leader position defaults to 25 m before that pit-entry marker, with
+an explicit distance override available in `TrackScenarioConfig`.
+
+All cars share the reference lap's distance-to-time profile. Convert the leader
+distance to reference clock time, subtract each positive gap behind the leader,
+then interpolate clock time back to distance. Keep unwrapped distance and lap
+offset alongside wrapped drawing coordinates: large gaps must not look like
+overtakes. The adapter's positive-ahead/negative-behind gaps are converted and
+normalized against the leader, including when the selected driver is not leading.
+This depicts synthetic timing gaps, not measured car telemetry or predicted pace.
+
+The ghost uses the existing `current_pit_loss_s`, adding it to the selected car's
+leader gap; it is an equivalent race-progress position on the racing line, not
+a physical pit-lane trajectory or a future timestamp at pit exit. Neighbours
+are ranked in time-gap space, so lap wrap never changes order. Rivals keep their
+cutoff gaps during this illustration; no future pace, stops or field compression
+are simulated. The fixture has only three cars: P3 and neighbour gaps refer to
+that supplied field, explicitly marked incomplete (`field_complete: false`).
+
+The synthetic rain forecast first reaches sector 2 (configured illustrative
+location, not radar or wind direction), with probability and ETA read from the
+cutoff weather forecast: 70%, four laps, lap 22. The entire overlay is tagged
+`forecast`; location basis is disclosed. No drifting rain-cell trajectory is
+invented. Runtime map computation uses no FastF1, network or future lap history.
