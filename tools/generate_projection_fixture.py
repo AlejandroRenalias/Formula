@@ -16,9 +16,10 @@ def main():
         rain_arrival_laps=4, rain_intensity="LIGHT")
     config = ProjectionConfig()
     result = run_projection_cycle(state, config)
-    result['ui'] = build_projection_view(result, state)
     track_config = SYNTHETIC_LAP18_SCENARIO.track
-    result['track'] = build_cutoff_track(state, track_config)
+    track = build_cutoff_track(state, track_config)
+    result['ui'] = build_projection_view({**result, 'track': track}, state)
+    result['track'] = track
     result["fixture"] = {"source": "synthetic", "generation": "python -m tools.generate_projection_fixture",
                          "state": state.model_dump(mode="json"), "config": config.model_dump(mode="json"),
                          "track_config": track_config.model_dump(mode="json")}

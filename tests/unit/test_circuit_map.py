@@ -95,3 +95,30 @@ def test_asset_profile_validation_and_invalid_inputs(track):
         track.position(1, float("nan"))
     with pytest.raises(ValueError):
         track.rejoin(900, "NOR", [{"driver": "NOR", "gap_to_leader_s": 0}], -1)
+
+
+def test_race_profile_is_scaled_without_changing_reference_shape():
+    state = SyntheticRaceAdapter.create_race_state(current_lap=18)
+    asset = json.loads(TRACK_FILE.read_text(encoding='utf-8'))
+    block = build_cutoff_track(state, TrackScenarioConfig(reference_race_lap_time_s=100), asset)
+    assert block['reference_lap_time_s'] == 100
+    assert block['time_profile'][-1]['time_s'] == pytest.approx(100)
+    assert block['polyline'] == asset['polyline']
+    assert block['qualifying_reference_lap_time_s'] == asset['reference_lap_time_s']
+    assert asset['time_profile'][-1]['time_s'] != 100  # caller's shape source is untouched
+    for race, qualifying in zip(block['time_profile'], asset['time_profile']):
+        assert race['distance_m'] == qualifying['distance_m']
+        assert race['time_s'] == pytest.approx(qualifying['time_s'] * 100 / asset['reference_lap_time_s'])
+    circuit = CircuitMap(block)
+    assert circuit.position(block['leader']['distance_m'],100)['distance_m'] == pytest.approx(block['leader']['distance_m'])
+    assert block['ghost_rejoin']['position'] == 3
+    assert block['ghost_rejoin']['gap_to_car_ahead_s'] == 3.5
+
+
+def test_cutoff_race_pace_default_and_invalid_override():
+    state = SyntheticRaceAdapter.create_race_state(last_lap_time_s=92)
+    assert build_cutoff_track(state)['time_profile'][-1]['time_s'] == pytest.approx(92)
+    with pytest.raises(ValueError):
+        build_cutoff_track(state, TrackScenarioConfig(reference_race_lap_time_s=-1))
+    with pytest.raises(ValueError):
+        build_cutoff_track(state, TrackScenarioConfig(reference_race_lap_time_s=0))

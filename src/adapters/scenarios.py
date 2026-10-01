@@ -5,6 +5,7 @@ from pydantic import BaseModel
 
 class TrackScenarioConfig(BaseModel):
     track_id: str = "silverstone"
+    reference_race_lap_time_s: Optional[float] = None
     leader_distance_m: Optional[float] = None
     leader_before_pit_entry_m: float = 25.0
     rain_first_sector: int = 2

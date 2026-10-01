@@ -4,6 +4,7 @@ Gap is positive behind the leader. Unwrapped distance preserves lap deficits;
 wrapped distance is only a drawing coordinate. No future telemetry is consumed.
 """
 from bisect import bisect_right
+from copy import deepcopy
 import json
 import math
 from pathlib import Path
@@ -80,6 +81,19 @@ def build_cutoff_track(state, config=None, asset=None):
     asset = asset if asset is not None else json.loads(TRACK_FILE.read_text(encoding="utf-8"))
     if asset["id"] != config.track_id:
         raise ValueError("Scenario track does not match asset")
+    asset = deepcopy(asset)
+    qualifying_duration = asset['reference_lap_time_s']
+    race_duration = (config.reference_race_lap_time_s if config.reference_race_lap_time_s is not None
+                     else state.subject_driver.last_lap_time_s)
+    if not math.isfinite(race_duration) or race_duration <= 0:
+        raise ValueError('Reference race lap time must be positive and finite')
+    scale = race_duration / qualifying_duration
+    asset['time_profile'] = [{**p, 'time_s': p['time_s'] * scale} for p in asset['time_profile']]
+    asset['qualifying_reference_lap_time_s'] = qualifying_duration
+    asset['reference_lap_time_s'] = race_duration
+    asset['timing_basis'] = {'race_lap_time_s': race_duration, 'scale': scale,
+                             'kind': 'config' if config.reference_race_lap_time_s is not None else 'measured',
+                             'source': 'scenario override' if config.reference_race_lap_time_s is not None else 'synthetic cutoff subject last lap'}
     circuit = CircuitMap(asset)
     leader_distance = config.leader_distance_m
     if leader_distance is None:
@@ -95,15 +109,22 @@ def build_cutoff_track(state, config=None, asset=None):
         car["kind"] = "synthetic"  # this fixture entry point is for synthetic cutoff state
     eta = state.weather_forecast.expected_arrival_laps.value
     sector = next(s for s in asset["sectors"] if s["sector"] == config.rain_first_sector)
+    ghost = circuit.rejoin(leader_distance, state.subject_driver.driver, cars, state.pit_loss.current_pit_loss_s)
+    ghost['label'] = rejoin_label(ghost)
     return {**asset, "cutoff_lap": state.current_lap,
             "leader": {"driver": min(cars, key=lambda c: c["gap_to_leader_s"])["driver"],
                        "distance_m": leader_distance, "kind": "config"},
             "cars": sorted(cars, key=lambda c: c["gap_to_leader_s"]),
-            "ghost_rejoin": circuit.rejoin(leader_distance, state.subject_driver.driver, cars,
-                                          state.pit_loss.current_pit_loss_s),
+            "ghost_rejoin": ghost,
             "rain_overlay": {"kind": "forecast", "source": "synthetic scenario forecast",
                              "first_sector": config.rain_first_sector,
                              "start_distance_m": sector["start_distance_m"], "end_distance_m": sector["end_distance_m"],
                              "location_basis": "configured illustrative first-arrival sector; not radar",
                              "eta_laps": eta, "arrival_lap": state.current_lap + eta if eta is not None else None,
                              "probability": state.weather_forecast.rain_probability.value}}
+
+
+def rejoin_label(ghost):
+    neighbours = (f", {ghost['display']['gap_to_car_ahead_s']:.1f} s behind {ghost['car_ahead']}"
+                  if ghost['car_ahead'] else ', clear track ahead')
+    return f"If you box: P{ghost['position']}{neighbours}"

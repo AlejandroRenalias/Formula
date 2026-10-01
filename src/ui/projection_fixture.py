@@ -1,5 +1,6 @@
 """Build presentation fields offline; the browser performs no strategy modelling."""
 from math import ceil, floor
+from src.calculators.tyre_model import TyreModel
 
 
 def build_projection_view(result, state):
@@ -124,7 +125,27 @@ def build_projection_view(result, state):
     factor_rows = [{'factor': key.replace('_', ' '), 'points': f'{value:+.2f}'} for key, value in result['scorer']['score_breakdown'].items()]
     assumption_rows = [{'name': a['name'].replace('_', ' '), 'value': str(a['value']), 'kind': a['kind']} for a in result['assumptions']]
     spread = assumption['rain_eta_spread_laps']
-    return {'display': {'base': base, 'operating': f"{subject.driver} · LAP {result['cutoff_lap']} / {result['horizon_lap']}",
+    track = result['track']
+    rain = track['rain_overlay']
+    health = TyreModel.estimate_tyre_condition(subject.current_compound, subject.stint_length_laps)
+    tyre_colours = {'MEDIUM': '#f1cf58', 'HARD': '#e0e8ef', 'SOFT': '#ff727c', 'INTERMEDIATE': '#67d4a3', 'WET': '#68a6ff'}
+    map_display = {'name': track['name'], 'rain_label': f"Rain {rain['probability'] * 100:.0f}%, around lap {rain['arrival_lap']} (forecast)",
+        'rotation_degrees': -90, 'orientation_source': 'https://www.formula1.com/en/racing/2025/great-britain',
+        'rejoin_label': track['ghost_rejoin']['label'], 'selected_driver': subject.driver,
+        'selected_colour': next(c['team_colour'] for c in track['cars'] if c['driver'] == subject.driver),
+        'marker_labels': {'start_finish': 'S/F', 'pit_entry': 'Pit in', 'pit_exit': 'Pit out'},
+        'sector_labels': [f"S{s['sector']}" for s in track['sectors']],
+        'rejoin_template': 'If you box: P{position}, {gap} s behind {ahead}',
+        'clear_rejoin_template': 'If you box: P{position}, clear track ahead',
+        'map_note': 'Synthetic positions · approximate pit markers · configured rain sector',
+        'aria_prefix': 'Silverstone at the cutoff. ',
+        'position_summary': '. '.join(f"{c['driver']}: {c['gap_to_leader_s']:.1f} s behind leader" for c in track['cars'])}
+    return {'display': {'base': base, 'operating': subject.driver,
+                       'lap_counter': {'current': str(result['cutoff_lap']), 'total': str(result['horizon_lap'])},
+                       'current_tyre': {'label': f"{subject.current_compound.value.title()}, {subject.stint_length_laps} laps",
+                           'compound': subject.current_compound.value, 'colour': tyre_colours[subject.current_compound.value],
+                           'health': health, 'health_label': f"{health * 100:.0f}% estimated health", 'letter': subject.current_compound.value[0]},
+                       'map': map_display,
                        'tyres': f"{subject.current_compound.value} · {subject.stint_length_laps} laps old · {state.track_status.value}",
                        'field': field, 'radio': radio, 'policy_rows': policy_rows, 'factor_rows': factor_rows,
                        'plan_margin': f"{result['display']['plan_margin_s']:.1f} s", 'sweep_rows': sweep_rows,

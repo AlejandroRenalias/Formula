@@ -294,3 +294,23 @@ location, not radar or wind direction), with probability and ETA read from the
 cutoff weather forecast: 70%, four laps, lap 22. The entire overlay is tagged
 `forecast`; location basis is disclosed. No drifting rain-cell trajectory is
 invented. Runtime map computation uses no FastF1, network or future lap history.
+
+The cutoff track block scales every qualifying-profile time by race-reference
+duration / qualifying duration before converting race gaps. The scenario may
+override `reference_race_lap_time_s`; otherwise the synthetic subject's last lap
+known at cutoff is used (91.5 s here). Qualifying duration (85.819 s), scale and
+timing provenance remain serialized. Geometry, distance stations and sector
+distances do not change. This assumes the race lap has the same relative speed
+shape as qualifying, with a uniform time multiplier, not section-specific wear.
+
+The map view rotates the source by -90 degrees and converts positive Y to screen
+Y, matching the standard orientation shown at
+https://www.formula1.com/en/racing/2025/great-britain (start/finish upper left,
+Stowe left, Luffield upper right). No logo or official font is used. The call uses
+locally bundled Barlow Condensed ExtraBold Italic under its included OFL licence;
+only the call is italic. The tyre health arc uses the existing TyreModel estimate,
+not measured tread wear. Map labels occupy separate packed side rails. Browser
+pit-loss changes use the fixture's scaled profile and fixed cutoff gaps to redraw
+the equivalent-progress ghost and neighbours; they do not simulate the pit lane
+or change the precomputed recommendation. The forecast sector is a soft static
+overlay; no rain motion or wind vector is inferred.

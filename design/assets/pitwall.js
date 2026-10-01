@@ -4,7 +4,72 @@
   const $ = id => document.getElementById(id);
   const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const table = (headers, rows) => `<div class="table-scroll"><table class="math-table"><thead><tr>${headers.map(h => `<th>${escape(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(row => `<tr>${row.map(cell => `<td>${escape(cell)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
-  let data, example, active = null;
+  let data, example, active = null, track;
+
+  function drawMap(loss = track.ghost_rejoin.pit_loss_s) {
+    const display = data.map, geometry = FormulaCircuit;
+    const ghost = geometry.rejoin(track, loss);
+    const radians = display.rotation_degrees * Math.PI / 180;
+    const xy = p => ({x:330 + 480 * (p.x * Math.cos(radians) - p.y * Math.sin(radians)),
+                      y:212 - 480 * (p.x * Math.sin(radians) + p.y * Math.cos(radians))});
+    const pointAt = distance => xy({x:geometry.interpolate(distance,track.polyline,'distance_m','x'),
+                                   y:geometry.interpolate(distance,track.polyline,'distance_m','y')});
+    const line = points => points.map((p,i) => `${i?'L':'M'}${p.x},${p.y}`).join(' ');
+    const sector = track.rain_overlay;
+    const rainPoints = track.polyline.filter(p => p.distance_m > sector.start_distance_m && p.distance_m < sector.end_distance_m).map(xy);
+    rainPoints.unshift(pointAt(sector.start_distance_m)); rainPoints.push(pointAt(sector.end_distance_m));
+    const subject = track.cars.find(c => c.driver === display.selected_driver);
+    const highlight = Array.from({length:81},(_,i) => xy(geometry.position(track,track.leader.distance_m,
+      subject.gap_to_leader_s + loss * i/80)));
+    let svg = `<defs><filter id="rain-soft" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="17"/></filter><pattern id="chequer" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="var(--paper)"/><path d="M0 0h4v4H0zM4 4h4v4H4z" fill="var(--ink)"/></pattern></defs>`;
+    svg += `<path class="rain-cell" d="${line(rainPoints)}"/><path class="circuit-track" d="${line(track.polyline.map(xy))}"/><path class="pit-distance-glow" d="${line(highlight)}"/><path class="pit-distance" d="${line(highlight)}"/>`;
+    const labels = [];
+    const addLabel = (p,text,colour='var(--muted)',kind='marker') => labels.push({...p,text,colour,kind});
+    const start = pointAt(track.start_finish.distance_m);
+    svg += `<rect x="${start.x-7}" y="${start.y-7}" width="14" height="14" fill="url(#chequer)" stroke="var(--ink)" stroke-width=".7"/>`;
+    addLabel(start,display.marker_labels.start_finish);
+    track.sectors.forEach((sector,i) => {
+      const distance = sector.end_distance_m % track.lap_length_m;
+      const p = pointAt(distance), before = pointAt((distance-10+track.lap_length_m)%track.lap_length_m), after = pointAt((distance+10)%track.lap_length_m);
+      const dx = after.x-before.x, dy = after.y-before.y, length = Math.hypot(dx,dy);
+      svg += `<path class="sector-tick" d="M${p.x-dy/length*9} ${p.y+dx/length*9}L${p.x+dy/length*9} ${p.y-dx/length*9}"/>`;
+      addLabel(p,display.sector_labels[i]);
+    });
+    ['pit_entry','pit_exit'].forEach(key => {
+      const p=pointAt(track[key].distance_m);
+      svg += `<path class="pit-marker" d="M${p.x} ${p.y-5}l5 5-5 5-5-5z"/>`;
+      addLabel(p,display.marker_labels[key]);
+    });
+    track.cars.forEach(car => {
+      const p = xy(car), selected = car.driver === display.selected_driver;
+      if (selected) svg += `<circle class="selected-ring" cx="${p.x}" cy="${p.y}" r="12" stroke="${escape(car.team_colour)}"/>`;
+      svg += `<circle class="car-dot" data-driver="${escape(car.driver)}" cx="${p.x}" cy="${p.y}" r="${selected?7:5}" fill="${escape(car.team_colour)}"/>`;
+      addLabel(p,car.driver,car.team_colour,'car');
+    });
+    const g = xy(ghost);
+    svg += `<circle id="ghost-dot" class="ghost-ring" data-distance="${ghost.distance_m}" data-position="${ghost.position}" cx="${g.x}" cy="${g.y}" r="12" stroke="${escape(display.selected_colour)}"/>`;
+    addLabel(g,display.selected_driver+' · BOX',display.selected_colour,'ghost');
+    // Dedicated side rails, packed in Y order: label boxes never overlap.
+    for (const left of [true,false]) {
+      const rail = labels.filter(p => (p.x<330) === left).sort((a,b) => a.y-b.y);
+      let previous=30;
+      rail.forEach(p => { p.labelY=Math.max(previous+29,Math.min(370,p.y)); previous=p.labelY; });
+      for (let i=rail.length-1;i>=0;i--) rail[i].labelY=Math.min(rail[i].labelY,370-(rail.length-1-i)*29);
+      rail.forEach(p => {
+        const mobile = window.matchMedia('(max-width:450px)').matches;
+        const width = p.text.length * (mobile ? 12 : 8.4);
+        const anchor=left?Math.max(width+12,Math.min(300,p.x-25)):Math.min(648-width,Math.max(360,p.x+25));
+        const elbow=left?anchor+8:anchor-8;
+        svg += `<path class="map-leader" d="M${p.x} ${p.y}L${elbow} ${p.labelY}"/><text data-map-label="${p.kind}" class="map-label" x="${anchor}" y="${p.labelY+4}" text-anchor="${left?'end':'start'}" fill="${escape(p.colour)}">${escape(p.text)}</text>`;
+      });
+    }
+    const label = ghost.car_ahead ? display.rejoin_template.replace('{position}',ghost.position).replace('{gap}',ghost.gap_to_car_ahead_s.toFixed(1)).replace('{ahead}',ghost.car_ahead)
+      : display.clear_rejoin_template.replace('{position}',ghost.position);
+    $('circuit').innerHTML=svg;
+    $('circuit').setAttribute('aria-label',display.aria_prefix + display.position_summary + '. ' + label + '. ' + display.rain_label);
+    $('rejoin-label').textContent=label;
+    $('rain-label').textContent=display.rain_label;
+  }
 
   function showView(view) {
     for (const id of ['call','margin','reason','confidence','flip','plan','chief']) $(id).textContent = view[id];
@@ -51,13 +116,24 @@
       if (input) { input.value = chosen; $(other.assumption + '-value').textContent = other.points[chosen].label; }
     });
     showView(offBase ? sweep.points[index].display : data.base);
+    drawMap(sweep.assumption === 'pit_loss_s' ? sweep.points[index].value : track.ghost_rejoin.pit_loss_s);
   }
 
   function render(fixture) {
     data = fixture.ui.display;
+    track = fixture.track;
+    document.documentElement.style.setProperty('--accent',data.map.selected_colour);
     const download = document.querySelector('footer a[download]');
     download.href = URL.createObjectURL(new Blob([JSON.stringify(fixture, null, 2)], {type:'application/json'}));
     $('operating').textContent = data.operating;
+    $('lap-current').textContent = data.lap_counter.current;
+    $('lap-total').textContent = data.lap_counter.total;
+    const tyre = data.current_tyre, circumference = 2*Math.PI*39;
+    $('tyre-ring').innerHTML=`<circle class="tyre-base" cx="50" cy="50" r="39" stroke="${escape(tyre.colour)}"/><circle class="tyre-health" cx="50" cy="50" r="39" stroke="${escape(tyre.colour)}" stroke-dasharray="${circumference*tyre.health} ${circumference}" transform="rotate(-90 50 50)"/><text x="50" y="60" text-anchor="middle" fill="${escape(tyre.colour)}">${escape(tyre.letter)}</text>`;
+    $('tyre-ring').setAttribute('aria-label',tyre.label+', '+tyre.health_label);
+    $('tyre-age').textContent=tyre.label;
+    $('circuit-title').textContent=data.map.name;
+    $('map-note').textContent=data.map.map_note;
     $('tyres').textContent = data.tyres;
     showView(data.base);
     example = data.chart.scenarios[0].id;
@@ -72,7 +148,7 @@
     $('sliders').innerHTML = shown.map(s => `<div><label class="slider-label" for="${s.assumption}"><span>${names[s.assumption]}</span><output id="${s.assumption}-value">${escape(s.points[s.base_index].label)}</output></label><input id="${s.assumption}" data-assumption="${s.assumption}" type="range" min="0" max="${s.points.length-1}" value="${s.base_index}" step="1"><div class="slider-note">${escape(s.assumption === 'safety_car_lap' ? 'Simplified bunching model' : 'Precomputed points')}</div></div>`).join('');
     shown.forEach(s => $(s.assumption).addEventListener('input', event => sliderChanged(s, Number(event.target.value))));
     $('reset').addEventListener('click', () => sliderChanged(shown[0], shown[0].base_index));
-    const colours = {McLaren:'#ff9b45','Red Bull':'#7d9cff',Mercedes:'#52dfce',Ferrari:'#ff6573'};
+    const colours = Object.fromEntries(track.cars.map(c => [c.team,c.team_colour]));
     $('field').innerHTML = data.field.map(d => `<tr class="${d.selected ? 'selected' : ''}"><td>${escape(d.position)}</td><td><span class="team-mark" style="--team-colour:${colours[d.team] || '#b7c8d8'}"></span><span class="driver-code">${escape(d.driver)}</span><span class="driver-team">${escape(d.team)}</span></td><td>${escape(d.gap)}</td><td><span class="tyre tyre-${escape(d.compound)}">${escape(d.compound[0])}</span></td></tr>`).join('');
     $('policy-table').innerHTML = table(['Policy','Expected remaining time / s','Stop budget','Status'],data.policy_rows.map(p => [p.policy,p.time,p.stops,p.status]));
     $('plan-margin').textContent = 'Plan margin: ' + data.plan_margin + ' between the two best policies overall.';
@@ -83,6 +159,11 @@
     $('factor-table').innerHTML = table(['Factor','Weighted points'],data.factor_rows.map(f => [f.factor,f.points]));
     $('radio-lines').innerHTML = data.radio.map(r => `<details><summary><strong>${escape(r.role)}</strong><span>${escape(r.text)}</span><span class="vote">${escape(r.vote)}</span></summary><p>${escape('Legacy scorer candidate: ' + r.candidate + '. ' + r.text)}</p></details>`).join('');
     drawChart();
+    drawMap();
+    window.matchMedia('(max-width:450px)').addEventListener('change', () => {
+      const sweep=data.sweeps.find(s=>s.assumption==='pit_loss_s');
+      drawMap(active === 'pit_loss_s' ? sweep.points[Number($('pit_loss_s').value)].value : track.ghost_rejoin.pit_loss_s);
+    });
     $('workspace').hidden = false;
   }
 

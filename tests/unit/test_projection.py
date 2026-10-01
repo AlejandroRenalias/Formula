@@ -224,11 +224,11 @@ def test_committed_fixture_reproduces_from_its_source_inputs():
     result = run_projection_cycle(RaceState.model_validate(source["state"]),
                                   ProjectionConfig.model_validate(source["config"]))
     from src.ui.projection_fixture import build_projection_view
-    result['ui'] = build_projection_view(result, RaceState.model_validate(source['state']))
     from src.adapters.scenarios import TrackScenarioConfig
     from src.calculators.circuit_map import build_cutoff_track
     result['track'] = build_cutoff_track(RaceState.model_validate(source['state']),
                                        TrackScenarioConfig.model_validate(source['track_config']))
+    result['ui'] = build_projection_view(result, RaceState.model_validate(source['state']))
     assert result == saved
 
 

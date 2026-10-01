@@ -47,3 +47,16 @@ def test_every_ui_sweep_point_uses_the_engine_display_margin_and_call():
             expected = points[point['value']]
             assert f"+{expected['display']['call_margin_s']:.1f} s" in point['display']['margin']
             assert point['display']['call'] == ('BOX NOW' if expected['call'] == 'BOX_NOW' else 'STAY OUT')
+
+
+def test_map_and_tyre_display_use_cutoff_fixture_and_embedded_assets():
+    fixture = json.loads((ROOT / 'tests/fixtures/projection_lap18.json').read_text(encoding='utf-8'))
+    ui = fixture['ui']['display']
+    assert ui['lap_counter'] == {'current': str(fixture['cutoff_lap']), 'total': str(fixture['horizon_lap'])}
+    assert ui['current_tyre']['health'] == 1 - 17 / 28
+    assert ui['map']['rejoin_label'] == fixture['track']['ghost_rejoin']['label']
+    assert '70%' in ui['map']['rain_label'] and 'lap 22' in ui['map']['rain_label']
+    document = projection_document()
+    assert 'id="circuit"' in document and 'id="tyre-ring"' in document
+    assert 'assets/circuit-map.js' not in document
+    assert 'data:font/ttf;base64,' in document

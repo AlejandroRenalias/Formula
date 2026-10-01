@@ -1,5 +1,6 @@
 """Default application view: the fixture-driven custom decision workspace."""
 import json
+import base64
 from pathlib import Path
 import streamlit as st
 
@@ -10,11 +11,15 @@ def projection_document():
     document = (ROOT / 'design/pitwall-concept.html').read_text(encoding='utf-8-sig')
     css = (ROOT / 'design/assets/pitwall.css').read_text(encoding='utf-8')
     js = (ROOT / 'design/assets/pitwall.js').read_text(encoding='utf-8')
+    geometry_js = (ROOT / 'design/assets/circuit-map.js').read_text(encoding='utf-8')
+    font = base64.b64encode((ROOT / 'design/assets/fonts/BarlowCondensed-ExtraBoldItalic.ttf').read_bytes()).decode('ascii')
+    css = css.replace('fonts/BarlowCondensed-ExtraBoldItalic.ttf', 'data:font/ttf;base64,' + font)
     fixture = json.loads((ROOT / 'tests/fixtures/projection_lap18.json').read_text(encoding='utf-8'))
     payload = json.dumps(fixture, allow_nan=False).replace('<', chr(92) + 'u003c')
     document = document.replace('<link rel="stylesheet" href="assets/pitwall.css">', '<style>' + css + '</style>')
     document = document.replace('<script src="assets/pitwall.js"></script>',
         '<script id="projection-fixture" type="application/json">' + payload + '</script><script>' + js + '</script>')
+    document = document.replace('<script src="assets/circuit-map.js"></script>', '<script>' + geometry_js + '</script>')
     return document
 
 
