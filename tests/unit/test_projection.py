@@ -223,6 +223,8 @@ def test_committed_fixture_reproduces_from_its_source_inputs():
     source = saved.pop("fixture")
     result = run_projection_cycle(RaceState.model_validate(source["state"]),
                                   ProjectionConfig.model_validate(source["config"]))
+    from src.ui.projection_fixture import build_projection_view
+    result['ui'] = build_projection_view(result, RaceState.model_validate(source['state']))
     assert result == saved
 
 
@@ -231,7 +233,7 @@ def test_call_compares_action_groups_instead_of_runner_up_policy():
     best = result["best_policies_by_call"]
     assert result["call"] == "STAY_OUT"
     assert best["STAY_OUT"] == result["recommended"]
-    assert best["BOX_NOW"] == "box_now"
+    assert by_id(result, best["BOX_NOW"])["policy"]["dry_stops"][0]["lap"] == 18
     difference = by_id(result, best["BOX_NOW"])["mean_time_to_finish_s"] - by_id(result, best["STAY_OUT"])["mean_time_to_finish_s"]
     assert result["call_margin_s"] == pytest.approx(difference, abs=.0001)
     assert result["call_margin_s"] > result["plan_margin_s"]
@@ -344,6 +346,16 @@ def test_sc_opportunity_respects_compound_legality_with_one_stop_left():
                          degradation_spread_fraction=0), include_flips=False)
     assert by_id(result, "wait")["invalid_probability"] == 0
     assert by_id(result, "wait")["stops"][0]["compound"] == "HARD"
+
+
+def test_default_box_and_stay_have_matched_second_stop_options_and_budget():
+    from src.calculators.projection import default_policies
+    policies = default_policies(state(), cfg())
+    assert len(policies) == 9
+    assert all(p.max_stops == 2 for p in policies)
+    box = {p.dry_stops[1] for p in policies if len(p.dry_stops) == 2 and p.dry_stops[0].lap == 18}
+    stay = {p.dry_stops[1] for p in policies if len(p.dry_stops) == 2 and p.dry_stops[0].lap > 18}
+    assert box == stay and {s.lap for s in box} == {34, 38}
 
 
 def test_safety_car_compresses_the_field_in_position_order():

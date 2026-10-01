@@ -50,7 +50,9 @@ with the scorer. Neither module changes the UI.
   weather loss. Weather overrides that lap's scheduled dry stop; once on wet
   tyres, later dry stops are skipped because rain persists in this model.
 - Default policies: BOX now; four alternative dry deadlines on a four-lap grid;
-  one two-stop dry alternative. The set is capped at six. Every policy has at
+  matching BOX/STAY two-stop variants on second-stop boundaries 34 and 38 in the
+  lap-18 fixture. The default set is capped at nine; paired variants are added
+  together so a smaller configured cap cannot favour one action. Every policy has at
   most two more stops, including reactive stops. No exhaustive strategy search
   or tyre inventory is modelled. A policy exhausting its stop budget keeps its
   existing tyres and pays their continuing weather/wear costs.
@@ -169,6 +171,9 @@ with the scorer. Neither module changes the UI.
   subject stopwatch. No pit-lane queues, gradual pack catch-up, lapped-car rules,
   restart dynamics, or stochastic SC duration are modeled. A duration of two
   means neutralized running laps 19/20 and cheap stops at boundaries 19/20.
+- Moving SC onset from 19 (STAY +13.6s) to 20 (BOX +1.8s) lets BOX's already-paid
+  green-stop loss be mostly recovered by bunching before STAY pays its later SC
+  stop; those signs depend on this instant-compression timing assumption.
 
 ### Series, thresholds and reproducibility
 
@@ -223,3 +228,25 @@ with the scorer. Neither module changes the UI.
 
 This model is intentionally small and uncalibrated. Sanity cases validate its
 internal mechanics and expected qualitative behaviour, not race prediction accuracy.
+
+## Fixture-driven workspace
+
+The fixture generator adds `ui.display` presentation fields for the custom view.
+All displayed numbers, chart ticks, narratives, table cells, and slider point
+labels come from these fields. Browser sliders select a precomputed single-input
+sweep point; they do not combine assumptions or rerun the engine. Off-base points
+dim the base chart and disclose that its assumptions have not changed.
+
+The observed trace is the cumulative lap-time residual versus the average known
+lap pace, centered to zero at cutoff. The example future chart uses a shared
+running reference: the mean of the two example cumulative times after stripping
+their pit costs. Subtract each actual example time from that reference; higher is
+faster and stops are visible drops. This is a display coordinate transformation,
+not a new strategy model. Exact example paths and sampled group expected margins
+can differ; the chart explicitly labels the bracket as sampled group statistics.
+No observed trace is historical telemetry in this synthetic fixture.
+
+The custom workspace is the default app view. Historical and legacy data tools
+remain available with `?view=legacy`. The standalone preview runs with
+`python -m tools.serve_projection`, reading the same canonical fixture without
+copying it. The old static scorer study is preserved separately for reference.

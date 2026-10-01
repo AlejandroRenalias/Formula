@@ -5,6 +5,7 @@ from pathlib import Path
 from src.adapters.synthetic_adapter import SyntheticRaceAdapter
 from src.calculators.projection import ProjectionConfig
 from src.orchestrator.projection_pipeline import run_projection_cycle
+from src.ui.projection_fixture import build_projection_view
 
 
 def main():
@@ -13,6 +14,7 @@ def main():
         rain_arrival_laps=4, rain_intensity="LIGHT")
     config = ProjectionConfig()
     result = run_projection_cycle(state, config)
+    result['ui'] = build_projection_view(result, state)
     result["fixture"] = {"source": "synthetic", "generation": "python -m tools.generate_projection_fixture",
                          "state": state.model_dump(mode="json"), "config": config.model_dump(mode="json")}
     destination = Path(__file__).resolve().parents[1] / "tests" / "fixtures" / "projection_lap18.json"

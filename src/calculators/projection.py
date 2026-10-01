@@ -60,7 +60,7 @@ class ProjectionConfig(BaseModel):
     traffic_gap_s: float = Field(default=1.0, gt=0)
     traffic_penalty_s: float = Field(default=0.4, ge=0)
     dry_grid_step_laps: int = Field(default=4, ge=1)
-    max_policies: int = Field(default=6, ge=2, le=20)
+    max_policies: int = Field(default=9, ge=2, le=20)
     safety_car_lap: int | None = Field(default=None, ge=1)
     safety_car_duration_laps: int = Field(default=2, ge=1)
     safety_car_pack_gap_s: float = Field(default=0.5, ge=0)
@@ -127,14 +127,19 @@ def default_policies(state: RaceState, config: ProjectionConfig) -> tuple[Policy
     for lap in range(state.current_lap + config.dry_grid_step_laps, last + 1, config.dry_grid_step_laps):
         policies.append(Policy(id=f"wait_to_{lap}", label=f"STAY; crossover or dry stop after lap {lap}",
                                dry_stops=(Stop(lap=lap, compound=compound),)))
-        if len(policies) >= max(2, config.max_policies - 1):
+        if len(policies) >= min(5, config.max_policies):
             break
     first = state.current_lap + config.dry_grid_step_laps
     second = first + 4 * config.dry_grid_step_laps
-    if len(policies) < config.max_policies and second < state.total_laps:
-        other = TireCompound.MEDIUM if compound == TireCompound.HARD else TireCompound.HARD
-        policies.append(Policy(id=f"two_stop_{first}_{second}", label=f"Two dry stops after laps {first} and {second}; react to rain",
-                               dry_stops=(Stop(lap=first, compound=compound), Stop(lap=second, compound=other))))
+    other = TireCompound.MEDIUM if compound == TireCompound.HARD else TireCompound.HARD
+    # Add matched variants as pairs: neither immediate action gets a larger
+    # second-stop search space just because its initial stop is earlier/later.
+    for later in (second, second - config.dry_grid_step_laps):
+        if len(policies) + 2 <= config.max_policies and first < later < state.total_laps:
+            for initial, pid in ((state.current_lap, f"box_two_stop_{later}"),
+                                 (first, f"two_stop_{first}_{later}")):
+                policies.append(Policy(id=pid, label=f"Two dry stops after laps {initial} and {later}; react to rain",
+                    dry_stops=(Stop(lap=initial, compound=compound), Stop(lap=later, compound=other))))
     if len(policies) == 1:
         policies.append(Policy(id="stay", label="STAY; switch at crossover", dry_stops=()))
     return tuple(policies)
