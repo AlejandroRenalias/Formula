@@ -239,16 +239,17 @@ def test_call_compares_action_groups_instead_of_runner_up_policy():
 
 
 def test_win_rate_uses_paired_probability_mass_not_winning_call_frequency():
-    result = project(state(.7, 12), plans(), cfg(), include_flips=False)
+    config = cfg(call_tolerance_s=0, degradation_spread_fraction=0)
+    result = project(state(.7, 12), plans(), config, include_flips=False)
     assert result["call"] == "BOX_NOW"
-    assert result["call_win_rate"] == .3  # STAY wins dry; BOX wins rain.
+    assert result["call_win_rate"] == pytest.approx(.3)  # STAY wins dry; BOX wins rain.
     bands = result["call_comparison"]
     assert bands["stay_policy_id"] == "wait" and bands["box_policy_id"] == "box"
     assert bands["p10"][-1] < 0 < bands["p90"][-1]
     assert bands["median"] == by_id(result, "wait")["median"]
     assert bands["p10"] == by_id(result, "wait")["p10"]
     assert bands["p90"] == by_id(result, "wait")["p90"]
-    reordered = project(state(.7, 12), tuple(reversed(plans())), cfg(), include_flips=False)
+    reordered = project(state(.7, 12), tuple(reversed(plans())), config, include_flips=False)
     assert reordered["call_comparison"] == bands
     assert reordered["call_win_rate"] == result["call_win_rate"]
 
@@ -282,7 +283,7 @@ def test_representative_scenarios_preserve_specific_stop_laps_and_times():
             assert plan["finish_legal"]
             policy = next(p for p in plans() if p.id == plan["policy_id"])
             trace = simulate_policy(_snapshot(s, config), policy, Scenario(scenario["rain_lap"], 0, 1), config)
-            assert plan["cumulative_time"] == [round(t, 4) for t in trace.times]
+            assert plan["cumulative_time"] == trace.times
     assert [s["lap"] for s in next(p for p in wet["plans"] if p["policy_id"] == "wait")["stops"]] == [22]
     assert [s["lap"] for s in next(p for p in dry["plans"] if p["policy_id"] == "wait")["stops"]] == [26]
 
@@ -305,3 +306,97 @@ def test_missing_eta_does_not_invent_a_probability_sweep_or_rain_chart():
     assert [s["id"] for s in result["scenarios"]] == ["stays_dry"]
     with pytest.raises(ValueError, match="probability sweep"):
         cfg(rain_probability_sweep=(1.1,))
+
+
+def test_safety_car_opportunity_advances_stop_without_double_stopping():
+    result = project(state(), plans(), cfg(safety_car_lap=19,
+                         degradation_spread_fraction=0), include_flips=False)
+    assert result["call"] == "STAY_OUT"
+    box, wait = by_id(result, "box"), by_id(result, "wait")
+    assert box["stops"][0]["pit_loss_s"] == 21.5  # Before SC is observed.
+    assert len(wait["stops"]) == 1
+    assert wait["stops"][0]["lap"] == 19
+    assert wait["stops"][0]["pit_loss_s"] == 9.5
+    assert wait["stops"][0]["reason"] == "safety_car_opportunity"
+    expensive_sc = state()
+    expensive_sc.pit_loss.sc_pit_loss_s = 30
+    no_benefit = project(expensive_sc, plans(), cfg(safety_car_lap=19,
+                               degradation_spread_fraction=0), include_flips=False)
+    assert by_id(no_benefit, "wait")["stops"][0]["lap"] == 26
+
+
+def test_box_policy_can_take_opportunistic_inters_under_sc():
+    result = project(state(1), plans(), cfg(safety_car_lap=20,
+                         degradation_spread_fraction=0), include_flips=False)
+    stops = by_id(result, "box")["stops"]
+    assert stops[0]["pit_loss_s"] == 21.5
+    assert stops[1]["compound"] == "INTERMEDIATE"
+    assert stops[1]["reason"] == "safety_car_opportunity"
+    assert stops[1]["pit_loss_s"] == 9.5
+
+
+def test_sc_opportunity_respects_compound_legality_with_one_stop_left():
+    s = state()
+    s.total_laps = 26
+    policy = Policy(id="wait", label="One remaining stop", max_stops=1,
+                    react_to_weather=False, dry_stops=(Stop(lap=24, compound=TireCompound.HARD),))
+    result = project(s, (policy,), cfg(safety_car_lap=19,
+                         degradation_spread_fraction=0), include_flips=False)
+    assert by_id(result, "wait")["invalid_probability"] == 0
+    assert by_id(result, "wait")["stops"][0]["compound"] == "HARD"
+
+
+def test_safety_car_compresses_the_field_in_position_order():
+    s = SyntheticRaceAdapter.create_race_state(current_lap=18, total_laps=52, stint_length_laps=17)
+    s.subject_driver.position = 3
+    s.subject_driver.last_lap_time_s = 100
+    s.competitors = [r.model_copy(update={"gap_to_subject_s": gap, "current_compound": TireCompound.MEDIUM,
+                                        "tyre_age_laps": 17, "last_lap_time_s": 100})
+                     for r, gap in zip(s.competitors, (10, 20))]
+    stay = Policy(id="stay", label="No stops", max_stops=0)
+    config = cfg(degradation_scale=0, cliff_rate_s=0, fuel_effect_s_per_lap=0,
+                 safety_car_lap=19, safety_car_pace_delay_s=0)
+    snapshot = _snapshot(s, config)
+    packed = simulate_policy(snapshot, stay, Scenario(None, 0, 1), config)
+    plain = simulate_policy(snapshot, stay, Scenario(None, 0, 1),
+                            config.model_copy(update={"safety_car_lap": None}))
+    assert plain.times[1] - packed.times[1] == pytest.approx(19)
+    assert packed.positions[1] == 3
+
+
+def test_confidence_tolerance_counts_boundary_as_too_close():
+    from src.calculators.projection import Trace, _confidence
+    scenarios = [Scenario(None, 0, .25), Scenario(None, 0, .25),
+                 Scenario(22, 0, .25), Scenario(22, 0, .25)]
+    traces = {"stay": [Trace([0, 100], [], [], True) for _ in scenarios],
+              "box": [Trace([0, t], [], [], True) for t in (101, 102, 98, 99)]}
+    confidence, groups = _confidence(traces, scenarios, "stay", "box", 1)
+    assert confidence["stay_clearly_better"] == .25
+    assert confidence["box_clearly_better"] == .25
+    assert confidence["too_close_to_call"] == .5
+    assert {g["id"]: g["expected_stay_advantage_s"] for g in groups} == {"rain": -1.5, "no_rain": 1.5}
+
+
+def test_dry_wear_uncertainty_prevents_a_sure_win_from_tiny_margin():
+    uncertain = project(state(), plans(), cfg(), include_flips=False)
+    assert uncertain["call_comparison"]["p10"][-1] < uncertain["call_comparison"]["p90"][-1]
+    assert uncertain["call_confidence"]["too_close_to_call"] > .5
+    fixed = project(state(), plans(), cfg(degradation_spread_fraction=0), include_flips=False)
+    assert fixed["call_comparison"]["p10"][-1] == fixed["call_comparison"]["p90"][-1]
+    assert sum(uncertain["call_confidence"][name] for name in
+               ("stay_clearly_better", "box_clearly_better", "too_close_to_call")) == pytest.approx(1)
+
+
+def test_raw_precision_and_display_seconds_are_separate_at_every_sweep_point():
+    result = project(state(.7), plans(), cfg(safety_car_sweep_offsets=(),
+                         rain_sweep_offsets=(4,), rain_probability_sweep=(), pit_loss_sweep_s=(5, 6, 7, 8)))
+    assert result["display"]["call_margin_s"] == round(result["call_margin_s"], 1)
+    assert result["call_margin_s"] != result["display"]["call_margin_s"]
+    for sweep in result["flip_thresholds"]:
+        for point in sweep["sweep"]:
+            assert point["call"] in {"STAY_OUT", "BOX_NOW"}
+            assert point["display"]["call_margin_s"] == round(point["call_margin_s"], 1)
+            assert point["scenario_group_margins"]
+    for scenario in result["scenarios"]:
+        for plan in scenario["plans"]:
+            assert plan["display"]["cumulative_time"] == [round(v, 1) for v in plan["cumulative_time"]]

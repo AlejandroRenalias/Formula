@@ -2,7 +2,6 @@
 from dataclasses import dataclass
 from math import isfinite
 from random import Random
-from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -46,6 +45,8 @@ class ProjectionConfig(BaseModel):
     samples_per_weather_branch: int = Field(default=32, ge=1, le=256)
     rain_eta_spread_laps: int = Field(default=2, ge=0, le=20)
     pit_loss_spread_s: float = Field(default=1.5, ge=0)
+    degradation_spread_fraction: float = Field(default=0.15, ge=0, le=1)
+    call_tolerance_s: float = Field(default=1.0, ge=0)
     wetness_ramp_laps: float = Field(default=2.0, gt=0)
     light_rain_wetness: float = Field(default=0.7, gt=0, le=1)
     fuel_effect_s_per_lap: float = Field(default=0.05, ge=0)
@@ -62,9 +63,12 @@ class ProjectionConfig(BaseModel):
     max_policies: int = Field(default=6, ge=2, le=20)
     safety_car_lap: int | None = Field(default=None, ge=1)
     safety_car_duration_laps: int = Field(default=2, ge=1)
+    safety_car_pack_gap_s: float = Field(default=0.5, ge=0)
+    safety_car_pace_delay_s: float = Field(default=20.0, ge=0)
+    safety_car_min_benefit_s: float = Field(default=0.5, ge=0)
     rain_sweep_offsets: tuple[int, ...] = tuple(range(1, 35))
     rain_probability_sweep: tuple[float, ...] = tuple(v / 10 for v in range(11))
-    pit_loss_sweep_s: tuple[float, ...] = tuple(float(v) for v in range(5, 46, 5))
+    pit_loss_sweep_s: tuple[float, ...] = (5., 6., 7., 8., 10., 15., 20., 25., 30., 35., 40., 45.)
     safety_car_sweep_offsets: tuple[int, ...] = tuple(range(1, 13))
 
     @model_validator(mode="after")
@@ -81,6 +85,7 @@ class Scenario:
     rain_lap: int | None
     pit_offset_s: float
     weight: float
+    degradation_multiplier: float = 1.0
 
 
 @dataclass
@@ -148,13 +153,17 @@ def sample_scenarios(state: RaceState, config: ProjectionConfig) -> tuple[Scenar
     draws = [(rng.randint(-config.rain_eta_spread_laps, config.rain_eta_spread_laps),
               rng.uniform(-config.pit_loss_spread_s, config.pit_loss_spread_s))
              for _ in range(config.samples_per_weather_branch)]
+    # Separate stream preserves paired weather/pit draws when wear spread changes.
+    wear_rng = Random(config.seed + 1)  # nosec B311
+    wear_draws = [wear_rng.uniform(1 - config.degradation_spread_fraction,
+                                  1 + config.degradation_spread_fraction) for _ in draws]
     for rains, mass in ((False, 1 - probability), (True, probability)):
         if mass <= 0:
             continue
-        for offset, pit_offset in draws:
+        for (offset, pit_offset), wear in zip(draws, wear_draws):
             rain_lap = (state.current_lap if state.observed_weather.rainfall.value else
                         max(state.current_lap + 1, state.current_lap + int(eta) + offset)) if rains else None
-            scenarios.append(Scenario(rain_lap, pit_offset, mass / len(draws)))
+            scenarios.append(Scenario(rain_lap, pit_offset, mass / len(draws), wear))
     return tuple(scenarios)
 
 
@@ -180,11 +189,18 @@ def _wet_compound(state, wetness, config):
     return best if cost(best) < cost(TireCompound.HARD) else None
 
 
+def _status(state, boundary, config):
+    if config.safety_car_lap is None:
+        return state.track_status
+    return (TrackStatus.SAFETY_CAR if config.safety_car_lap <= boundary <
+            config.safety_car_lap + config.safety_car_duration_laps else TrackStatus.GREEN)
+
+
 def _pit_loss(state, scenario, lap, config):
     status = state.track_status
-    if config.safety_car_lap is not None:
-        status = (TrackStatus.SAFETY_CAR if config.safety_car_lap <= lap <
-                  config.safety_car_lap + config.safety_car_duration_laps else TrackStatus.GREEN)
+    # Stop at boundary 18 is committed before hypothetical SC onset 19.
+    if lap > state.current_lap + 1:
+        status = _status(state, lap - 1, config)
     return PitLossModel.calculate_pit_loss(status,
         green_loss_s=max(0, state.pit_loss.green_pit_loss_s + scenario.pit_offset_s),
         vsc_loss_s=max(0, state.pit_loss.vsc_pit_loss_s + scenario.pit_offset_s),
@@ -209,7 +225,83 @@ def _call_summary(state, policies, means, ranking, config):
             for action in ("STAY_OUT", "BOX_NOW")}
     stay, box = best["STAY_OUT"], best["BOX_NOW"]
     return {"call": actions[ranking[0]], "best_policies_by_call": best,
-            "call_margin_s": round(abs(means[stay] - means[box]), 4) if stay and box else None}
+            "call_margin_s": abs(means[stay] - means[box]) if stay and box else None}
+
+
+def _sc_opportunity(state, policy, scenario, config, lap, compound, age, stops, remaining, wetness, scale):
+    """Local forecast-based cost check, never given the sampled future rain lap."""
+    if len(stops) >= policy.max_stops:
+        return None
+    crossover = _wet_compound(state, wetness, config) if policy.react_to_weather else None
+    candidates = [crossover] if crossover is not None else [TireCompound.HARD, TireCompound.MEDIUM]
+    if policy.react_to_weather and crossover is None:
+        candidates.append(TireCompound.INTERMEDIATE)
+    probability = 1.0 if wetness > 0 else state.weather_forecast.rain_probability.value
+    eta = state.weather_forecast.expected_arrival_laps.value
+    arrival = lap if wetness > 0 else max(lap, state.current_lap + eta) if eta is not None else None
+    branches = [(None, 1 - probability), (arrival, probability)]
+    cheap = _pit_loss(state, Scenario(None, 0, 1), lap, config)
+    green = state.pit_loss.green_pit_loss_s
+    known_scale = scale / scenario.degradation_multiplier if scenario.degradation_multiplier else 0
+
+    def cost(target):
+        expected = 0.0
+        for rain_lap, weight in branches:
+            if weight == 0:
+                continue
+            c, tyre_age, count = compound, age, len(stops)
+            used = set(state.subject_driver.used_compounds) | {state.subject_driver.current_compound, compound}
+            used.update(TireCompound(s["compound"]) for s in stops)
+            scheduled = list(remaining)
+            total = 0.0
+            if target is not None:
+                c, tyre_age, count, total = target, 0, count + 1, cheap
+                used.add(target)
+                if scheduled and scheduled[0].compound == target:
+                    scheduled.pop(0)  # Advance that dry stop rather than add one.
+            for future in range(lap, state.total_laps + 1):
+                w = _wetness(state, Scenario(rain_lap, 0, 1), future, config)
+                wet = _wet_compound(state, w, config) if policy.react_to_weather else None
+                dry = next((s.compound for s in scheduled if s.lap == future - 1), None)
+                change = wet if wet is not None and c != wet else (dry if wet is None and c not in WET else None)
+                future_loss = _pit_loss(state, Scenario(None, 0, 1), future, config)
+                # In a forecast branch with rain already observed, reserve the
+                # cheap SC stop for a wet switch if its early-running cost is less
+                # than the SC discount. Otherwise a slick stop can look beneficial
+                # only because the rollout incorrectly prices the next wet stop green.
+                if (future > lap and change is None and policy.react_to_weather and w > 0 and c in DRY
+                        and _status(state, future - 1, config) == TrackStatus.SAFETY_CAR):
+                    early_cost = 0.0
+                    for ahead in range(future, state.total_laps + 1):
+                        ahead_w = _wetness(state, Scenario(rain_lap, 0, 1), ahead, config)
+                        if _wet_compound(state, ahead_w, config) is not None:
+                            break
+                        if _status(state, ahead, config) == TrackStatus.SAFETY_CAR:
+                            continue
+                        early_cost += max(0, TyreModel.get_compound_specs(TireCompound.INTERMEDIATE).base_pace_delta_s
+                            + _weather_delta(TireCompound.INTERMEDIATE, ahead_w, state, config)
+                            - TyreModel.get_compound_specs(c).base_pace_delta_s - _weather_delta(c, ahead_w, state, config))
+                    if green - future_loss > early_cost:
+                        change = TireCompound.INTERMEDIATE
+                if future == lap and target is not None:
+                    change = None
+                if change is not None and count < policy.max_stops:
+                    c, tyre_age, count = change, 0, count + 1
+                    used.add(change)
+                    total += future_loss
+                if _status(state, future, config) != TrackStatus.SAFETY_CAR:
+                    total += TyreModel.lap_delta_s(c, tyre_age, known_scale,
+                        config.cliff_rate_s) + _weather_delta(c, w, state, config)
+                tyre_age += 1
+            if not (used & WET) and len(used & DRY) < 2:
+                return float("inf")
+            expected += total * weight
+        return expected
+
+    baseline = cost(None)
+    costs = {candidate: cost(candidate) for candidate in candidates}
+    best = min(costs, key=costs.get)
+    return best if isfinite(costs[best]) and baseline - costs[best] > config.safety_car_min_benefit_s else None
 
 
 def simulate_policy(state: RaceState, policy: Policy, scenario: Scenario,
@@ -221,7 +313,8 @@ def simulate_policy(state: RaceState, policy: Policy, scenario: Scenario,
         scale = state.derived_pace.degradation_rate_s_per_lap.value / TyreModel.get_compound_specs(subject.current_compound).degradation_base_rate_s_per_lap
     if not isfinite(scale):
         raise ValueError("Degradation must be finite")
-    delta = lambda c, age: TyreModel.lap_delta_s(c, age, scale, config.cliff_rate_s)
+    scale *= scenario.degradation_multiplier
+    delta = lambda c, age: TyreModel.lap_delta_s(c, age, scale, config.cliff_rate_s * scenario.degradation_multiplier)
     base = config.base_pace_s if config.base_pace_s is not None else subject.last_lap_time_s - delta(subject.current_compound, subject.stint_length_laps)
     rivals = [{"time": -r.gap_to_subject_s, "compound": r.current_compound, "age": r.tyre_age_laps,
                "base": (r.last_lap_time_s if r.last_lap_time_s is not None else subject.last_lap_time_s)
@@ -231,21 +324,43 @@ def simulate_policy(state: RaceState, policy: Policy, scenario: Scenario,
     compound, age = subject.current_compound, subject.stint_length_laps
     used = set(subject.used_compounds) | {compound}
     times, positions, stops = [0.0], [subject.position], []
+    consumed_dry_laps = set()
+    compressed = False
     total = 0.0
     for lap in range(state.current_lap + 1, state.total_laps + 1):
+        running_sc = _status(state, lap, config) == TrackStatus.SAFETY_CAR
+        if running_sc and not compressed:
+            # Instant pack compression precedes this lap's running/stop costs.
+            ordered = sorted([(total, -1)] + [(r["time"], i) for i, r in enumerate(rivals)])
+            leader = ordered[0][0]
+            for position, (_, index) in enumerate(ordered):
+                packed = leader + position * config.safety_car_pack_gap_s
+                if index == -1:
+                    total = packed
+                else:
+                    rivals[index]["time"] = packed
+            compressed = True
         wetness = _wetness(state, scenario, lap, config)
         crossover = _wet_compound(state, wetness, config) if policy.react_to_weather else None
-        scheduled = next((stop.compound for stop in policy.dry_stops if stop.lap == lap - 1), None)
+        remaining = [s for s in policy.dry_stops if s.lap >= lap - 1 and s.lap not in consumed_dry_laps]
+        scheduled = next((stop.compound for stop in remaining if stop.lap == lap - 1), None)
         target = crossover if crossover is not None and compound != crossover else (
             scheduled if crossover is None and compound not in WET else None)
         if lap == state.current_lap + 1:
             target = _cutoff_target(state, policy, config)
+        opportunistic = False
+        if lap > state.current_lap + 1 and _status(state, lap - 1, config) == TrackStatus.SAFETY_CAR and target is None:
+            target = _sc_opportunity(state, policy, scenario, config, lap, compound, age, stops, remaining, wetness, scale)
+            opportunistic = target is not None
+            if target is not None and remaining and remaining[0].compound == target:
+                consumed_dry_laps.add(remaining[0].lap)
         loss = 0.0
         if target is not None and len(stops) < policy.max_stops:
             compound, age = target, 0
             used.add(compound)
             loss = _pit_loss(state, scenario, lap, config)
-            stops.append({"lap": lap - 1, "charged_on_lap": lap, "compound": compound.value, "pit_loss_s": loss})
+            stops.append({"lap": lap - 1, "charged_on_lap": lap, "compound": compound.value,
+                          "pit_loss_s": loss, "reason": "safety_car_opportunity" if opportunistic else "weather_or_schedule"})
         fuel = config.fuel_effect_s_per_lap * (lap - state.current_lap)
         own_pace = base + delta(compound, age) - fuel + _weather_delta(compound, wetness, state, config)
         # Rival policies are explicit model assumptions: crossover or a tyre-life stop.
@@ -263,11 +378,16 @@ def simulate_policy(state: RaceState, policy: Policy, scenario: Scenario,
             rival_paces.append(rival["base"] + delta(rival["compound"], rival["age"]) - fuel
                                + _weather_delta(rival["compound"], wetness, state, config))
             rival_losses.append(rival_loss)
+        if running_sc:
+            # Common neutralized pace prevents fresh-tyre racing under SC.
+            neutral_pace = max([own_pace] + rival_paces) + config.safety_car_pace_delay_s
+            own_pace = neutral_pace
+            rival_paces = [neutral_pace for _ in rivals]
         traffic = 0.0
         for rival, rival_pace, rival_loss in zip(rivals, rival_paces, rival_losses):
             # Gap at the start of the running segment, after this lap's stop costs.
             gap = total + loss - (rival["time"] + rival_loss)
-            if 0 < gap <= config.traffic_gap_s and rival_pace <= own_pace:
+            if not running_sc and 0 < gap <= config.traffic_gap_s and rival_pace <= own_pace:
                 traffic = config.traffic_penalty_s
                 break
         total += own_pace + traffic + loss
@@ -301,6 +421,48 @@ def _evaluate(state, policies, scenarios, config):
     return traces, means, ranking
 
 
+def _confidence(traces, scenarios, stay, box, tolerance):
+    if not stay or not box:
+        return None, []
+    paired = [(s, b.times[-1] - a.times[-1])
+              for s, a, b in zip(scenarios, traces[stay], traces[box])]
+
+    def shares(rows):
+        mass = sum(s.weight for s, _ in rows)
+        return {"stay_clearly_better": sum(s.weight for s, v in rows if v > tolerance) / mass,
+                "box_clearly_better": sum(s.weight for s, v in rows if v < -tolerance) / mass,
+                "too_close_to_call": sum(s.weight for s, v in rows if abs(v) <= tolerance) / mass}
+
+    groups = []
+    for name, rains in (("rain", True), ("no_rain", False)):
+        rows = [(s, v) for s, v in paired if (s.rain_lap is not None) == rains]
+        mass = sum(s.weight for s, _ in rows)
+        if mass:
+            groups.append({"id": name, "probability": mass,
+                "expected_stay_advantage_s": sum(s.weight * v for s, v in rows) / mass,
+                "p10_stay_advantage_s": _quantile([v for _, v in rows], [s.weight for s, _ in rows], .1),
+                "p90_stay_advantage_s": _quantile([v for _, v in rows], [s.weight for s, _ in rows], .9),
+                "confidence": shares(rows)})
+    return {"tolerance_s": tolerance, **shares(paired)}, groups
+
+
+def _display_fields(value):
+    """Attach 0.1s presentation values without rounding raw calculations."""
+    if isinstance(value, list):
+        for item in value:
+            _display_fields(item)
+    elif isinstance(value, dict):
+        seconds = {key: ([round(v, 1) for v in number] if isinstance(number, list) else
+                         round(number, 1) if isinstance(number, (int, float)) else None)
+                   for key, number in value.items()
+                   if key.endswith("_s") or key in {"median", "p10", "p90", "cumulative_time"}}
+        for key, item in list(value.items()):
+            if key != "display":
+                _display_fields(item)
+        if seconds:
+            value["display"] = seconds
+
+
 def project(state: RaceState, policies: tuple[Policy, ...] | None = None,
             config: ProjectionConfig | None = None, include_flips: bool = True) -> dict:
     config = config or ProjectionConfig()
@@ -325,13 +487,14 @@ def project(state: RaceState, policies: tuple[Policy, ...] | None = None,
                              - _quantile([t.times[-1] for t in traces[policy.id]], weights, .5)))
         plans.append({"id": policy.id, "label": policy.label, "policy": policy.model_dump(mode="json"),
             "stops": traces[policy.id][representative].stops, "stops_kind": "representative_scenario",
-            "laps": laps, "median": [round(_quantile(v, weights, .5), 4) for v in differences],
-            "p10": [round(_quantile(v, weights, .1), 4) for v in differences],
-            "p90": [round(_quantile(v, weights, .9), 4) for v in differences],
-            "mean_time_to_finish_s": round(means[policy.id], 4) if policy.id in means else None,
+            "laps": laps, "median": [_quantile(v, weights, .5) for v in differences],
+            "p10": [_quantile(v, weights, .1) for v in differences],
+            "p90": [_quantile(v, weights, .9) for v in differences],
+            "mean_time_to_finish_s": means.get(policy.id),
             "invalid_probability": round(sum(s.weight for t, s in zip(traces[policy.id], scenarios) if not t.legal), 6),
             "median_position": [_quantile([t.positions[i] for t in traces[policy.id]], weights, .5) for i in range(len(laps))],
-            "scenario_stops": [{"rain_lap": s.rain_lap, "weight": s.weight, "stops": t.stops}
+            "scenario_stops": [{"rain_lap": s.rain_lap, "weight": s.weight,
+                                "degradation_multiplier": s.degradation_multiplier, "stops": t.stops}
                                for t, s in zip(traces[policy.id], scenarios)]})
     comparison = None
     win_rate = None
@@ -340,22 +503,24 @@ def project(state: RaceState, policies: tuple[Policy, ...] | None = None,
                        for i in range(len(laps))]
         comparison = {"stay_policy_id": stay, "box_policy_id": box, "laps": laps,
             "sign": "STAY minus BOX; negative means STAY is faster",
-            "median": [round(_quantile(v, weights, .5), 4) for v in differences],
-            "p10": [round(_quantile(v, weights, .1), 4) for v in differences],
-            "p90": [round(_quantile(v, weights, .9), 4) for v in differences]}
-        win_rate = round(sum(s.weight for s, a, b in zip(scenarios, traces[stay], traces[box])
-                             if a.times[-1] < b.times[-1]), 6)
-    result = {"schema_version": 2, "cutoff_lap": state.current_lap, "horizon_lap": state.total_laps,
+            "median": [_quantile(v, weights, .5) for v in differences],
+            "p10": [_quantile(v, weights, .1) for v in differences],
+            "p90": [_quantile(v, weights, .9) for v in differences]}
+    confidence, groups = _confidence(traces, scenarios, stay, box, config.call_tolerance_s)
+    win_rate = confidence["stay_clearly_better"] if confidence else None
+    result = {"schema_version": 3, "cutoff_lap": state.current_lap, "horizon_lap": state.total_laps,
         "reference": {"id": reference, "units": "seconds", "sign": "positive means slower than reference",
                       "comparison": "paired difference within the same weather scenario"},
         "plans": plans, "ranking": ranking, "recommended": ranking[0],
-        "plan_margin_s": round(means[ranking[1]] - means[ranking[0]], 4) if len(ranking) > 1 else None,
+        "plan_margin_s": means[ranking[1]] - means[ranking[0]] if len(ranking) > 1 else None,
         **call, "call_win_rate": win_rate, "call_comparison": comparison,
+        "call_confidence": confidence, "scenario_group_margins": groups,
         "scenarios": _representative_scenarios(state, policies, call, config),
         "decision_basis": "minimum probability-weighted remaining race time among finish-legal policies",
         "flip_thresholds": [], "policy_flip_thresholds": [], "assumptions": _assumptions(state, config), "seed": config.seed}
     if include_flips:
         result["flip_thresholds"], result["policy_flip_thresholds"] = _flips(state, policies, config, ranking[0], call["call"])
+    _display_fields(result)
     return result
 
 
@@ -377,7 +542,7 @@ def _representative_scenarios(state, policies, call, config):
                 continue
             trace = simulate_policy(state, policy, Scenario(arrival, 0, 1), config)
             projected.append({"policy_id": policy.id, "laps": list(range(state.current_lap, state.total_laps + 1)),
-                "cumulative_time": [round(t, 4) for t in trace.times], "stops": trace.stops,
+                "cumulative_time": trace.times, "stops": trace.stops,
                 "finish_legal": trace.legal})
         results.append({"id": sid, "label": label, "probability": round(mass, 12),
             "probability_kind": "weather branch mass, not probability of this exact ETA",
@@ -456,9 +621,20 @@ def _flips(state, policies, config, current_best, current_call):
                 trial = state.model_copy(update={"pit_loss": state.pit_loss.model_copy(update={"green_pit_loss_s": value})})
             else:
                 cfg = config.model_copy(update={"safety_car_lap": value})
-            _, means, ranking = _evaluate(trial, policies, sample_scenarios(trial, cfg), cfg)
+            samples = sample_scenarios(trial, cfg)
+            traces, means, ranking = _evaluate(trial, policies, samples, cfg)
             summary = _call_summary(trial, policies, means, ranking, cfg)
-            evaluated.append({"value": value, "recommended": ranking[0], **summary})
+            stay, box = (summary["best_policies_by_call"][a] for a in ("STAY_OUT", "BOX_NOW"))
+            confidence, groups = _confidence(traces, samples, stay, box, cfg.call_tolerance_s)
+            illustrative = _representative_scenarios(trial, policies, summary, cfg)
+            margins = []
+            if stay and box:
+                for scenario in illustrative:
+                    finish = {p["policy_id"]: p["cumulative_time"][-1] for p in scenario["plans"]}
+                    margins.append({"id": scenario["id"], "stay_advantage_s": finish[box] - finish[stay]})
+            evaluated.append({"value": value, "recommended": ranking[0], **summary,
+                "call_confidence": confidence, "scenario_group_margins": groups,
+                "representative_margins": margins})
         for key, current_winner, destination, level in (
                 ("call", current_call, results, "call"),
                 ("recommended", current_best, policy_results, "plan")):

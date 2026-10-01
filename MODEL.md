@@ -60,18 +60,37 @@ with the scorer. Neither module changes the UI.
   its series and `invalid_probability` remain visible. No legal policy raises an
   explicit error. These are the project's existing simplified rule semantics,
   not a complete sporting-regulations implementation.
-- Schema version 2 separates the immediate `call` (STAY_OUT / BOX_NOW) from the
+- Schema version 3 separates the immediate `call` (STAY_OUT / BOX_NOW) from the
   winning policy. `best_policies_by_call` identifies the lowest expected-time
   legal policy in each action group. `call_margin_s` is the nonnegative expected
   time advantage of the winning action over the best opposite-action policy.
-  `call_win_rate` is always the probability-weighted share of paired samples in
-  which that best STAY policy beats that best BOX policy, even when BOX wins on
-  expected time. Exact ties do not count as STAY wins. Missing action groups
+  `call_win_rate` is the probability-weighted share in which best STAY beats best
+  BOX by **more than** `call_tolerance_s` (default 1.0s), even when BOX wins on
+  expected time. `call_confidence` reports STAY clearly better, BOX clearly better,
+  and too close; margins exactly at either tolerance boundary are too close.
+  These shares describe model samples, not calibrated real-world confidence.
+  `scenario_group_margins` reports conditional expected BOX-minus-STAY time for
+  rain and no-rain branches (positive favours STAY), their p10/p90 and shares.
+  Missing action groups
   yield null call margin, win rate, and comparison; the available action wins.
   Policies are selected by expected time once, not re-optimized in each sample.
 - The initial action is committed using scheduled cutoff stops and weather
   already observed at the cutoff. Sampled future rain cannot trigger an initial
   stop. Subsequent weather reactions retain the coarse per-lap crossover model.
+- All policies also use a safety-car opportunity rule, within the same two-stop
+  budget. While an SC is observed, compare a dry HARD/MEDIUM stop or a wet stop
+  against continuing, using forecast-weighted remaining own-car time. Advance
+  and consume a matching future dry stop; do not repeat it at the old deadline.
+  Stop only for a predicted gain greater than 0.5s (configurable). The local
+  calculation uses cutoff forecast probability/ETA and nominal degradation/pit
+  loss, not the sampled future rain arrival or latent wear/pit draws. It allows
+  a later cheap wet switch in forecast branches where rain has become observable,
+  and charges pre-emptive inters' dry costs outside neutralized laps. It enforces
+  the remaining stop budget and finish compound legality in forecast branches.
+  Fresh-tyre pace gains are zero on neutralized laps in this local check.
+  It does not optimize traffic or rival
+  responses in this local check; complete policies are still ranked by the full
+  shared-scenario simulation. Future SC duration is an assumed config value.
 
 ### Lap times
 
@@ -98,10 +117,22 @@ with the scorer. Neither module changes the UI.
 
 - Occurrence branches have exactly forecast probability and its complement.
   Seeded conditional ETA offsets are uniform integers within +/-2 laps; pit
-  offsets are uniform within +/-1.5s. There are 32 draws per nonzero branch. Each
+  offsets are uniform within +/-1.5s. Independent seeded wear multipliers are
+  uniform in [0.85, 1.15], shared across policies and rivals, scaling both linear
+  and cliff wear. Pace remains anchored to the last cutoff lap in each draw.
+  This creates modest dry variation without inventing post-cutoff measurements.
+  There are 32 draws per nonzero branch. Each
   policy sees the same draws and weights. This is stratified Monte Carlo, not
   repeated independent weather draws per policy. The probability itself is a
   fixed forecast input, not a separately sampled probability estimate.
+- For ETA four laps out, the arrival distribution covers 2-6 laps ahead (laps
+  20-24 in the fixture), with five equally likely support values before sampling.
+  This is a transparent +/-50% timing sensitivity assumption, not a claim about
+  measured radar accuracy. Keep it configurable; no calibration data is available.
+  Earlier than next-lap arrivals are clamped to the next lap, accumulating mass
+  there. A +/-4-lap sensitivity run retains STAY but changes expected call margin
+  from about 10.4s to 9.5s; the default remains +/-2. The finite seeded draw sets
+  have sampling noise, including other unchanged-distribution random inputs.
 - Wetness rises linearly over two laps from sampled arrival to 0.7 for LIGHT or
   1.0 otherwise. Rain persists to the finish. Already-observed rainfall forces
   occurrence. No drying, spatial rainfall, forecast updates, or rain duration is
@@ -123,8 +154,21 @@ with the scorer. Neither module changes the UI.
   Unknown cars ahead retain a fixed count. Position arrays are illustrative
   consequences, not the optimization objective.
 - Cutoff track status persists unless a configured SC scenario replaces it with
-  a two-lap SC window and otherwise green. SC affects stop cost only; no pace cap
-  or field bunching. This makes SC sweeps stop-cost experiments, not full SC sims.
+  a two-lap SC window and otherwise green. Onset 19 means SC is first observed
+  during lap 19: a cutoff stop after 18 pays green 21.5s; a reactive stop after
+  19 pays SC 9.5s. SC boundaries 19 and 20 are eligible with duration two. The
+  existing pit model also supplies VSC 12.5s; sampled offsets affect each cost.
+  The duration, costs, and pack assumptions are configurable.
+- At SC onset, modeled cars compress instantly in time order to 0.5s gaps from
+  the modeled leader, before that lap's running and stop costs. Lost time already
+  incurred before onset can be recovered by bunching. Unknown cars retain the
+  existing anonymous count; no invented gaps are compressed. SC running laps
+  use a common pace equal to the slowest modeled free pace plus 20s, with no
+  traffic penalty. Cumulative offsets include a synthetic reduction of time lost
+  to the leader at compression; this is a race-time comparison, not a literal
+  subject stopwatch. No pit-lane queues, gradual pack catch-up, lapped-car rules,
+  restart dynamics, or stochastic SC duration are modeled. A duration of two
+  means neutralized running laps 19/20 and cheap stops at boundaries 19/20.
 
 ### Series, thresholds and reproducibility
 
@@ -159,11 +203,18 @@ with the scorer. Neither module changes the UI.
   value whose winner differs from the current winner, not an exact root; multiple
   transitions are possible. `no flip in range` says nothing beyond that range.
   Each sweep reports its numeric range, configured resolution (null if irregular),
-  units, complete evaluated grid, and whether no rain is included. Inserting the
+  units, complete evaluated grid, and whether no rain is included. Every point
+  includes call, expected call margin, conditional rain/dry margins, tolerance
+  shares, and zero-offset representative scenario margins. The pit grid adds
+  6/7/8s to the original 5s grid to inspect the cheap-stop crossover. Inserting the
   current value may create a smaller local interval. The probability sweep
   cannot undo already-observed rainfall, which forces occurrence in the model.
   With no forecast ETA and no observed rain it is explicitly unavailable;
   positive rain probabilities cannot be tested without inventing arrival data.
+- Seconds in raw output retain floating-point precision. Every object with
+  user-facing seconds also has a `display` object rounded to 0.1s, including
+  per-lap arrays, stop losses, group margins, and every sweep point. Rounding
+  never affects ranking, tolerance classification, or flips.
 - Parameters and cutoff-derived inputs are serialized under `assumptions`.
   The `measured` kind includes metrics derived from measured/synthetic snapshot
   inputs; it does not imply real-world provenance. The fixture also stores its
