@@ -12,8 +12,9 @@ def projection_document():
     css = (ROOT / 'design/assets/pitwall.css').read_text(encoding='utf-8')
     js = (ROOT / 'design/assets/pitwall.js').read_text(encoding='utf-8')
     geometry_js = (ROOT / 'design/assets/circuit-map.js').read_text(encoding='utf-8')
-    font = base64.b64encode((ROOT / 'design/assets/fonts/BarlowCondensed-ExtraBoldItalic.ttf').read_bytes()).decode('ascii')
-    css = css.replace('fonts/BarlowCondensed-ExtraBoldItalic.ttf', 'data:font/ttf;base64,' + font)
+    for filename in ('Archivo-Variable.ttf', 'Archivo-VariableItalic.ttf'):
+        font = base64.b64encode((ROOT / 'design/assets/fonts' / filename).read_bytes()).decode('ascii')
+        css = css.replace('fonts/' + filename, 'data:font/ttf;base64,' + font)
     fixture = json.loads((ROOT / 'tests/fixtures/projection_lap18.json').read_text(encoding='utf-8'))
     payload = json.dumps(fixture, allow_nan=False).replace('<', chr(92) + 'u003c')
     document = document.replace('<link rel="stylesheet" href="assets/pitwall.css">', '<style>' + css + '</style>')

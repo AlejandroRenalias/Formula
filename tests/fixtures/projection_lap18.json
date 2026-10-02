@@ -27766,10 +27766,11 @@
           "pit_exit": "Pit out"
         },
         "sector_labels": [
-          "S1",
-          "S2",
-          "S3"
+          "Sector 1",
+          "Sector 2",
+          "Sector 3"
         ],
+        "rain_start_label": "Forecast rain starts here",
         "rejoin_template": "If you box: P{position}, {gap} s behind {ahead}",
         "ghost_template": "If you box: P{position}",
         "clear_rejoin_template": "If you box: P{position}, clear track ahead",

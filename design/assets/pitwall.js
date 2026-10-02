@@ -3,7 +3,8 @@
   'use strict';
   const $ = id => document.getElementById(id);
   const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const table = (headers, rows) => `<div class="table-scroll"><table class="math-table"><thead><tr>${headers.map(h => `<th>${escape(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(row => `<tr>${row.map(cell => `<td>${escape(cell)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+  const sentence = value => String(value).replace(/Flips to BOX/g,'Flips to box').replace(/STAY OUT/g,'Stay out').replace(/BOX NOW/g,'Box now').replace(/STAY/g,'Stay').replace(/BOX/g,'Box').replace(/HOLD/g,'Hold').replace(/MEDIUM/g,'Medium').replace(/HARD/g,'Hard').replace(/SOFT/g,'Soft').replace(/GREEN/g,'Green').replace(/DRY/g,'Dry').replace(/LEAD/g,'Leader');
+  const table = (headers, rows) => `<div class="table-scroll"><table class="math-table"><thead><tr>${headers.map(h => `<th>${escape(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(row => `<tr>${row.map(cell => `<td>${escape(sentence(cell))}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
   const carIcon = colour => `<svg class="field-car" viewBox="0 0 64 32" aria-hidden="true" focusable="false" style="color:${escape(colour)}"><g class="car-tyres"><rect x="11" y="1" width="11" height="7" rx="2"/><rect x="11" y="24" width="11" height="7" rx="2"/><rect x="44" y="2" width="9" height="6" rx="2"/><rect x="44" y="24" width="9" height="6" rx="2"/></g><path class="car-suspension" d="M16 6v20M48 6v20"/><path fill="currentColor" d="M8 11h11l6-3h12l6 5 15 1v4l-15 1-6 5H25l-6-3H8z"/><rect fill="currentColor" x="4" y="6" width="5" height="20" rx="1"/><rect fill="currentColor" x="56" y="4" width="4" height="24" rx="1"/><path class="car-cockpit" d="M27 12h9l4 4-4 4h-9z"/></svg>`;
   let data, example, active = null, track;
 
@@ -16,6 +17,8 @@
     const pointAt = distance => xy({x:geometry.interpolate(distance,track.polyline,'distance_m','x'),
                                    y:geometry.interpolate(distance,track.polyline,'distance_m','y')});
     const line = points => points.map((p,i) => `${i?'L':'M'}${p.x},${p.y}`).join(' ');
+    const font=12*660/Math.max(300,$('circuit').clientWidth||660);
+    $('circuit').style.setProperty('--map-label-size',font+'px');
     const sector = track.rain_overlay;
     const rainPoints = track.polyline.filter(p => p.distance_m > sector.start_distance_m && p.distance_m < sector.end_distance_m).map(p=>({...xy(p),distance_m:p.distance_m}));
     rainPoints.unshift({...pointAt(sector.start_distance_m),distance_m:sector.start_distance_m}); rainPoints.push({...pointAt(sector.end_distance_m),distance_m:sector.end_distance_m});
@@ -37,10 +40,13 @@
       const p=ribbon.reduce((a,b)=>Math.abs(b.distance_m-distance)<Math.abs(a.distance_m-distance)?b:a);
       return {x:p.x+24*p.nx,y:p.y+24*p.ny};
     });
-    let svg = `<defs><radialGradient id="weather-mist"><stop offset="0" stop-color="#498cbd" stop-opacity=".25"/><stop offset=".55" stop-color="#2d638c" stop-opacity=".12"/><stop offset="1" stop-color="#23618b" stop-opacity="0"/></radialGradient><radialGradient id="weather-light"><stop stop-color="#94dfff" stop-opacity=".10"/><stop offset="1" stop-color="#94dfff" stop-opacity="0"/></radialGradient><mask id="weather-track-clear" x="-20%" y="-20%" width="140%" height="140%"><rect x="-80" y="-80" width="820" height="580" fill="white"/><path d="${line(racingLine)}" fill="none" stroke="black" stroke-width="19" stroke-linecap="round"/></mask><pattern id="chequer" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="var(--paper)"/><path d="M0 0h4v4H0zM4 4h4v4H4z" fill="var(--ink)"/></pattern></defs>`;
+    let svg = `<defs><filter id="weather-bridge-soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="10"/></filter><radialGradient id="weather-mist"><stop offset="0" stop-color="#498cbd" stop-opacity=".25"/><stop offset=".55" stop-color="#2d638c" stop-opacity=".12"/><stop offset="1" stop-color="#23618b" stop-opacity="0"/></radialGradient><radialGradient id="weather-light"><stop stop-color="#94dfff" stop-opacity=".10"/><stop offset="1" stop-color="#94dfff" stop-opacity="0"/></radialGradient><mask id="weather-track-clear" x="-20%" y="-20%" width="140%" height="140%"><rect x="-80" y="-80" width="820" height="580" fill="white"/><path d="${line(racingLine)}" fill="none" stroke="black" stroke-width="19" stroke-linecap="round"/></mask><pattern id="chequer" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="var(--paper)"/><path d="M0 0h4v4H0zM4 4h4v4H4z" fill="var(--ink)"/></pattern></defs>`;
     // Atmospheric illustration of the forecast, with the actual circuit masked clear.
     // Streak motion is decorative; it does not represent a measured wind direction.
     svg+='<g class="weather-atmosphere" mask="url(#weather-track-clear)" aria-hidden="true">';
+    // Continuous mist connects the cloud lobes across the complete forecast sector.
+    const mistLine=ribbon.map(p=>({x:p.x+12*p.nx,y:p.y+12*p.ny}));
+    svg+=`<path class="weather-bridge" d="${line(mistLine)}"/>`;
     rainSymbols.forEach((p,index)=>{
       svg+=`<ellipse cx="${p.x}" cy="${p.y}" rx="98" ry="59" fill="url(#weather-mist)"/><ellipse cx="${p.x-24}" cy="${p.y-13}" rx="65" ry="39" fill="url(#weather-mist)"/><ellipse cx="${p.x+30}" cy="${p.y-4}" rx="58" ry="44" fill="url(#weather-mist)"/><ellipse cx="${p.x+8}" cy="${p.y+7}" rx="52" ry="35" fill="url(#weather-light)"/>`;
       for(let i=0;i<24;i++){
@@ -62,7 +68,7 @@
       // S1 is moved along the sector to leave space for the rejoin label.
       const fraction=sector.sector===1?.85:.5;
       const mid=pointAt(sector.start_distance_m+(sector.end_distance_m-sector.start_distance_m)*fraction),angle=Math.atan2(mid.y-212,mid.x-330);
-      sectorLabelBoxes.push({x:mid.x+23*Math.cos(angle)-15,y:mid.y+23*Math.sin(angle)-17,w:30,h:23});
+      sectorLabelBoxes.push({x:mid.x+23*Math.cos(angle)-font*2.7,y:mid.y+23*Math.sin(angle)-font,w:font*5.4,h:font*1.5});
       svg+=`<text class="sector-name" x="${mid.x+23*Math.cos(angle)}" y="${mid.y+23*Math.sin(angle)}" text-anchor="middle">${escape(display.sector_labels[i])}</text>`;
     });
     ['pit_entry','pit_exit'].forEach(key => {
@@ -85,15 +91,16 @@
       const angle=Math.atan2(after.y-before.y,after.x-before.x)*180/Math.PI;
       svg+=`<path class="travel-chevron" d="M-4-4L1 0-4 4" transform="translate(${p.x} ${p.y}) rotate(${angle})"/>`;
     }
-    const mobile=window.matchMedia('(max-width:450px)').matches, font=mobile?18:14;
-    const rainEdge=ribbon.reduce((a,b)=>b.y<a.y?b:a),rainWidth=display.rain_label.length*(mobile?18:12)*.62;
+    const rainEdge=ribbon.reduce((a,b)=>b.y<a.y?b:a),rainWidth=Math.max(display.rain_label.length,display.rain_start_label.length)*font*.55;
     const rainX=Math.max(rainWidth/2+8,Math.min(652-rainWidth/2,rainEdge.x));
-    const rainY=rainEdge.y-24;
-    svg+=`<path class="rain-label-link" d="M${rainEdge.x} ${rainEdge.y}L${rainX} ${rainY+5}"/><text class="radar-label" x="${rainX}" y="${rainY}" text-anchor="middle">${escape(display.rain_label)}</text>`;
-    const occupied=[...sectorLabelBoxes,...rainSymbols.map(p=>({x:p.x-15,y:p.y-14,w:30,h:29})),{x:rainX-rainWidth/2,y:rainY-(mobile?18:12),w:rainWidth,h:(mobile?18:12)+5}];
+    const rainY=rainEdge.y-font*3.2;
+    const rainStart=pointAt(sector.start_distance_m),tangentBefore=pointAt(Math.max(0,sector.start_distance_m-10)),tangentAfter=pointAt(sector.start_distance_m+10);
+    const tx=tangentAfter.x-tangentBefore.x,ty=tangentAfter.y-tangentBefore.y,len=Math.hypot(tx,ty)||1;
+    svg+=`<path class="rain-start-marker" d="M${rainStart.x-ty/len*11} ${rainStart.y+tx/len*11}L${rainStart.x+ty/len*11} ${rainStart.y-tx/len*11}"/><circle class="rain-start-marker" cx="${rainStart.x}" cy="${rainStart.y}" r="3"/><path class="rain-label-link" d="M${rainStart.x} ${rainStart.y}L${rainX} ${rainY+font*1.8}"/><text class="radar-label" data-rain-start-label x="${rainX}" y="${rainY}" text-anchor="middle">${escape(display.rain_start_label)}</text><text class="radar-label" x="${rainX}" y="${rainY+font*1.4}" text-anchor="middle">${escape(display.rain_label)}</text>`;
+    const occupied=[{x:start.x-10,y:start.y-10,w:20,h:20},...sectorLabelBoxes,...rainSymbols.map(p=>({x:p.x-15,y:p.y-14,w:30,h:29})),{x:rainX-rainWidth/2,y:rainY-font,w:rainWidth,h:font*2.8}];
     const overlaps=(a,b)=>a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;
     labels.forEach(p=>{
-      const w=p.text.length*font*.62,h=font+5;
+      const w=p.text.length*font*(p.kind==='car'?.7:.55),h=font+5;
       const options=[{x:p.x+18,y:p.y-h/2},{x:p.x-18-w,y:p.y-h/2},{x:p.x-w/2,y:p.y-18-h},{x:p.x-w/2,y:p.y+18},{x:p.x+18,y:p.y+12},{x:p.x-18-w,y:p.y+12}];
       const blocked=r=>occupied.some(o=>overlaps(r,o))||labels.some(o=>o!==p&&overlaps(r,{x:o.x-14,y:o.y-14,w:28,h:28}));
       const rect=options.find(r=>r.x>8&&r.x+w<652&&r.y>40&&r.y+h<410&&!blocked({...r,w,h}))||options[3];
@@ -103,20 +110,23 @@
     const label = ghost.car_ahead ? display.rejoin_template.replace('{position}',ghost.position).replace('{gap}',ghost.gap_to_car_ahead_s.toFixed(1)).replace('{ahead}',ghost.car_ahead)
       : display.clear_rejoin_template.replace('{position}',ghost.position);
     $('circuit').innerHTML=svg;
-    $('circuit').setAttribute('aria-label',display.aria_prefix + display.position_summary + '. ' + label + '. ' + display.rain_label);
+    $('circuit').setAttribute('aria-label',display.rain_start_label + '. ' + display.aria_prefix + display.position_summary + '. ' + label + '. ' + display.rain_label);
     $('rejoin-label').textContent=label;
     $('rain-label').textContent=display.rain_label;
   }
 
   function showView(view) {
-    for (const id of ['call','margin','reason','confidence','flip','plan','chief']) $(id).textContent = view[id];
-    $('chief-vote').textContent = view.call;
-    $('share-items').innerHTML = view.shares.map(s => `<div><div class="share-value">${escape(s.value)}</div><div class="share-label">${escape(s.name)}</div><div class="share-strip"><span style="width:${s.fraction * 100}%"></span></div></div>`).join('');
+    for (const id of ['call','reason','confidence','flip','plan','chief']) $(id).textContent = id === 'call' ? view[id] : sentence(view[id]);
+    const margin=view.margin.match(/^(.+? s) (.*)$/);
+    $('margin').innerHTML=margin?`<span class="margin-value">${escape(margin[1])}</span><span class="margin-context">${escape(sentence(margin[2]))}</span>`:escape(view.margin);
+    $('chief-vote').textContent = sentence(view.call);
+    $('share-items').innerHTML = view.shares.map(s => `<div><div class="share-value">${escape(s.value)}</div><div class="share-label">${escape(sentence(s.name))}</div><div class="share-strip"><span style="width:${s.fraction * 100}%"></span></div></div>`).join('');
     $('chart-wrap').classList.toggle('dim', active !== null);
     $('chart-warning').hidden = active === null;
   }
 
   function drawChart() {
+    $('fork').style.setProperty('--chart-label-size',(12*1000/Math.max(760,$('fork').clientWidth||1000))+'px');
     const chart=data.chart,scenario=chart.scenarios.find(s=>s.id===example);
     const x=lap=>50+(lap-chart.window_start)/(chart.window_end-chart.window_start)*650;
     const y=gain=>275-(gain-scenario.low)/(scenario.high-scenario.low)*235;
@@ -133,17 +143,17 @@
       svg+=`<path data-policy="${escape(plan.policy_id)}" class="${cls}" d="${path(points)}"/>`;
       plan.stops.filter(stop=>stop.charged_on_lap>=chart.window_start&&stop.charged_on_lap<=chart.window_end).forEach(stop=>{
         const i=plan.laps.indexOf(stop.charged_on_lap);
-        svg+=`<circle class="stop-dot" cx="${x(stop.charged_on_lap)}" cy="${y(plan.gain_s[i])}" r="4" stroke="${recommended?'var(--accent)':'var(--ink)'}"><title>${escape(plan.call+': '+stop.label+' after lap '+stop.lap+' · '+stop.loss_s+' s pit loss')}</title></circle>`;
+        svg+=`<circle class="stop-dot" cx="${x(stop.charged_on_lap)}" cy="${y(plan.gain_s[i])}" r="4" stroke="${recommended?'var(--accent)':'var(--ink)'}"><title>${escape(sentence(plan.call)+': '+stop.label+' after lap '+stop.lap+' · '+stop.loss_s+' s pit loss')}</title></circle>`;
       });
       ends.push({call:plan.call,y:y(visible(points).at(-1).gain_s),recommended});
-      svg+=`<text data-annotation class="chart-text ${recommended?'accent-text':''}" x="50" y="${335+index*20}">${escape(plan.call+' · '+plan.stop_label)}</text>`;
+      svg+=`<text data-annotation class="chart-text ${recommended?'accent-text':''}" x="50" y="${335+index*20}">${escape(sentence(plan.call)+' · '+plan.stop_label)}</text>`;
     });
     ends.sort((a,b)=>a.y-b.y).forEach((p,i,all)=>{
       const near=all.length>1&&Math.abs(all[0].y-all[1].y)<22;
-      svg+=`<text class="chart-text direct ${p.recommended?'accent-text':''}" x="712" y="${p.y+(near?(i?16:-8):4)}">${escape(p.call)}</text>`;
+      svg+=`<text class="chart-text direct ${p.recommended?'accent-text':''}" x="712" y="${p.y+(near?(i?16:-8):4)}">${escape(sentence(p.call))}</text>`;
     });
     const box=185,stay=box-scenario.finish_margin_s/chart.finish_scale_s*75;
-    svg+=`<path class="flag-divider" d="M815 30V275"/><text class="chart-text direct" x="845" y="50">${escape(chart.flag_label)}</text><text class="chart-text axis-label" x="845" y="68">${escape(chart.flag_lap_label)}</text><path class="flag-bracket" d="M845 ${stay}H975M845 ${box}H975M968 ${stay}V${box}"/><text class="chart-text ${data.base.call==='STAY OUT'?'accent-text':''}" x="845" y="${Math.min(stay,box)-10}">STAY OUT</text><text class="chart-text" x="845" y="${Math.max(stay,box)+20}">BOX NOW</text><text class="chart-text direct" x="845" y="245">${escape(scenario.finish_margin_label)}</text><text class="chart-text axis-label" x="845" y="265">${escape(scenario.finish_range_label)}</text><text class="chart-text axis-label" x="845" y="288">Expected · p10–p90</text>`;
+    svg+=`<path class="flag-divider" d="M815 30V275"/><text class="chart-text direct" x="845" y="50">${escape(chart.flag_label)}</text><text class="chart-text axis-label" x="845" y="68">${escape(chart.flag_lap_label)}</text><path class="flag-bracket" d="M845 ${stay}H975M845 ${box}H975M968 ${stay}V${box}"/><text class="chart-text ${data.base.call==='STAY OUT'?'accent-text':''}" x="845" y="${Math.min(stay,box)-10}">Stay out</text><text class="chart-text" x="845" y="${Math.max(stay,box)+20}">Box now</text><text class="chart-text direct" x="845" y="245">${escape(scenario.finish_margin_label)}</text><text class="chart-text axis-label" x="845" y="265">${escape(scenario.finish_range_label)}</text><text class="chart-text axis-label" x="845" y="288">Expected · p10–p90</text>`;
     if(chart.flip_lap!==null&&chart.flip_lap<=chart.window_end)svg+=`<text data-annotation class="chart-text axis-label" x="50" y="392">${escape('Call flips after lap '+chart.flip_lap)}</text>`;
     $('fork').innerHTML=svg;
   }
@@ -176,7 +186,7 @@
     $('tyre-age').textContent=tyre.label;
     $('circuit-title').textContent=data.map.name;
     $('map-note').textContent=data.map.map_note;
-    $('tyres').textContent = data.tyres;
+    $('tyres').textContent = sentence(data.tyres);
     showView(data.base);
     example = data.chart.scenarios[0].id;
     $('scenario-tabs').innerHTML = data.chart.scenarios.map(s => `<button data-example="${s.id}" aria-pressed="${s.id === example}">${escape(s.label)}<small>Example</small></button>`).join('');
@@ -191,7 +201,7 @@
     shown.forEach(s => $(s.assumption).addEventListener('input', event => sliderChanged(s, Number(event.target.value))));
     $('reset').addEventListener('click', () => sliderChanged(shown[0], shown[0].base_index));
     const colours = Object.fromEntries(track.cars.map(c => [c.team,c.team_colour]));
-    $('field').innerHTML = data.field.map(d => `<tr class="${d.selected ? 'selected' : ''}"><td>${escape(d.position)}</td><td><div class="field-driver">${carIcon(colours[d.team] || '#b7c8d8')}<span><span class="driver-code">${escape(d.driver)}</span><span class="driver-team">${escape(d.team)}</span></span></div></td><td>${escape(d.gap)}</td><td><span class="tyre tyre-${escape(d.compound)}">${escape(d.compound[0])}</span></td></tr>`).join('');
+    $('field').innerHTML = data.field.map(d => `<tr class="${d.selected ? 'selected' : ''}"><td>${escape(d.position)}</td><td><div class="field-driver">${carIcon(colours[d.team] || '#b7c8d8')}<span><span class="driver-code">${escape(d.driver)}</span><span class="driver-team">${escape(d.team)}</span></span></div></td><td>${escape(sentence(d.gap))}</td><td><span class="tyre tyre-${escape(d.compound)}">${escape(d.compound[0])}</span></td></tr>`).join('');
     $('policy-table').innerHTML = table(['Policy','Expected remaining time / s','Stop budget','Status'],data.policy_rows.map(p => [p.policy,p.time,p.stops,p.status]));
     $('plan-margin').textContent = 'Plan margin: ' + data.plan_margin + ' between the two best policies overall.';
     $('policy-flips').innerHTML = data.policy_flips.map(p => `<details><summary>${escape(p.assumption.replaceAll('_',' '))}</summary><p>${escape(p.text)}</p></details>`).join('');
@@ -199,7 +209,7 @@
     $('rain-timing').textContent = data.rain_timing;
     $('assumption-tags').innerHTML = data.assumptions.map(a => `<div class="assumption"><strong><span class="tag">${escape(a.kind)}</span>${escape(a.name)}</strong><span>${escape(a.value)}</span></div>`).join('');
     $('factor-table').innerHTML = table(['Factor','Weighted points'],data.factor_rows.map(f => [f.factor,f.points]));
-    $('radio-lines').innerHTML=data.radio.map(r=>`<div class="radio-line"><strong>${escape(r.role)}</strong><span>${escape(r.text)}</span><span class="vote">${escape(r.vote)}</span></div>`).join('');
+    $('radio-lines').innerHTML=data.radio.map(r=>`<div class="radio-line"><strong>${escape(r.role.replace("Tyre","tyre").replace("Control","control"))}</strong><span>${escape(sentence(r.text))}</span><span class="vote">${escape(sentence(r.vote))}</span></div>`).join('');
     $('raw-radio').innerHTML=table(['Specialist','Vote','Candidate (internal)','Raw reasoning'],data.radio_raw.map(r=>[r.role,r.vote,r.candidate,r.text]));
     drawChart();
     drawMap();
@@ -208,6 +218,12 @@
       drawMap(active === 'pit_loss_s' ? sweep.points[Number($('pit_loss_s').value)].value : track.ghost_rejoin.pit_loss_s);
     });
     $('workspace').hidden = false;
+    const resize=new ResizeObserver(()=>{
+      const sweep=data.sweeps.find(s=>s.assumption==='pit_loss_s');
+      drawMap(active==='pit_loss_s'?sweep.points[Number($('pit_loss_s').value)].value:track.ghost_rejoin.pit_loss_s);
+      drawChart();
+    });
+    resize.observe($('circuit'));resize.observe($('fork'));
   }
 
   async function start() {
@@ -220,5 +236,8 @@
       render(fixture);
     } catch (error) { $('error').textContent = 'Could not load the projection fixture. ' + error.message; $('error').hidden = false; }
   }
-  start();
+  document.fonts.ready.then(async()=>{
+    await Promise.all([document.fonts.load('900 96px Archivo'),document.fonts.load('italic 900 96px Archivo')]);
+    start();
+  });
 })();
