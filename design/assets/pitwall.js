@@ -237,7 +237,7 @@
     } catch (error) { $('error').textContent = 'Could not load the projection fixture. ' + error.message; $('error').hidden = false; }
   }
   document.fonts.ready.then(async()=>{
-    await Promise.all([document.fonts.load('900 96px Archivo'),document.fonts.load('italic 900 96px Archivo')]);
+    await Promise.all([document.fonts.load('900 96px Archivo'),document.fonts.load('italic 900 96px Archivo'),document.fonts.load('500 24px "Space Grotesk"')]);
     start();
   });
 })();

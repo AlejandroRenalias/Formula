@@ -25,3 +25,19 @@ output,table,.chart-text,.share-value,.lap-counter,.margin,.map-label{font-varia
 
 .map-label,.sector-name,.radar-label{font-size:var(--map-label-size,12px)}
 .chart-text{font-size:var(--chart-label-size,12px)}
+
+/* Distinctive supporting type: geometric copy with a compact decision brief. */
+@font-face{font-family:'Space Grotesk';src:url('fonts/SpaceGrotesk-Variable.ttf') format('truetype');font-weight:300 700;font-style:normal;font-display:swap}
+body{font-family:'Space Grotesk',sans-serif;font-size:16px;letter-spacing:-.15px}
+.brand,h1,.lap-counter,.margin-value,table,svg text{font-family:Archivo,sans-serif}
+h2,h3,.maths>summary{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:600;letter-spacing:-.65px;line-height:1.15}
+.why{max-width:650px;padding:8px 0 0 18px;border-left:2px solid #546b80;margin-top:24px}
+.why>p:first-child{font-size:24px;font-weight:500;letter-spacing:-.65px;line-height:1.3;max-width:39ch;margin-bottom:20px;text-wrap:pretty}
+.why .confidence{font-size:16px;font-weight:500;letter-spacing:-.2px;line-height:1.45;margin-bottom:12px}
+.why .flip{font-size:14px;font-weight:500;letter-spacing:0;line-height:1.5;margin-bottom:10px;max-width:58ch}
+.why #plan{font-size:14px;letter-spacing:0;line-height:1.5;margin:0;max-width:58ch}
+.chart-caption{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;line-height:1.5;letter-spacing:.05px;border-top:1px solid var(--rule);padding-top:12px;margin:8px 0 20px}
+.chart-caption span:first-child{color:var(--ink);font-weight:500}
+.assumptions-head{margin-top:24px;margin-bottom:8px}
+.assumptions-intro{font-size:14px;letter-spacing:.05px;margin:0 0 18px;color:var(--muted)}
+@media(max-width:700px){.why{padding-left:14px}.why>p:first-child{font-size:22px}.chart-caption{display:block}.chart-caption span{display:block;margin-bottom:5px}}

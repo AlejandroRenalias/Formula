@@ -84,9 +84,10 @@ def test_polish_display_preserves_raw_reasoning_and_zoomed_example_data():
 def test_archivo_is_bundled_for_both_styles_and_forecast_start_is_explicit():
     document = projection_document()
     # The embedded app must work offline with upright and italic font files.
-    assert document.count('data:font/ttf;base64,') == 2
+    assert document.count('data:font/ttf;base64,') == 3
     assert 'Archivo-Variable.ttf' not in document
     assert 'Archivo-VariableItalic.ttf' not in document
+    assert 'SpaceGrotesk-Variable.ttf' not in document
     assert 'Barlow' not in document and 'monospace' not in document
     fixture = json.loads((ROOT / 'tests/fixtures/projection_lap18.json').read_text(encoding='utf-8'))
     assert fixture['ui']['display']['map']['rain_start_label'] == 'Rain likely from here'

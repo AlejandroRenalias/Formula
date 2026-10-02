@@ -7,4 +7,5 @@ Licence: Archivo-OFL.txt (SIL Open Font License).
 
 Both files are served locally by the preview and embedded into the Streamlit
 view. The call is the only italic text; the wordmark and call use width 125.
-Normal body width is 100, with width 87 for dense tables and map/chart labels.
+Archivo uses normal width 100 for numeric readouts and width 87 for dense
+tables and map/chart labels. Body copy and section headings use Space Grotesk.

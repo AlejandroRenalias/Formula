@@ -12,7 +12,7 @@ def projection_document():
     css = (ROOT / 'design/assets/pitwall.css').read_text(encoding='utf-8')
     js = (ROOT / 'design/assets/pitwall.js').read_text(encoding='utf-8')
     geometry_js = (ROOT / 'design/assets/circuit-map.js').read_text(encoding='utf-8')
-    for filename in ('Archivo-Variable.ttf', 'Archivo-VariableItalic.ttf'):
+    for filename in ('Archivo-Variable.ttf', 'Archivo-VariableItalic.ttf', 'SpaceGrotesk-Variable.ttf'):
         font = base64.b64encode((ROOT / 'design/assets/fonts' / filename).read_bytes()).decode('ascii')
         css = css.replace('fonts/' + filename, 'data:font/ttf;base64,' + font)
     fixture = json.loads((ROOT / 'tests/fixtures/projection_lap18.json').read_text(encoding='utf-8'))
