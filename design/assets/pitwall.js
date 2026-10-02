@@ -37,11 +37,18 @@
       const p=ribbon.reduce((a,b)=>Math.abs(b.distance_m-distance)<Math.abs(a.distance_m-distance)?b:a);
       return {x:p.x+24*p.nx,y:p.y+24*p.ny};
     });
-    let svg = `<defs><pattern id="chequer" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="var(--paper)"/><path d="M0 0h4v4H0zM4 4h4v4H4z" fill="var(--ink)"/></pattern></defs>`;
-    svg += `<path class="rain-ribbon-halo" d="${line(ribbon)}"/><path class="rain-ribbon" d="${line(ribbon)}"/><path class="circuit-track" d="${line(racingLine)}"/><path class="pit-distance" d="${line(highlight)}"/>`;
-    rainSymbols.forEach(p=>{
-      svg+=`<g class="rain-symbol" aria-hidden="true" transform="translate(${p.x} ${p.y})"><path class="rain-cloud" d="M-8 2H8a5 5 0 0 0 0-10 7 7 0 0 0-13-2 5 5 0 0 0-3 12Z"/><path class="rain-drops" d="M-7 7l-2 4M0 7l-2 4M7 7l-2 4"/></g>`;
+    let svg = `<defs><radialGradient id="weather-mist"><stop offset="0" stop-color="#498cbd" stop-opacity=".38"/><stop offset=".55" stop-color="#2d638c" stop-opacity=".2"/><stop offset="1" stop-color="#23618b" stop-opacity="0"/></radialGradient><radialGradient id="weather-light"><stop stop-color="#94dfff" stop-opacity=".18"/><stop offset="1" stop-color="#94dfff" stop-opacity="0"/></radialGradient><mask id="weather-track-clear"><rect width="660" height="420" fill="white"/><path d="${line(racingLine)}" fill="none" stroke="black" stroke-width="19" stroke-linecap="round"/></mask><pattern id="chequer" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="var(--paper)"/><path d="M0 0h4v4H0zM4 4h4v4H4z" fill="var(--ink)"/></pattern></defs>`;
+    // Atmospheric illustration of the forecast, with the actual circuit masked clear.
+    // Streak motion is decorative; it does not represent a measured wind direction.
+    svg+='<g class="weather-atmosphere" mask="url(#weather-track-clear)" aria-hidden="true">';
+    rainSymbols.forEach((p,index)=>{
+      svg+=`<ellipse cx="${p.x}" cy="${p.y}" rx="69" ry="51" fill="url(#weather-mist)"/><ellipse cx="${p.x-17}" cy="${p.y-13}" rx="46" ry="34" fill="url(#weather-mist)"/><ellipse cx="${p.x+21}" cy="${p.y-4}" rx="41" ry="38" fill="url(#weather-mist)"/><ellipse cx="${p.x+8}" cy="${p.y+7}" rx="37" ry="30" fill="url(#weather-light)"/>`;
+      for(let i=0;i<24;i++){
+        const angle=i*2.399963,rad=Math.sqrt((i+.5)/24),x=p.x+Math.cos(angle)*rad*48,y=p.y+Math.sin(angle)*rad*32;
+        svg+=`<path class="weather-streak" style="--rain-delay:${-(i%7)*.23-index*.3}s;opacity:${.18+(i%4)*.11}" d="M${x} ${y-7}l-4 13"/>`;
+      }
     });
+    svg+=`</g><path class="weather-front" d="${line(ribbon)}"/><path class="circuit-track" d="${line(racingLine)}"/><path class="pit-distance" d="${line(highlight)}"/>`;
     const labels = [], sectorLabelBoxes = [];
     const addLabel = (p,text,colour='var(--muted)',kind='marker') => labels.push({...p,text,colour,kind});
     const start = pointAt(track.start_finish.distance_m);

@@ -56,3 +56,9 @@ button:focus-visible,summary:focus-visible,input:focus-visible,a:focus-visible{o
 .rain-ribbon-halo{stroke-width:9;opacity:.09}
 .rain-cloud{fill:var(--paper);stroke:#a8d4f5;stroke-width:1.5;stroke-linejoin:round}
 .rain-drops{fill:none;stroke:#79b8ec;stroke-width:1.7;stroke-linecap:round}
+
+/* Atmospheric forecast illustration; motion never changes forecast data. */
+.weather-front{fill:none;stroke:#92c6e9;stroke-width:1;stroke-dasharray:2 8;stroke-linecap:round;opacity:.45}
+.weather-streak{fill:none;stroke:#b4e4ff;stroke-width:1.2;stroke-linecap:round;stroke-dasharray:4 13;animation:rain-fall 1.8s linear infinite;animation-delay:var(--rain-delay)}
+@keyframes rain-fall{from{stroke-dashoffset:17}to{stroke-dashoffset:0}}
+@media(prefers-reduced-motion:reduce){.weather-streak{animation:none;stroke-dasharray:none}}
