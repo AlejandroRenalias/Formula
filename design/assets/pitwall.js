@@ -17,18 +17,31 @@
                                    y:geometry.interpolate(distance,track.polyline,'distance_m','y')});
     const line = points => points.map((p,i) => `${i?'L':'M'}${p.x},${p.y}`).join(' ');
     const sector = track.rain_overlay;
-    const rainPoints = track.polyline.filter(p => p.distance_m > sector.start_distance_m && p.distance_m < sector.end_distance_m).map(xy);
-    rainPoints.unshift(pointAt(sector.start_distance_m)); rainPoints.push(pointAt(sector.end_distance_m));
+    const rainPoints = track.polyline.filter(p => p.distance_m > sector.start_distance_m && p.distance_m < sector.end_distance_m).map(p=>({...xy(p),distance_m:p.distance_m}));
+    rainPoints.unshift({...pointAt(sector.start_distance_m),distance_m:sector.start_distance_m}); rainPoints.push({...pointAt(sector.end_distance_m),distance_m:sector.end_distance_m});
     const subject = track.cars.find(c => c.driver === display.selected_driver);
     const highlight = Array.from({length:81},(_,i) => xy(geometry.position(track,track.leader.distance_m,
       subject.gap_to_leader_s + loss * i/80)));
-    const cloud=rainPoints.flatMap(p=>[{x:p.x-22,y:p.y-22},{x:p.x+22,y:p.y+22}]);
-    const cross=(a,b,c)=>(b.x-a.x)*(c.y-a.y)-(b.y-a.y)*(c.x-a.x);
-    const half=ps=>{const h=[];for(const p of ps){while(h.length>1&&cross(h[h.length-2],h[h.length-1],p)<=0)h.pop();h.push(p);}return h;};
-    cloud.sort((a,b)=>a.x-b.x||a.y-b.y);
-    const hull=half(cloud).slice(0,-1).concat(half([...cloud].reverse()).slice(0,-1));
-    let svg = `<defs><pattern id="rain-hatch" width="9" height="9" patternUnits="userSpaceOnUse"><path d="M0 9L9 0" stroke="#74baff" stroke-opacity=".16"/></pattern><filter id="rain-soft" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="17"/></filter><pattern id="chequer" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="var(--paper)"/><path d="M0 0h4v4H0zM4 4h4v4H4z" fill="var(--ink)"/></pattern></defs>`;
-    svg += `<path class="radar-cell" d="${line(hull)}Z"/><path fill="url(#rain-hatch)" d="${line(hull)}Z"/><path class="circuit-track" d="${line(track.polyline.map(xy))}"/><path class="pit-distance" d="${line(highlight)}"/>`;
+    // Offset the forecast ribbon to the outside of the racing line.
+    // It marks the configured rain sector, not a measured radar footprint.
+    const racingLine=track.polyline.map(xy);
+    const area=racingLine.reduce((sum,p,i)=>{const next=racingLine[(i+1)%racingLine.length];return sum+p.x*next.y-next.x*p.y;},0);
+    const ribbon=rainPoints.map((p,i)=>{
+      const before=rainPoints[Math.max(0,i-1)],after=rainPoints[Math.min(rainPoints.length-1,i+1)];
+      const length=Math.hypot(after.x-before.x,after.y-before.y)||1,side=area>0?1:-1;
+      const nx=side*(after.y-before.y)/length,ny=-side*(after.x-before.x)/length;
+      return {x:p.x+14*nx,y:p.y+14*ny,nx,ny,distance_m:p.distance_m};
+    });
+    const rainSymbols=[.3,.55,.82].map(f=>{
+      const distance=sector.start_distance_m+f*(sector.end_distance_m-sector.start_distance_m);
+      const p=ribbon.reduce((a,b)=>Math.abs(b.distance_m-distance)<Math.abs(a.distance_m-distance)?b:a);
+      return {x:p.x+24*p.nx,y:p.y+24*p.ny};
+    });
+    let svg = `<defs><pattern id="chequer" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="var(--paper)"/><path d="M0 0h4v4H0zM4 4h4v4H4z" fill="var(--ink)"/></pattern></defs>`;
+    svg += `<path class="rain-ribbon-halo" d="${line(ribbon)}"/><path class="rain-ribbon" d="${line(ribbon)}"/><path class="circuit-track" d="${line(racingLine)}"/><path class="pit-distance" d="${line(highlight)}"/>`;
+    rainSymbols.forEach(p=>{
+      svg+=`<g class="rain-symbol" aria-hidden="true" transform="translate(${p.x} ${p.y})"><path class="rain-cloud" d="M-8 2H8a5 5 0 0 0 0-10 7 7 0 0 0-13-2 5 5 0 0 0-3 12Z"/><path class="rain-drops" d="M-7 7l-2 4M0 7l-2 4M7 7l-2 4"/></g>`;
+    });
     const labels = [], sectorLabelBoxes = [];
     const addLabel = (p,text,colour='var(--muted)',kind='marker') => labels.push({...p,text,colour,kind});
     const start = pointAt(track.start_finish.distance_m);
@@ -66,11 +79,11 @@
       svg+=`<path class="travel-chevron" d="M-4-4L1 0-4 4" transform="translate(${p.x} ${p.y}) rotate(${angle})"/>`;
     }
     const mobile=window.matchMedia('(max-width:450px)').matches, font=mobile?18:14;
-    const rainEdge=hull.reduce((a,b)=>b.y<a.y?b:a),rainWidth=display.rain_label.length*(mobile?18:12)*.62;
+    const rainEdge=ribbon.reduce((a,b)=>b.y<a.y?b:a),rainWidth=display.rain_label.length*(mobile?18:12)*.62;
     const rainX=Math.max(rainWidth/2+8,Math.min(652-rainWidth/2,rainEdge.x));
-    const rainY=rainEdge.y-16;
+    const rainY=rainEdge.y-24;
     svg+=`<path class="rain-label-link" d="M${rainEdge.x} ${rainEdge.y}L${rainX} ${rainY+5}"/><text class="radar-label" x="${rainX}" y="${rainY}" text-anchor="middle">${escape(display.rain_label)}</text>`;
-    const occupied=[...sectorLabelBoxes,{x:rainX-rainWidth/2,y:rainY-(mobile?18:12),w:rainWidth,h:(mobile?18:12)+5}];
+    const occupied=[...sectorLabelBoxes,...rainSymbols.map(p=>({x:p.x-15,y:p.y-14,w:30,h:29})),{x:rainX-rainWidth/2,y:rainY-(mobile?18:12),w:rainWidth,h:(mobile?18:12)+5}];
     const overlaps=(a,b)=>a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;
     labels.forEach(p=>{
       const w=p.text.length*font*.62,h=font+5;

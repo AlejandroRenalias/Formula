@@ -49,3 +49,10 @@ button:focus-visible,summary:focus-visible,input:focus-visible,a:focus-visible{o
 
 .sector-name{font-family:Consolas,'Courier New',monospace;font-size:12px}
 @media(max-width:450px){.sector-name{font-size:16px}}
+
+/* Rain forecast: a track-side ribbon and sparse weather symbols. */
+.rain-ribbon,.rain-ribbon-halo{fill:none;stroke:#79b8ec;stroke-linecap:round;stroke-linejoin:round}
+.rain-ribbon{stroke-width:3;opacity:.8}
+.rain-ribbon-halo{stroke-width:9;opacity:.09}
+.rain-cloud{fill:var(--paper);stroke:#a8d4f5;stroke-width:1.5;stroke-linejoin:round}
+.rain-drops{fill:none;stroke:#79b8ec;stroke-width:1.7;stroke-linecap:round}
