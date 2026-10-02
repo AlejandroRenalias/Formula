@@ -135,11 +135,13 @@ def build_projection_view(result, state):
             arrival = assumption['rain_arrival_lap']
             timing = f", around lap {arrival}" if arrival is not None else ''
             text = (f"Track is {'wet' if state.observed_weather.rainfall.value else 'dry'}. "
-                    f"Rain {assumption['rain_probability'] * 100:.0f}%{timing}. {call_line}.")
+                    f"Rain {assumption['rain_probability'] * 100:.0f}%{timing}." )
+            if assumption['rain_probability'] >= .5 and arrival is not None:
+                text += ' A slick stop risks another stop for inters.'
         else:
             progress = candidate['target_compound'] and candidate['target_compound'] not in [c.value for c in subject.used_compounds]
-            compound_line = ' A second dry compound is still due.' if progress and len(subject.used_compounds) == 1 else ''
-            text = f"{state.track_status.value.replace('_', ' ').capitalize()} flags; a stop costs {state.pit_loss.current_pit_loss_s:.1f} s.{compound_line} {call_line}."
+            compound_line = ', and a second dry compound is still due' if progress and len(subject.used_compounds) == 1 else ''
+            text = f"{state.track_status.value.replace('_', ' ').capitalize()} flag. A stop costs {state.pit_loss.current_pit_loss_s:.1f} s{compound_line}."
         radio.append({'role': role, 'vote': action(candidate['pit_action']), 'text': text})
         radio_raw.append({'role': role, 'vote': action(candidate['pit_action']),
                           'candidate': candidate['candidate_id'], 'text': evaluation['rationale']})
@@ -157,13 +159,13 @@ def build_projection_view(result, state):
     rain = track['rain_overlay']
     health = TyreModel.estimate_tyre_condition(subject.current_compound, subject.stint_length_laps)
     tyre_colours = {'MEDIUM': '#f1cf58', 'HARD': '#e0e8ef', 'SOFT': '#ff727c', 'INTERMEDIATE': '#67d4a3', 'WET': '#68a6ff'}
-    map_display = {'name': track['name'], 'rain_label': f"Rain {rain['probability'] * 100:.0f}%, around lap {rain['arrival_lap']} (forecast)",
+    map_display = {'name': track['name'], 'rain_label': f"{rain['probability'] * 100:.0f}%, around lap {rain['arrival_lap']} (forecast)",
         'rotation_degrees': -90, 'orientation_source': 'https://www.formula1.com/en/racing/2025/great-britain',
         'rejoin_label': track['ghost_rejoin']['label'], 'selected_driver': subject.driver,
         'selected_colour': next(c['team_colour'] for c in track['cars'] if c['driver'] == subject.driver),
         'marker_labels': {'start_finish': 'S/F', 'pit_entry': 'Pit in', 'pit_exit': 'Pit out'},
         'sector_labels': [f"Sector {s['sector']}" for s in track['sectors']],
-        'rain_start_label': 'Forecast rain starts here',
+        'rain_start_label': 'Rain likely from here',
         'rejoin_template': 'If you box: P{position}, {gap} s behind {ahead}',
         'ghost_template': 'If you box: P{position}',
         'clear_rejoin_template': 'If you box: P{position}, clear track ahead',

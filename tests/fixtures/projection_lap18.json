@@ -27754,7 +27754,7 @@
       },
       "map": {
         "name": "Silverstone",
-        "rain_label": "Rain 70%, around lap 22 (forecast)",
+        "rain_label": "70%, around lap 22 (forecast)",
         "rotation_degrees": -90,
         "orientation_source": "https://www.formula1.com/en/racing/2025/great-britain",
         "rejoin_label": "If you box: P3, 3.5 s behind HAM",
@@ -27770,7 +27770,7 @@
           "Sector 2",
           "Sector 3"
         ],
-        "rain_start_label": "Forecast rain starts here",
+        "rain_start_label": "Rain likely from here",
         "rejoin_template": "If you box: P{position}, {gap} s behind {ahead}",
         "ghost_template": "If you box: P{position}",
         "clear_rejoin_template": "If you box: P{position}, clear track ahead",
@@ -27814,12 +27814,12 @@
         {
           "role": "Weather",
           "vote": "STAY OUT",
-          "text": "Track is dry. Rain 70%, around lap 22. Stay out for now."
+          "text": "Track is dry. Rain 70%, around lap 22. A slick stop risks another stop for inters."
         },
         {
           "role": "Race Control",
           "vote": "BOX NOW",
-          "text": "Green flags; a stop costs 21.5 s. A second dry compound is still due. Box now for hards and cover VER."
+          "text": "Green flag. A stop costs 21.5 s, and a second dry compound is still due."
         }
       ],
       "radio_raw": [

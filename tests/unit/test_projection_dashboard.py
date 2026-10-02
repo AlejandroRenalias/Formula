@@ -89,5 +89,17 @@ def test_archivo_is_bundled_for_both_styles_and_forecast_start_is_explicit():
     assert 'Archivo-VariableItalic.ttf' not in document
     assert 'Barlow' not in document and 'monospace' not in document
     fixture = json.loads((ROOT / 'tests/fixtures/projection_lap18.json').read_text(encoding='utf-8'))
-    assert fixture['ui']['display']['map']['rain_start_label'] == 'Forecast rain starts here'
+    assert fixture['ui']['display']['map']['rain_start_label'] == 'Rain likely from here'
     assert fixture['track']['rain_overlay']['kind'] == 'forecast'
+
+
+def test_specialist_copy_has_independent_reasons_and_vector_chevron():
+    fixture = json.loads((ROOT / 'tests/fixtures/projection_lap18.json').read_text(encoding='utf-8'))
+    ui = fixture['ui']['display']
+    radio = {line['role']: line['text'] for line in ui['radio']}
+    assert radio['Race Control'] == 'Green flag. A stop costs 21.5 s, and a second dry compound is still due.'
+    assert 'cover VER' in radio['Pace & Tyre']
+    assert 'cover VER' not in radio['Weather'] and 'cover VER' not in radio['Race Control']
+    assert ui['map']['rain_label'] == '70%, around lap 22 (forecast)'
+    document = projection_document()
+    assert '<svg class="maths-chevron"' in document
