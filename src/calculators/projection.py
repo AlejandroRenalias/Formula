@@ -310,8 +310,12 @@ def _sc_opportunity(state, policy, scenario, config, lap, compound, age, stops, 
 
 
 def simulate_policy(state: RaceState, policy: Policy, scenario: Scenario,
-                    config: ProjectionConfig) -> Trace:
-    """Project from the completed-lap boundary to the finish; no scored bonuses."""
+                    config: ProjectionConfig, *, fixed_schedule: bool = False) -> Trace:
+    """Project from the completed-lap boundary to the finish; no scored bonuses.
+
+    fixed_schedule disables autonomous SC stops for conditional actual-plan
+    evaluation. Weather reactions remain governed by the supplied policy.
+    """
     subject = state.subject_driver
     scale = config.degradation_scale
     if scale is None:
@@ -354,7 +358,8 @@ def simulate_policy(state: RaceState, policy: Policy, scenario: Scenario,
         if lap == state.current_lap + 1:
             target = _cutoff_target(state, policy, config)
         opportunistic = False
-        if lap > state.current_lap + 1 and _status(state, lap - 1, config) == TrackStatus.SAFETY_CAR and target is None:
+        if (not fixed_schedule and lap > state.current_lap + 1
+                and _status(state, lap - 1, config) == TrackStatus.SAFETY_CAR and target is None):
             target = _sc_opportunity(state, policy, scenario, config, lap, compound, age, stops, remaining, wetness, scale)
             opportunistic = target is not None
             if target is not None and remaining and remaining[0].compound == target:
