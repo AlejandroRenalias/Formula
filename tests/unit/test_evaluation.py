@@ -209,9 +209,11 @@ def test_horizon_beyond_finish_counted_and_actual_includes_pit_elapsed():
 
 
 def test_metrics_sign_inclusive_coverage_and_width():
-    rows = [{"horizon": "1", "error_s": -2., "actual_s": 10., "p10_s": 8., "p90_s": 10.,
+    rows = [{"horizon": "1", "horizon_laps": 1, "contains_subject_pit_stop": False,
+             "error_s": -2., "actual_s": 10., "p10_s": 8., "p90_s": 10.,
              "covered": True, "width_s": 2.},
-            {"horizon": "1", "error_s": 4., "actual_s": 2., "p10_s": 5., "p90_s": 7.,
+            {"horizon": "1", "horizon_laps": 1, "contains_subject_pit_stop": True,
+             "error_s": 4., "actual_s": 2., "p10_s": 5., "p90_s": 7.,
              "covered": False, "width_s": 2.}]
     m = metrics(rows)["1"]
     assert m["mae_s"] == 3
@@ -219,6 +221,30 @@ def test_metrics_sign_inclusive_coverage_and_width():
     assert m["coverage"] == .5
     assert m["mean_width_s"] == 2
     assert m["lower_misses"] == 1
+    assert m["median_error_s"] == 1
+    assert m["by_subject_pit_stop"]["without_stop"]["bias_s"] == -2
+    assert m["by_subject_pit_stop"]["with_stop"]["bias_s"] == 4
+
+
+def test_error_per_lap_aggregates_per_prediction_not_ratio_of_means():
+    rows = [{"horizon": "finish", "horizon_laps": laps, "contains_subject_pit_stop": False,
+             "error_s": error, "actual_s": 10., "p10_s": 8., "p90_s": 10.,
+             "covered": True, "width_s": 2.} for laps, error in ((2, -4.), (10, -10.))]
+    m = metrics(rows)["finish"]
+    assert m["mean_error_per_lap_s"] == -1.5
+    assert m["median_error_per_lap_s"] == -1.5
+    assert m["by_subject_pit_stop"]["with_stop"] == {"n": 0}
+
+
+def test_pit_stop_diagnostics_use_actual_entry_inside_horizon_only():
+    from src.evaluation.diagnostics import enrich_rows
+    data = dataset()
+    next(r for r in data["laps"] if r["Driver"] == "1" and r["NumberOfLaps"] == 10)["PitInTime"] = 990.
+    rows = [{"driver_number": "1", "lap": 8, "target_lap": target,
+             "horizon_laps": target-8, "error_s": -2.} for target in (9, 10)]
+    enriched = enrich_rows(data, rows)
+    assert [r["contains_subject_pit_stop"] for r in enriched] == [False, True]
+    assert enriched[1]["error_per_lap_s"] == -1
 
 
 def test_network_blocked_prediction_and_no_fallback_download():

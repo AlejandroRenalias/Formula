@@ -1,5 +1,38 @@
 # Formula strategy models
 
+## Bahrain-only conditional evaluation
+
+The baseline is committed independently in `1597011`. Evaluation uses exact
+subject crossing cutoffs, causal raw timing/tyre/weather/status observations,
+and the explicitly labelled same-lap rival crossing gap proxy. The subject's
+actual future stop schedule is a conditional outcome treatment, never a state
+feature. Rivals retain the engine's own causal stop assumptions. All runs load
+hash-verified local Bahrain 2021 data with network connections blocked. Spain
+2022, France 2022, held-out and wet races remain unrun in this slice.
+
+### Diagnostics without changing predictions
+
+`docs/evaluation/bahrain_2021_diagnostics` reuses the exact baseline prediction
+values. It adds median signed error alongside mean bias; every metric is also
+split by actual subject pit entry inside `(cutoff, target]`. Error per lap is
+computed separately for each row using its actual horizon length and then
+mean/median-aggregated; finish rows have unequal lengths. Reports retain counts,
+MAE, mean/median error, coverage, interval width, miss counts, interval score,
+and mean/median/absolute error per lap for each stratum.
+
+Baseline one-lap mean bias +0.397s conceals median error −0.428s. No-stop bias is
+−0.432s (409 cases); pit-entry bias is +17.354s (20 cases), consistent with the
+existing single-lap stop-charge approximation. All 324 actuals above p90 are
+no-stop cases. Mean no-stop error per lap is −0.432/−0.493/−0.475 at 1/5/10 laps,
+but −0.826 to finish (overall finish −0.567). A roughly constant short-horizon
+pace error supports the anchor hypothesis, but finish/cohort variation means
+wear, cliff and fuel errors are not ruled out by this diagnostic alone.
+
+Baseline defaults remain frozen here: degradation scale 1, nominal compound
+wear/cliff, fuel 0.05s/lap, existing pit losses and traffic/SC assumptions. Only
+the recent six-clean-lap minimum supplies the base-pace anchor. No outcomes are
+used to adjust these values or to widen uncertainty intervals.
+
 ## Legacy specialist scorer
 
 The scorer produces dimensionless heuristic points, not predicted race time.

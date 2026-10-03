@@ -11,7 +11,9 @@ from importlib.metadata import version
 import statistics
 import subprocess
 import time
+import shutil
 
+from src.evaluation.diagnostics import enrich_rows, metrics, metric_tables, comparison_tables
 from src.evaluation.offline import network_blocked
 from src.evaluation.prediction import actual_plan, predict, score_targets
 from src.evaluation.snapshot import ExcludedSnapshot, build_snapshot, load_dataset
@@ -30,26 +32,6 @@ def evaluate_one(data, driver, lap):
               "config": snapshot.config.model_dump(mode="json"), "audit": snapshot.audit,
               "actual_subject_plan": [s.model_dump(mode="json") for s in treatment.dry_stops]}
     return rows, exclusions, record
-
-
-def metrics(rows):
-    groups = {}
-    for horizon in ("1", "5", "10", "finish"):
-        group = [r for r in rows if r["horizon"] == horizon]
-        if not group:
-            continue
-        lower = sum(r["actual_s"] < r["p10_s"] for r in group)
-        upper = sum(r["actual_s"] > r["p90_s"] for r in group)
-        interval_scores = [r["width_s"] + 10 * max(0, r["p10_s"] - r["actual_s"])
-                           + 10 * max(0, r["actual_s"] - r["p90_s"]) for r in group]
-        groups[horizon] = {"n": len(group),
-            "mae_s": statistics.mean(abs(r["error_s"]) for r in group),
-            "bias_s": statistics.mean(r["error_s"] for r in group),
-            "coverage": sum(r["covered"] for r in group) / len(group),
-            "mean_width_s": statistics.mean(r["width_s"] for r in group),
-            "lower_misses": lower, "upper_misses": upper,
-            "interval_score_s": statistics.mean(interval_scores)}
-    return groups
 
 
 def plots(rows, output):
@@ -105,7 +87,9 @@ def write_report(rows, exclusions, snapshots, manifest, output):
     worst = sorted(rows, key=lambda r: abs(r["error_s"]), reverse=True)[:5]
     counts = Counter((e.get("scope", "target"), e["reason"]) for e in exclusions)
     lines = ["# Bahrain 2021: dry conditional prediction", "",
-        "Slice 1, development race only. No fitting, agreement/disagreement analysis or UI changes.", "",
+        "Bahrain development race only. No race-wide fitting, agreement/disagreement analysis or UI changes.", "",
+        f"Prediction source: {manifest.get('prediction_origin', 'fresh offline simulation')}. "
+        f"Previous comparison: {manifest.get('compare_to') or 'none'}.", "",
         "## Dataset and runtime", "",
         f"- Top ten: {', '.join(manifest['subjects'])}.",
         f"- Scheduled distance: 56 laps; cutoffs 5–51 inclusive; stride {manifest['lap_stride']}.",
@@ -126,11 +110,32 @@ def write_report(rows, exclusions, snapshots, manifest, output):
         "Bias is predicted median minus actual elapsed time: negative means too fast. Coverage "
         "uses inclusive absolute p10–p90 endpoints; nominal target is 80%. Width is the mean "
         "p90 minus p10. Existing uncertainty is reported without post-result widening.", "",
-        "| Horizon | N | MAE (s) | Bias (s) | Coverage | Mean width (s) | Below p10 | Above p90 | Interval score (s) |",
-        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |"]
+        "| Horizon | N | MAE (s) | Mean bias (s) | Median error (s) | Coverage | Mean width (s) | Below p10 | Above p90 | Interval score (s) |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |"]
     lines += [f"| {h} | {v['n']} | {v['mae_s']:.3f} | {v['bias_s']:+.3f} | "
-              f"{100*v['coverage']:.1f}% | {v['mean_width_s']:.3f} | {v['lower_misses']} | "
+              f"{v['median_error_s']:+.3f} | {100*v['coverage']:.1f}% | {v['mean_width_s']:.3f} | {v['lower_misses']} | "
               f"{v['upper_misses']} | {v['interval_score_s']:.3f} |" for h, v in summary.items()]
+    lines += ["", *metric_tables(summary)]
+    if manifest.get("diagnostics_source"):
+        lines += ["", "### Baseline interpretation", "",
+            "The one-lap mean is misleading: its median error is −0.428s. The 409 "
+            "no-stop predictions average −0.432s, while 20 pit-entry horizons average "
+            "+17.354s. Charging all stop loss on the in-lap creates a separate large "
+            "positive-error group; all 324 one-lap actuals above p90 are in the no-stop group.", "",
+            "The roughly −0.4s/lap hypothesis holds approximately for short no-stop "
+            "horizons: mean errors/lap are −0.432, −0.493 and −0.475 at 1/5/10 laps. "
+            "It is not constant across every horizon: finish averages −0.567s/lap "
+            "overall and −0.826s/lap without a future stop. This supports investigating "
+            "the optimistic minimum pace anchor, but does not rule out wear/cliff, "
+            "fuel, or differing finish-cohort effects. The controlled anchor change "
+            "is the next test; these diagnostics alone do not establish causality."]
+    if manifest.get("compare_to"):
+        previous_rows = read_predictions(Path(manifest["compare_to"]) / "predictions.csv")
+        previous = metrics(previous_rows)
+        keys = lambda records: {(r["driver_number"], r["lap"], r["target_lap"], r["horizon"]) for r in records}
+        if keys(previous_rows) != keys(rows):
+            raise ValueError("Comparison predictions have different cohorts")
+        lines += ["", *comparison_tables(summary, previous)]
     lines += ["", "Coverage falls well short of 80% where the model's narrow pit/wear-only "
               "uncertainty fails to represent real pace variation. These are correlated "
               "snapshots from one development race, not an independent calibration result.", "",
@@ -190,7 +195,61 @@ def write_report(rows, exclusions, snapshots, manifest, output):
     (output / "exclusions.json").write_text(json.dumps(exclusions, indent=2) + "\n", encoding="utf-8")
 
 
-def run(dataset=DEFAULT_DATA, output=DEFAULT_OUTPUT):
+def read_predictions(path):
+    with Path(path).open(newline="", encoding="utf-8") as stream:
+        rows = list(csv.DictReader(stream))
+    for row in rows:
+        for k, value in row.items():
+            if k in ("driver", "driver_number", "horizon"):
+                continue
+            if k in ("covered", "contains_subject_pit_stop"):
+                row[k] = value == "True"
+            elif k in ("lap", "target_lap", "horizon_laps", "subject_pit_stop_count"):
+                row[k] = int(value)
+            else:
+                row[k] = float(value)
+    return rows
+
+
+def save_predictions(rows, output):
+    with (output / "predictions.csv").open("w", newline="", encoding="utf-8") as stream:
+        writer = csv.DictWriter(stream, fieldnames=list(rows[0]))
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def diagnostics_only(dataset, output, source):
+    """Reuse exact baseline predictions; no calls to snapshot/predict."""
+    with network_blocked():
+        data, digest = load_dataset(dataset)
+        source = Path(source)
+        output = Path(output)
+        manifest = json.loads((source / "manifest.json").read_text())
+        if manifest["dataset_sha256"] != digest:
+            raise ValueError("Baseline dataset changed")
+        output.mkdir(parents=True, exist_ok=True)
+        rows = enrich_rows(data, read_predictions(source / "predictions.csv"))
+        snapshot_path = Path(dataset).with_name("snapshots.jsonl")
+        snapshots = [json.loads(s) for s in snapshot_path.read_text().splitlines()]
+        if len(snapshots) != manifest["evaluated_snapshots"]:
+            raise ValueError("Baseline snapshot audit missing or changed")
+        manifest.update(prediction_origin="unchanged saved minimum-anchor baseline predictions",
+                        compare_to=None, snapshot_path=str(snapshot_path),
+                        diagnostics_source=str(source),
+                        diagnostics_source_predictions_sha256=hashlib.sha256((source / "predictions.csv").read_bytes()).hexdigest())
+        manifest["diagnostics_source_sha256"] = {str(p): hashlib.sha256(p.read_bytes()).hexdigest()
+            for p in (Path("src/evaluation/diagnostics.py"), Path("tools/evaluate_bahrain.py"))}
+        save_predictions(rows, output)
+        for file in ("predicted_vs_actual.png", "error_vs_horizon.png"):
+            shutil.copyfile(source / file, output / file)
+        exclusions = json.loads((source / "exclusions.json").read_text())
+        (output / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+        write_report(rows, exclusions, snapshots, manifest, output)
+        print(json.dumps({h: {k: v for k, v in values.items() if k != 'by_subject_pit_stop'}
+                          for h, values in metrics(rows).items()}, indent=2))
+
+
+def run(dataset=DEFAULT_DATA, output=DEFAULT_OUTPUT, compare_to=None):
     output = Path(output)
     output.mkdir(parents=True, exist_ok=True)
     with network_blocked():
@@ -227,7 +286,8 @@ def run(dataset=DEFAULT_DATA, output=DEFAULT_OUTPUT):
         elapsed = time.perf_counter() - started
         if not rows:
             raise ValueError("No valid predictions")
-        snapshot_path = Path(dataset).with_name("snapshots.jsonl")
+        rows = enrich_rows(data, rows)
+        snapshot_path = Path(dataset).with_name(f"snapshots_{output.name}.jsonl")
         snapshot_path.write_text("".join(json.dumps(s, allow_nan=False) + "\n" for s in snapshots), encoding="utf-8")
         sources = [Path("src/calculators/projection.py"), Path("src/calculators/tyre_model.py"),
                    Path("src/calculators/pit_loss_model.py"), Path("src/calculators/pace_model.py"),
@@ -245,24 +305,28 @@ def run(dataset=DEFAULT_DATA, output=DEFAULT_OUTPUT):
             "subjects": [r["Abbreviation"] for r in cohort],
             "attempted_snapshots": 10 * len(range(5, data["scheduled_laps"] - 4, stride)),
             "evaluated_snapshots": len(snapshots), "scored_predictions": len(rows),
+            "snapshot_path": str(snapshot_path), "compare_to": str(compare_to) if compare_to else None,
             "network_blocked": True, "forecast_mode": "no_forecast_dry_persistence",
             "fixed_config_except_base_pace": {k: v for k, v in snapshots[0]["config"].items() if k != "base_pace_s"}}
-        with (output / "predictions.csv").open("w", newline="", encoding="utf-8") as stream:
-            writer = csv.DictWriter(stream, fieldnames=list(rows[0]))
-            writer.writeheader()
-            writer.writerows(rows)
+        save_predictions(rows, output)
         (output / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
         plots(rows, output)
         write_report(rows, exclusions, snapshots, manifest, output)
-        print(json.dumps(metrics(rows), indent=2), flush=True)
+        print(json.dumps({h: {k: v for k, v in values.items() if k != 'by_subject_pit_stop'}
+                          for h, values in metrics(rows).items()}, indent=2), flush=True)
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dataset", type=Path, default=DEFAULT_DATA)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument("--diagnostics-from", type=Path, help="Reuse saved predictions without model changes")
+    parser.add_argument("--compare-to", type=Path, help="Previous enriched report for matched comparisons")
     args = parser.parse_args()
-    run(args.dataset, args.output)
+    if args.diagnostics_from:
+        diagnostics_only(args.dataset, args.output, args.diagnostics_from)
+    else:
+        run(args.dataset, args.output, args.compare_to)
 
 
 if __name__ == "__main__":

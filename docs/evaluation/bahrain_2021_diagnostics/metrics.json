@@ -1,0 +1,178 @@
+{
+  "1": {
+    "n": 429,
+    "mae_s": 1.33730602323299,
+    "bias_s": 0.3967368729712246,
+    "median_error_s": -0.42783275213491834,
+    "mean_error_per_lap_s": 0.3967368729712246,
+    "median_error_per_lap_s": -0.42783275213491834,
+    "mae_per_lap_s": 1.33730602323299,
+    "coverage": 0.06060606060606061,
+    "mean_width_s": 0.2193580590548289,
+    "lower_misses": 79,
+    "upper_misses": 324,
+    "interval_score_s": 12.44489719296717,
+    "by_subject_pit_stop": {
+      "without_stop": {
+        "n": 409,
+        "mae_s": 0.5541120642997595,
+        "bias_s": -0.4324506874417989,
+        "median_error_s": -0.4511637606733956,
+        "mean_error_per_lap_s": -0.4324506874417989,
+        "median_error_per_lap_s": -0.4511637606733956,
+        "mae_per_lap_s": 0.5541120642997595,
+        "coverage": 0.06356968215158924,
+        "mean_width_s": 0.12435210841400107,
+        "lower_misses": 59,
+        "upper_misses": 324,
+        "interval_score_s": 4.953483917303309
+      },
+      "with_stop": {
+        "n": 20,
+        "mae_s": 17.353622483417556,
+        "bias_s": 17.353622483417556,
+        "median_error_s": 17.37902248341757,
+        "mean_error_per_lap_s": 17.353622483417556,
+        "median_error_per_lap_s": 17.37902248341757,
+        "mae_per_lap_s": 17.353622483417556,
+        "coverage": 0.0,
+        "mean_width_s": 2.1622297496597582,
+        "lower_misses": 20,
+        "upper_misses": 0,
+        "interval_score_s": 165.64429868029313
+      }
+    }
+  },
+  "5": {
+    "n": 429,
+    "mae_s": 3.8234525367485217,
+    "bias_s": -1.9721337920894908,
+    "median_error_s": -2.613504045498928,
+    "mean_error_per_lap_s": -0.39442675841789815,
+    "median_error_per_lap_s": -0.5227008090997856,
+    "mae_per_lap_s": 0.7646905073497043,
+    "coverage": 0.05128205128205128,
+    "mean_width_s": 0.959277946395742,
+    "lower_misses": 56,
+    "upper_misses": 351,
+    "interval_score_s": 33.99905312269533,
+    "by_subject_pit_stop": {
+      "without_stop": {
+        "n": 326,
+        "mae_s": 2.8722290264246144,
+        "bias_s": -2.46549119690388,
+        "median_error_s": -2.4711248432546142,
+        "mean_error_per_lap_s": -0.49309823938077596,
+        "median_error_per_lap_s": -0.4942249686509228,
+        "mae_per_lap_s": 0.5744458052849228,
+        "coverage": 0.046012269938650305,
+        "mean_width_s": 0.5931019143774343,
+        "lower_misses": 33,
+        "upper_misses": 278,
+        "interval_score_s": 25.78746998441846
+      },
+      "with_stop": {
+        "n": 103,
+        "mae_s": 6.834121122822248,
+        "bias_s": -0.41063365646336647,
+        "median_error_s": -3.791376754512555,
+        "mean_error_per_lap_s": -0.08212673129267328,
+        "median_error_per_lap_s": -0.7582753509025111,
+        "mae_per_lap_s": 1.3668242245644495,
+        "coverage": 0.06796116504854369,
+        "mean_width_s": 2.1182428632692205,
+        "lower_misses": 23,
+        "upper_misses": 73,
+        "interval_score_s": 59.989112375882314
+      }
+    }
+  },
+  "10": {
+    "n": 379,
+    "mae_s": 6.138649131604482,
+    "bias_s": -4.554199378199296,
+    "median_error_s": -4.670040626676723,
+    "mean_error_per_lap_s": -0.4554199378199297,
+    "median_error_per_lap_s": -0.4670040626676723,
+    "mae_per_lap_s": 0.6138649131604481,
+    "coverage": 0.04221635883905013,
+    "mean_width_s": 1.647575682783666,
+    "lower_misses": 57,
+    "upper_misses": 306,
+    "interval_score_s": 54.442493472218864,
+    "by_subject_pit_stop": {
+      "without_stop": {
+        "n": 204,
+        "mae_s": 5.725007010609739,
+        "bias_s": -4.748950142133132,
+        "median_error_s": -4.745758404488811,
+        "mean_error_per_lap_s": -0.47489501421331315,
+        "median_error_per_lap_s": -0.47457584044888107,
+        "mae_per_lap_s": 0.5725007010609738,
+        "coverage": 0.00980392156862745,
+        "mean_width_s": 1.137214972660549,
+        "lower_misses": 34,
+        "upper_misses": 168,
+        "interval_score_s": 51.63376695047697
+      },
+      "with_stop": {
+        "n": 175,
+        "mae_s": 6.620837661221211,
+        "bias_s": -4.327175630527855,
+        "median_error_s": -4.643497538869951,
+        "mean_error_per_lap_s": -0.4327175630527855,
+        "median_error_per_lap_s": -0.4643497538869951,
+        "mae_per_lap_s": 0.662083766122121,
+        "coverage": 0.08,
+        "mean_width_s": 2.2425104534414713,
+        "lower_misses": 23,
+        "upper_misses": 138,
+        "interval_score_s": 57.71666610327799
+      }
+    }
+  },
+  "finish": {
+    "n": 429,
+    "mae_s": 13.337853386275325,
+    "bias_s": -11.869306936634679,
+    "median_error_s": -9.9187846080913,
+    "mean_error_per_lap_s": -0.5668426682952945,
+    "median_error_per_lap_s": -0.5241058903651389,
+    "mae_per_lap_s": 0.602058849104799,
+    "coverage": 0.10955710955710955,
+    "mean_width_s": 3.6510324155918883,
+    "lower_misses": 24,
+    "upper_misses": 358,
+    "interval_score_s": 117.53881916786568,
+    "by_subject_pit_stop": {
+      "without_stop": {
+        "n": 158,
+        "mae_s": 10.397855063880664,
+        "bias_s": -10.09748332173527,
+        "median_error_s": -9.706426768967503,
+        "mean_error_per_lap_s": -0.825700164559855,
+        "median_error_per_lap_s": -0.826877827620514,
+        "mae_per_lap_s": 0.8410970455473091,
+        "coverage": 0.05063291139240506,
+        "mean_width_s": 1.8106134158536589,
+        "lower_misses": 7,
+        "upper_misses": 143,
+        "interval_score_s": 95.0347115584888
+      },
+      "with_stop": {
+        "n": 271,
+        "mae_s": 15.051948349147489,
+        "bias_s": -12.902325870782674,
+        "median_error_s": -10.271105662701075,
+        "mean_error_per_lap_s": -0.41592206161706374,
+        "median_error_per_lap_s": -0.2987420606387343,
+        "mae_per_lap_s": 0.4626934061604573,
+        "coverage": 0.14391143911439114,
+        "mean_width_s": 4.724044230937424,
+        "lower_misses": 17,
+        "upper_misses": 215,
+        "interval_score_s": 130.6592951910448
+      }
+    }
+  }
+}
