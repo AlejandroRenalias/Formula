@@ -229,6 +229,16 @@ def test_committed_fixture_reproduces_from_its_source_inputs():
     result['track'] = build_cutoff_track(RaceState.model_validate(source['state']),
                                        TrackScenarioConfig.model_validate(source['track_config']))
     result['ui'] = build_projection_view(result, RaceState.model_validate(source['state']))
+    # The previous uncertainty slice added disabled-by-default config fields.
+    # Check their values explicitly, then compare the original fixture contract
+    # without modifying its UI artifact or accepting numeric projection drift.
+    added = {"base_pace_sigma_s", "lap_noise_sigma_s"}
+    assert {r["name"]: r["value"] for r in result["assumptions"] if r["name"] in added} == {
+        name: 0.0 for name in added}
+    result["assumptions"] = [r for r in result["assumptions"] if r["name"] not in added]
+    result["ui"]["display"]["assumptions"] = [
+        r for r in result["ui"]["display"]["assumptions"]
+        if r["name"] not in {name.replace("_", " ") for name in added}]
     assert result == saved
 
 

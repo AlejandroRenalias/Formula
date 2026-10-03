@@ -6,7 +6,7 @@ from src.core.models import (
     StrategyObjective,
     RiskProfile,
 )
-from src.core.provenance import DataSource
+from src.core.provenance import DataSource, ProvenanceMetric
 from src.adapters.scenarios import SCENARIOS
 from src.adapters.synthetic_adapter import SyntheticRaceAdapter
 from src.adapters.fastf1_adapter import FastF1Adapter
@@ -73,3 +73,10 @@ def test_precomputed_all_candidates_in_decision():
     # Top candidate in all_candidates must match selected_candidate
     assert decision.all_candidates[0].candidate_id == decision.selected_candidate.candidate_id
     assert decision.all_candidates[0].candidate_strategy_score == decision.selected_candidate.candidate_strategy_score
+
+
+def test_synthetic_source_is_accepted_and_round_trips():
+    """Committed synthetic fixture labels must deserialize without relabeling."""
+    metric = ProvenanceMetric[float].model_validate({"value": 30., "source": "SYNTHETIC"})
+    assert metric.source == DataSource.SYNTHETIC
+    assert metric.model_dump(mode="json")["source"] == "SYNTHETIC"

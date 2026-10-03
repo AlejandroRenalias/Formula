@@ -52,3 +52,25 @@ The stash is substantive prior work, not just generated previews. Applying it
 would require reviewing its older README claims against the new evaluation;
 dropping it would discard the functional changes and tests as well as previews.
 No tests of the combined stash + evaluation tree were run during this inspection.
+
+## Archive completed
+
+The exact requested `git stash branch archive/pre-evaluation-work stash@{0}`
+succeeded. All 25 files were committed as-is on that branch at `58ac83f`.
+The command dropped the stash after successful restoration; its contents are
+now durable in that archive commit. Main retains only the SYNTHETIC enum fix
+and a round-trip test, plus a fixture-test compatibility adjustment for the
+previous slice's two disabled uncertainty fields. No model predictions or UI
+artifacts are changed by this repair.
+
+Worth reviewing for a later slice:
+
+- Missing-weather rejection and explicit forecast provenance in FastF1Adapter.
+- Specialist role and evidence ownership checks, with their boundary tests.
+- Historical dashboard loading/session reuse, explicit user forecasts, JSON
+  export and fake-provider reasoning/error handling, with dashboard tests.
+- Accurate SYNTHETIC provenance in SyntheticRaceAdapter and its weather tests.
+- Design previews/study for future presentation work; these are not engine fixes.
+
+The archived README predates the evaluation work and needs reconciliation
+before adoption. None of those broader features was brought into main here.
