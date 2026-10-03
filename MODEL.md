@@ -33,6 +33,22 @@ wear/cliff, fuel 0.05s/lap, existing pit losses and traffic/SC assumptions. Only
 the recent six-clean-lap minimum supplies the base-pace anchor. No outcomes are
 used to adjust these values or to widen uncertainty intervals.
 
+### Controlled fix 1: median anchor
+
+The evaluation builder now replaces the minimum of the same last six available
+clean lap times with their median. For an even window, the two central raw lap
+observations contribute their average; each retains the baseline's nominal
+compound/wear subtraction and fixed fuel advance to cutoff. For an odd window
+the single central observation is used. The clean window, rival inputs, tyre
+model, pit losses, fuel, traffic and existing random samples do not change.
+The snapshot records the central lap numbers, method and latest source timestamp.
+The normal projection's unconfigured last-lap anchor remains its existing
+behavior; historical evaluation supplies an explicit base_pace_s override.
+
+`docs/evaluation/bahrain_2021_anchor_median` compares the matched cohort against
+the unchanged minimum baseline/diagnostics. This is a development-race
+experiment; the median has not been selected using held-out race outcomes.
+
 ## Legacy specialist scorer
 
 The scorer produces dimensionless heuristic points, not predicted race time.
@@ -347,3 +363,5 @@ pit-loss changes use the fixture's scaled profile and fixed cutoff gaps to redra
 the equivalent-progress ghost and neighbours; they do not simulate the pit lane
 or change the precomputed recommendation. The forecast sector is a soft static
 overlay; no rain motion or wind vector is inferred.
+
+Median anchor result (same 429 snapshots / 1,666 predictions): mean bias at 1/5/10/finish = +0.774 / -0.090 / -0.666 / -1.687 s; median error = -0.068 / -0.728 / -0.668 / -2.342 s; MAE = 1.205 / 2.823 / 4.166 / 8.413 s. Baseline MAE was 1.337 / 3.823 / 6.139 / 13.338 s. This controlled change supports the anchor diagnosis without eliminating pit timing or long-horizon modeling errors.

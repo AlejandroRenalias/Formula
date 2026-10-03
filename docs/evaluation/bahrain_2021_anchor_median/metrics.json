@@ -1,0 +1,178 @@
+{
+  "1": {
+    "n": 429,
+    "mae_s": 1.2047895922346945,
+    "bias_s": 0.7741098333441853,
+    "median_error_s": -0.06820731623557208,
+    "mean_error_per_lap_s": 0.7741098333441853,
+    "median_error_per_lap_s": -0.06820731623557208,
+    "mae_per_lap_s": 1.2047895922346945,
+    "coverage": 0.11888111888111888,
+    "mean_width_s": 0.21935805905482894,
+    "lower_misses": 167,
+    "upper_misses": 211,
+    "interval_score_s": 11.21401497817063,
+    "by_subject_pit_stop": {
+      "without_stop": {
+        "n": 409,
+        "mae_s": 0.4005483750619385,
+        "bias_s": -0.051191518737642064,
+        "median_error_s": -0.08672067235859515,
+        "mean_error_per_lap_s": -0.051191518737642064,
+        "median_error_per_lap_s": -0.08672067235859515,
+        "mae_per_lap_s": 0.4005483750619385,
+        "coverage": 0.12469437652811736,
+        "mean_width_s": 0.1243521084140011,
+        "lower_misses": 147,
+        "upper_misses": 211,
+        "interval_score_s": 3.5167394915142682
+      },
+      "with_stop": {
+        "n": 20,
+        "mae_s": 17.651522483417555,
+        "bias_s": 17.651522483417555,
+        "median_error_s": 17.721022483417343,
+        "mean_error_per_lap_s": 17.651522483417555,
+        "median_error_per_lap_s": 17.721022483417343,
+        "mae_per_lap_s": 17.651522483417555,
+        "coverage": 0.0,
+        "mean_width_s": 2.1622297496597582,
+        "lower_misses": 20,
+        "upper_misses": 0,
+        "interval_score_s": 168.6232986802932
+      }
+    }
+  },
+  "5": {
+    "n": 429,
+    "mae_s": 2.8228564238868286,
+    "bias_s": -0.0900526471070248,
+    "median_error_s": -0.7279674643198177,
+    "mean_error_per_lap_s": -0.01801052942140496,
+    "median_error_per_lap_s": -0.14559349286396356,
+    "mae_per_lap_s": 0.5645712847773656,
+    "coverage": 0.11655011655011654,
+    "mean_width_s": 0.9649711748584873,
+    "lower_misses": 150,
+    "upper_misses": 229,
+    "interval_score_s": 24.56530983380607,
+    "by_subject_pit_stop": {
+      "without_stop": {
+        "n": 326,
+        "mae_s": 1.8291553823078683,
+        "bias_s": -0.47882770810328595,
+        "median_error_s": -0.4496840740116568,
+        "mean_error_per_lap_s": -0.09576554162065719,
+        "median_error_per_lap_s": -0.08993681480233136,
+        "mae_per_lap_s": 0.3658310764615737,
+        "coverage": 0.11042944785276074,
+        "mean_width_s": 0.599047230339392,
+        "lower_misses": 124,
+        "upper_misses": 166,
+        "interval_score_s": 15.942289754745211
+      },
+      "with_stop": {
+        "n": 103,
+        "mae_s": 5.967968458398876,
+        "bias_s": 1.1404392935219183,
+        "median_error_s": -1.8709603955651346,
+        "mean_error_per_lap_s": 0.22808785870438364,
+        "median_error_per_lap_s": -0.37419207911302693,
+        "mae_per_lap_s": 1.1935936916797754,
+        "coverage": 0.13592233009708737,
+        "mean_width_s": 2.1231382225597013,
+        "lower_misses": 26,
+        "upper_misses": 63,
+        "interval_score_s": 51.857586977241404
+      }
+    }
+  },
+  "10": {
+    "n": 379,
+    "mae_s": 4.1663377006111295,
+    "bias_s": -0.6659259684419943,
+    "median_error_s": -0.6675446721764047,
+    "mean_error_per_lap_s": -0.06659259684419944,
+    "median_error_per_lap_s": -0.06675446721764047,
+    "mae_per_lap_s": 0.4166337700611129,
+    "coverage": 0.1662269129287599,
+    "mean_width_s": 1.6550177848131848,
+    "lower_misses": 137,
+    "upper_misses": 179,
+    "interval_score_s": 35.670848475702364,
+    "by_subject_pit_stop": {
+      "without_stop": {
+        "n": 204,
+        "mae_s": 3.615522628229767,
+        "bias_s": -0.6096098904382191,
+        "median_error_s": -0.6449715098191291,
+        "mean_error_per_lap_s": -0.06096098904382192,
+        "median_error_per_lap_s": -0.06449715098191292,
+        "mae_per_lap_s": 0.36155226282297676,
+        "coverage": 0.14215686274509803,
+        "mean_width_s": 1.143194744097215,
+        "lower_misses": 78,
+        "upper_misses": 97,
+        "interval_score_s": 31.69465269227448
+      },
+      "with_stop": {
+        "n": 175,
+        "mae_s": 4.808430699272831,
+        "bias_s": -0.731574425086395,
+        "median_error_s": -0.7269829774992331,
+        "mean_error_per_lap_s": -0.07315744250863951,
+        "median_error_per_lap_s": -0.07269829774992331,
+        "mae_per_lap_s": 0.48084306992728315,
+        "coverage": 0.19428571428571428,
+        "mean_width_s": 2.2516572151335152,
+        "lower_misses": 59,
+        "upper_misses": 82,
+        "interval_score_s": 40.30595670324116
+      }
+    }
+  },
+  "finish": {
+    "n": 429,
+    "mae_s": 8.412576422117837,
+    "bias_s": -1.6874291602065032,
+    "median_error_s": -2.3421371599929444,
+    "mean_error_per_lap_s": -0.19217594743185684,
+    "median_error_per_lap_s": -0.0941032295325878,
+    "mae_per_lap_s": 0.38277734962705945,
+    "coverage": 0.1585081585081585,
+    "mean_width_s": 3.6360355836512173,
+    "lower_misses": 140,
+    "upper_misses": 221,
+    "interval_score_s": 71.11949845133586,
+    "by_subject_pit_stop": {
+      "without_stop": {
+        "n": 158,
+        "mae_s": 6.288384148695595,
+        "bias_s": -4.567815931134285,
+        "median_error_s": -4.8032943930224405,
+        "mean_error_per_lap_s": -0.4476744456380397,
+        "median_error_per_lap_s": -0.4821413447182238,
+        "mae_per_lap_s": 0.5371203878678441,
+        "coverage": 0.15822784810126583,
+        "mean_width_s": 1.8021109931355734,
+        "lower_misses": 27,
+        "upper_misses": 106,
+        "interval_score_s": 55.39370664144165
+      },
+      "with_stop": {
+        "n": 271,
+        "mae_s": 9.651035385958112,
+        "bias_s": -0.008089271621302041,
+        "median_error_s": 0.5687245100225482,
+        "mean_error_per_lap_s": -0.043213723385447635,
+        "median_error_per_lap_s": 0.013541059762441623,
+        "mae_per_lap_s": 0.2927913716121371,
+        "coverage": 0.15867158671586715,
+        "mean_width_s": 4.7052609906677185,
+        "lower_misses": 113,
+        "upper_misses": 115,
+        "interval_score_s": 80.28804127776864
+      }
+    }
+  }
+}

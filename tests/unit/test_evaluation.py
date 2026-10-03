@@ -11,7 +11,7 @@ from src.core.models import TireCompound, TrackStatus
 from src.evaluation.offline import network_blocked
 from src.evaluation.prediction import ActualPlan, actual_plan, predict, score_targets
 from src.evaluation.snapshot import (ExcludedSnapshot, build_snapshot, crossings,
-                                      load_dataset)
+                                      load_dataset, median_pace_anchor, clock)
 from tools.evaluate_bahrain import metrics
 
 
@@ -131,6 +131,22 @@ def test_frozen_parameters_and_source_timestamps(monkeypatch):
     assert snap.state.subject_driver.stint_length_laps == 11  # used tyres: 3 + 8
     assert snap.audit["subject_completed_stint_laps"] == 8
     predict(snap, ActualPlan(()))
+
+
+def test_median_anchor_resists_single_fast_outlier_and_preserves_corrections():
+    from src.core.models import LapObservation
+    from src.calculators.tyre_model import TyreModel
+    clean = [LapObservation(lap_number=n, lap_time_s=t, compound=TireCompound.MEDIUM,
+             tyre_age_laps=n, timestamp=clock(n*100))
+             for n,t in enumerate((90.,100.,101.,102.,103.,104.), 1)]
+    base, observed, middle = median_pace_anchor(clean, 8)
+    assert observed == 101.5
+    assert [r.lap_number for r in middle] == [3,4]
+    expected = sum(r.lap_time_s - TyreModel.lap_delta_s(r.compound,r.tyre_age_laps)
+                   - .05*(8-r.lap_number) for r in middle)/2
+    assert base == pytest.approx(expected)
+    assert median_pace_anchor(clean[:1], 8)[0] == pytest.approx(
+        90 - TyreModel.lap_delta_s(TireCompound.MEDIUM,1) - .05*7)
 
 
 def test_future_weather_and_track_events_ignored():

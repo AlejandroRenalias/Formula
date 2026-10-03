@@ -70,10 +70,11 @@ def plots(rows, output):
 def explanation(row, record):
     audit, config = record["audit"], record["config"]
     stop_count = sum(s["lap"] < row["target_lap"] for s in record["actual_subject_plan"])
-    return (f"Pace anchor: clean lap {audit['base_pace_anchor_lap']}; fresh base "
+    method = audit.get("base_pace_method", "minimum")
+    return (f"Pace anchor: {method}, clean lap(s) {audit.get('base_pace_anchor_laps', [audit['base_pace_anchor_lap']])}; fresh base "
             f"{config['base_pace_s']:.3f}s, cutoff tyre age {audit['subject_tyre_age']}; "
             f"{stop_count} future stop(s) in this horizon. "
-            + ("Prediction is too fast. Long-horizon fixed wear/fuel and a minimum-clean-lap "
+            + ("Prediction is too fast. Long-horizon fixed wear/fuel and the clean-lap "
                "anchor can sustain more pace than the driver actually delivered. "
                if row["error_s"] < 0 else
                "Prediction is too slow. Fixed compound wear/cliff and the cutoff pace anchor "
@@ -83,6 +84,7 @@ def explanation(row, record):
 
 def write_report(rows, exclusions, snapshots, manifest, output):
     summary = metrics(rows)
+    anchor_method = snapshots[0]["audit"].get("base_pace_method", "minimum")
     by_key = {(r["state"]["subject_driver"]["driver"], r["lap"]): r for r in snapshots}
     worst = sorted(rows, key=lambda r: abs(r["error_s"]), reverse=True)[:5]
     counts = Counter((e.get("scope", "target"), e["reason"]) for e in exclusions)
@@ -166,9 +168,10 @@ def write_report(rows, exclusions, snapshots, manifest, output):
         "- Session datetimes are epoch-encoded session-relative clocks, not asserted UTC wall times. "
         "Each snapshot saves exact cutoff seconds, source timestamps and parameter configuration.",
         "- Frozen compound degradation scale 1, fuel 0.05s/lap, pit losses 21.5/12.5/9.5s, "
-        "cliff/traffic/SC defaults. Fresh base pace reuses the minimum of the last six available "
-        "clean laps, removing that anchor's nominal compound/wear cost and advancing its "
-        "fuel effect to cutoff. No regression-based degradation or race fitting is used.",
+        f"cliff/traffic/SC defaults. Fresh base pace uses the {anchor_method} of the last six available "
+        "clean laps, removing the central observation(s)' nominal compound/wear cost and advancing "
+        "fuel effect to cutoff (minimum baseline uses its single fastest observation). "
+        "No regression-based degradation or race-wide fitting is used.",
         "- Dry persistence, no forecast; seed 18, 32 shared samples, uniform pit offsets "
         "±1.5s and wear multipliers ±15%. These do not include base-pace uncertainty, "
         "random traffic, damage, strategic lift-off, warm-up or future neutralizations.",
@@ -305,6 +308,7 @@ def run(dataset=DEFAULT_DATA, output=DEFAULT_OUTPUT, compare_to=None):
             "subjects": [r["Abbreviation"] for r in cohort],
             "attempted_snapshots": 10 * len(range(5, data["scheduled_laps"] - 4, stride)),
             "evaluated_snapshots": len(snapshots), "scored_predictions": len(rows),
+            "base_pace_method": snapshots[0]["audit"].get("base_pace_method", "minimum"),
             "snapshot_path": str(snapshot_path), "compare_to": str(compare_to) if compare_to else None,
             "network_blocked": True, "forecast_mode": "no_forecast_dry_persistence",
             "fixed_config_except_base_pace": {k: v for k, v in snapshots[0]["config"].items() if k != "base_pace_s"}}

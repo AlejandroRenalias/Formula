@@ -5,6 +5,7 @@ import hashlib
 import json
 from math import isfinite
 from pathlib import Path
+import statistics
 
 from src.calculators.pace_model import PaceModel
 from src.calculators.pit_loss_model import PitLossModel
@@ -156,6 +157,15 @@ class Snapshot:
     audit: dict
 
 
+def median_pace_anchor(clean, current_lap):
+    """Use the raw median, retaining baseline nominal wear/fuel corrections."""
+    ordered = sorted(clean, key=lambda r: r.lap_time_s)
+    middle = ordered[(len(ordered) - 1) // 2:len(ordered) // 2 + 1]
+    base = statistics.mean(r.lap_time_s - TyreModel.lap_delta_s(r.compound, r.tyre_age_laps)
+                           - 0.05 * (current_lap - r.lap_number) for r in middle)
+    return base, statistics.median(r.lap_time_s for r in clean), middle
+
+
 def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None):
     """Only coordinate/proxy channels may read corrected crossing Times."""
     driver_map = {r["DriverNumber"]: r for r in data["drivers"]}
@@ -178,18 +188,15 @@ def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None):
     clean = PaceModel.filter_clean_laps(history)[-6:]
     if not clean:
         raise ExcludedSnapshot("no_recent_clean_pace")
-    # Reuse the existing recent-clean minimum. No regression or parameter fitting.
-    best = min(clean, key=lambda r: r.lap_time_s)
-    config = ProjectionConfig(degradation_scale=1.0,
-        base_pace_s=best.lap_time_s - TyreModel.lap_delta_s(best.compound, best.tyre_age_laps)
-                    - 0.05 * (lap - best.lap_number))
+    base_pace, observed_median, anchor_laps = median_pace_anchor(clean, lap)
+    config = ProjectionConfig(degradation_scale=1.0, base_pace_s=base_pace)
     metrics = DerivedPaceMetrics(
         recent_pace_trend_s_per_lap=ProvenanceMetric(value=0., source=DataSource.USER_DEFINED,
                                                    notes="Frozen: no pace regression"),
         degradation_rate_s_per_lap=ProvenanceMetric(
             value=TyreModel.get_compound_specs(compound).degradation_base_rate_s_per_lap,
             source=DataSource.USER_DEFINED, notes="Frozen compound defaults; config scale=1"),
-        clean_air_potential_lap_time_s=ProvenanceMetric(value=best.lap_time_s,
+        clean_air_potential_lap_time_s=ProvenanceMetric(value=observed_median,
                                                       source=DataSource.DERIVED_MODEL))
     own = SubjectDriverState(driver=driver_map[driver]["Abbreviation"],
         team=driver_map[driver]["TeamName"], position=subject["position"],
@@ -262,7 +269,7 @@ def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None):
             intensity=ProvenanceMetric(value="DRY", source=DataSource.USER_DEFINED),
             confidence=DataQuality.LOW), derived_pace=metrics, lap_history=history,
         pit_loss=PitLossModel.calculate_pit_loss(status, pos, gap))
-    timestamps = {"frozen_defaults": 0., "base_pace": (best.timestamp - EPOCH).total_seconds(),
+    timestamps = {"frozen_defaults": 0., "base_pace": max((r.timestamp - EPOCH).total_seconds() for r in anchor_laps),
                   "subject_timing": subject["latest_source_s"], "subject_tyres": tyre_source,
                   "rival_inputs": max(rival_sources, default=0.),
                   "weather": w["Time"], "track_status": track[-1]["Time"]}
@@ -275,6 +282,8 @@ def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None):
              "subject_completed_stint_laps": age - int(next(
                  r["StartLaps"] for r in reversed(at_time(data["tyres"], cutoff, driver))
                  if r.get("Stint") == stint and number(r.get("StartLaps")))),
-             "base_pace_anchor_lap": best.lap_number,
-             "parameters": "frozen defaults; recent six clean laps minimum pace only"}
+             "base_pace_anchor_lap": max(r.lap_number for r in anchor_laps),
+             "base_pace_anchor_laps": [r.lap_number for r in anchor_laps],
+             "base_pace_method": "median",
+             "parameters": "frozen defaults; recent six clean laps median pace only"}
     return Snapshot(state, config, audit)
