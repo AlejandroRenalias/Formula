@@ -277,7 +277,7 @@ def test_cache_integrity_and_bahrain_guard(tmp_path):
     path = tmp_path / "session.json"
     path.write_text(json.dumps({"schema_version": 1, "year": 2024, "race": "Bahrain"}))
     path.with_suffix(".sha256").write_text(hashlib.sha256(path.read_bytes()).hexdigest())
-    with pytest.raises(ValueError, match="Bahrain 2021 only"):
+    with pytest.raises(ValueError, match="Approved development races only"):
         load_dataset(path)
     path.write_text("{}")
     with pytest.raises(ValueError, match="hash mismatch"):
@@ -332,3 +332,47 @@ def test_other_driver_pace_cannot_size_subject_uncertainty():
     actual = build_snapshot(data,"1",8)
     assert actual.audit["pace_uncertainty"] == expected.audit["pace_uncertainty"]
     assert actual.config == expected.config
+
+
+@pytest.mark.parametrize("year,race",[(2023,"Spain"),(2024,"Bahrain"),(2021,"Russia"),(2023,"Netherlands"),(2024,"Canada")])
+def test_held_out_and_wet_races_are_denied_before_evaluation(year,race,tmp_path):
+    import hashlib
+    data=dataset();data.update(year=year,race=race)
+    p=tmp_path/"session.json";p.write_text(json.dumps(data))
+    p.with_suffix(".sha256").write_text(hashlib.sha256(p.read_bytes()).hexdigest())
+    with pytest.raises(ValueError,match="Approved development races only"):
+        load_dataset(p)
+
+
+def test_no_stop_tyre_groups_keep_row_normalized_errors_and_drop_pit_rows():
+    from src.evaluation.breakdown import no_stop_breakdowns,age_bucket
+    assert [age_bucket(n) for n in (0,9,10,19,20,29,30)] == ["0-9","0-9","10-19","10-19","20-29","20-29","30+"]
+    rows=[{"horizon":"finish","horizon_laps":h,"error_s":e,"contains_subject_pit_stop":pit,
+           "actual_s":100.,"p10_s":90.,"p90_s":110.,"width_s":20.,"covered":True,
+           "cutoff_tyre_age_laps":12,"cutoff_compound":"HARD","cutoff_track_status":"GREEN"}
+          for h,e,pit in ((2,-4.,False),(10,-10.,False),(1,999.,True))]
+    groups=no_stop_breakdowns(rows)
+    assert len(groups)==4
+    assert all(r["n"]==2 and r["mean_error_per_lap_s"]==-1.5 for r in groups)
+
+
+@pytest.mark.parametrize("race,driver,lap",[("spain_2022","1",22),("spain_2022","44",40),("france_2022","1",25),("france_2022","55",40)])
+def test_development_race_prefix_and_future_poisoning(race,driver,lap):
+    path=Path("data/cache/evaluation")/race/"session.json"
+    if not path.exists(): pytest.skip("Local real cache optional; tests never download")
+    with network_blocked():
+        data,_=load_dataset(path);before=build_snapshot(data,driver,lap);cutoff=before.audit["cutoff_session_s"]
+        prefix=deepcopy(data)
+        for key in ("events","tyres","weather","track_status","laps"):
+            prefix[key]=[r for r in prefix[key] if r["Time"]<=cutoff]
+        proxy={d["DriverNumber"]:crossings(data,d["DriverNumber"]).get(lap)
+               for d in data["drivers"] if d["DriverNumber"]!=driver}
+        assert build_snapshot(prefix,driver,lap,cutoff_s=cutoff,gap_proxy=proxy)==before
+        changed=deepcopy(data)
+        for key in ("events","tyres","weather","track_status"):
+            for r in changed[key]:
+                if r["Time"]>cutoff:r.update(Position="1",Compound="WET",StartLaps=999,LastLapTime={"Value":"0:01.000"},Rainfall=True,Status="4")
+        for r in changed["laps"]:
+            if r["Time"]>cutoff:r.update(LapTime=1.,PitInTime=cutoff+1.,PitOutTime=cutoff+2.)
+        assert build_snapshot(changed,driver,lap)==before
+        assert all(t<=cutoff for t in before.audit["parameter_source_session_s"].values())

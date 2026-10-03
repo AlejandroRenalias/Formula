@@ -1,4 +1,4 @@
-"""Run the approved Bahrain-only dry conditional prediction slice offline."""
+"""Run approved dry development predictions offline; legacy CLI name retained."""
 import argparse
 from collections import Counter
 import csv
@@ -14,7 +14,9 @@ import time
 import shutil
 
 from src.evaluation.diagnostics import enrich_rows, metrics, metric_tables, comparison_tables
+from src.evaluation.breakdown import attach_cutoff_features
 from src.evaluation.offline import network_blocked
+from src.evaluation.races import race_key
 from src.evaluation.prediction import actual_plan, predict, score_targets
 from src.evaluation.snapshot import ExcludedSnapshot, build_snapshot, load_dataset
 
@@ -34,7 +36,7 @@ def evaluate_one(data, driver, lap):
     return rows, exclusions, record
 
 
-def plots(rows, output):
+def plots(rows, output, race_label="Bahrain 2021"):
     os.environ.setdefault("MPLCONFIGDIR", str(Path("data/cache/matplotlib").resolve()))
     import matplotlib
     matplotlib.use("Agg")
@@ -50,7 +52,7 @@ def plots(rows, output):
         axis.set(title=f"{horizon} {'laps ahead' if horizon != 'finish' else 'horizon'} (n={len(group)})",
                  xlabel="Actual elapsed time (s)", ylabel="Predicted median (s)")
         axis.grid(alpha=.2)
-    fig.suptitle("Bahrain 2021 — conditional actual subject plan")
+    fig.suptitle(f"{race_label} — conditional actual subject plan")
     fig.savefig(output / "predicted_vs_actual.png", dpi=160)
     plt.close(fig)
     fig, axis = plt.subplots(figsize=(10, 5), layout="constrained")
@@ -60,7 +62,7 @@ def plots(rows, output):
                      s=12, alpha=.35, label=horizon, color=color)
     axis.axhline(0, color="#555555", linestyle="--", linewidth=1)
     axis.set(xlabel="Actual horizon length (laps)", ylabel="Median prediction − actual (s)",
-             title="Bahrain 2021 — signed error vs horizon")
+             title=f"{race_label} — signed error vs horizon")
     axis.legend(title="Requested horizon")
     axis.grid(alpha=.2)
     fig.savefig(output / "error_vs_horizon.png", dpi=160)
@@ -70,6 +72,11 @@ def plots(rows, output):
 def explanation(row, record):
     audit, config = record["audit"], record["config"]
     stop_count = sum(s["lap"] < row["target_lap"] for s in record["actual_subject_plan"])
+    if record["state"]["track_status"] == "SAFETY_CAR":
+        return ("Safety car observed at cutoff; the unchanged engine persists that status "
+                "through the projection and adds its frozen neutralized pace delay. "
+                "A real restart is not supplied as future input. This can dominate long-horizon "
+                "error; it is not evidence of tyre wear. The pit allocation remains 50/50.")
     method = audit.get("base_pace_method", "minimum")
     return (f"Pace anchor: {method}, clean lap(s) {audit.get('base_pace_anchor_laps', [audit['base_pace_anchor_lap']])}; fresh base "
             f"{config['base_pace_s']:.3f}s, cutoff tyre age {audit['subject_tyre_age']}; "
@@ -84,6 +91,9 @@ def explanation(row, record):
 
 def write_report(rows, exclusions, snapshots, manifest, output):
     summary = metrics(rows)
+    race_label = manifest.get("race_label", "Bahrain 2021")
+    distance = manifest.get("scheduled_laps", 56)
+    dataset_path = manifest.get("dataset_path", str(DEFAULT_DATA))
     anchor_method = snapshots[0]["audit"].get("base_pace_method", "minimum")
     added_noise = "pace_uncertainty" in snapshots[0]["audit"]
     uncertainty_text = ("Normal subject-only persistent pace offset (SD=s/sqrt(n)) and independent "
@@ -91,18 +101,18 @@ def write_report(rows, exclusions, snapshots, manifest, output):
                         "laps after nominal wear/fuel corrections; antithetic paired draws, separate "
                         "seed streams. One clean observation gives zero scatter. No error-based tuning. "
                         if added_noise else "No base-pace uncertainty or per-lap noise. ")
-    reproduction = (r".\.venv\Scripts\python.exe -m tools.evaluate_bahrain --output " + output.as_posix()
+    reproduction = (r".\.venv\Scripts\python.exe -m tools.evaluate_bahrain --output " + output.as_posix() + " --dataset " + dataset_path
                     + (" --compare-to " + manifest["compare_to"] if manifest.get("compare_to") else ""))
     by_key = {(r["state"]["subject_driver"]["driver"], r["lap"]): r for r in snapshots}
     worst = sorted(rows, key=lambda r: abs(r["error_s"]), reverse=True)[:5]
     counts = Counter((e.get("scope", "target"), e["reason"]) for e in exclusions)
-    lines = ["# Bahrain 2021: dry conditional prediction", "",
-        "Bahrain development race only. No race-wide fitting, agreement/disagreement analysis or UI changes.", "",
+    lines = [f"# {race_label}: dry conditional prediction", "",
+        f"{race_label} development race only. No race-wide fitting, agreement/disagreement analysis or UI changes.", "",
         f"Prediction source: {manifest.get('prediction_origin', 'fresh offline simulation')}. "
         f"Previous comparison: {manifest.get('compare_to') or 'none'}.", "",
         "## Dataset and runtime", "",
         f"- Top ten: {', '.join(manifest['subjects'])}.",
-        f"- Scheduled distance: 56 laps; cutoffs 5–51 inclusive; stride {manifest['lap_stride']}.",
+        f"- Scheduled distance: {distance} laps; cutoffs 5-{distance-5} inclusive; stride {manifest['lap_stride']}.",
         f"- Attempted snapshots: {manifest['attempted_snapshots']}; evaluated: {len(snapshots)}; "
         f"excluded: {manifest['attempted_snapshots'] - len(snapshots)}.",
         f"- Scored predictions: {len(rows)}; excluded horizon targets: "
@@ -200,7 +210,7 @@ def write_report(rows, exclusions, snapshots, manifest, output):
         "```powershell", reproduction, "```", "",
         "The command loads only the hash-verified local normalized cache, blocks network "
         "connections and regenerates this report. A missing/corrupt cache fails rather than "
-        "downloading. Acquisition: `python -m tools.acquire_bahrain_evaluation` (Bahrain only).", "",
+        f"downloading. Acquisition: `python -m tools.acquire_bahrain_evaluation --race {manifest.get('race_key', 'bahrain_2021')}`.", "",
         "- [Metrics](metrics.json), [predictions](predictions.csv), [exclusions](exclusions.json).",
         "- [Manifest](manifest.json) records source/code hashes, versions, benchmark and defaults.",
         f"- Full state/config/plan audit: local ignored `{manifest['snapshot_path']}`."]
@@ -214,11 +224,11 @@ def read_predictions(path):
         rows = list(csv.DictReader(stream))
     for row in rows:
         for k, value in row.items():
-            if k in ("driver", "driver_number", "horizon"):
+            if k in ("driver", "driver_number", "horizon", "race_key", "cutoff_compound", "cutoff_track_status"):
                 continue
             if k in ("covered", "contains_subject_pit_stop"):
                 row[k] = value == "True"
-            elif k in ("lap", "target_lap", "horizon_laps", "subject_pit_stop_count"):
+            elif k in ("lap", "target_lap", "horizon_laps", "subject_pit_stop_count", "cutoff_tyre_age_laps"):
                 row[k] = int(value)
             else:
                 row[k] = float(value)
@@ -273,10 +283,18 @@ def run(dataset=DEFAULT_DATA, output=DEFAULT_OUTPUT, compare_to=None):
         if len(cohort) != 10:
             raise ValueError("Expected ten classified evaluation subjects")
         benchmark = []
-        for driver, lap in (("44", 8), ("4", 18), ("22", 40)):
-            start = time.perf_counter()
-            evaluate_one(data, driver, lap)
-            benchmark.append(time.perf_counter() - start)
+        for subject, initial_lap in zip((cohort[0], cohort[4], cohort[9]),
+                                       (8, data["scheduled_laps"]//3, data["scheduled_laps"]-16)):
+            for lap in range(initial_lap, data["scheduled_laps"]-4):
+                start = time.perf_counter()
+                try:
+                    evaluate_one(data, subject["DriverNumber"], lap)
+                except ExcludedSnapshot:
+                    continue
+                benchmark.append(time.perf_counter() - start)
+                break
+        if not benchmark:
+            raise ValueError("No valid benchmark snapshots")
         planned = 10 * (data["scheduled_laps"] - 9)
         estimate = statistics.mean(benchmark) * planned
         stride = 2 if estimate > 1800 else 1
@@ -300,7 +318,7 @@ def run(dataset=DEFAULT_DATA, output=DEFAULT_OUTPUT, compare_to=None):
         elapsed = time.perf_counter() - started
         if not rows:
             raise ValueError("No valid predictions")
-        rows = enrich_rows(data, rows)
+        rows = attach_cutoff_features(enrich_rows(data, rows), snapshots, race_key(data))
         snapshot_path = Path(dataset).with_name(f"snapshots_{output.name}.jsonl")
         snapshot_path.write_text("".join(json.dumps(s, allow_nan=False) + "\n" for s in snapshots), encoding="utf-8")
         sources = [Path("src/calculators/projection.py"), Path("src/calculators/tyre_model.py"),
@@ -309,7 +327,9 @@ def run(dataset=DEFAULT_DATA, output=DEFAULT_OUTPUT, compare_to=None):
                    Path("src/core/models.py"), Path("src/core/provenance.py"),
                    *sorted(Path("src/evaluation").glob("*.py")),
                    Path("tools/evaluate_bahrain.py"), Path("tools/acquire_bahrain_evaluation.py")]
-        manifest = {"dataset_sha256": digest, "fastf1_version": data["fastf1_version"],
+        manifest = {"dataset_sha256": digest, "dataset_path": str(dataset),
+            "race_key": race_key(data), "race_label": f"{data['race']} {data['year']}",
+            "scheduled_laps": data["scheduled_laps"], "fastf1_version": data["fastf1_version"],
             "python_version": platform.python_version(),
             "library_versions": {p: version(p) for p in ("fastf1", "numpy", "pandas", "pydantic", "matplotlib")},
             "git_base_sha": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
@@ -327,7 +347,7 @@ def run(dataset=DEFAULT_DATA, output=DEFAULT_OUTPUT, compare_to=None):
                                              if k not in ("base_pace_s", "base_pace_sigma_s", "lap_noise_sigma_s")}}
         save_predictions(rows, output)
         (output / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
-        plots(rows, output)
+        plots(rows, output, manifest["race_label"])
         write_report(rows, exclusions, snapshots, manifest, output)
         print(json.dumps({h: {k: v for k, v in values.items() if k != 'by_subject_pit_stop'}
                           for h, values in metrics(rows).items()}, indent=2), flush=True)

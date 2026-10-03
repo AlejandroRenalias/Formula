@@ -1,0 +1,548 @@
+[
+  {
+    "scope": "snapshot",
+    "driver": "1",
+    "lap": 13,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "snapshot",
+    "driver": "1",
+    "lap": 28,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "snapshot",
+    "driver": "1",
+    "lap": 44,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "target",
+    "driver": "1",
+    "lap": 57,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "1",
+    "lap": 58,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "1",
+    "lap": 59,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "1",
+    "lap": 60,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "1",
+    "lap": 61,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "snapshot",
+    "driver": "11",
+    "lap": 17,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "snapshot",
+    "driver": "11",
+    "lap": 37,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "snapshot",
+    "driver": "11",
+    "lap": 53,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "target",
+    "driver": "11",
+    "lap": 57,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "11",
+    "lap": 58,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "11",
+    "lap": 59,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "11",
+    "lap": 60,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "11",
+    "lap": 61,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "snapshot",
+    "driver": "63",
+    "lap": 13,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "snapshot",
+    "driver": "63",
+    "lap": 36,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "snapshot",
+    "driver": "63",
+    "lap": 51,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "target",
+    "driver": "63",
+    "lap": 57,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "63",
+    "lap": 58,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "63",
+    "lap": 59,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "63",
+    "lap": 60,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "63",
+    "lap": 61,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "snapshot",
+    "driver": "55",
+    "lap": 10,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "snapshot",
+    "driver": "55",
+    "lap": 31,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "snapshot",
+    "driver": "55",
+    "lap": 45,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "target",
+    "driver": "55",
+    "lap": 57,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "55",
+    "lap": 58,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "55",
+    "lap": 59,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "55",
+    "lap": 60,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "55",
+    "lap": 61,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "snapshot",
+    "driver": "44",
+    "lap": 22,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "snapshot",
+    "driver": "44",
+    "lap": 48,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "target",
+    "driver": "44",
+    "lap": 57,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "44",
+    "lap": 58,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "44",
+    "lap": 59,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "44",
+    "lap": 60,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "44",
+    "lap": 61,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "snapshot",
+    "driver": "77",
+    "lap": 14,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "snapshot",
+    "driver": "77",
+    "lap": 34,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "target",
+    "driver": "77",
+    "lap": 57,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "77",
+    "lap": 58,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "77",
+    "lap": 59,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "77",
+    "lap": 60,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "77",
+    "lap": 61,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "snapshot",
+    "driver": "31",
+    "lap": 13,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "snapshot",
+    "driver": "31",
+    "lap": 35,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "snapshot",
+    "driver": "31",
+    "lap": 52,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "target",
+    "driver": "31",
+    "lap": 57,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "31",
+    "lap": 58,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "31",
+    "lap": 59,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "31",
+    "lap": 60,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "31",
+    "lap": 61,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "snapshot",
+    "driver": "4",
+    "lap": 12,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "snapshot",
+    "driver": "4",
+    "lap": 33,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "snapshot",
+    "driver": "4",
+    "lap": 51,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "target",
+    "driver": "4",
+    "lap": 57,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "4",
+    "lap": 58,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "4",
+    "lap": 59,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "4",
+    "lap": 60,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "4",
+    "lap": 61,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "snapshot",
+    "driver": "14",
+    "lap": 10,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "snapshot",
+    "driver": "14",
+    "lap": 31,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "snapshot",
+    "driver": "14",
+    "lap": 53,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "target",
+    "driver": "14",
+    "lap": 56,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "14",
+    "lap": 57,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "14",
+    "lap": 58,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "14",
+    "lap": 59,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "14",
+    "lap": 60,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "14",
+    "lap": 61,
+    "horizon": "5",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "14",
+    "lap": 61,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "snapshot",
+    "driver": "22",
+    "lap": 11,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "snapshot",
+    "driver": "22",
+    "lap": 32,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "snapshot",
+    "driver": "22",
+    "lap": 52,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "scope": "target",
+    "driver": "22",
+    "lap": 56,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "22",
+    "lap": 57,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "22",
+    "lap": 58,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "22",
+    "lap": 59,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "22",
+    "lap": 60,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "22",
+    "lap": 61,
+    "horizon": "5",
+    "reason": "target_beyond_finish_or_missing"
+  },
+  {
+    "scope": "target",
+    "driver": "22",
+    "lap": 61,
+    "horizon": "10",
+    "reason": "target_beyond_finish_or_missing"
+  }
+]

@@ -17,6 +17,8 @@ from src.core.models import (CompetitorState, DerivedPaceMetrics, LapObservation
                              TireCompound, TrackStatus, WeatherForecast)
 from src.core.provenance import DataQuality, DataSource, ProvenanceMetric
 
+from src.evaluation.races import DEVELOPMENT_RACES, race_key
+
 EPOCH = datetime(1970, 1, 1, tzinfo=timezone.utc)
 STATUS = {"1": TrackStatus.GREEN, "2": TrackStatus.YELLOW,
           "4": TrackStatus.SAFETY_CAR, "5": TrackStatus.RED_FLAG,
@@ -54,8 +56,9 @@ def load_dataset(path):
     if digest != path.with_suffix(".sha256").read_text(encoding="utf-8").strip():
         raise ValueError("Normalized session hash mismatch")
     data = json.loads(blob)
-    if (data.get("schema_version"), data.get("year"), data.get("race")) != (1, 2021, "Bahrain"):
-        raise ValueError("Slice 1 permits Bahrain 2021 only")
+    key = race_key(data)
+    if data.get("schema_version") != 1 or data.get("scheduled_laps") != DEVELOPMENT_RACES[key]["scheduled_laps"]:
+        raise ValueError("Unsupported schema or pre-declared scheduled race distance")
     return data, digest
 
 

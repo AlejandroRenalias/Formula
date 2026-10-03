@@ -1,0 +1,29 @@
+{
+  "network_blocked": true,
+  "input_sha256": {
+    "docs\\evaluation\\bahrain_2021_pit_split\\predictions.csv": "aa8f45dbeb504c5c678b3e88d0cfc7687eccca564a7d1035d4a47ad095227344",
+    "docs\\evaluation\\bahrain_2021_pit_split\\manifest.json": "30fc3440d3928ee19275bd2a8cb6eb1b19b84cbee7d64c0b71090b14be82d8f5",
+    "docs\\evaluation\\bahrain_2021_pit_split\\exclusions.json": "c49797cd923a19e3bc2949ac8b0a0015281b530f94553bd915fd9c70f98e61cd",
+    "data\\cache\\evaluation\\bahrain_2021\\snapshots_bahrain_2021_pit_split.jsonl": "c2f7fa90fc560051d87dceb0a219d5c957a686313777f83ea0b446c901916e26",
+    "docs\\evaluation\\spain_2022_pit_split\\predictions.csv": "91b178443ed7111d65739222d48ae4d4214c74db9d017c1ffc5a59f69b80340b",
+    "docs\\evaluation\\spain_2022_pit_split\\manifest.json": "3a48ff244b9da47cb466c59a4e2abef702d3fa38c024f7fbd81e914c89d92749",
+    "docs\\evaluation\\spain_2022_pit_split\\exclusions.json": "7de793c76b78a69355091fb4d25c718c292a72bcb6cda9910e128a30c0851a1a",
+    "data\\cache\\evaluation\\spain_2022\\snapshots_spain_2022_pit_split.jsonl": "803a360d64adca9c8e9bad3d53b0a80662265158f5b805dcaea9e6f9e99734b3",
+    "docs\\evaluation\\france_2022_pit_split\\predictions.csv": "eb7ee142efb42b4abd7c01fe82f276e692150c51676d334f95d5c1a109d66932",
+    "docs\\evaluation\\france_2022_pit_split\\manifest.json": "3aaa7905be2fa7a2cff9ccd68f271271684c2cd66a4b529aea9df2db704c585f",
+    "docs\\evaluation\\france_2022_pit_split\\exclusions.json": "319b8927e1ea685a762574c861197245c92c9bebbe77e382ea6cdae1820055ad",
+    "data\\cache\\evaluation\\france_2022\\snapshots_france_2022_pit_split.jsonl": "91bcaf9bb300c6d09f39089d581748978aa97d481ccdcc8557a643b7942d4395"
+  },
+  "race_dataset_sha256": {
+    "bahrain_2021": "7b415e3a8e090ca9b5e969890f552f02238f2b4cd0e87e3fac7f73444597b15b",
+    "spain_2022": "5ac519a6f9b168b95670688adbba59d95f8620444aacb1de78a99705e758b931",
+    "france_2022": "54b9078b09b5d7cebfb536050e585fe3678d9a6eb8ad46a8e5e1af2e37a56614"
+  },
+  "same_model_hashes_verified": true,
+  "prediction_count": 5446,
+  "report_source_sha256": {
+    "C:\\Users\\aleja\\OneDrive\\Documents\\ChatGPT\\Formula\\Formula-repo\\tools\\report_development_evaluation.py": "7498c420344269c23d8b10c05bdac867a0acaecc9837130ab2b47071db1cf6ee",
+    "src\\evaluation\\breakdown.py": "42474859061dd9d5a87a0786d4851b28adb435280137906434555a529b301ec7",
+    "src\\evaluation\\diagnostics.py": "8e1c6e603d9ef526bc0be8f6a37f825695ba5cdbed794120f31cb093325438cb"
+  }
+}

@@ -7,8 +7,9 @@ subject crossing cutoffs, causal raw timing/tyre/weather/status observations,
 and the explicitly labelled same-lap rival crossing gap proxy. The subject's
 actual future stop schedule is a conditional outcome treatment, never a state
 feature. Rivals retain the engine's own causal stop assumptions. All runs load
-hash-verified local Bahrain 2021 data with network connections blocked. Spain
-2022, France 2022, held-out and wet races remain unrun in this slice.
+hash-verified local Bahrain 2021 data with network connections blocked. The initial
+Bahrain slices left other races unrun. The authorized development extension
+now includes Spain 2022 and France 2022; held-out and wet races remain unrun.
 
 ### Diagnostics without changing predictions
 
@@ -78,7 +79,8 @@ sigmas and their latest source timestamp; all parameter sources must be no
 later than the cutoff. Forecasts and actual future outcomes never size them.
 
 The matched report is `docs/evaluation/bahrain_2021_uncertainty/REPORT.md`.
-This is a Bahrain development experiment; no later race has been run.
+This was a Bahrain-only development experiment before the separately
+authorized three-race extension below.
 
 Coverage at 1/5/10/finish rises from 11.9/11.7/16.6/15.9% to
 61.3/46.6/45.1/47.3%; mean interval width rises from
@@ -112,6 +114,51 @@ previous causal-uncertainty run on identical cutoffs and targets.
 
 Pit-entry-only 1-lap mean bias falls from +17.683 to +6.968 s; pit-entry 5-lap MAE changes from 5.935 to 3.736 s. No-stop errors are nearly unchanged. The unestimated 50/50 share reduces,
 but does not eliminate, the in-lap mismatch; it is retained without tuning.
+
+### Authorized development extension
+
+The unchanged pit-split model is evaluated on Bahrain 2021 (56 scheduled laps),
+Spain 2022 (66) and France 2022 (53), with fixed pre-declared distances and an
+explicit acquisition/evaluation allowlist. Spain 2023, Bahrain 2024, Russia
+2021, Netherlands 2023 and Canada 2024 remain denied and unrun. Each race uses
+top-ten finishers, cutoffs lap 5 through distance minus 5, and the same four
+horizons, exclusions, parameter defaults, causal state builder and gap proxy.
+Acquisition populates both local FastF1 and hash-verified normalized caches;
+evaluation and aggregation block network connections. Legacy Bahrain CLI names
+are retained, with an explicit --race acquisition option and --dataset replay.
+
+Per-race and pooled metrics include mean bias, median signed error, MAE,
+row-normalized mean/median/absolute error per lap and coverage, split by actual
+subject pit entry in the horizon. Pooling concatenates valid prediction rows,
+so longer races and fewer exclusions receive greater weight; snapshots are
+correlated. No-stop breakdowns use causal cutoff compound and tyre age, in
+fixed 0-9, 10-19, 20-29 and 30+ bins, plus joint compound/age and cutoff-status
+groups. They do not feed model fitting. Finish-horizon length, traffic, fuel,
+status and survivor selection can confound associations with tyre age.
+
+New races have no previous same-race runs. Comparisons to the previous Bahrain
+pit-split report are explicitly unmatched population references, not controlled
+model improvements. Calculator source hashes are identical across all three
+races. The snapshot loader changes only its allowed dataset identities and
+pre-declared-distance validation; no input-building formulas change.
+
+Report: `docs/evaluation/development_2021_2022/REPORT.md`, with individual
+race reports and pooled prediction/metric/breakdown artifacts.
+
+Across 1,400 valid snapshots and 5,446 predictions, pooled coverage at
+1/5/10/finish is 62.4/43.0/39.3/29.9%. Finish MAE is 8.519 s in Bahrain,
+16.702 s in Spain and 130.620 s in France; France finish coverage is zero.
+France has 11 SC cutoff snapshots producing a very large positive error tail,
+while every scored France finish horizon contains a real later neutralization.
+The report adds an explicitly outcome-only SC/VSC horizon label and a
+GREEN-cutoff/no-actual-neutralization tyre diagnostic. These labels are created
+only after predictions, never used by the state builder or parameter sizing.
+
+In the filtered no-stop finish subset, Bahrain HARD and Spain SOFT show more
+negative error per lap at higher cutoff ages; Spain MEDIUM and France short
+horizons do not show a uniform monotonic age pattern. Wear remains plausible,
+but SC/VSC modeling, fuel, horizon lengths and selection prevent attribution
+to a single wear coefficient. No parameters are changed after these results.
 
 ## Legacy specialist scorer
 

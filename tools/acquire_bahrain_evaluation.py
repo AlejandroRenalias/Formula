@@ -1,4 +1,4 @@
-"""Acquire only Bahrain 2021 into the local FastF1 and normalized caches."""
+"""Acquire an explicitly authorized development race into local caches."""
 import hashlib
 import json
 from pathlib import Path
@@ -7,6 +7,7 @@ import argparse
 import fastf1
 import pandas as pd
 from fastf1 import _api
+from src.evaluation.races import DEVELOPMENT_RACES
 
 
 def records(frame):
@@ -20,12 +21,14 @@ def records(frame):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--offline", action="store_true", help="Re-export only already cached FastF1 data")
+    parser.add_argument("--race", choices=tuple(DEVELOPMENT_RACES), default="bahrain_2021")
     args = parser.parse_args()
-    root = Path("data/cache/evaluation/bahrain_2021")
+    race = DEVELOPMENT_RACES[args.race]
+    root = Path("data/cache/evaluation") / args.race
     root.mkdir(parents=True, exist_ok=True)
     fastf1.Cache.enable_cache("data/cache")
     fastf1.Cache.offline_mode(args.offline)
-    session = fastf1.get_session(2021, "Bahrain", "R")
+    session = fastf1.get_session(race["year"], race["race"], "R")
     session.load(telemetry=False, weather=True, laps=True, messages=False)
     app = _api.timing_app_data(session.api_path)
     # Preserve packet timestamps BEFORE FastF1's full-session lap corrections.
@@ -42,7 +45,7 @@ def main():
     # Corrected crossings are a coordinate/label channel, never pace/tyre features.
     lap_timing, _ = _api.timing_data(session.api_path)
     payload = {
-        "schema_version": 1, "year": 2021, "race": "Bahrain", "scheduled_laps": 56,
+        "schema_version": 1, **race,
         "session_start_s": session.session_start_time.total_seconds(),
         "fastf1_version": fastf1.__version__, "api_path": session.api_path,
         "laps": records(lap_timing), "events": events,
