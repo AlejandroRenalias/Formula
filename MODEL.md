@@ -49,6 +49,45 @@ behavior; historical evaluation supplies an explicit base_pace_s override.
 the unchanged minimum baseline/diagnostics. This is a development-race
 experiment; the median has not been selected using held-out race outcomes.
 
+Median anchor result (same 429 snapshots / 1,666 predictions): mean bias at 1/5/10/finish = +0.774 / -0.090 / -0.666 / -1.687 s; median error = -0.068 / -0.728 / -0.668 / -2.342 s; MAE = 1.205 / 2.823 / 4.166 / 8.413 s. Baseline MAE was 1.337 / 3.823 / 6.139 / 13.338 s. This controlled change supports the anchor diagnosis without eliminating pit timing or long-horizon modeling errors.
+
+### Controlled fix 2: causal pace uncertainty
+
+For each snapshot, normalize the same driver's last six available clean lap
+times by the unchanged nominal tyre/wear cost and 0.05s/lap fuel advance to
+cutoff. Their sample standard deviation is s, with n observations. The subject
+receives a persistent Normal(0, (s/sqrt(n))^2) base pace offset in each simulation
+sample, plus independent Normal(0, s^2) noise on each future lap. One available
+clean observation gives zero scatter; no floor, cross-driver borrowing or
+outcome-residual fitting is added. This split is a modeling assumption, not
+an empirical decomposition of systematic and random pace errors.
+
+Offsets and noise use independent seed streams (seed+2 and seed+3), shared
+across policies/weather branches. Antithetic pairs center these additional
+draws at zero for the even 32-sample evaluation. Existing weather, pit-loss and
+wear draws retain their original values. Subject noise can change modeled
+traffic interactions; rival base paces and future strategy assumptions are
+unchanged. Config defaults for both new sigmas are zero, preserving existing
+non-evaluation behavior. No UI code changes are required.
+
+Without traffic/SC/pit/wear interactions, added elapsed-time variance at h laps
+is h^2*s^2/n + h*s^2. The persistent term therefore prevents uncertainty from
+averaging away at long horizons. Noise is added before existing traffic/SC
+handling. Each snapshot records normalized observations, sample count, both
+sigmas and their latest source timestamp; all parameter sources must be no
+later than the cutoff. Forecasts and actual future outcomes never size them.
+
+The matched report is `docs/evaluation/bahrain_2021_uncertainty/REPORT.md`.
+This is a Bahrain development experiment; no later race has been run.
+
+Coverage at 1/5/10/finish rises from 11.9/11.7/16.6/15.9% to
+61.3/46.6/45.1/47.3%; mean interval width rises from
+0.219/0.965/1.655/3.636 s to 1.063/3.279/5.940/15.745 s.
+MAE is 1.208/2.823/4.165/8.514 s, nearly unchanged from the median-only run.
+The 80% target remains unmet; no further tuning is performed. Both reports
+include all metrics split by actual subject pit entry. The unchanged one-lap
+pit-charge approximation remains a separate source of large errors.
+
 ## Legacy specialist scorer
 
 The scorer produces dimensionless heuristic points, not predicted race time.
@@ -363,5 +402,3 @@ pit-loss changes use the fixture's scaled profile and fixed cutoff gaps to redra
 the equivalent-progress ghost and neighbours; they do not simulate the pit lane
 or change the precomputed recommendation. The forecast sector is a soft static
 overlay; no rain motion or wind vector is inferred.
-
-Median anchor result (same 429 snapshots / 1,666 predictions): mean bias at 1/5/10/finish = +0.774 / -0.090 / -0.666 / -1.687 s; median error = -0.068 / -0.728 / -0.668 / -2.342 s; MAE = 1.205 / 2.823 / 4.166 / 8.413 s. Baseline MAE was 1.337 / 3.823 / 6.139 / 13.338 s. This controlled change supports the anchor diagnosis without eliminating pit timing or long-horizon modeling errors.

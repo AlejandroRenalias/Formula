@@ -19,7 +19,7 @@ from src.evaluation.prediction import actual_plan, predict, score_targets
 from src.evaluation.snapshot import ExcludedSnapshot, build_snapshot, load_dataset
 
 DEFAULT_DATA = Path("data/cache/evaluation/bahrain_2021/session.json")
-DEFAULT_OUTPUT = Path("docs/evaluation/bahrain_2021")
+DEFAULT_OUTPUT = Path("docs/evaluation/bahrain_2021_uncertainty")
 
 
 def evaluate_one(data, driver, lap):
@@ -85,6 +85,14 @@ def explanation(row, record):
 def write_report(rows, exclusions, snapshots, manifest, output):
     summary = metrics(rows)
     anchor_method = snapshots[0]["audit"].get("base_pace_method", "minimum")
+    added_noise = "pace_uncertainty" in snapshots[0]["audit"]
+    uncertainty_text = ("Normal subject-only persistent pace offset (SD=s/sqrt(n)) and independent "
+                        "per-lap noise (SD=s), sized from the same driver's last six available clean "
+                        "laps after nominal wear/fuel corrections; antithetic paired draws, separate "
+                        "seed streams. One clean observation gives zero scatter. No error-based tuning. "
+                        if added_noise else "No base-pace uncertainty or per-lap noise. ")
+    reproduction = (r".\.venv\Scripts\python.exe -m tools.evaluate_bahrain --output " + output.as_posix()
+                    + (" --compare-to " + manifest["compare_to"] if manifest.get("compare_to") else ""))
     by_key = {(r["state"]["subject_driver"]["driver"], r["lap"]): r for r in snapshots}
     worst = sorted(rows, key=lambda r: abs(r["error_s"]), reverse=True)[:5]
     counts = Counter((e.get("scope", "target"), e["reason"]) for e in exclusions)
@@ -138,8 +146,8 @@ def write_report(rows, exclusions, snapshots, manifest, output):
         if keys(previous_rows) != keys(rows):
             raise ValueError("Comparison predictions have different cohorts")
         lines += ["", *comparison_tables(summary, previous)]
-    lines += ["", "Coverage falls well short of 80% where the model's narrow pit/wear-only "
-              "uncertainty fails to represent real pace variation. These are correlated "
+    lines += ["", "Coverage remains below 80%; the model's "
+              "uncertainty does not cover all real pace and pit timing variation. These are correlated "
               "snapshots from one development race, not an independent calibration result.", "",
               "![Predicted vs actual](predicted_vs_actual.png)", "",
               "![Signed error vs horizon](error_vs_horizon.png)", "",
@@ -173,8 +181,8 @@ def write_report(rows, exclusions, snapshots, manifest, output):
         "fuel effect to cutoff (minimum baseline uses its single fastest observation). "
         "No regression-based degradation or race-wide fitting is used.",
         "- Dry persistence, no forecast; seed 18, 32 shared samples, uniform pit offsets "
-        "±1.5s and wear multipliers ±15%. These do not include base-pace uncertainty, "
-        "random traffic, damage, strategic lift-off, warm-up or future neutralizations.",
+        "+/-1.5s and wear multipliers +/-15%. " + uncertainty_text +
+        "Random traffic, damage, strategic lift-off, warm-up and future neutralizations remain unmodeled.",
         "- Actual subject stop schedule/compounds are supplied only AFTER constructing "
         "the snapshot, as conditional treatment. Autonomous subject stops are suppressed. "
         "Corrected full-session tyre labels are used only for this actual-plan treatment, "
@@ -186,13 +194,13 @@ def write_report(rows, exclusions, snapshots, manifest, output):
         "is injected. Final classification selects subjects outside the engine (survivor bias). "
         "No held-out or wet races were acquired or evaluated by this slice.", "",
         "## Reproduction", "", "From the repository root, after acquiring the authorized race once:", "",
-        "```powershell", r".\.venv\Scripts\python.exe -m tools.evaluate_bahrain", "```", "",
+        "```powershell", reproduction, "```", "",
         "The command loads only the hash-verified local normalized cache, blocks network "
         "connections and regenerates this report. A missing/corrupt cache fails rather than "
         "downloading. Acquisition: `python -m tools.acquire_bahrain_evaluation` (Bahrain only).", "",
         "- [Metrics](metrics.json), [predictions](predictions.csv), [exclusions](exclusions.json).",
         "- [Manifest](manifest.json) records source/code hashes, versions, benchmark and defaults.",
-        "- Full state/config/plan audit: local ignored `data/cache/evaluation/bahrain_2021/snapshots.jsonl`."]
+        f"- Full state/config/plan audit: local ignored `{manifest['snapshot_path']}`."]
     (output / "REPORT.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     (output / "metrics.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
     (output / "exclusions.json").write_text(json.dumps(exclusions, indent=2) + "\n", encoding="utf-8")
@@ -311,7 +319,9 @@ def run(dataset=DEFAULT_DATA, output=DEFAULT_OUTPUT, compare_to=None):
             "base_pace_method": snapshots[0]["audit"].get("base_pace_method", "minimum"),
             "snapshot_path": str(snapshot_path), "compare_to": str(compare_to) if compare_to else None,
             "network_blocked": True, "forecast_mode": "no_forecast_dry_persistence",
-            "fixed_config_except_base_pace": {k: v for k, v in snapshots[0]["config"].items() if k != "base_pace_s"}}
+            "variable_config_from_pre_cutoff_clean_laps": ["base_pace_s", "base_pace_sigma_s", "lap_noise_sigma_s"],
+            "fixed_config_except_base_pace": {k: v for k, v in snapshots[0]["config"].items()
+                                             if k not in ("base_pace_s", "base_pace_sigma_s", "lap_noise_sigma_s")}}
         save_predictions(rows, output)
         (output / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
         plots(rows, output)

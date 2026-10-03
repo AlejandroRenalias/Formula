@@ -166,6 +166,20 @@ def median_pace_anchor(clean, current_lap):
     return base, statistics.median(r.lap_time_s for r in clean), middle
 
 
+def pace_uncertainty(clean, current_lap):
+    """Driver-local nominally normalized scatter; no outcome residual fitting."""
+    values = [r.lap_time_s - TyreModel.lap_delta_s(r.compound, r.tyre_age_laps)
+              - 0.05 * (current_lap - r.lap_number) for r in clean]
+    scatter = statistics.stdev(values) if len(values) > 1 else 0.0
+    return {"clean_lap_numbers": [r.lap_number for r in clean],
+            "normalized_pace_samples_s": values, "sample_count": len(values),
+            "clean_lap_scatter_s": scatter,
+            "base_pace_sigma_s": scatter / len(values)**0.5,
+            "lap_noise_sigma_s": scatter,
+            "source_session_s": max((r.timestamp - EPOCH).total_seconds() for r in clean),
+            "assumption": "normal persistent offset SD=s/sqrt(n); independent lap noise SD=s; one observation gives zero"}
+
+
 def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None):
     """Only coordinate/proxy channels may read corrected crossing Times."""
     driver_map = {r["DriverNumber"]: r for r in data["drivers"]}
@@ -189,7 +203,10 @@ def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None):
     if not clean:
         raise ExcludedSnapshot("no_recent_clean_pace")
     base_pace, observed_median, anchor_laps = median_pace_anchor(clean, lap)
-    config = ProjectionConfig(degradation_scale=1.0, base_pace_s=base_pace)
+    uncertainty = pace_uncertainty(clean, lap)
+    config = ProjectionConfig(degradation_scale=1.0, base_pace_s=base_pace,
+                              base_pace_sigma_s=uncertainty["base_pace_sigma_s"],
+                              lap_noise_sigma_s=uncertainty["lap_noise_sigma_s"])
     metrics = DerivedPaceMetrics(
         recent_pace_trend_s_per_lap=ProvenanceMetric(value=0., source=DataSource.USER_DEFINED,
                                                    notes="Frozen: no pace regression"),
@@ -273,6 +290,7 @@ def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None):
                   "subject_timing": subject["latest_source_s"], "subject_tyres": tyre_source,
                   "rival_inputs": max(rival_sources, default=0.),
                   "weather": w["Time"], "track_status": track[-1]["Time"]}
+    timestamps["pace_uncertainty"] = uncertainty["source_session_s"]
     if any(t > cutoff for t in timestamps.values()):
         raise ValueError("Future parameter/input source timestamp")
     audit = {"cutoff_session_s": cutoff, "clock": "session-relative epoch encoding; not wall UTC",
@@ -284,6 +302,6 @@ def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None):
                  if r.get("Stint") == stint and number(r.get("StartLaps")))),
              "base_pace_anchor_lap": max(r.lap_number for r in anchor_laps),
              "base_pace_anchor_laps": [r.lap_number for r in anchor_laps],
-             "base_pace_method": "median",
-             "parameters": "frozen defaults; recent six clean laps median pace only"}
+             "base_pace_method": "median", "pace_uncertainty": uncertainty,
+             "parameters": "frozen defaults; recent six clean laps median pace and driver-local scatter"}
     return Snapshot(state, config, audit)

@@ -53,6 +53,8 @@ class ProjectionConfig(BaseModel):
     cliff_rate_s: float = Field(default=0.15, ge=0)
     degradation_scale: float | None = Field(default=None, ge=0)
     base_pace_s: float | None = Field(default=None, gt=0)
+    base_pace_sigma_s: float = Field(default=0.0, ge=0)
+    lap_noise_sigma_s: float = Field(default=0.0, ge=0)
     slick_wet_penalty_s: float = Field(default=18.0, ge=0)
     inter_dry_penalty_s: float = Field(default=8.0, ge=0)
     wet_dry_penalty_s: float = Field(default=14.0, ge=0)
@@ -86,6 +88,8 @@ class Scenario:
     pit_offset_s: float
     weight: float
     degradation_multiplier: float = 1.0
+    base_pace_offset_s: float = 0.0
+    lap_noise_s: tuple[float, ...] = ()
 
 
 @dataclass
@@ -162,13 +166,28 @@ def sample_scenarios(state: RaceState, config: ProjectionConfig) -> tuple[Scenar
     wear_rng = Random(config.seed + 1)  # nosec B311
     wear_draws = [wear_rng.uniform(1 - config.degradation_spread_fraction,
                                   1 + config.degradation_spread_fraction) for _ in draws]
+    # Independent streams preserve the existing weather, pit and wear samples.
+    # Antithetic normal pairs center the added finite sample at zero; the same
+    # subject realization is shared across policies and weather branches.
+    def normal_draws(seed, sigma, length):
+        random = Random(seed)  # nosec B311
+        values = []
+        for _ in range((len(draws) + 1) // 2):
+            vector = tuple(random.gauss(0, sigma) for _ in range(length))
+            values.extend((vector, tuple(-v for v in vector)))
+        return values[:len(draws)]
+
+    pace_draws = normal_draws(config.seed + 2, config.base_pace_sigma_s, 1)
+    noise_draws = (normal_draws(config.seed + 3, config.lap_noise_sigma_s,
+                              state.total_laps - state.current_lap)
+                   if config.lap_noise_sigma_s else [() for _ in draws])
     for rains, mass in ((False, 1 - probability), (True, probability)):
         if mass <= 0:
             continue
-        for (offset, pit_offset), wear in zip(draws, wear_draws):
+        for (offset, pit_offset), wear, pace, noise in zip(draws, wear_draws, pace_draws, noise_draws):
             rain_lap = (state.current_lap if state.observed_weather.rainfall.value else
                         max(state.current_lap + 1, state.current_lap + int(eta) + offset)) if rains else None
-            scenarios.append(Scenario(rain_lap, pit_offset, mass / len(draws), wear))
+            scenarios.append(Scenario(rain_lap, pit_offset, mass / len(draws), wear, pace[0], noise))
     return tuple(scenarios)
 
 
@@ -316,6 +335,11 @@ def simulate_policy(state: RaceState, policy: Policy, scenario: Scenario,
     fixed_schedule disables autonomous SC stops for conditional actual-plan
     evaluation. Weather reactions remain governed by the supplied policy.
     """
+    remaining_laps = state.total_laps - state.current_lap
+    if scenario.lap_noise_s and len(scenario.lap_noise_s) != remaining_laps:
+        raise ValueError("Per-lap noise must cover exactly the remaining race")
+    if not all(isfinite(v) for v in (scenario.base_pace_offset_s, *scenario.lap_noise_s)):
+        raise ValueError("Pace uncertainty draws must be finite")
     subject = state.subject_driver
     scale = config.degradation_scale
     if scale is None:
@@ -372,7 +396,9 @@ def simulate_policy(state: RaceState, policy: Policy, scenario: Scenario,
             stops.append({"lap": lap - 1, "charged_on_lap": lap, "compound": compound.value,
                           "pit_loss_s": loss, "reason": "safety_car_opportunity" if opportunistic else "weather_or_schedule"})
         fuel = config.fuel_effect_s_per_lap * (lap - state.current_lap)
-        own_pace = base + delta(compound, age) - fuel + _weather_delta(compound, wetness, state, config)
+        noise = scenario.lap_noise_s[lap - state.current_lap - 1] if scenario.lap_noise_s else 0.0
+        own_pace = (base + delta(compound, age) - fuel + _weather_delta(compound, wetness, state, config)
+                    + scenario.base_pace_offset_s + noise)
         # Rival policies are explicit model assumptions: crossover or a tyre-life stop.
         rival_paces, rival_losses = [], []
         for rival in rivals:

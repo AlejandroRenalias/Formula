@@ -416,3 +416,35 @@ def test_raw_precision_and_display_seconds_are_separate_at_every_sweep_point():
     for scenario in result["scenarios"]:
         for plan in scenario["plans"]:
             assert plan["display"]["cumulative_time"] == [round(v, 1) for v in plan["cumulative_time"]]
+
+
+def test_persistent_pace_offset_and_lap_noise_have_distinct_accumulation():
+    s = state().model_copy(update={"competitors": []})
+    config = cfg(degradation_scale=0, cliff_rate_s=0, fuel_effect_s_per_lap=0,
+                 traffic_penalty_s=0)
+    stay = Policy(id="stay", label="Stay", react_to_weather=False)
+    baseline = simulate_policy(s, stay, Scenario(None, 0, 1), config)
+    persistent = simulate_policy(s, stay, Scenario(None, 0, 1, base_pace_offset_s=2), config)
+    noise = (3., -3.) + (0.,)*(s.total_laps-s.current_lap-2)
+    noisy = simulate_policy(s, stay, Scenario(None, 0, 1, lap_noise_s=noise), config)
+    assert [a-b for a,b in zip(persistent.times[1:6], baseline.times[1:6])] == pytest.approx([2,4,6,8,10])
+    assert [a-b for a,b in zip(noisy.times[1:6], baseline.times[1:6])] == pytest.approx([3,0,0,0,0])
+    with pytest.raises(ValueError, match="remaining race"):
+        simulate_policy(s, stay, Scenario(None, 0, 1, lap_noise_s=(1.,)), config)
+
+
+def test_added_uncertainty_preserves_existing_draws_and_shared_realizations():
+    from src.calculators.projection import sample_scenarios
+    s = state(.5)
+    original = cfg()
+    added = original.model_copy(update={"base_pace_sigma_s": .5, "lap_noise_sigma_s": 1.})
+    before, after = sample_scenarios(s, original), sample_scenarios(s, added)
+    fields = lambda rows: [(r.rain_lap, r.pit_offset_s, r.weight, r.degradation_multiplier) for r in rows]
+    assert fields(before) == fields(after)
+    assert after == sample_scenarios(s, added)
+    assert all(r.base_pace_offset_s == 0 and r.lap_noise_s == () for r in before)
+    assert sum(r.base_pace_offset_s for r in after) == pytest.approx(0)
+    for lap in range(s.total_laps-s.current_lap):
+        assert sum(r.lap_noise_s[lap] for r in after) == pytest.approx(0)
+    assert [(r.base_pace_offset_s, r.lap_noise_s) for r in after[:4]] == [
+        (r.base_pace_offset_s, r.lap_noise_s) for r in after[4:]]

@@ -303,3 +303,32 @@ def test_real_cache_prefix_replay_and_future_packet_mutation():
                 changed[key] = [r for r in changed[key] if r["Time"] <= cutoff]
             assert build_snapshot(changed, driver, lap) == before
             predict(before, actual_plan(data, driver, cutoff, lap))
+
+
+def test_pace_uncertainty_uses_driver_local_normalized_pre_cutoff_scatter():
+    import statistics
+    from src.evaluation.snapshot import pace_uncertainty, EPOCH
+    from src.calculators.tyre_model import TyreModel
+    from src.calculators.pace_model import PaceModel
+    snapshot = build_snapshot(dataset(), "1", 8)
+    clean = PaceModel.filter_clean_laps(snapshot.state.lap_history)[-6:]
+    expected = [r.lap_time_s-TyreModel.lap_delta_s(r.compound,r.tyre_age_laps)
+                -.05*(8-r.lap_number) for r in clean]
+    u = snapshot.audit["pace_uncertainty"]
+    scatter = statistics.stdev(expected)
+    assert u["normalized_pace_samples_s"] == pytest.approx(expected)
+    assert snapshot.config.lap_noise_sigma_s == pytest.approx(scatter)
+    assert snapshot.config.base_pace_sigma_s == pytest.approx(scatter/len(clean)**.5)
+    assert u["source_session_s"] <= snapshot.audit["cutoff_session_s"]
+    assert pace_uncertainty(clean[:1],8)["lap_noise_sigma_s"] == 0
+
+
+def test_other_driver_pace_cannot_size_subject_uncertainty():
+    data = dataset()
+    expected = build_snapshot(data,"1",8)
+    for row in data["events"]:
+        if row["Driver"] == "2" and row["Time"] <= 800 and "LastLapTime" in row:
+            row["LastLapTime"] = {"Value": "1:20.000"}
+    actual = build_snapshot(data,"1",8)
+    assert actual.audit["pace_uncertainty"] == expected.audit["pace_uncertainty"]
+    assert actual.config == expected.config
