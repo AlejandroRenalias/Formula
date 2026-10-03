@@ -88,6 +88,31 @@ The 80% target remains unmet; no further tuning is performed. Both reports
 include all metrics split by actual subject pit entry. The unchanged one-lap
 pit-charge approximation remains a separate source of large errors.
 
+### Controlled fix 3: frozen pit-loss allocation
+
+Bahrain and subsequent authorized dry development evaluations use a frozen
+50% in-lap / 50% out-lap share. This neutral default is not estimated from any
+race, including Bahrain, Spain or France. The stop's sampled total, status
+basis and pit uncertainty are fixed at entry. Half is charged on the entry lap
+and the exact remainder is carried to the next lap; it is not resampled or
+repriced. The same allocation applies to modeled rival stops. Consecutive
+stops accumulate any already-due out-lap cost. A stop on the final projected
+lap charges all its loss there, preserving the race total without a nonexistent
+out-lap. Tests verify conservation across varying pit offsets and terminal
+stops. Traffic interactions can change after reallocating temporal costs.
+
+Compound reset and tyre age timing retain the existing entry-lap approximation;
+no tyre wear, pace, fuel, rival stop rules or uncertainty sources are changed.
+ProjectionConfig defaults to the original fraction 1.0 for compatibility with
+existing UI fixtures and non-evaluation callers; evaluation explicitly sets
+pit_in_lap_fraction=0.5. The UI and its fixture files remain untouched.
+
+Report: `docs/evaluation/bahrain_2021_pit_split/REPORT.md`, compared with the
+previous causal-uncertainty run on identical cutoffs and targets.
+
+Pit-entry-only 1-lap mean bias falls from +17.683 to +6.968 s; pit-entry 5-lap MAE changes from 5.935 to 3.736 s. No-stop errors are nearly unchanged. The unestimated 50/50 share reduces,
+but does not eliminate, the in-lap mismatch; it is retained without tuning.
+
 ## Legacy specialist scorer
 
 The scorer produces dimensionless heuristic points, not predicted race time.

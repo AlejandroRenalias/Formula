@@ -232,9 +232,9 @@ def test_committed_fixture_reproduces_from_its_source_inputs():
     # The previous uncertainty slice added disabled-by-default config fields.
     # Check their values explicitly, then compare the original fixture contract
     # without modifying its UI artifact or accepting numeric projection drift.
-    added = {"base_pace_sigma_s", "lap_noise_sigma_s"}
+    added = {"base_pace_sigma_s", "lap_noise_sigma_s", "pit_in_lap_fraction"}
     assert {r["name"]: r["value"] for r in result["assumptions"] if r["name"] in added} == {
-        name: 0.0 for name in added}
+        name: (1.0 if name == "pit_in_lap_fraction" else 0.0) for name in added}
     result["assumptions"] = [r for r in result["assumptions"] if r["name"] not in added]
     result["ui"]["display"]["assumptions"] = [
         r for r in result["ui"]["display"]["assumptions"]
@@ -458,3 +458,49 @@ def test_added_uncertainty_preserves_existing_draws_and_shared_realizations():
         assert sum(r.lap_noise_s[lap] for r in after) == pytest.approx(0)
     assert [(r.base_pace_offset_s, r.lap_noise_s) for r in after[:4]] == [
         (r.base_pace_offset_s, r.lap_noise_s) for r in after[4:]]
+
+
+@pytest.mark.parametrize("pit_offset",[-1.5,0.,1.5])
+def test_pit_split_defers_loss_but_conserves_sampled_total(pit_offset):
+    s=state().model_copy(update={"competitors":[]})
+    config=cfg(degradation_scale=0,cliff_rate_s=0,fuel_effect_s_per_lap=0,traffic_penalty_s=0)
+    same=Policy(id="stop",label="Stop",react_to_weather=False,
+                dry_stops=(Stop(lap=18,compound=s.subject_driver.current_compound),))
+    stay=Policy(id="stay",label="Stay",react_to_weather=False)
+    scenario=Scenario(None,pit_offset,1)
+    reference=simulate_policy(s,stay,scenario,config)
+    original=simulate_policy(s,same,scenario,config)
+    split=simulate_policy(s,same,scenario,config.model_copy(update={"pit_in_lap_fraction":.5}))
+    total=21.5+pit_offset
+    assert split.times[1]-reference.times[1] == pytest.approx(total*.5)
+    assert split.times[2]-reference.times[2] == pytest.approx(total)
+    assert split.times[2:] == pytest.approx(original.times[2:])
+    assert split.stops[0]["in_lap_loss_s"]+split.stops[0]["out_lap_loss_s"] == total
+
+
+def test_pit_split_consecutive_stops_and_terminal_stop_conserve_loss():
+    s=state().model_copy(update={"competitors":[]})
+    config=cfg(degradation_scale=0,cliff_rate_s=0,fuel_effect_s_per_lap=0,traffic_penalty_s=0)
+    plan=Policy(id="two",label="Two",react_to_weather=False,
+                dry_stops=tuple(Stop(lap=n,compound=s.subject_driver.current_compound) for n in (18,19)))
+    before=simulate_policy(s,plan,Scenario(None,0,1),config)
+    after=simulate_policy(s,plan,Scenario(None,0,1),config.model_copy(update={"pit_in_lap_fraction":.5}))
+    assert before.times[3:] == pytest.approx(after.times[3:])
+    terminal=plan.model_copy(update={"dry_stops":(Stop(lap=s.total_laps-1,compound=s.subject_driver.current_compound),)})
+    a=simulate_policy(s,terminal,Scenario(None,0,1),config)
+    b=simulate_policy(s,terminal,Scenario(None,0,1),config.model_copy(update={"pit_in_lap_fraction":.5}))
+    assert a.times == b.times
+    assert b.stops[0]["out_lap_loss_s"] == 0
+
+
+
+def test_pit_split_out_lap_retains_entry_status_price():
+    s=state().model_copy(update={"competitors":[]})
+    config=cfg(pit_in_lap_fraction=.5,safety_car_lap=20)
+    plan=Policy(id="stop",label="Stop",react_to_weather=False,
+                dry_stops=(Stop(lap=18,compound=TireCompound.HARD),))
+    trace=simulate_policy(s,plan,Scenario(None,1.5,1),config,fixed_schedule=True)
+    assert trace.stops[0]["pit_loss_s"] == 23.
+    assert trace.stops[0]["in_lap_loss_s"] == 11.5
+    assert trace.stops[0]["out_lap_loss_s"] == 11.5
+    assert trace.stops[0]["out_lap"] == 20

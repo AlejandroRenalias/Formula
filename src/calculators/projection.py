@@ -45,6 +45,7 @@ class ProjectionConfig(BaseModel):
     samples_per_weather_branch: int = Field(default=32, ge=1, le=256)
     rain_eta_spread_laps: int = Field(default=2, ge=0, le=20)
     pit_loss_spread_s: float = Field(default=1.5, ge=0)
+    pit_in_lap_fraction: float = Field(default=1.0, ge=0, le=1)
     degradation_spread_fraction: float = Field(default=0.15, ge=0, le=1)
     call_tolerance_s: float = Field(default=1.0, ge=0)
     wetness_ramp_laps: float = Field(default=2.0, gt=0)
@@ -351,7 +352,7 @@ def simulate_policy(state: RaceState, policy: Policy, scenario: Scenario,
     base = config.base_pace_s if config.base_pace_s is not None else subject.last_lap_time_s - delta(subject.current_compound, subject.stint_length_laps)
     rivals = [{"time": -r.gap_to_subject_s, "compound": r.current_compound, "age": r.tyre_age_laps,
                "base": (r.last_lap_time_s if r.last_lap_time_s is not None else subject.last_lap_time_s)
-                       - delta(r.current_compound, r.tyre_age_laps), "stops": 0} for r in state.competitors]
+                       - delta(r.current_compound, r.tyre_age_laps), "stops": 0, "pending_pit_loss": 0.0} for r in state.competitors]
     # Missing competitors retain an anonymous fixed count ahead, not invented pace.
     missing_ahead = max(0, subject.position - 1 - sum(r.gap_to_subject_s > 0 for r in state.competitors))
     compound, age = subject.current_compound, subject.stint_length_laps
@@ -360,6 +361,7 @@ def simulate_policy(state: RaceState, policy: Policy, scenario: Scenario,
     consumed_dry_laps = set()
     compressed = False
     total = 0.0
+    pending_pit_loss = 0.0
     for lap in range(state.current_lap + 1, state.total_laps + 1):
         running_sc = _status(state, lap, config) == TrackStatus.SAFETY_CAR
         if running_sc and not compressed:
@@ -388,13 +390,24 @@ def simulate_policy(state: RaceState, policy: Policy, scenario: Scenario,
             opportunistic = target is not None
             if target is not None and remaining and remaining[0].compound == target:
                 consumed_dry_laps.add(remaining[0].lap)
-        loss = 0.0
+        loss, pending_pit_loss = pending_pit_loss, 0.0
         if target is not None and len(stops) < policy.max_stops:
             compound, age = target, 0
             used.add(compound)
-            loss = _pit_loss(state, scenario, lap, config)
-            stops.append({"lap": lap - 1, "charged_on_lap": lap, "compound": compound.value,
-                          "pit_loss_s": loss, "reason": "safety_car_opportunity" if opportunistic else "weather_or_schedule"})
+            total_loss = _pit_loss(state, scenario, lap, config)
+            # Keep the entry-time sampled total/status. Defer only its allocation,
+            # never reprice the out-lap using a later status or a second pit draw.
+            share = config.pit_in_lap_fraction if lap < state.total_laps else 1.0
+            in_loss = total_loss * share
+            pending_pit_loss = total_loss - in_loss
+            loss += in_loss
+            record = {"lap": lap - 1, "charged_on_lap": lap, "compound": compound.value,
+                      "pit_loss_s": total_loss,
+                      "reason": "safety_car_opportunity" if opportunistic else "weather_or_schedule"}
+            if config.pit_in_lap_fraction != 1.0:
+                record.update(in_lap_loss_s=in_loss, out_lap_loss_s=pending_pit_loss,
+                              out_lap=lap+1 if pending_pit_loss else None)
+            stops.append(record)
         fuel = config.fuel_effect_s_per_lap * (lap - state.current_lap)
         noise = scenario.lap_noise_s[lap - state.current_lap - 1] if scenario.lap_noise_s else 0.0
         own_pace = (base + delta(compound, age) - fuel + _weather_delta(compound, wetness, state, config)
@@ -406,11 +419,15 @@ def simulate_policy(state: RaceState, policy: Policy, scenario: Scenario,
             target_rival = _wet_compound(state, wetness, config)
             if target_rival is None and c in DRY and rival["age"] >= TyreModel.get_compound_specs(c).expected_life_laps:
                 target_rival = TireCompound.HARD if c != TireCompound.HARD else TireCompound.MEDIUM
-            rival_loss = 0.0
+            rival_loss, rival["pending_pit_loss"] = rival["pending_pit_loss"], 0.0
             if target_rival is not None and target_rival != c and rival["stops"] < 2:
                 rival["compound"], rival["age"] = target_rival, 0
                 rival["stops"] += 1
-                rival_loss = _pit_loss(state, scenario, lap, config)
+                total_loss = _pit_loss(state, scenario, lap, config)
+                share = config.pit_in_lap_fraction if lap < state.total_laps else 1.0
+                in_loss = total_loss * share
+                rival["pending_pit_loss"] = total_loss - in_loss
+                rival_loss += in_loss
             rival_paces.append(rival["base"] + delta(rival["compound"], rival["age"]) - fuel
                                + _weather_delta(rival["compound"], wetness, state, config))
             rival_losses.append(rival_loss)

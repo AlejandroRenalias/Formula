@@ -204,7 +204,7 @@ def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None):
         raise ExcludedSnapshot("no_recent_clean_pace")
     base_pace, observed_median, anchor_laps = median_pace_anchor(clean, lap)
     uncertainty = pace_uncertainty(clean, lap)
-    config = ProjectionConfig(degradation_scale=1.0, base_pace_s=base_pace,
+    config = ProjectionConfig(degradation_scale=1.0, base_pace_s=base_pace, pit_in_lap_fraction=0.5,
                               base_pace_sigma_s=uncertainty["base_pace_sigma_s"],
                               lap_noise_sigma_s=uncertainty["lap_noise_sigma_s"])
     metrics = DerivedPaceMetrics(

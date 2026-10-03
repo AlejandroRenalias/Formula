@@ -19,7 +19,7 @@ from src.evaluation.prediction import actual_plan, predict, score_targets
 from src.evaluation.snapshot import ExcludedSnapshot, build_snapshot, load_dataset
 
 DEFAULT_DATA = Path("data/cache/evaluation/bahrain_2021/session.json")
-DEFAULT_OUTPUT = Path("docs/evaluation/bahrain_2021_uncertainty")
+DEFAULT_OUTPUT = Path("docs/evaluation/bahrain_2021_pit_split")
 
 
 def evaluate_one(data, driver, lap):
@@ -187,9 +187,12 @@ def write_report(rows, exclusions, snapshots, manifest, output):
         "the snapshot, as conditional treatment. Autonomous subject stops are suppressed. "
         "Corrected full-session tyre labels are used only for this actual-plan treatment, "
         "never cutoff features. Rivals retain engine tyre-life stop assumptions, not observed future strategies.",
-        "- Pit-in lap K maps to boundary K−1; the engine charges the entire modeled stop "
-        "loss on lap K and assumes fresh tyres there. Real losses span in/out laps; "
-        "used replacement tyres are not modeled. Subject snapshots inside the pit are excluded.",
+        "- Pit-in lap K maps to boundary K-1. A frozen 50/50 allocation charges half "
+        "the sampled entry-time total on K and the remainder on K+1, for subject and "
+        "modeled rival stops. A final-lap stop charges the whole total before finish. "
+        "The share is an unestimated neutral default, not fitted to evaluation data. "
+        "Fresh tyre timing remains the existing entry-lap approximation; used replacement "
+        "tyres are not modeled. Subject snapshots inside the pit are excluded.",
         "- Fixed status persistence follows the existing engine. No actual future status "
         "is injected. Final classification selects subjects outside the engine (survivor bias). "
         "No held-out or wet races were acquired or evaluated by this slice.", "",
