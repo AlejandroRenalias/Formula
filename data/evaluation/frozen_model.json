@@ -1,0 +1,68 @@
+{
+  "configuration": "wear",
+  "label": "pit+wear",
+  "freeze_tag": "frozen-development-model",
+  "historical_behavior_reference_commit": "02341a7",
+  "ablation_implementation_commit": "e795a55",
+  "selection": {
+    "primary": {
+      "selected_configuration": "wear",
+      "bias_rule": "absolute",
+      "baseline_bias_s": -2.3433399051303514,
+      "eligible_configurations": [
+        "wear"
+      ],
+      "minimum_equal_race_mae_s": {
+        "10": 3.8286069213283285,
+        "finish": 14.596512410257732
+      },
+      "joint_minimum_winners": [
+        "wear"
+      ],
+      "reason": "minimum at both horizons",
+      "tie_order": [
+        "wear",
+        "ablation_a",
+        "ablation_b"
+      ]
+    },
+    "signed_audit": {
+      "selected_configuration": "wear",
+      "bias_rule": "signed",
+      "baseline_bias_s": -2.3433399051303514,
+      "eligible_configurations": [
+        "wear"
+      ],
+      "minimum_equal_race_mae_s": {
+        "10": 3.8286069213283285,
+        "finish": 14.596512410257732
+      },
+      "joint_minimum_winners": [
+        "wear"
+      ],
+      "reason": "minimum at both horizons",
+      "tie_order": [
+        "wear",
+        "ablation_a",
+        "ablation_b"
+      ]
+    }
+  },
+  "selection_reason": "Both candidates fail the finish-bias gate; retain pit+wear.",
+  "selection_metrics_sha256": "8ab207c27e82f1e5ad174ca926f6351f23e8835b42dfee8f3b45cf64e1f3d944",
+  "selection_json_sha256": "c24685c248abafaeeeba8398c9eae5cf61d92a7c8685c90c2dc2b03580f90892",
+  "protocol_sha256": "b86ef86b136d6d9132fa9ecceb0d05e12183010a5c853193a77cda3461ded6ed",
+  "development_races": [
+    "bahrain_2021",
+    "spain_2022",
+    "france_2022"
+  ],
+  "held_out_and_wet_evaluation_run": false,
+  "limitations": [
+    "Spain SOFT no-stop finish mean error -1.067 s/lap.",
+    "Per-race finish bias cancels in the pool: Bahrain +7.270 s, Spain -9.935 s.",
+    "Green p10-p90 undercoverage: pooled 10 laps 52.35%, finish 37.94%.",
+    "Fixed fuel correction confounds track evolution with within-stint wear; compound offsets remain defaults.",
+    "Three development races cannot establish neutralisation calibration or generalisation."
+  ]
+}

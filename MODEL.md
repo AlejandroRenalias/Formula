@@ -1,5 +1,55 @@
 # Formula strategy models
 
+## Frozen development model
+
+Local annotated tag: `frozen-development-model`. Active default evaluation profile:
+**pit+wear** (`wear`), reproducing the configuration evaluated at `02341a7`.
+The explicit freeze record is `data/evaluation/frozen_model.json`; candidate
+profiles remain available by name but are not the default. This freeze does not
+authorize running held-out or wet races; they remain unrun.
+
+Final predeclared ablation, equal-race pooled conditional green MAE:
+
+| Configuration | 10-lap MAE s | Finish MAE s | Per-prediction finish bias s | Eligible |
+| --- | ---: | ---: | ---: | --- |
+| Pit+wear | 3.829 | 14.597 | -2.343 | yes |
+| Current offsets | 3.840 | 13.545 | -6.172 | reference only |
+| A: fit trend, project fixed fuel | 3.693 | 12.897 | -5.421 | no |
+| B: fit/project fixed fuel | 3.623 | 12.760 | -5.238 | no |
+
+A and B improve both MAE horizons but fail the finish-bias gate. The absolute
+and signed interpretations of no-worse bias select the same fallback, pit+wear.
+No shrinkage or interval parameter was adjusted. Removing extrapolated trend
+improves MAE, but does not remove the optimistic pooled bias; the ablation does
+not establish that linear trend extrapolation alone caused the remaining errors.
+
+Known limitations of the frozen profile:
+
+- Spain SOFT remains too fast: no-stop finish mean error about -1.067 s/lap.
+  No-stop finish errors average -0.278 s/lap in Bahrain and -0.762 in Spain.
+- Pooling hides opposing race biases: green finish mean bias +7.270 s Bahrain,
+  -9.935 s Spain. The aggregate gate passing does not imply either race is unbiased.
+- Green intervals under-cover: per-prediction coverage 52.35% at 10 laps and
+  37.94% at finish. No uncertainty or interval-width tuning was performed.
+- Compound offsets remain fixed, and within-stint wear uses the fixed 0.05
+  fuel correction, so fuel, management and track evolution can still confound it.
+  Cliff shape, traffic and pace after stops remain approximations.
+- Neutralisation priors are unchanged; three development races are too few to
+  judge their calibration. Green finish statistics include only Bahrain/Spain.
+- Predictions condition on the actual future subject stop plan. This is a
+  prediction-layer evaluation, not evidence of strategy/agreement performance.
+
+220 tests pass with the frozen default. All 1,400 saved states/parameters and
+31 representative horizon predictions match the selected pit+wear run exactly,
+with networking blocked. Reverify using python -m tools.verify_frozen_model.
+
+Full per-race/pooled pit/no-pit and compound/age tables against pit+wear and
+offsets: `docs/evaluation/development_ablation/REPORT.md`. Candidate/source hashes,
+selection inputs and causal checks are retained alongside the report. Replays
+use only hashed local caches with networking blocked. Historical sections below
+record experiments; this frozen default supersedes their active configurations.
+
+
 ## Bahrain-only conditional evaluation
 
 The baseline is committed independently in `1597011`. Evaluation uses exact

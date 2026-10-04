@@ -1,0 +1,1884 @@
+{
+  "current": {
+    "bahrain_2021": {
+      "1": {
+        "n": 428,
+        "mae_s": 0.41155556160390644,
+        "bias_s": -0.12783630759289993,
+        "median_error_s": -0.10340227167878879,
+        "mean_error_per_lap_s": -0.12783630759289993,
+        "median_error_per_lap_s": -0.10340227167878879,
+        "mae_per_lap_s": 0.41155556160390644,
+        "coverage": 0.6542056074766355,
+        "mean_width_s": 1.0061145819588002,
+        "lower_misses": 49,
+        "upper_misses": 99,
+        "interval_score_s": 2.4444703523527553,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 408,
+            "mae_s": 0.375865211030963,
+            "bias_s": -0.0782381504507895,
+            "median_error_s": -0.08525945788599643,
+            "mean_error_per_lap_s": -0.0782381504507895,
+            "median_error_per_lap_s": -0.08525945788599643,
+            "mae_per_lap_s": 0.375865211030963,
+            "coverage": 0.6813725490196079,
+            "mean_width_s": 1.0136966469636663,
+            "lower_misses": 49,
+            "upper_misses": 81,
+            "interval_score_s": 2.1581978693117176
+          },
+          "with_stop": {
+            "n": 20,
+            "mae_s": 1.1396387132919528,
+            "bias_s": -1.1396387132919528,
+            "median_error_s": -1.1682005547723762,
+            "mean_error_per_lap_s": -1.1396387132919528,
+            "median_error_per_lap_s": -1.1682005547723762,
+            "mae_per_lap_s": 1.1396387132919528,
+            "coverage": 0.1,
+            "mean_width_s": 0.8514404558595281,
+            "lower_misses": 0,
+            "upper_misses": 18,
+            "interval_score_s": 8.284429006389932
+          }
+        }
+      },
+      "5": {
+        "n": 428,
+        "mae_s": 1.7961633087549713,
+        "bias_s": -0.553752320597158,
+        "median_error_s": -0.35204017816963074,
+        "mean_error_per_lap_s": -0.11075046411943158,
+        "median_error_per_lap_s": -0.07040803563392614,
+        "mae_per_lap_s": 0.3592326617509943,
+        "coverage": 0.5350467289719626,
+        "mean_width_s": 3.409707900366884,
+        "lower_misses": 61,
+        "upper_misses": 138,
+        "interval_score_s": 10.921234339430358,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 325,
+            "mae_s": 1.6851089291279535,
+            "bias_s": -0.4577832192581038,
+            "median_error_s": -0.3200437590959382,
+            "mean_error_per_lap_s": -0.09155664385162075,
+            "median_error_per_lap_s": -0.06400875181918764,
+            "mae_per_lap_s": 0.33702178582559067,
+            "coverage": 0.563076923076923,
+            "mean_width_s": 3.4169807662079674,
+            "lower_misses": 47,
+            "upper_misses": 95,
+            "interval_score_s": 10.070455598933933
+          },
+          "with_stop": {
+            "n": 103,
+            "mae_s": 2.1465776134033288,
+            "bias_s": -0.8565674461815522,
+            "median_error_s": -0.8041339041720903,
+            "mean_error_per_lap_s": -0.17131348923631043,
+            "median_error_per_lap_s": -0.16082678083441806,
+            "mae_per_lap_s": 0.42931552268066575,
+            "coverage": 0.44660194174757284,
+            "mean_width_s": 3.3867595372760873,
+            "lower_misses": 14,
+            "upper_misses": 43,
+            "interval_score_s": 13.605730365268593
+          }
+        }
+      },
+      "10": {
+        "n": 378,
+        "mae_s": 3.3180962387361026,
+        "bias_s": -0.37842511217027347,
+        "median_error_s": 0.1358106232015075,
+        "mean_error_per_lap_s": -0.03784251121702735,
+        "median_error_per_lap_s": 0.01358106232015075,
+        "mae_per_lap_s": 0.3318096238736103,
+        "coverage": 0.5634920634920635,
+        "mean_width_s": 6.57196725155851,
+        "lower_misses": 65,
+        "upper_misses": 100,
+        "interval_score_s": 19.368158431128073,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 203,
+            "mae_s": 3.255650916228901,
+            "bias_s": -0.8387722356207359,
+            "median_error_s": -0.14624049652502435,
+            "mean_error_per_lap_s": -0.0838772235620736,
+            "median_error_per_lap_s": -0.014624049652502436,
+            "mae_per_lap_s": 0.3255650916228901,
+            "coverage": 0.5566502463054187,
+            "mean_width_s": 6.797045894027053,
+            "lower_misses": 34,
+            "upper_misses": 56,
+            "interval_score_s": 19.618848874528478
+          },
+          "with_stop": {
+            "n": 175,
+            "mae_s": 3.3905328128444565,
+            "bias_s": 0.15557755103226295,
+            "median_error_s": 0.48699516658052744,
+            "mean_error_per_lap_s": 0.015557755103226293,
+            "median_error_per_lap_s": 0.04869951665805274,
+            "mae_per_lap_s": 0.3390532812844457,
+            "coverage": 0.5714285714285714,
+            "mean_width_s": 6.310876026294999,
+            "lower_misses": 31,
+            "upper_misses": 44,
+            "interval_score_s": 19.077357516783604
+          }
+        }
+      },
+      "finish": {
+        "n": 428,
+        "mae_s": 10.056474661678196,
+        "bias_s": 0.9894714198421459,
+        "median_error_s": -3.0721781598606412,
+        "mean_error_per_lap_s": -0.13348592605018073,
+        "median_error_per_lap_s": -0.12780627908720515,
+        "mae_per_lap_s": 0.4201859208660612,
+        "coverage": 0.441588785046729,
+        "mean_width_s": 16.457977982112865,
+        "lower_misses": 63,
+        "upper_misses": 176,
+        "interval_score_s": 51.05956131536568,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 157,
+            "mae_s": 7.344857058069737,
+            "bias_s": -6.480313138799982,
+            "median_error_s": -6.134502993700721,
+            "mean_error_per_lap_s": -0.5292292259944095,
+            "median_error_per_lap_s": -0.5367347175389179,
+            "mae_per_lap_s": 0.5861953568167554,
+            "coverage": 0.2611464968152866,
+            "mean_width_s": 8.055399774195246,
+            "lower_misses": 9,
+            "upper_misses": 107,
+            "interval_score_s": 45.40575932657507
+          },
+          "with_stop": {
+            "n": 271,
+            "mae_s": 11.62741179734804,
+            "bias_s": 5.316984983335925,
+            "median_error_s": 4.436480778195801,
+            "mean_error_per_lap_s": 0.09578233258909573,
+            "median_error_per_lap_s": 0.12921778230922523,
+            "mae_per_lap_s": 0.32401071258466274,
+            "coverage": 0.5461254612546126,
+            "mean_width_s": 21.325892294448906,
+            "lower_misses": 54,
+            "upper_misses": 69,
+            "interval_score_s": 54.33501117603034
+          }
+        }
+      }
+    },
+    "spain_2022": {
+      "1": {
+        "n": 542,
+        "mae_s": 0.589709160942727,
+        "bias_s": -0.3374331055003599,
+        "median_error_s": -0.21720667701239904,
+        "mean_error_per_lap_s": -0.3374331055003599,
+        "median_error_per_lap_s": -0.21720667701239904,
+        "mae_per_lap_s": 0.589709160942727,
+        "coverage": 0.6291512915129152,
+        "mean_width_s": 1.1727695015067017,
+        "lower_misses": 51,
+        "upper_misses": 150,
+        "interval_score_s": 3.611539094698428,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 514,
+            "mae_s": 0.5144810508153539,
+            "bias_s": -0.2484623308741808,
+            "median_error_s": -0.18680906728526026,
+            "mean_error_per_lap_s": -0.2484623308741808,
+            "median_error_per_lap_s": -0.18680906728526026,
+            "mae_per_lap_s": 0.5144810508153539,
+            "coverage": 0.6614785992217899,
+            "mean_width_s": 1.177905236899317,
+            "lower_misses": 51,
+            "upper_misses": 123,
+            "interval_score_s": 2.9688439529913744
+          },
+          "with_stop": {
+            "n": 28,
+            "mae_s": 1.97068232542379,
+            "bias_s": -1.97068232542379,
+            "median_error_s": -1.9189415095613427,
+            "mean_error_per_lap_s": -1.97068232542379,
+            "median_error_per_lap_s": -1.9189415095613427,
+            "mae_per_lap_s": 1.97068232542379,
+            "coverage": 0.03571428571428571,
+            "mean_width_s": 1.0784920732279797,
+            "lower_misses": 0,
+            "upper_misses": 27,
+            "interval_score_s": 15.409585624606475
+          }
+        }
+      },
+      "5": {
+        "n": 540,
+        "mae_s": 2.516173188652708,
+        "bias_s": -1.5291739897505667,
+        "median_error_s": -1.3806915984246189,
+        "mean_error_per_lap_s": -0.3058347979501133,
+        "median_error_per_lap_s": -0.27613831968492375,
+        "mae_per_lap_s": 0.5032346377305416,
+        "coverage": 0.4703703703703704,
+        "mean_width_s": 4.077962809461522,
+        "lower_misses": 56,
+        "upper_misses": 230,
+        "interval_score_s": 15.944455927355786,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 400,
+            "mae_s": 2.3385473501556784,
+            "bias_s": -1.2482758820879882,
+            "median_error_s": -1.1182301856682955,
+            "mean_error_per_lap_s": -0.24965517641759766,
+            "median_error_per_lap_s": -0.2236460371336591,
+            "mae_per_lap_s": 0.4677094700311357,
+            "coverage": 0.505,
+            "mean_width_s": 4.169049232899609,
+            "lower_misses": 50,
+            "upper_misses": 148,
+            "interval_score_s": 14.05457138172458
+          },
+          "with_stop": {
+            "n": 140,
+            "mae_s": 3.0236755843585055,
+            "bias_s": -2.3317400116436477,
+            "median_error_s": -2.114078470172302,
+            "mean_error_per_lap_s": -0.4663480023287295,
+            "median_error_per_lap_s": -0.4228156940344604,
+            "mae_per_lap_s": 0.6047351168717011,
+            "coverage": 0.37142857142857144,
+            "mean_width_s": 3.817715885352701,
+            "lower_misses": 6,
+            "upper_misses": 82,
+            "interval_score_s": 21.34412605773066
+          }
+        }
+      },
+      "10": {
+        "n": 490,
+        "mae_s": 4.399767697700435,
+        "bias_s": -2.5776292173083144,
+        "median_error_s": -2.5442595170262052,
+        "mean_error_per_lap_s": -0.25776292173083143,
+        "median_error_per_lap_s": -0.2544259517026205,
+        "mae_per_lap_s": 0.4399767697700435,
+        "coverage": 0.47551020408163264,
+        "mean_width_s": 7.455181994947769,
+        "lower_misses": 43,
+        "upper_misses": 214,
+        "interval_score_s": 27.132343305959782,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 234,
+            "mae_s": 4.759626604318769,
+            "bias_s": -2.2998172224954487,
+            "median_error_s": -2.3302812854283275,
+            "mean_error_per_lap_s": -0.22998172224954488,
+            "median_error_per_lap_s": -0.23302812854283272,
+            "mae_per_lap_s": 0.4759626604318769,
+            "coverage": 0.4444444444444444,
+            "mean_width_s": 8.059857674577495,
+            "lower_misses": 33,
+            "upper_misses": 97,
+            "interval_score_s": 27.676486000621072
+          },
+          "with_stop": {
+            "n": 256,
+            "mae_s": 4.0708341658696146,
+            "bias_s": -2.8315667438169494,
+            "median_error_s": -2.750289015334033,
+            "mean_error_per_lap_s": -0.28315667438169495,
+            "median_error_per_lap_s": -0.2750289015334033,
+            "mae_per_lap_s": 0.4070834165869614,
+            "coverage": 0.50390625,
+            "mean_width_s": 6.902470631536223,
+            "lower_misses": 10,
+            "upper_misses": 117,
+            "interval_score_s": 26.634962874120944
+          }
+        }
+      },
+      "finish": {
+        "n": 542,
+        "mae_s": 15.463374034831476,
+        "bias_s": -10.155383467465315,
+        "median_error_s": -8.490608505190494,
+        "mean_error_per_lap_s": -0.40362260536285494,
+        "median_error_per_lap_s": -0.3557518377860265,
+        "mae_per_lap_s": 0.5284886360663215,
+        "coverage": 0.4003690036900369,
+        "mean_width_s": 21.57672211894805,
+        "lower_misses": 32,
+        "upper_misses": 293,
+        "interval_score_s": 100.03439972402397,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 127,
+            "mae_s": 8.651970898114813,
+            "bias_s": -7.70792456710146,
+            "median_error_s": -6.592772106115035,
+            "mean_error_per_lap_s": -0.7505301318318992,
+            "median_error_per_lap_s": -0.5071363158550027,
+            "mae_per_lap_s": 0.8158455666354264,
+            "coverage": 0.4251968503937008,
+            "mean_width_s": 10.60037399755258,
+            "lower_misses": 2,
+            "upper_misses": 71,
+            "interval_score_s": 56.34753038226409
+          },
+          "with_stop": {
+            "n": 415,
+            "mae_s": 17.54782752486284,
+            "bias_s": -10.904364865889917,
+            "median_error_s": -9.24662413707415,
+            "mean_error_per_lap_s": -0.29746054304582215,
+            "median_error_per_lap_s": -0.2965214021450811,
+            "mae_per_lap_s": 0.4405504910487882,
+            "coverage": 0.3927710843373494,
+            "mean_width_s": 24.935749134411243,
+            "lower_misses": 30,
+            "upper_misses": 222,
+            "interval_score_s": 113.40363443824927
+          }
+        }
+      }
+    },
+    "france_2022": {
+      "1": {
+        "n": 395,
+        "mae_s": 0.36804065245340084,
+        "bias_s": -0.06284731929814961,
+        "median_error_s": -0.0481464573127397,
+        "mean_error_per_lap_s": -0.06284731929814961,
+        "median_error_per_lap_s": -0.0481464573127397,
+        "mae_per_lap_s": 0.36804065245340084,
+        "coverage": 0.6683544303797468,
+        "mean_width_s": 0.9329743168663891,
+        "lower_misses": 62,
+        "upper_misses": 69,
+        "interval_score_s": 2.0358165762517957,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 393,
+            "mae_s": 0.346340009696012,
+            "bias_s": -0.045202642604301145,
+            "median_error_s": -0.0481464573127397,
+            "mean_error_per_lap_s": -0.045202642604301145,
+            "median_error_per_lap_s": -0.0481464573127397,
+            "mae_per_lap_s": 0.346340009696012,
+            "coverage": 0.6717557251908397,
+            "mean_width_s": 0.9293140339314054,
+            "lower_misses": 61,
+            "upper_misses": 68,
+            "interval_score_s": 1.8408904034866675
+          },
+          "with_stop": {
+            "n": 2,
+            "mae_s": 4.632216954280317,
+            "bias_s": -3.5300262896393733,
+            "median_error_s": -3.5300262896393733,
+            "mean_error_per_lap_s": -3.5300262896393733,
+            "median_error_per_lap_s": -3.5300262896393733,
+            "mae_per_lap_s": 4.632216954280317,
+            "coverage": 0.0,
+            "mean_width_s": 1.6522199135906845,
+            "lower_misses": 1,
+            "upper_misses": 1,
+            "interval_score_s": 40.338809524599455
+          }
+        }
+      },
+      "5": {
+        "n": 316,
+        "mae_s": 1.5655946812271009,
+        "bias_s": -0.12098103629837453,
+        "median_error_s": -0.05009141697840391,
+        "mean_error_per_lap_s": -0.024196207259674907,
+        "median_error_per_lap_s": -0.010018283395680783,
+        "mae_per_lap_s": 0.31311893624542014,
+        "coverage": 0.5822784810126582,
+        "mean_width_s": 3.2884116030254487,
+        "lower_misses": 60,
+        "upper_misses": 72,
+        "interval_score_s": 9.270261578796372,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 309,
+            "mae_s": 1.4417747897273103,
+            "bias_s": 0.027090296582195583,
+            "median_error_s": 0.006960672561433512,
+            "mean_error_per_lap_s": 0.005418059316439116,
+            "median_error_per_lap_s": 0.0013921345122867024,
+            "mae_per_lap_s": 0.28835495794546206,
+            "coverage": 0.5889967637540453,
+            "mean_width_s": 3.2935258536634313,
+            "lower_misses": 60,
+            "upper_misses": 67,
+            "interval_score_s": 8.048083342966347
+          },
+          "with_stop": {
+            "n": 7,
+            "mae_s": 7.031358463146424,
+            "bias_s": -6.6572727305978265,
+            "median_error_s": -9.032128210915971,
+            "mean_error_per_lap_s": -1.3314545461195653,
+            "median_error_per_lap_s": -1.8064256421831941,
+            "mae_per_lap_s": 1.4062716926292849,
+            "coverage": 0.2857142857142857,
+            "mean_width_s": 3.0626539677202067,
+            "lower_misses": 0,
+            "upper_misses": 5,
+            "interval_score_s": 63.220700846150386
+          }
+        }
+      },
+      "10": {
+        "n": 217,
+        "mae_s": 3.1523266121675695,
+        "bias_s": -0.19544663470629145,
+        "median_error_s": -0.2483792682025978,
+        "mean_error_per_lap_s": -0.01954466347062914,
+        "median_error_per_lap_s": -0.02483792682025978,
+        "mae_per_lap_s": 0.31523266121675697,
+        "coverage": 0.5207373271889401,
+        "mean_width_s": 6.18051315403268,
+        "lower_misses": 46,
+        "upper_misses": 58,
+        "interval_score_s": 19.50256942859444,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 208,
+            "mae_s": 2.8922506967690444,
+            "bias_s": 0.19257120279392345,
+            "median_error_s": 0.131982853494776,
+            "mean_error_per_lap_s": 0.019257120279392345,
+            "median_error_per_lap_s": 0.0131982853494776,
+            "mae_per_lap_s": 0.2892250696769044,
+            "coverage": 0.5432692307692307,
+            "mean_width_s": 6.230293332627553,
+            "lower_misses": 46,
+            "upper_misses": 49,
+            "interval_score_s": 17.04960608473101
+          },
+          "with_stop": {
+            "n": 9,
+            "mae_s": 9.162969990266813,
+            "bias_s": -9.162969990266813,
+            "median_error_s": -9.37439083137508,
+            "mean_error_per_lap_s": -0.9162969990266813,
+            "median_error_per_lap_s": -0.9374390831375081,
+            "mae_per_lap_s": 0.9162969990266813,
+            "coverage": 0.0,
+            "mean_width_s": 5.030037915395635,
+            "lower_misses": 0,
+            "upper_misses": 9,
+            "interval_score_s": 76.19327782010485
+          }
+        }
+      }
+    },
+    "pooled_prediction": {
+      "1": {
+        "n": 1365,
+        "mae_s": 0.469702713052398,
+        "bias_s": -0.1922544864129856,
+        "median_error_s": -0.116266432629331,
+        "mean_error_per_lap_s": -0.1922544864129856,
+        "median_error_per_lap_s": -0.116266432629331,
+        "mae_per_lap_s": 0.469702713052398,
+        "coverage": 0.6483516483516484,
+        "mean_width_s": 1.0511230520565733,
+        "lower_misses": 162,
+        "upper_misses": 318,
+        "interval_score_s": 2.7896227456065836,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 1315,
+            "mae_s": 0.42122273006103234,
+            "bias_s": -0.13490147680360562,
+            "median_error_s": -0.10131535983438766,
+            "mean_error_per_lap_s": -0.13490147680360562,
+            "median_error_per_lap_s": -0.10131535983438766,
+            "mae_per_lap_s": 0.42122273006103234,
+            "coverage": 0.6707224334600761,
+            "mean_width_s": 1.0526630715303933,
+            "lower_misses": 161,
+            "upper_misses": 272,
+            "interval_score_s": 2.380228479914074
+          },
+          "with_stop": {
+            "n": 50,
+            "mae_s": 1.7447262657253162,
+            "bias_s": -1.7006386391396786,
+            "median_error_s": -1.5989319596458884,
+            "mean_error_per_lap_s": -1.7006386391396786,
+            "median_error_per_lap_s": -1.5989319596458884,
+            "mae_per_lap_s": 1.7447262657253162,
+            "coverage": 0.06,
+            "mean_width_s": 1.0106205398951074,
+            "lower_misses": 1,
+            "upper_misses": 46,
+            "interval_score_s": 13.556691933319577
+          }
+        }
+      },
+      "5": {
+        "n": 1284,
+        "mae_s": 2.042226898198874,
+        "bias_s": -0.8574688124230342,
+        "median_error_s": -0.6631846883830121,
+        "mean_error_per_lap_s": -0.17149376248460685,
+        "median_error_per_lap_s": -0.13263693767660245,
+        "mae_per_lap_s": 0.40844537963977473,
+        "coverage": 0.5194704049844237,
+        "mean_width_s": 3.6608979478366748,
+        "lower_misses": 177,
+        "upper_misses": 440,
+        "interval_score_s": 12.62748999762303,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 1034,
+            "mae_s": 1.865171907209473,
+            "bias_s": -0.6186837499518187,
+            "median_error_s": -0.5019786828217434,
+            "mean_error_per_lap_s": -0.12373674999036376,
+            "median_error_per_lap_s": -0.10039573656434869,
+            "mae_per_lap_s": 0.3730343814418946,
+            "coverage": 0.5483558994197292,
+            "mean_width_s": 3.6710231440613477,
+            "lower_misses": 157,
+            "upper_misses": 310,
+            "interval_score_s": 11.00733498580267
+          },
+          "with_stop": {
+            "n": 250,
+            "mae_s": 2.7745263409310343,
+            "bias_s": -1.8450838308039812,
+            "median_error_s": -1.4651874655605184,
+            "mean_error_per_lap_s": -0.36901676616079626,
+            "median_error_per_lap_s": -0.2930374931121037,
+            "mae_per_lap_s": 0.5549052681862069,
+            "coverage": 0.4,
+            "mean_width_s": 3.6190201362514265,
+            "lower_misses": 20,
+            "upper_misses": 130,
+            "interval_score_s": 19.32845112651204
+          }
+        }
+      },
+      "10": {
+        "n": 1085,
+        "mae_s": 3.773439101341772,
+        "bias_s": -1.3350183673849794,
+        "median_error_s": -1.0840216258977762,
+        "mean_error_per_lap_s": -0.13350183673849794,
+        "median_error_per_lap_s": -0.10840216258977761,
+        "mae_per_lap_s": 0.3773439101341772,
+        "coverage": 0.5152073732718894,
+        "mean_width_s": 6.892547606487203,
+        "lower_misses": 154,
+        "upper_misses": 372,
+        "interval_score_s": 22.90144670312599,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 645,
+            "mae_s": 3.684089777260496,
+            "bias_s": -1.0362374941299353,
+            "median_error_s": -0.7863343474224394,
+            "mean_error_per_lap_s": -0.10362374941299354,
+            "median_error_per_lap_s": -0.07863343474224394,
+            "mae_per_lap_s": 0.36840897772604964,
+            "coverage": 0.5116279069767442,
+            "mean_width_s": 7.072415543449855,
+            "lower_misses": 113,
+            "upper_misses": 202,
+            "interval_score_s": 21.71355366092816
+          },
+          "with_stop": {
+            "n": 440,
+            "mae_s": 3.9044170877790965,
+            "bias_s": -1.7730039656793053,
+            "median_error_s": -1.5129282088733476,
+            "mean_error_per_lap_s": -0.17730039656793053,
+            "median_error_per_lap_s": -0.15129282088733476,
+            "mae_per_lap_s": 0.3904417087779096,
+            "coverage": 0.5204545454545455,
+            "mean_width_s": 6.628877562530588,
+            "lower_misses": 41,
+            "upper_misses": 170,
+            "interval_score_s": 24.642789912711446
+          }
+        }
+      },
+      "finish": {
+        "n": 970,
+        "mae_s": 13.077649362965905,
+        "bias_s": -5.23785986770491,
+        "median_error_s": -5.325113036239145,
+        "mean_error_per_lap_s": -0.2844282767589121,
+        "median_error_per_lap_s": -0.25382866341185023,
+        "mae_per_lap_s": 0.48070145863775304,
+        "coverage": 0.41855670103092785,
+        "mean_width_s": 19.318142231767165,
+        "lower_misses": 95,
+        "upper_misses": 469,
+        "interval_score_s": 78.42488339525515,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 284,
+            "mae_s": 7.929376275272993,
+            "bias_s": -7.0292802211742345,
+            "median_error_s": -6.213902484344544,
+            "mean_error_per_lap_s": -0.6281912507879348,
+            "median_error_per_lap_s": -0.5298095856474901,
+            "mae_per_lap_s": 0.6888910492356681,
+            "coverage": 0.3345070422535211,
+            "mean_width_s": 9.1934692332318,
+            "lower_misses": 11,
+            "upper_misses": 178,
+            "interval_score_s": 50.29873441133741
+          },
+          "with_stop": {
+            "n": 686,
+            "mae_s": 15.20900440218571,
+            "bias_s": -4.496222286968338,
+            "median_error_s": -4.670966131143189,
+            "mean_error_per_lap_s": -0.14211240995972485,
+            "median_error_per_lap_s": -0.16054250564891392,
+            "mae_per_lap_s": 0.39451218206368904,
+            "coverage": 0.45335276967930027,
+            "mean_width_s": 23.509697817166646,
+            "lower_misses": 84,
+            "upper_misses": 291,
+            "interval_score_s": 90.06894507372839
+          }
+        }
+      }
+    },
+    "pooled_equal_race": {
+      "1": {
+        "n": 1365,
+        "contributing_races": 3,
+        "race_weights": {
+          "bahrain_2021": 0.3333333333333333,
+          "spain_2022": 0.3333333333333333,
+          "france_2022": 0.3333333333333333
+        },
+        "mae_s": 0.45643512500001154,
+        "bias_s": -0.1760389107971362,
+        "median_error_s": -0.11071125750694932,
+        "mean_error_per_lap_s": -0.1760389107971362,
+        "median_error_per_lap_s": -0.11071125750694932,
+        "mae_per_lap_s": 0.45643512500001154,
+        "coverage": 0.6505704431230925,
+        "mean_width_s": 1.0372861334439634,
+        "lower_misses": 162,
+        "upper_misses": 318,
+        "lower_miss_rate": 0.12184798252809188,
+        "upper_miss_rate": 0.22758157434880816,
+        "interval_score_s": 2.6972753411009975,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 1315,
+            "contributing_races": 3,
+            "race_weights": {
+              "bahrain_2021": 0.3333333333333333,
+              "spain_2022": 0.3333333333333333,
+              "france_2022": 0.3333333333333333
+            },
+            "mae_s": 0.4122287571807763,
+            "bias_s": -0.12396770797642391,
+            "median_error_s": -0.09293211756093456,
+            "mean_error_per_lap_s": -0.12396770797642391,
+            "median_error_per_lap_s": -0.09293211756093456,
+            "mae_per_lap_s": 0.4122287571807763,
+            "coverage": 0.6715356244774018,
+            "mean_width_s": 1.0403053059314649,
+            "lower_misses": 161,
+            "upper_misses": 272,
+            "lower_miss_rate": 0.12484537136207685,
+            "upper_miss_rate": 0.2036190041605103,
+            "interval_score_s": 2.3226440752632502
+          },
+          "with_stop": {
+            "n": 50,
+            "contributing_races": 3,
+            "race_weights": {
+              "bahrain_2021": 0.3333333333333333,
+              "spain_2022": 0.3333333333333333,
+              "france_2022": 0.3333333333333333
+            },
+            "mae_s": 2.580845997665353,
+            "bias_s": -2.2134491094517053,
+            "median_error_s": -1.5662029471473176,
+            "mean_error_per_lap_s": -2.2134491094517053,
+            "median_error_per_lap_s": -1.5662029471473176,
+            "mae_per_lap_s": 2.580845997665353,
+            "coverage": 0.04523809523809524,
+            "mean_width_s": 1.1940508142260642,
+            "lower_misses": 1,
+            "upper_misses": 46,
+            "lower_miss_rate": 0.16666666666666666,
+            "upper_miss_rate": 0.7880952380952378,
+            "interval_score_s": 21.344274718531953
+          }
+        }
+      },
+      "5": {
+        "n": 1284,
+        "contributing_races": 3,
+        "race_weights": {
+          "bahrain_2021": 0.3333333333333333,
+          "spain_2022": 0.3333333333333333,
+          "france_2022": 0.3333333333333333
+        },
+        "mae_s": 1.95931039287826,
+        "bias_s": -0.7346357822153669,
+        "median_error_s": -0.5808072327333775,
+        "mean_error_per_lap_s": -0.14692715644307325,
+        "median_error_per_lap_s": -0.11616144654667551,
+        "mae_per_lap_s": 0.39186207857565264,
+        "coverage": 0.5292318601183275,
+        "mean_width_s": 3.5920274376179515,
+        "lower_misses": 177,
+        "upper_misses": 440,
+        "lower_miss_rate": 0.14536682863706793,
+        "upper_miss_rate": 0.32540131124459915,
+        "interval_score_s": 12.045317281860848,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 1034,
+            "contributing_races": 3,
+            "race_weights": {
+              "bahrain_2021": 0.3333333333333333,
+              "spain_2022": 0.3333333333333333,
+              "france_2022": 0.3333333333333333
+            },
+            "mae_s": 1.8218103563369814,
+            "bias_s": -0.5596562682546324,
+            "median_error_s": -0.4587123059167766,
+            "mean_error_per_lap_s": -0.11193125365092656,
+            "median_error_per_lap_s": -0.09174246118335531,
+            "mae_per_lap_s": 0.36436207126739645,
+            "coverage": 0.5523578956103297,
+            "mean_width_s": 3.626518617590334,
+            "lower_misses": 157,
+            "upper_misses": 310,
+            "lower_miss_rate": 0.15459671396564592,
+            "upper_miss_rate": 0.2930453904240312,
+            "interval_score_s": 10.724370107874964
+          },
+          "with_stop": {
+            "n": 250,
+            "contributing_races": 3,
+            "race_weights": {
+              "bahrain_2021": 0.3333333333333333,
+              "spain_2022": 0.3333333333333333,
+              "france_2022": 0.3333333333333333
+            },
+            "mae_s": 4.06720388696942,
+            "bias_s": -3.281860062807675,
+            "median_error_s": -1.9009267303919728,
+            "mean_error_per_lap_s": -0.656372012561535,
+            "median_error_per_lap_s": -0.38018534607839455,
+            "mae_per_lap_s": 0.8134407773938839,
+            "coverage": 0.3679149329634762,
+            "mean_width_s": 3.4223764634496647,
+            "lower_misses": 20,
+            "upper_misses": 130,
+            "lower_miss_rate": 0.059593157651410086,
+            "upper_miss_rate": 0.5724919093851126,
+            "interval_score_s": 32.72351908971655
+          }
+        }
+      },
+      "10": {
+        "n": 1085,
+        "contributing_races": 3,
+        "race_weights": {
+          "bahrain_2021": 0.3333333333333333,
+          "spain_2022": 0.3333333333333333,
+          "france_2022": 0.3333333333333333
+        },
+        "mae_s": 3.623396849534704,
+        "bias_s": -1.0505003213949597,
+        "median_error_s": -0.7417524706288532,
+        "mean_error_per_lap_s": -0.10505003213949611,
+        "median_error_per_lap_s": -0.07417524706288532,
+        "mae_per_lap_s": 0.36233968495347013,
+        "coverage": 0.5199131982542076,
+        "mean_width_s": 6.7358874668463224,
+        "lower_misses": 154,
+        "upper_misses": 372,
+        "lower_miss_rate": 0.15723144693958846,
+        "upper_miss_rate": 0.32285535480619704,
+        "interval_score_s": 22.001023721894093,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 645,
+            "contributing_races": 3,
+            "race_weights": {
+              "bahrain_2021": 0.3333333333333333,
+              "spain_2022": 0.3333333333333333,
+              "france_2022": 0.3333333333333333
+            },
+            "mae_s": 3.6358427391055708,
+            "bias_s": -0.9820060851074204,
+            "median_error_s": -0.6994258790564345,
+            "mean_error_per_lap_s": -0.09820060851074201,
+            "median_error_per_lap_s": -0.06994258790564345,
+            "mae_per_lap_s": 0.3635842739105572,
+            "coverage": 0.514787973839696,
+            "mean_width_s": 7.029065633744028,
+            "lower_misses": 113,
+            "upper_misses": 202,
+            "lower_miss_rate": 0.1765557239695169,
+            "upper_miss_rate": 0.30865630219078505,
+            "interval_score_s": 21.448313653293514
+          },
+          "with_stop": {
+            "n": 440,
+            "contributing_races": 3,
+            "race_weights": {
+              "bahrain_2021": 0.3333333333333333,
+              "spain_2022": 0.3333333333333333,
+              "france_2022": 0.3333333333333333
+            },
+            "mae_s": 5.541445656326961,
+            "bias_s": -3.946319727683833,
+            "median_error_s": -4.107081736966734,
+            "mean_error_per_lap_s": -0.39463197276838324,
+            "median_error_per_lap_s": -0.4107081736966734,
+            "mae_per_lap_s": 0.554144565632696,
+            "coverage": 0.35844494047618963,
+            "mean_width_s": 6.081128191075622,
+            "lower_misses": 41,
+            "upper_misses": 170,
+            "lower_miss_rate": 0.07206845238095233,
+            "upper_miss_rate": 0.5694866071428577,
+            "interval_score_s": 40.635199403669816
+          }
+        }
+      },
+      "finish": {
+        "n": 970,
+        "contributing_races": 2,
+        "race_weights": {
+          "bahrain_2021": 0.5,
+          "spain_2022": 0.5
+        },
+        "mae_s": 12.759924348254835,
+        "bias_s": -4.582956023811586,
+        "median_error_s": -4.923106246124917,
+        "mean_error_per_lap_s": -0.26855426570651814,
+        "median_error_per_lap_s": -0.23674322001390635,
+        "mae_per_lap_s": 0.47433727846619106,
+        "coverage": 0.4209788943683791,
+        "mean_width_s": 19.017350050530485,
+        "lower_misses": 95,
+        "upper_misses": 469,
+        "lower_miss_rate": 0.10311842604407356,
+        "upper_miss_rate": 0.47590267958753896,
+        "interval_score_s": 75.54698051969486,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 284,
+            "contributing_races": 2,
+            "race_weights": {
+              "bahrain_2021": 0.5,
+              "spain_2022": 0.5
+            },
+            "mae_s": 7.998413978092277,
+            "bias_s": -7.0941188529507215,
+            "median_error_s": -6.275525659264758,
+            "mean_error_per_lap_s": -0.6398796789131544,
+            "median_error_per_lap_s": -0.5290361339725222,
+            "mae_per_lap_s": 0.7010204617260909,
+            "coverage": 0.34317167360449335,
+            "mean_width_s": 9.327886885873914,
+            "lower_misses": 11,
+            "upper_misses": 178,
+            "lower_miss_rate": 0.0365364361301971,
+            "upper_miss_rate": 0.6202918902653087,
+            "interval_score_s": 50.87664485441958
+          },
+          "with_stop": {
+            "n": 686,
+            "contributing_races": 2,
+            "race_weights": {
+              "bahrain_2021": 0.5,
+              "spain_2022": 0.5
+            },
+            "mae_s": 14.587619661105443,
+            "bias_s": -2.7936899412769933,
+            "median_error_s": -3.6324765968545307,
+            "mean_error_per_lap_s": -0.10083910522836326,
+            "median_error_per_lap_s": -0.1136916535680939,
+            "mae_per_lap_s": 0.38228060181672535,
+            "coverage": 0.469448272795978,
+            "mean_width_s": 23.130820714430087,
+            "lower_misses": 84,
+            "upper_misses": 291,
+            "lower_miss_rate": 0.13577557462321618,
+            "upper_miss_rate": 0.3947761525808018,
+            "interval_score_s": 83.86932280713994
+          }
+        }
+      }
+    }
+  },
+  "previous": {
+    "bahrain_2021": {
+      "1": {
+        "n": 428,
+        "mae_s": 0.41175029709186667,
+        "bias_s": -0.17065561501786314,
+        "median_error_s": -0.13392025127873097,
+        "mean_error_per_lap_s": -0.17065561501786314,
+        "median_error_per_lap_s": -0.13392025127873097,
+        "mae_per_lap_s": 0.41175029709186667,
+        "coverage": 0.6542056074766355,
+        "mean_width_s": 1.0082482917081095,
+        "lower_misses": 42,
+        "upper_misses": 106,
+        "interval_score_s": 2.4630961631816652,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 408,
+            "mae_s": 0.3715280645232952,
+            "bias_s": -0.11861501568095813,
+            "median_error_s": -0.11126572970299264,
+            "mean_error_per_lap_s": -0.11861501568095813,
+            "median_error_per_lap_s": -0.11126572970299264,
+            "mae_per_lap_s": 0.3715280645232952,
+            "coverage": 0.6813725490196079,
+            "mean_width_s": 1.0159349503281379,
+            "lower_misses": 42,
+            "upper_misses": 88,
+            "interval_score_s": 2.1360310131030724
+          },
+          "with_stop": {
+            "n": 20,
+            "mae_s": 1.2322838414907253,
+            "bias_s": -1.2322838414907253,
+            "median_error_s": -1.2203445954090881,
+            "mean_error_per_lap_s": -1.2322838414907253,
+            "median_error_per_lap_s": -1.2203445954090881,
+            "mae_per_lap_s": 1.2322838414907253,
+            "coverage": 0.1,
+            "mean_width_s": 0.8514404558595281,
+            "lower_misses": 0,
+            "upper_misses": 18,
+            "interval_score_s": 9.135225224784964
+          }
+        }
+      },
+      "5": {
+        "n": 428,
+        "mae_s": 1.8185140503315822,
+        "bias_s": -0.8370057401103175,
+        "median_error_s": -0.5846259394930371,
+        "mean_error_per_lap_s": -0.1674011480220635,
+        "median_error_per_lap_s": -0.11692518789860742,
+        "mae_per_lap_s": 0.36370281006631644,
+        "coverage": 0.5163551401869159,
+        "mean_width_s": 3.4393548193065167,
+        "lower_misses": 50,
+        "upper_misses": 157,
+        "interval_score_s": 11.284185171218818,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 325,
+            "mae_s": 1.6443046937585364,
+            "bias_s": -0.7201588778211406,
+            "median_error_s": -0.4616891039897837,
+            "mean_error_per_lap_s": -0.1440317755642281,
+            "median_error_per_lap_s": -0.09233782079795674,
+            "mae_per_lap_s": 0.3288609387517073,
+            "coverage": 0.56,
+            "mean_width_s": 3.4524740840022234,
+            "lower_misses": 37,
+            "upper_misses": 106,
+            "interval_score_s": 9.831836756515342
+          },
+          "with_stop": {
+            "n": 103,
+            "mae_s": 2.3682037676737173,
+            "bias_s": -1.205697295877138,
+            "median_error_s": -1.211811897244445,
+            "mean_error_per_lap_s": -0.24113945917542756,
+            "median_error_per_lap_s": -0.242362379448889,
+            "mae_per_lap_s": 0.4736407535347435,
+            "coverage": 0.3786407766990291,
+            "mean_width_s": 3.3979590811889944,
+            "lower_misses": 13,
+            "upper_misses": 51,
+            "interval_score_s": 15.866837936059882
+          }
+        }
+      },
+      "10": {
+        "n": 378,
+        "mae_s": 3.425843543474159,
+        "bias_s": -1.1380484311345862,
+        "median_error_s": -0.6506838320253792,
+        "mean_error_per_lap_s": -0.11380484311345862,
+        "median_error_per_lap_s": -0.06506838320253791,
+        "mae_per_lap_s": 0.3425843543474159,
+        "coverage": 0.5396825396825397,
+        "mean_width_s": 6.613109804853538,
+        "lower_misses": 48,
+        "upper_misses": 126,
+        "interval_score_s": 20.219137196005526,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 203,
+            "mae_s": 3.274817915296952,
+            "bias_s": -1.588418463744311,
+            "median_error_s": -1.2443372805216768,
+            "mean_error_per_lap_s": -0.1588418463744311,
+            "median_error_per_lap_s": -0.12443372805216768,
+            "mae_per_lap_s": 0.3274817915296952,
+            "coverage": 0.5270935960591133,
+            "mean_width_s": 6.845513938144027,
+            "lower_misses": 27,
+            "upper_misses": 69,
+            "interval_score_s": 19.197931360144867
+          },
+          "with_stop": {
+            "n": 175,
+            "mae_s": 3.6010332721597185,
+            "bias_s": -0.6156191933073056,
+            "median_error_s": -0.02111784699945929,
+            "mean_error_per_lap_s": -0.06156191933073056,
+            "median_error_per_lap_s": -0.0021117846999459287,
+            "mae_per_lap_s": 0.3601033272159719,
+            "coverage": 0.5542857142857143,
+            "mean_width_s": 6.343521010236572,
+            "lower_misses": 21,
+            "upper_misses": 57,
+            "interval_score_s": 21.40373596560389
+          }
+        }
+      },
+      "finish": {
+        "n": 428,
+        "mae_s": 10.998246531002149,
+        "bias_s": -1.582402054043981,
+        "median_error_s": -4.9489035625422275,
+        "mean_error_per_lap_s": -0.23908296718786565,
+        "median_error_per_lap_s": -0.2476643736416979,
+        "mae_per_lap_s": 0.4691175840431271,
+        "coverage": 0.37850467289719625,
+        "mean_width_s": 16.59150432682857,
+        "lower_misses": 45,
+        "upper_misses": 221,
+        "interval_score_s": 60.82617763463305,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 157,
+            "mae_s": 8.319963561160352,
+            "bias_s": -7.983659537370695,
+            "median_error_s": -6.987425010627021,
+            "mean_error_per_lap_s": -0.6175830584793841,
+            "median_error_per_lap_s": -0.6195808565235742,
+            "mae_per_lap_s": 0.6404875602545971,
+            "coverage": 0.17197452229299362,
+            "mean_width_s": 8.20644036899662,
+            "lower_misses": 3,
+            "upper_misses": 127,
+            "interval_score_s": 51.508061616691975
+          },
+          "with_stop": {
+            "n": 271,
+            "mae_s": 12.549871720172488,
+            "bias_s": 2.12607552854751,
+            "median_error_s": -0.19510927146029644,
+            "mean_error_per_lap_s": -0.01980431651344348,
+            "median_error_per_lap_s": -0.005273223552980985,
+            "mae_per_lap_s": 0.36983682291692493,
+            "coverage": 0.4981549815498155,
+            "mean_width_s": 21.449272007196154,
+            "lower_misses": 42,
+            "upper_misses": 94,
+            "interval_score_s": 66.2244957704882
+          }
+        }
+      }
+    },
+    "spain_2022": {
+      "1": {
+        "n": 542,
+        "mae_s": 0.5967193623655883,
+        "bias_s": -0.35544231270182564,
+        "median_error_s": -0.2302131360088424,
+        "mean_error_per_lap_s": -0.35544231270182564,
+        "median_error_per_lap_s": -0.2302131360088424,
+        "mae_per_lap_s": 0.5967193623655883,
+        "coverage": 0.6236162361623616,
+        "mean_width_s": 1.1731684334596415,
+        "lower_misses": 48,
+        "upper_misses": 156,
+        "interval_score_s": 3.6548746359389437,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 514,
+            "mae_s": 0.5201632113036113,
+            "bias_s": -0.2657426647710056,
+            "median_error_s": -0.18968989331633423,
+            "mean_error_per_lap_s": -0.2657426647710056,
+            "median_error_per_lap_s": -0.18968989331633423,
+            "mae_per_lap_s": 0.5201632113036113,
+            "coverage": 0.6556420233463035,
+            "mean_width_s": 1.1783259005539732,
+            "lower_misses": 48,
+            "upper_misses": 129,
+            "interval_score_s": 2.997440989081053
+          },
+          "with_stop": {
+            "n": 28,
+            "mae_s": 2.0020715640033067,
+            "bias_s": -2.0020715640033067,
+            "median_error_s": -1.956776125092702,
+            "mean_error_per_lap_s": -2.0020715640033067,
+            "median_error_per_lap_s": -1.956776125092702,
+            "mae_per_lap_s": 2.0020715640033067,
+            "coverage": 0.03571428571428571,
+            "mean_width_s": 1.0784920732279797,
+            "lower_misses": 0,
+            "upper_misses": 27,
+            "interval_score_s": 15.723478010401648
+          }
+        }
+      },
+      "5": {
+        "n": 540,
+        "mae_s": 2.5754204455688106,
+        "bias_s": -1.6386286808488355,
+        "median_error_s": -1.4569614045984736,
+        "mean_error_per_lap_s": -0.32772573616976713,
+        "median_error_per_lap_s": -0.2913922809196947,
+        "mae_per_lap_s": 0.5150840891137621,
+        "coverage": 0.45185185185185184,
+        "mean_width_s": 4.083476209148033,
+        "lower_misses": 54,
+        "upper_misses": 242,
+        "interval_score_s": 16.31359143828268,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 400,
+            "mae_s": 2.398245100668827,
+            "bias_s": -1.3663195445173606,
+            "median_error_s": -1.2013383645939655,
+            "mean_error_per_lap_s": -0.27326390890347213,
+            "median_error_per_lap_s": -0.24026767291879308,
+            "mae_per_lap_s": 0.4796490201337653,
+            "coverage": 0.48,
+            "mean_width_s": 4.176206951271529,
+            "lower_misses": 49,
+            "upper_misses": 159,
+            "interval_score_s": 14.433818865732023
+          },
+          "with_stop": {
+            "n": 140,
+            "mae_s": 3.081635716711622,
+            "bias_s": -2.41665478465305,
+            "median_error_s": -2.171849908917409,
+            "mean_error_per_lap_s": -0.48333095693060996,
+            "median_error_per_lap_s": -0.43436998178348174,
+            "mae_per_lap_s": 0.6163271433423244,
+            "coverage": 0.37142857142857144,
+            "mean_width_s": 3.818531231652332,
+            "lower_misses": 5,
+            "upper_misses": 83,
+            "interval_score_s": 21.68437021699884
+          }
+        }
+      },
+      "10": {
+        "n": 490,
+        "mae_s": 4.539251908846705,
+        "bias_s": -2.817699401847471,
+        "median_error_s": -2.9248643786318667,
+        "mean_error_per_lap_s": -0.2817699401847471,
+        "median_error_per_lap_s": -0.2924864378631867,
+        "mae_per_lap_s": 0.4539251908846705,
+        "coverage": 0.4714285714285714,
+        "mean_width_s": 7.461299280528796,
+        "lower_misses": 38,
+        "upper_misses": 221,
+        "interval_score_s": 28.13743002181545,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 234,
+            "mae_s": 4.955123570471413,
+            "bias_s": -2.629253791099122,
+            "median_error_s": -2.913464382750476,
+            "mean_error_per_lap_s": -0.2629253791099122,
+            "median_error_per_lap_s": -0.2913464382750476,
+            "mae_per_lap_s": 0.4955123570471413,
+            "coverage": 0.44871794871794873,
+            "mean_width_s": 8.072426391227108,
+            "lower_misses": 28,
+            "upper_misses": 101,
+            "interval_score_s": 29.103888606149805
+          },
+          "with_stop": {
+            "n": 256,
+            "mae_s": 4.15911921814287,
+            "bias_s": -2.989950467922134,
+            "median_error_s": -2.9248643786318667,
+            "mean_error_per_lap_s": -0.2989950467922134,
+            "median_error_per_lap_s": -0.2924864378631867,
+            "mae_per_lap_s": 0.415911921814287,
+            "coverage": 0.4921875,
+            "mean_width_s": 6.90269090590612,
+            "lower_misses": 10,
+            "upper_misses": 120,
+            "interval_score_s": 27.254026472072333
+          }
+        }
+      },
+      "finish": {
+        "n": 542,
+        "mae_s": 16.091824930983034,
+        "bias_s": -9.79624700728515,
+        "median_error_s": -8.407335712082954,
+        "mean_error_per_lap_s": -0.41972577213518214,
+        "median_error_per_lap_s": -0.377077994614624,
+        "mae_per_lap_s": 0.5600062598567909,
+        "coverage": 0.3892988929889299,
+        "mean_width_s": 21.580611646087114,
+        "lower_misses": 41,
+        "upper_misses": 290,
+        "interval_score_s": 104.51794947604432,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 127,
+            "mae_s": 9.14916623634625,
+            "bias_s": -8.444182754415053,
+            "median_error_s": -7.029956246990196,
+            "mean_error_per_lap_s": -0.8022231096435786,
+            "median_error_per_lap_s": -0.5597991041115165,
+            "mae_per_lap_s": 0.8503133653932748,
+            "coverage": 0.4015748031496063,
+            "mean_width_s": 10.66584744665002,
+            "lower_misses": 1,
+            "upper_misses": 75,
+            "interval_score_s": 61.03247650682066
+          },
+          "with_stop": {
+            "n": 415,
+            "mae_s": 18.216445784522485,
+            "bias_s": -10.210011248524912,
+            "median_error_s": -9.203867325417377,
+            "mean_error_per_lap_s": -0.30267237005429937,
+            "median_error_per_lap_s": -0.28816195866904903,
+            "mae_per_lap_s": 0.4711652902106862,
+            "coverage": 0.3855421686746988,
+            "mean_width_s": 24.920792497481116,
+            "lower_misses": 40,
+            "upper_misses": 215,
+            "interval_score_s": 117.82555204734892
+          }
+        }
+      }
+    },
+    "france_2022": {
+      "1": {
+        "n": 395,
+        "mae_s": 0.373126103000543,
+        "bias_s": -0.050928033025729784,
+        "median_error_s": -0.019009014540159797,
+        "mean_error_per_lap_s": -0.050928033025729784,
+        "median_error_per_lap_s": -0.019009014540159797,
+        "mae_per_lap_s": 0.373126103000543,
+        "coverage": 0.6582278481012658,
+        "mean_width_s": 0.9436913933725563,
+        "lower_misses": 67,
+        "upper_misses": 68,
+        "interval_score_s": 2.0754627033352677,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 393,
+            "mae_s": 0.35095337302696844,
+            "bias_s": -0.032939932627319424,
+            "median_error_s": -0.019009014540159797,
+            "mean_error_per_lap_s": -0.032939932627319424,
+            "median_error_per_lap_s": -0.019009014540159797,
+            "mae_per_lap_s": 0.35095337302696844,
+            "coverage": 0.6615776081424937,
+            "mean_width_s": 0.9400856502671204,
+            "lower_misses": 66,
+            "upper_misses": 67,
+            "interval_score_s": 1.8757586183147057
+          },
+          "with_stop": {
+            "n": 2,
+            "mae_s": 4.730067542807937,
+            "bias_s": -3.585589761313365,
+            "median_error_s": -3.585589761313365,
+            "mean_error_per_lap_s": -3.585589761313365,
+            "median_error_per_lap_s": -3.585589761313365,
+            "mae_per_lap_s": 4.730067542807937,
+            "coverage": 0.0,
+            "mean_width_s": 1.6522199135906845,
+            "lower_misses": 1,
+            "upper_misses": 1,
+            "interval_score_s": 41.31731540987573
+          }
+        }
+      },
+      "5": {
+        "n": 316,
+        "mae_s": 1.6751277044282942,
+        "bias_s": -0.025010001493282055,
+        "median_error_s": -0.030565984498394982,
+        "mean_error_per_lap_s": -0.005002000298656411,
+        "median_error_per_lap_s": -0.006113196899678997,
+        "mae_per_lap_s": 0.33502554088565883,
+        "coverage": 0.5886075949367089,
+        "mean_width_s": 3.3416549842840637,
+        "lower_misses": 60,
+        "upper_misses": 70,
+        "interval_score_s": 9.99437753872669,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 309,
+            "mae_s": 1.5454575253476759,
+            "bias_s": 0.13356705070288608,
+            "median_error_s": 0.027038327182026478,
+            "mean_error_per_lap_s": 0.026713410140577213,
+            "median_error_per_lap_s": 0.0054076654364052954,
+            "mae_per_lap_s": 0.3090915050695352,
+            "coverage": 0.5954692556634305,
+            "mean_width_s": 3.347531759674688,
+            "lower_misses": 60,
+            "upper_misses": 65,
+            "interval_score_s": 8.708348547337291
+          },
+          "with_stop": {
+            "n": 7,
+            "mae_s": 7.39913989527273,
+            "bias_s": -7.025054162724132,
+            "median_error_s": -9.688554424821575,
+            "mean_error_per_lap_s": -1.4050108325448263,
+            "median_error_per_lap_s": -1.937710884964315,
+            "mae_per_lap_s": 1.4798279790545459,
+            "coverage": 0.2857142857142857,
+            "mean_width_s": 3.082237327755073,
+            "lower_misses": 0,
+            "upper_misses": 5,
+            "interval_score_s": 66.76337158720153
+          }
+        }
+      },
+      "10": {
+        "n": 217,
+        "mae_s": 3.555941094864063,
+        "bias_s": 0.09562580787038075,
+        "median_error_s": 0.08562429116170733,
+        "mean_error_per_lap_s": 0.009562580787038078,
+        "median_error_per_lap_s": 0.008562429116170733,
+        "mae_per_lap_s": 0.3555941094864063,
+        "coverage": 0.4976958525345622,
+        "mean_width_s": 6.244267193063735,
+        "lower_misses": 53,
+        "upper_misses": 56,
+        "interval_score_s": 22.297755241980724,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 208,
+            "mae_s": 3.2838626563546667,
+            "bias_s": 0.525704737363479,
+            "median_error_s": 0.43139573398048014,
+            "mean_error_per_lap_s": 0.0525704737363479,
+            "median_error_per_lap_s": 0.04313957339804801,
+            "mae_per_lap_s": 0.3283862656354667,
+            "coverage": 0.5192307692307693,
+            "mean_width_s": 6.2953358357572835,
+            "lower_misses": 53,
+            "upper_misses": 47,
+            "interval_score_s": 19.69997272469264
+          },
+          "with_stop": {
+            "n": 9,
+            "mae_s": 9.843976118192334,
+            "bias_s": -9.843976118192334,
+            "median_error_s": -10.32940290272984,
+            "mean_error_per_lap_s": -0.9843976118192334,
+            "median_error_per_lap_s": -1.0329402902729838,
+            "mae_per_lap_s": 0.9843976118192334,
+            "coverage": 0.0,
+            "mean_width_s": 5.064014117479498,
+            "lower_misses": 0,
+            "upper_misses": 9,
+            "interval_score_s": 82.33539564152754
+          }
+        }
+      }
+    },
+    "pooled_prediction": {
+      "1": {
+        "n": 1365,
+        "mae_s": 0.47401892471991375,
+        "bias_s": -0.20938235147047485,
+        "median_error_s": -0.1298832878538434,
+        "mean_error_per_lap_s": -0.20938235147047485,
+        "median_error_per_lap_s": -0.1298832878538434,
+        "mae_per_lap_s": 0.47401892471991375,
+        "coverage": 0.6432234432234433,
+        "mean_width_s": 1.0550517656911034,
+        "lower_misses": 157,
+        "upper_misses": 330,
+        "interval_score_s": 2.8241428412733267,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 1315,
+            "mae_s": 0.4234768186579158,
+            "bias_s": -0.15051866890696908,
+            "median_error_s": -0.11136450769400597,
+            "mean_error_per_lap_s": -0.15051866890696908,
+            "median_error_per_lap_s": -0.11136450769400597,
+            "mae_per_lap_s": 0.4234768186579158,
+            "coverage": 0.6653992395437263,
+            "mean_width_s": 1.0567411659114836,
+            "lower_misses": 156,
+            "upper_misses": 284,
+            "interval_score_s": 2.3949493982748247
+          },
+          "with_stop": {
+            "n": 50,
+            "mae_s": 1.8032763141504595,
+            "bias_s": -1.7574972028906766,
+            "median_error_s": -1.6855096908681872,
+            "mean_error_per_lap_s": -1.7574972028906766,
+            "median_error_per_lap_s": -1.6855096908681872,
+            "mae_per_lap_s": 1.8032763141504595,
+            "coverage": 0.06,
+            "mean_width_s": 1.0106205398951074,
+            "lower_misses": 1,
+            "upper_misses": 46,
+            "interval_score_s": 14.111930392133937
+          }
+        }
+      },
+      "5": {
+        "n": 1284,
+        "mae_s": 2.1015509413928473,
+        "bias_s": -0.9742999259326045,
+        "median_error_s": -0.7998783431060303,
+        "mean_error_per_lap_s": -0.19485998518652092,
+        "median_error_per_lap_s": -0.15997566862120605,
+        "mae_per_lap_s": 0.4203101882785695,
+        "coverage": 0.5070093457943925,
+        "mean_width_s": 3.6862024849196975,
+        "lower_misses": 164,
+        "upper_misses": 469,
+        "interval_score_s": 13.081926738467239,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 1034,
+            "mae_s": 1.9064249913650744,
+            "bias_s": -0.7149973253690746,
+            "median_error_s": -0.5927576818434659,
+            "mean_error_per_lap_s": -0.14299946507381492,
+            "median_error_per_lap_s": -0.11855153636869317,
+            "mae_per_lap_s": 0.3812849982730149,
+            "coverage": 0.539651837524178,
+            "mean_width_s": 3.7010872065268985,
+            "lower_misses": 146,
+            "upper_misses": 330,
+            "interval_score_s": 11.276358020587542
+          },
+          "with_stop": {
+            "n": 250,
+            "mae_s": 2.908591870707716,
+            "bias_s": -2.0467754818633646,
+            "median_error_s": -1.7174921192492718,
+            "mean_error_per_lap_s": -0.40935509637267287,
+            "median_error_per_lap_s": -0.34349842384985435,
+            "mae_per_lap_s": 0.5817183741415433,
+            "coverage": 0.372,
+            "mean_width_s": 3.6246392763523136,
+            "lower_misses": 18,
+            "upper_misses": 139,
+            "interval_score_s": 20.549758955617666
+          }
+        }
+      },
+      "10": {
+        "n": 1085,
+        "mae_s": 3.9546926381139347,
+        "bias_s": -1.6498656346232827,
+        "median_error_s": -1.5168419269045899,
+        "mean_error_per_lap_s": -0.1649865634623283,
+        "median_error_per_lap_s": -0.151684192690459,
+        "mae_per_lap_s": 0.39546926381139347,
+        "coverage": 0.5004608294930876,
+        "mean_width_s": 6.922394594090855,
+        "lower_misses": 139,
+        "upper_misses": 403,
+        "interval_score_s": 24.21086401685666,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 645,
+            "mae_s": 3.8873339299493996,
+            "bias_s": -1.2842600773421489,
+            "median_error_s": -1.2351694006163143,
+            "mean_error_per_lap_s": -0.1284260077342149,
+            "median_error_per_lap_s": -0.12351694006163143,
+            "mae_per_lap_s": 0.3887333929949399,
+            "coverage": 0.49612403100775193,
+            "mean_width_s": 7.11320458733007,
+            "lower_misses": 108,
+            "upper_misses": 217,
+            "interval_score_s": 22.95361911113881
+          },
+          "with_stop": {
+            "n": 440,
+            "mae_s": 4.0534343807642195,
+            "bias_s": -2.185810144728581,
+            "median_error_s": -1.9585559885271664,
+            "mean_error_per_lap_s": -0.21858101447285813,
+            "median_error_per_lap_s": -0.19585559885271664,
+            "mae_per_lap_s": 0.4053434380764219,
+            "coverage": 0.5068181818181818,
+            "mean_width_s": 6.642684490365187,
+            "lower_misses": 31,
+            "upper_misses": 186,
+            "interval_score_s": 26.053870753647605
+          }
+        }
+      },
+      "finish": {
+        "n": 970,
+        "mae_s": 13.844349100888376,
+        "bias_s": -6.171993770184922,
+        "median_error_s": -6.468277547092384,
+        "mean_error_per_lap_s": -0.3400194623233765,
+        "median_error_per_lap_s": -0.3321505959506793,
+        "mae_per_lap_s": 0.5199028028998341,
+        "coverage": 0.3845360824742268,
+        "mean_width_s": 19.379232334084374,
+        "lower_misses": 86,
+        "upper_misses": 511,
+        "interval_score_s": 85.23951818931853,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 284,
+            "mae_s": 8.690768982810383,
+            "bias_s": -8.18959773654194,
+            "median_error_s": -7.011772857681649,
+            "mean_error_per_lap_s": -0.7001509686830908,
+            "median_error_per_lap_s": -0.5948685834909504,
+            "mae_per_lap_s": 0.7343181139609776,
+            "coverage": 0.2746478873239437,
+            "mean_width_s": 9.306245646679654,
+            "lower_misses": 4,
+            "upper_misses": 202,
+            "interval_score_s": 55.76721897953121
+          },
+          "with_stop": {
+            "n": 686,
+            "mae_s": 15.97790121974282,
+            "bias_s": -5.336717492567732,
+            "median_error_s": -6.002637197539343,
+            "mean_error_per_lap_s": -0.19092711858262013,
+            "median_error_per_lap_s": -0.18707832833406576,
+            "mae_per_lap_s": 0.4311361143555706,
+            "coverage": 0.43002915451895046,
+            "mean_width_s": 23.549390088053677,
+            "lower_misses": 82,
+            "upper_misses": 309,
+            "interval_score_s": 97.4408782120293
+          }
+        }
+      }
+    },
+    "pooled_equal_race": {
+      "1": {
+        "n": 1365,
+        "contributing_races": 3,
+        "race_weights": {
+          "bahrain_2021": 0.3333333333333333,
+          "spain_2022": 0.3333333333333333,
+          "france_2022": 0.3333333333333333
+        },
+        "mae_s": 0.4605319208193327,
+        "bias_s": -0.19234198691513962,
+        "median_error_s": -0.12006064834594099,
+        "mean_error_per_lap_s": -0.19234198691513962,
+        "median_error_per_lap_s": -0.12006064834594099,
+        "mae_per_lap_s": 0.4605319208193327,
+        "coverage": 0.645349897246748,
+        "mean_width_s": 1.041702706180103,
+        "lower_misses": 157,
+        "upper_misses": 330,
+        "lower_miss_rate": 0.11877065996496908,
+        "upper_miss_rate": 0.23587944278827555,
+        "interval_score_s": 2.7311445008186266,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 1315,
+            "contributing_races": 3,
+            "race_weights": {
+              "bahrain_2021": 0.3333333333333333,
+              "spain_2022": 0.3333333333333333,
+              "france_2022": 0.3333333333333333
+            },
+            "mae_s": 0.4142148829512911,
+            "bias_s": -0.13909920435976078,
+            "median_error_s": -0.10728936565594438,
+            "mean_error_per_lap_s": -0.13909920435976078,
+            "median_error_per_lap_s": -0.10728936565594438,
+            "mae_per_lap_s": 0.4142148829512911,
+            "coverage": 0.6661973935027914,
+            "mean_width_s": 1.0447821670497452,
+            "lower_misses": 156,
+            "upper_misses": 284,
+            "lower_miss_rate": 0.12142177392535956,
+            "upper_miss_rate": 0.21238083257183835,
+            "interval_score_s": 2.336410206832942
+          },
+          "with_stop": {
+            "n": 50,
+            "contributing_races": 3,
+            "race_weights": {
+              "bahrain_2021": 0.3333333333333333,
+              "spain_2022": 0.3333333333333333,
+              "france_2022": 0.3333333333333333
+            },
+            "mae_s": 2.6548076494339896,
+            "bias_s": -2.2733150556024655,
+            "median_error_s": -1.556717786250502,
+            "mean_error_per_lap_s": -2.2733150556024655,
+            "median_error_per_lap_s": -1.556717786250502,
+            "mae_per_lap_s": 2.6548076494339896,
+            "coverage": 0.04523809523809524,
+            "mean_width_s": 1.1940508142260642,
+            "lower_misses": 1,
+            "upper_misses": 46,
+            "lower_miss_rate": 0.16666666666666666,
+            "upper_miss_rate": 0.7880952380952378,
+            "interval_score_s": 22.058672881687443
+          }
+        }
+      },
+      "5": {
+        "n": 1284,
+        "contributing_races": 3,
+        "race_weights": {
+          "bahrain_2021": 0.3333333333333333,
+          "spain_2022": 0.3333333333333333,
+          "france_2022": 0.3333333333333333
+        },
+        "mae_s": 2.0230207334428942,
+        "bias_s": -0.8335481408174767,
+        "median_error_s": -0.6395435081751657,
+        "mean_error_per_lap_s": -0.16670962816349547,
+        "median_error_per_lap_s": -0.12790870163503315,
+        "mae_per_lap_s": 0.4046041466885792,
+        "coverage": 0.5189381956584888,
+        "mean_width_s": 3.621495337579537,
+        "lower_misses": 164,
+        "upper_misses": 469,
+        "lower_miss_rate": 0.13556528254268696,
+        "upper_miss_rate": 0.34549652179881796,
+        "interval_score_s": 12.530718049409412,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 1034,
+            "contributing_races": 3,
+            "race_weights": {
+              "bahrain_2021": 0.3333333333333333,
+              "spain_2022": 0.3333333333333333,
+              "france_2022": 0.3333333333333333
+            },
+            "mae_s": 1.8626691065916792,
+            "bias_s": -0.6509704572118713,
+            "median_error_s": -0.5457145507415362,
+            "mean_error_per_lap_s": -0.13019409144237443,
+            "median_error_per_lap_s": -0.10914291014830724,
+            "mae_per_lap_s": 0.37253382131833646,
+            "coverage": 0.5451564185544835,
+            "mean_width_s": 3.65873759831614,
+            "lower_misses": 146,
+            "upper_misses": 330,
+            "lower_miss_rate": 0.14350697037590224,
+            "upper_miss_rate": 0.31133661106962096,
+            "interval_score_s": 10.991334723194916
+          },
+          "with_stop": {
+            "n": 250,
+            "contributing_races": 3,
+            "race_weights": {
+              "bahrain_2021": 0.3333333333333333,
+              "spain_2022": 0.3333333333333333,
+              "france_2022": 0.3333333333333333
+            },
+            "mae_s": 4.2829931265526895,
+            "bias_s": -3.549135414418106,
+            "median_error_s": -2.2158178648538183,
+            "mean_error_per_lap_s": -0.7098270828836213,
+            "median_error_per_lap_s": -0.44316357297076364,
+            "mae_per_lap_s": 0.8565986253105378,
+            "coverage": 0.3452612112806284,
+            "mean_width_s": 3.432909213532135,
+            "lower_misses": 18,
+            "upper_misses": 139,
+            "lower_miss_rate": 0.05397595931576515,
+            "upper_miss_rate": 0.6007628294036054,
+            "interval_score_s": 34.77152658008674
+          }
+        }
+      },
+      "10": {
+        "n": 1085,
+        "contributing_races": 3,
+        "race_weights": {
+          "bahrain_2021": 0.3333333333333333,
+          "spain_2022": 0.3333333333333333,
+          "france_2022": 0.3333333333333333
+        },
+        "mae_s": 3.840345515728309,
+        "bias_s": -1.2867073417038972,
+        "median_error_s": -1.2351694006163143,
+        "mean_error_per_lap_s": -0.12867073417038907,
+        "median_error_per_lap_s": -0.12351694006163143,
+        "mae_per_lap_s": 0.3840345515728307,
+        "coverage": 0.5029356545485527,
+        "mean_width_s": 6.772892092815355,
+        "lower_misses": 139,
+        "upper_misses": 403,
+        "lower_miss_rate": 0.1495915929095653,
+        "upper_miss_rate": 0.34747275254187354,
+        "interval_score_s": 23.551440819933905,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 645,
+            "contributing_races": 3,
+            "race_weights": {
+              "bahrain_2021": 0.3333333333333333,
+              "spain_2022": 0.3333333333333333,
+              "france_2022": 0.3333333333333333
+            },
+            "mae_s": 3.8379347140410074,
+            "bias_s": -1.2306558391599858,
+            "median_error_s": -1.1862504698523253,
+            "mean_error_per_lap_s": -0.12306558391599831,
+            "median_error_per_lap_s": -0.11862504698523253,
+            "mae_per_lap_s": 0.38379347140410086,
+            "coverage": 0.4983474380026086,
+            "mean_width_s": 7.071092055042806,
+            "lower_misses": 108,
+            "upper_misses": 217,
+            "lower_miss_rate": 0.16915691269139518,
+            "upper_miss_rate": 0.33249564930599407,
+            "interval_score_s": 22.66726423032911
+          },
+          "with_stop": {
+            "n": 440,
+            "contributing_races": 3,
+            "race_weights": {
+              "bahrain_2021": 0.3333333333333333,
+              "spain_2022": 0.3333333333333333,
+              "france_2022": 0.3333333333333333
+            },
+            "mae_s": 5.8680428694983044,
+            "bias_s": -4.483181926473923,
+            "median_error_s": -4.405584131292471,
+            "mean_error_per_lap_s": -0.4483181926473924,
+            "median_error_per_lap_s": -0.44055841312924715,
+            "mae_per_lap_s": 0.5868042869498308,
+            "coverage": 0.34882440476190407,
+            "mean_width_s": 6.103408677874062,
+            "lower_misses": 31,
+            "upper_misses": 186,
+            "lower_miss_rate": 0.05302083333333336,
+            "upper_miss_rate": 0.5981547619047625,
+            "interval_score_s": 43.66438602640124
+          }
+        }
+      },
+      "finish": {
+        "n": 970,
+        "contributing_races": 2,
+        "race_weights": {
+          "bahrain_2021": 0.5,
+          "spain_2022": 0.5
+        },
+        "mae_s": 13.545035730992595,
+        "bias_s": -5.6893245306645595,
+        "median_error_s": -6.226058088514037,
+        "mean_error_per_lap_s": -0.3294043696615242,
+        "median_error_per_lap_s": -0.3198940980764013,
+        "mae_per_lap_s": 0.5145619219499595,
+        "coverage": 0.3839017829430597,
+        "mean_width_s": 19.086057986457845,
+        "lower_misses": 86,
+        "upper_misses": 511,
+        "lower_miss_rate": 0.09039297168672626,
+        "upper_miss_rate": 0.5257052453702072,
+        "interval_score_s": 82.67206355533861,
+        "by_subject_pit_stop": {
+          "without_stop": {
+            "n": 284,
+            "contributing_races": 2,
+            "race_weights": {
+              "bahrain_2021": 0.5,
+              "spain_2022": 0.5
+            },
+            "mae_s": 8.734564898753298,
+            "bias_s": -8.21392114589287,
+            "median_error_s": -7.029956246990196,
+            "mean_error_per_lap_s": -0.709903084061481,
+            "median_error_per_lap_s": -0.5899624405653466,
+            "mae_per_lap_s": 0.7454004628239356,
+            "coverage": 0.28677466272129964,
+            "mean_width_s": 9.436143907823322,
+            "lower_misses": 4,
+            "upper_misses": 202,
+            "lower_miss_rate": 0.013491148001404284,
+            "upper_miss_rate": 0.6997341892772952,
+            "interval_score_s": 56.27026906175632
+          },
+          "with_stop": {
+            "n": 686,
+            "contributing_races": 2,
+            "race_weights": {
+              "bahrain_2021": 0.5,
+              "spain_2022": 0.5
+            },
+            "mae_s": 15.383158752347478,
+            "bias_s": -4.041967859988703,
+            "median_error_s": -5.312131490165484,
+            "mean_error_per_lap_s": -0.16123834328387152,
+            "median_error_per_lap_s": -0.16203362699848475,
+            "mae_per_lap_s": 0.4205010565638049,
+            "coverage": 0.44184857511225456,
+            "mean_width_s": 23.185032252338647,
+            "lower_misses": 82,
+            "upper_misses": 309,
+            "lower_miss_rate": 0.1256835459920863,
+            "upper_miss_rate": 0.43246787889565447,
+            "interval_score_s": 92.02502390891858
+          }
+        }
+      }
+    }
+  }
+}

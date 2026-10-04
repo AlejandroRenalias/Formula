@@ -1,0 +1,44 @@
+{
+  "primary": {
+    "selected_configuration": "wear",
+    "bias_rule": "absolute",
+    "baseline_bias_s": -2.3433399051303514,
+    "eligible_configurations": [
+      "wear"
+    ],
+    "minimum_equal_race_mae_s": {
+      "10": 3.8286069213283285,
+      "finish": 14.596512410257732
+    },
+    "joint_minimum_winners": [
+      "wear"
+    ],
+    "reason": "minimum at both horizons",
+    "tie_order": [
+      "wear",
+      "ablation_a",
+      "ablation_b"
+    ]
+  },
+  "signed_audit": {
+    "selected_configuration": "wear",
+    "bias_rule": "signed",
+    "baseline_bias_s": -2.3433399051303514,
+    "eligible_configurations": [
+      "wear"
+    ],
+    "minimum_equal_race_mae_s": {
+      "10": 3.8286069213283285,
+      "finish": 14.596512410257732
+    },
+    "joint_minimum_winners": [
+      "wear"
+    ],
+    "reason": "minimum at both horizons",
+    "tie_order": [
+      "wear",
+      "ablation_a",
+      "ablation_b"
+    ]
+  }
+}

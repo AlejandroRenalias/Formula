@@ -1,0 +1,42 @@
+{
+  "network_blocked_replay": true,
+  "counts": {
+    "ablation_a": {
+      "snapshots": 1400,
+      "predictions": 5446
+    },
+    "ablation_b": {
+      "snapshots": 1400,
+      "predictions": 5446
+    }
+  },
+  "source_and_inputs_sha256": {
+    "docs\\evaluation\\development_parameters_ablation_a\\bahrain_2021\\manifest.json": "152ec34c6d91a6170e2681669f939d77e080f88d071a5c0eba5f2912c1fda669",
+    "data\\cache\\evaluation\\bahrain_2021\\snapshots_parameters_ablation_a.jsonl": "b8a6f61e72a45505f8a90366e9d6538abe009bea1723d94d0fe233f9c54932be",
+    "docs\\evaluation\\development_parameters_ablation_a\\bahrain_2021\\predictions.jsonl": "a304e9ec693a14c10708aee2064a276354e5d450e19a8ee6a7ff15efb20b2453",
+    "docs\\evaluation\\development_parameters_ablation_b\\bahrain_2021\\manifest.json": "6735b0b70f3c42efa8219d8fb8ca0b7de5e15acb7ea068587578a6740f758678",
+    "data\\cache\\evaluation\\bahrain_2021\\snapshots_parameters_ablation_b.jsonl": "cc9e79f468ad51d25f093ca064bc4cac4e2382b3a833aad8666f3ca0a1a3b4f2",
+    "docs\\evaluation\\development_parameters_ablation_b\\bahrain_2021\\predictions.jsonl": "cd94ce2f0fecf5e7bb71e4202b735c76a93bd1acb872b8fa1450f44b68158541",
+    "docs\\evaluation\\development_parameters_ablation_a\\spain_2022\\manifest.json": "b67843d59981336829388bd2815d902a14e9ca9979998857b3905b9c52235a00",
+    "data\\cache\\evaluation\\spain_2022\\snapshots_parameters_ablation_a.jsonl": "fc4d08e977c03efc0842041330340ca321858893bcbb1015db8efbe1b27c7708",
+    "docs\\evaluation\\development_parameters_ablation_a\\spain_2022\\predictions.jsonl": "1cee39a96e05426d43529f3beb4a1b1daac7718bc8a1d3251b1cc105a7db80d8",
+    "docs\\evaluation\\development_parameters_ablation_b\\spain_2022\\manifest.json": "cf0813355e7d577973a0db7691ba829308601b45661beb0af36a682ec275150e",
+    "data\\cache\\evaluation\\spain_2022\\snapshots_parameters_ablation_b.jsonl": "f00f3086cdcbefda669980e2a75bb88663492370c976649afa23887b60fcb4de",
+    "docs\\evaluation\\development_parameters_ablation_b\\spain_2022\\predictions.jsonl": "c1d123515c8cac10f420033d033f9a48063574d1addff77225cf4e3a85acc37b",
+    "docs\\evaluation\\development_parameters_ablation_a\\france_2022\\manifest.json": "36a20bc8b43cb0e03353cace9c5ff2a43975825c9605055a09397b3ce8958f25",
+    "data\\cache\\evaluation\\france_2022\\snapshots_parameters_ablation_a.jsonl": "b094494110d2381a4307f6dbcc28f8f6312b8b478de46c3584f8c009f6804ca8",
+    "docs\\evaluation\\development_parameters_ablation_a\\france_2022\\predictions.jsonl": "edee4bb276ac6fe5ba196df42c05ce116c2f987491df1073bf4d1d7dc476572b",
+    "docs\\evaluation\\development_parameters_ablation_b\\france_2022\\manifest.json": "6c6555ce31206361131088c44ffee33df14dc13d1fce64ddf0dc245105b25c1c",
+    "data\\cache\\evaluation\\france_2022\\snapshots_parameters_ablation_b.jsonl": "3e6f610ec4d6b7cf5995cb4b53c11922df086c70f54b4f8f74533e40dee3bf97",
+    "docs\\evaluation\\development_parameters_ablation_b\\france_2022\\predictions.jsonl": "d6fe97f68418a56fd1a3d22ad8cdb78ce19a0dbed9e524e486cb8a71eb941f68",
+    "docs\\evaluation\\development_parameters_wear\\bahrain_2021\\predictions.jsonl": "19839f8a020eefe1995eb7060efcee98ef6ce60a26426728a61929b245be191d",
+    "docs\\evaluation\\development_parameters_wear\\spain_2022\\predictions.jsonl": "aa23341ad8f0e8096eac5d201853746d5fd901d5cb4c30555edc1773487305d1",
+    "docs\\evaluation\\development_parameters_wear\\france_2022\\predictions.jsonl": "f8b05df4afcdfe950afee8df9317f902e848299f99527a5f03eefcf8d2947eb5",
+    "docs\\evaluation\\development_parameters_offsets\\bahrain_2021\\predictions.jsonl": "2cb1bfea31fc26310923e444b211266e3608a3c550264f0209d39d5a8df4d8ff",
+    "docs\\evaluation\\development_parameters_offsets\\spain_2022\\predictions.jsonl": "eb26f2ffc716e6c32565b42bce0c589ed3e4a0898ee0fd463e5c456f5c373684",
+    "docs\\evaluation\\development_parameters_offsets\\france_2022\\predictions.jsonl": "38f4d6de14d2c0edf41635269b2edf1ba83444d4c3847162ea1c52e1adb225b5",
+    "C:\\Users\\aleja\\OneDrive\\Documents\\ChatGPT\\Formula\\Formula-repo\\tools\\evaluate_ablation.py": "0b316c45f343856914f70d77a45d022a4291e590c9a78fc39e40dd2d77621f65",
+    "src\\evaluation\\selection.py": "20d48fdc3caece77d58b385293b07581b0daf819ba33e672f1444e1544816b0d",
+    "docs\\evaluation\\development_ablation\\PROTOCOL.md": "b86ef86b136d6d9132fa9ecceb0d05e12183010a5c853193a77cda3461ded6ed"
+  }
+}
