@@ -559,3 +559,23 @@ accuracy worsens while coverage improves. No rates or intervals were tuned.
 All horizons, pit strata and matched metrics: docs/evaluation/development_future/REPORT.md.
 Verification: 183 full-suite tests plus the added SC subject-clock regression
 passed; all three offline manifests/source hashes and cutoff timestamps checked.
+
+## Outcome-only reporting views and race weighting
+
+Green-only rows have a GREEN cutoff and no actual SC/VSC status (4/6/7) at
+any point through the target crossing. These post-prediction labels never
+enter state, parameters or event sampling. Both pit and no-pit rows remain;
+every metric keeps the subject-stop split. Equal-race pooling assigns each
+available race total weight 1/R, then each row within its race weight 1/(R*N).
+Pit strata normalize separately within contributing races. Medians are weighted
+medians of individual errors; counts remain raw integer misses, with balanced
+miss rates reported separately. Missing cells are unavailable, never zeros.
+France contributes no green-only finish rows, so that cell uses two races.
+
+Final full equal-race finish coverage is 78.1%, MAE 28.688 s and bias -15.762 s;
+full prediction pooling is 78.1%, MAE 27.664 s and bias -14.384 s. Green-only
+equal-race mean error/lap at 1/5/10/finish is +0.065/-0.109/-0.065/-0.019 s.
+Report and all matched stage comparisons:
+docs/evaluation/development_neutralization_views/REPORT.md and COMPARISONS.md.
+This report-only step leaves every saved prediction unchanged. Held-out and
+wet evaluation races remain unrun; no UI source or artifact was changed.

@@ -1,0 +1,33 @@
+{
+  "network_blocked": true,
+  "report_only": true,
+  "input_sha256": {
+    "docs\\evaluation\\bahrain_2021_pit_split\\predictions.csv": "aa8f45dbeb504c5c678b3e88d0cfc7687eccca564a7d1035d4a47ad095227344",
+    "docs\\evaluation\\bahrain_2021_pit_split\\manifest.json": "30fc3440d3928ee19275bd2a8cb6eb1b19b84cbee7d64c0b71090b14be82d8f5",
+    "data\\cache\\evaluation\\bahrain_2021\\snapshots_bahrain_2021_pit_split.jsonl": "c2f7fa90fc560051d87dceb0a219d5c957a686313777f83ea0b446c901916e26",
+    "docs\\evaluation\\spain_2022_pit_split\\predictions.csv": "91b178443ed7111d65739222d48ae4d4214c74db9d017c1ffc5a59f69b80340b",
+    "docs\\evaluation\\spain_2022_pit_split\\manifest.json": "3a48ff244b9da47cb466c59a4e2abef702d3fa38c024f7fbd81e914c89d92749",
+    "data\\cache\\evaluation\\spain_2022\\snapshots_spain_2022_pit_split.jsonl": "803a360d64adca9c8e9bad3d53b0a80662265158f5b805dcaea9e6f9e99734b3",
+    "docs\\evaluation\\france_2022_pit_split\\predictions.csv": "eb7ee142efb42b4abd7c01fe82f276e692150c51676d334f95d5c1a109d66932",
+    "docs\\evaluation\\france_2022_pit_split\\manifest.json": "3aaa7905be2fa7a2cff9ccd68f271271684c2cd66a4b529aea9df2db704c585f",
+    "data\\cache\\evaluation\\france_2022\\snapshots_france_2022_pit_split.jsonl": "91bcaf9bb300c6d09f39089d581748978aa97d481ccdcc8557a643b7942d4395",
+    "docs\\evaluation\\bahrain_2021_ongoing\\predictions.csv": "302d343567e7d30c225c2f5a907c3b4b85ee805245fd2960c80d8544a78d4916",
+    "docs\\evaluation\\bahrain_2021_ongoing\\manifest.json": "e6e4ff644d9ea73760fe594b5d2d82617a330f4ce5b836a1f3e24a149fccd9c9",
+    "data\\cache\\evaluation\\bahrain_2021\\snapshots_bahrain_2021_ongoing.jsonl": "895e4a6679aa1028b6f0928e5d55566036617c32df578e09bc221c006d446eb8",
+    "docs\\evaluation\\spain_2022_ongoing\\predictions.csv": "91b178443ed7111d65739222d48ae4d4214c74db9d017c1ffc5a59f69b80340b",
+    "docs\\evaluation\\spain_2022_ongoing\\manifest.json": "1b2c74dffa094cee351b83bf2e36de8db8f7df30bcd55fcd96347ca14a7271ce",
+    "data\\cache\\evaluation\\spain_2022\\snapshots_spain_2022_ongoing.jsonl": "59a291640486e780a2c8a37509409a7df5a41550072f55267311a078d51b89e7",
+    "docs\\evaluation\\france_2022_ongoing\\predictions.csv": "03e905c34bcd8b647c414f1fd9e270493eb8f1c1878879efbb46eadb4a70350c",
+    "docs\\evaluation\\france_2022_ongoing\\manifest.json": "aca6e087418295e89883b1bb28bc3112d47e232c7cd1d29e4068679b54a62725",
+    "data\\cache\\evaluation\\france_2022\\snapshots_france_2022_ongoing.jsonl": "240d47835955ef36ea15dc99421ae43b9b1309b547ae67d8b11986a229fd9c1a",
+    "docs\\evaluation\\bahrain_2021_future\\predictions.csv": "599df9a219b3dc9e665a2a04e7dc870d3464635b99ac4300c9f660d4fdb31aed",
+    "docs\\evaluation\\bahrain_2021_future\\manifest.json": "b366d9cf41993161c8cc277d941207408feea2b01da650fd8b9bbd1e61488b97",
+    "data\\cache\\evaluation\\bahrain_2021\\snapshots_bahrain_2021_future.jsonl": "5de79fc782b1469ff981300ff1d1e6d37240dcdd82c0a4aef8ef867bebf1d6f4",
+    "docs\\evaluation\\spain_2022_future\\predictions.csv": "b1d035769746ebd3297449a5ea43ada45850f0cbaca0e0bc4813483938917b1a",
+    "docs\\evaluation\\spain_2022_future\\manifest.json": "afeb6ab60cfab9041c69cc93386db6990bffa36529afb4e381b92fdb7216b568",
+    "data\\cache\\evaluation\\spain_2022\\snapshots_spain_2022_future.jsonl": "f6d0e53ace8c463045fc80e42a71701ec9e1c8b9ef2c2bff6ad06aa5d8da555d",
+    "docs\\evaluation\\france_2022_future\\predictions.csv": "827125d4a46a25ae4f67811444bc7df6b04f8c4998158e283a85ca4a1079bf65",
+    "docs\\evaluation\\france_2022_future\\manifest.json": "2058c2222b72996f15c6fc343cbe60e19de58b3c1249c20afc47eea50d6cf957",
+    "data\\cache\\evaluation\\france_2022\\snapshots_france_2022_future.jsonl": "312b4ae8f35cd65ceb52ef26975c6c8b86e54703e55081c4e20539246d5c47b1"
+  }
+}
