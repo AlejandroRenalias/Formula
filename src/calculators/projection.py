@@ -1,6 +1,6 @@
 """Deterministic shared-scenario race-time projection alongside the legacy scorer."""
 from dataclasses import dataclass
-from math import isfinite
+from math import isfinite, ceil
 from random import Random
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
@@ -64,6 +64,12 @@ class ProjectionConfig(BaseModel):
     traffic_penalty_s: float = Field(default=0.4, ge=0)
     dry_grid_step_laps: int = Field(default=4, ge=1)
     max_policies: int = Field(default=9, ge=2, le=20)
+    future_sc_probability: float = Field(default=0.0, ge=0, le=1)
+    future_vsc_probability: float = Field(default=0.0, ge=0, le=1)
+    sc_duration_prior_s: tuple[float, ...] = ()
+    vsc_duration_prior_s: tuple[float, ...] = ()
+    sc_pace_multiplier: float = Field(default=1.0, ge=1)
+    vsc_pace_multiplier: float = Field(default=1.0, ge=1)
     ongoing_neutralization_laps: int | None = Field(default=None, ge=0)
     safety_car_lap: int | None = Field(default=None, ge=1)
     safety_car_duration_laps: int = Field(default=2, ge=1)
@@ -77,6 +83,12 @@ class ProjectionConfig(BaseModel):
 
     @model_validator(mode="after")
     def valid_sweep_ranges(self):
+        if self.future_sc_probability + self.future_vsc_probability > 1:
+            raise ValueError("Combined neutralization probability exceeds one")
+        for probability, durations in ((self.future_sc_probability, self.sc_duration_prior_s),
+                                       (self.future_vsc_probability, self.vsc_duration_prior_s)):
+            if probability and not durations or any(not isfinite(d) or d <= 0 for d in durations):
+                raise ValueError("Positive neutralization risk requires positive finite durations")
         if any(not 0 <= p <= 1 for p in self.rain_probability_sweep):
             raise ValueError("Rain probability sweep values must be between zero and one")
         if any(p < 0 for p in self.pit_loss_sweep_s):
@@ -92,6 +104,7 @@ class Scenario:
     degradation_multiplier: float = 1.0
     base_pace_offset_s: float = 0.0
     lap_noise_s: tuple[float, ...] = ()
+    neutralization_events: tuple[tuple[int, str, int], ...] = ()
 
 
 @dataclass
@@ -183,13 +196,14 @@ def sample_scenarios(state: RaceState, config: ProjectionConfig) -> tuple[Scenar
     noise_draws = (normal_draws(config.seed + 3, config.lap_noise_sigma_s,
                               state.total_laps - state.current_lap)
                    if config.lap_noise_sigma_s else [() for _ in draws])
+    event_draws = [_sample_neutralizations(state, config, i) for i in range(len(draws))]
     for rains, mass in ((False, 1 - probability), (True, probability)):
         if mass <= 0:
             continue
-        for (offset, pit_offset), wear, pace, noise in zip(draws, wear_draws, pace_draws, noise_draws):
+        for (offset, pit_offset), wear, pace, noise, events in zip(draws, wear_draws, pace_draws, noise_draws, event_draws):
             rain_lap = (state.current_lap if state.observed_weather.rainfall.value else
                         max(state.current_lap + 1, state.current_lap + int(eta) + offset)) if rains else None
-            scenarios.append(Scenario(rain_lap, pit_offset, mass / len(draws), wear, pace[0], noise))
+            scenarios.append(Scenario(rain_lap, pit_offset, mass / len(draws), wear, pace[0], noise, events))
     return tuple(scenarios)
 
 
@@ -215,7 +229,38 @@ def _wet_compound(state, wetness, config):
     return best if cost(best) < cost(TireCompound.HARD) else None
 
 
-def _status(state, boundary, config):
+def _sample_neutralizations(state, config, index):
+    """Independent shared-policy timeline; only frozen priors and cutoff inputs."""
+    if not (config.future_sc_probability or config.future_vsc_probability):
+        return ()
+    rng = Random(config.seed + 1000 + index)  # nosec B311
+    events = []
+    lap = state.current_lap + 1
+    green_pace = (config.base_pace_s or state.subject_driver.last_lap_time_s) + TyreModel.lap_delta_s(
+        state.subject_driver.current_compound, state.subject_driver.stint_length_laps)
+    while lap <= state.total_laps:
+        if _status(state, lap, config) in (TrackStatus.SAFETY_CAR, TrackStatus.VSC):
+            lap += 1
+            continue
+        draw = rng.random()
+        kind = ('SC' if draw < config.future_sc_probability else
+                'VSC' if draw < config.future_sc_probability + config.future_vsc_probability else None)
+        if kind:
+            durations = config.sc_duration_prior_s if kind == 'SC' else config.vsc_duration_prior_s
+            factor = config.sc_pace_multiplier if kind == 'SC' else config.vsc_pace_multiplier
+            duration = max(1, ceil(rng.choice(durations) / (green_pace * factor)))
+            events.append((lap, kind, duration))
+            lap += duration
+        else:
+            lap += 1
+    return tuple(events)
+
+
+def _status(state, boundary, config, scenario=None):
+    if scenario is not None:
+        for start, kind, duration in scenario.neutralization_events:
+            if start <= boundary < start + duration:
+                return TrackStatus.SAFETY_CAR if kind == 'SC' else TrackStatus.VSC
     if config.safety_car_lap is None:
         if (config.ongoing_neutralization_laps is not None and state.track_status in
                 (TrackStatus.SAFETY_CAR, TrackStatus.VSC)):
@@ -227,8 +272,10 @@ def _status(state, boundary, config):
 
 def _pit_loss(state, scenario, lap, config):
     status = state.track_status
+    if config.future_sc_probability or config.future_vsc_probability:
+        status = _status(state, lap, config, scenario)
     # Stop at boundary 18 is committed before hypothetical SC onset 19.
-    if lap > state.current_lap + 1:
+    elif lap > state.current_lap + 1:
         status = _status(state, lap - 1, config)
     return PitLossModel.calculate_pit_loss(status,
         green_loss_s=max(0, state.pit_loss.green_pit_loss_s + scenario.pit_offset_s),
@@ -367,11 +414,16 @@ def simulate_policy(state: RaceState, policy: Policy, scenario: Scenario,
     total = 0.0
     pending_pit_loss = 0.0
     for lap in range(state.current_lap + 1, state.total_laps + 1):
-        running_sc = _status(state, lap, config) == TrackStatus.SAFETY_CAR
+        running_status = _status(state, lap, config, scenario)
+        running_sc = running_status == TrackStatus.SAFETY_CAR
+        prior_effects = bool(config.future_sc_probability or config.future_vsc_probability)
+        if prior_effects and not running_sc:
+            compressed = False
         if running_sc and not compressed:
             # Instant pack compression precedes this lap's running/stop costs.
             ordered = sorted([(total, -1)] + [(r["time"], i) for i, r in enumerate(rivals)])
-            leader = ordered[0][0]
+            leader = (total - next(i for i, (_, index) in enumerate(ordered) if index == -1)
+                      * config.safety_car_pack_gap_s) if prior_effects else ordered[0][0]
             for position, (_, index) in enumerate(ordered):
                 packed = leader + position * config.safety_car_pack_gap_s
                 if index == -1:
@@ -389,7 +441,7 @@ def simulate_policy(state: RaceState, policy: Policy, scenario: Scenario,
             target = _cutoff_target(state, policy, config)
         opportunistic = False
         if (not fixed_schedule and lap > state.current_lap + 1
-                and _status(state, lap - 1, config) == TrackStatus.SAFETY_CAR and target is None):
+                and _status(state, lap - 1, config, scenario) == TrackStatus.SAFETY_CAR and target is None):
             target = _sc_opportunity(state, policy, scenario, config, lap, compound, age, stops, remaining, wetness, scale)
             opportunistic = target is not None
             if target is not None and remaining and remaining[0].compound == target:
@@ -437,14 +489,19 @@ def simulate_policy(state: RaceState, policy: Policy, scenario: Scenario,
             rival_losses.append(rival_loss)
         if running_sc:
             # Common neutralized pace prevents fresh-tyre racing under SC.
-            neutral_pace = max([own_pace] + rival_paces) + config.safety_car_pace_delay_s
+            neutral_pace = ((base + delta(subject.current_compound, subject.stint_length_laps) - fuel
+                             + scenario.base_pace_offset_s + noise) * config.sc_pace_multiplier
+                            if prior_effects else max([own_pace] + rival_paces) + config.safety_car_pace_delay_s)
             own_pace = neutral_pace
             rival_paces = [neutral_pace for _ in rivals]
+        elif prior_effects and running_status == TrackStatus.VSC:
+            own_pace *= config.vsc_pace_multiplier
+            rival_paces = [p * config.vsc_pace_multiplier for p in rival_paces]
         traffic = 0.0
         for rival, rival_pace, rival_loss in zip(rivals, rival_paces, rival_losses):
             # Gap at the start of the running segment, after this lap's stop costs.
             gap = total + loss - (rival["time"] + rival_loss)
-            if not running_sc and 0 < gap <= config.traffic_gap_s and rival_pace <= own_pace:
+            if not running_sc and not (prior_effects and running_status == TrackStatus.VSC) and 0 < gap <= config.traffic_gap_s and rival_pace <= own_pace:
                 traffic = config.traffic_penalty_s
                 break
         total += own_pace + traffic + loss

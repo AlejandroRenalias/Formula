@@ -18,7 +18,7 @@ from src.core.models import (CompetitorState, DerivedPaceMetrics, LapObservation
 from src.core.provenance import DataQuality, DataSource, ProvenanceMetric
 
 from src.evaluation.races import DEVELOPMENT_RACES, race_key
-from src.evaluation.neutralization_prior import ongoing_inputs
+from src.evaluation.neutralization_prior import ongoing_inputs, load_prior
 
 EPOCH = datetime(1970, 1, 1, tzinfo=timezone.utc)
 STATUS = {"1": TrackStatus.GREEN, "2": TrackStatus.YELLOW,
@@ -274,7 +274,14 @@ def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None):
     if status is None or status == TrackStatus.RED_FLAG:
         raise ExcludedSnapshot("unsupported_track_status")
     ongoing_laps, ongoing_audit = ongoing_inputs(track, cutoff, status, base_pace + TyreModel.lap_delta_s(compound, age))
-    config = config.model_copy(update={"ongoing_neutralization_laps":ongoing_laps})
+    prior, _ = load_prior()
+    config = config.model_copy(update={"ongoing_neutralization_laps":ongoing_laps,
+        "future_sc_probability":prior["sc_probability_per_green_lap"],
+        "future_vsc_probability":prior["vsc_probability_per_green_lap"],
+        "sc_duration_prior_s":tuple(prior["sc_durations_s"]),
+        "vsc_duration_prior_s":tuple(prior["vsc_durations_s"]),
+        "sc_pace_multiplier":prior["sc_pace_multiplier"],
+        "vsc_pace_multiplier":prior["vsc_pace_multiplier"]})
     loss = PitLossModel.calculate_pit_loss(status).current_pit_loss_s
     pos, gap = TrafficModel.predict_rejoin(own, rivals, loss)
     def measured(value):

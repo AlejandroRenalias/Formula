@@ -21,7 +21,7 @@ from src.evaluation.prediction import actual_plan, predict, score_targets
 from src.evaluation.snapshot import ExcludedSnapshot, build_snapshot, load_dataset
 
 DEFAULT_DATA = Path("data/cache/evaluation/bahrain_2021/session.json")
-DEFAULT_OUTPUT = Path("docs/evaluation/bahrain_2021_ongoing")
+DEFAULT_OUTPUT = Path("docs/evaluation/bahrain_2021_future")
 
 
 def evaluate_one(data, driver, lap):
@@ -192,7 +192,7 @@ def write_report(rows, exclusions, snapshots, manifest, output):
         "No regression-based degradation or race-wide fitting is used.",
         "- Dry persistence, no forecast; seed 18, 32 shared samples, uniform pit offsets "
         "+/-1.5s and wear multipliers +/-15%. " + uncertainty_text +
-        "Random traffic, damage, strategic lift-off, warm-up and future neutralizations remain unmodeled.",
+        "Future SC/VSC onset, duration and pace effects use the frozen 2019 prior. Random traffic, damage, strategic lift-off and warm-up remain unmodeled.",
         "- Actual subject stop schedule/compounds are supplied only AFTER constructing "
         "the snapshot, as conditional treatment. Autonomous subject stops are suppressed. "
         "Corrected full-session tyre labels are used only for this actual-plan treatment, "

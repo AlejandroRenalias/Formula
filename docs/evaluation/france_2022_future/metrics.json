@@ -1,0 +1,178 @@
+{
+  "1": {
+    "n": 429,
+    "mae_s": 1.4550029007777903,
+    "bias_s": -1.181387492107599,
+    "median_error_s": -0.0826101500799723,
+    "mean_error_per_lap_s": -1.181387492107599,
+    "median_error_per_lap_s": -0.0826101500799723,
+    "mae_per_lap_s": 1.4550029007777903,
+    "coverage": 0.6293706293706294,
+    "mean_width_s": 0.9370646206339593,
+    "lower_misses": 62,
+    "upper_misses": 97,
+    "interval_score_s": 12.752951175045023,
+    "by_subject_pit_stop": {
+      "without_stop": {
+        "n": 418,
+        "mae_s": 0.9495026889032874,
+        "bias_s": -0.6686868747417754,
+        "median_error_s": -0.07497104741690208,
+        "mean_error_per_lap_s": -0.6686868747417754,
+        "median_error_per_lap_s": -0.07497104741690208,
+        "mae_per_lap_s": 0.9495026889032874,
+        "coverage": 0.645933014354067,
+        "mean_width_s": 0.9332289683215681,
+        "lower_misses": 62,
+        "upper_misses": 86,
+        "interval_score_s": 7.762468758120261
+      },
+      "with_stop": {
+        "n": 11,
+        "mae_s": 20.664010952008898,
+        "bias_s": -20.664010952008898,
+        "median_error_s": -18.451337010632685,
+        "mean_error_per_lap_s": -20.664010952008898,
+        "median_error_per_lap_s": -18.451337010632685,
+        "mae_per_lap_s": 20.664010952008898,
+        "coverage": 0.0,
+        "mean_width_s": 1.0828194085048273,
+        "lower_misses": 0,
+        "upper_misses": 11,
+        "interval_score_s": 202.391283018186
+      }
+    }
+  },
+  "5": {
+    "n": 429,
+    "mae_s": 15.288142394537646,
+    "bias_s": -11.447906741216395,
+    "median_error_s": -0.5726740767822776,
+    "mean_error_per_lap_s": -2.2895813482432787,
+    "median_error_per_lap_s": -0.11453481535645552,
+    "mae_per_lap_s": 3.057628478907529,
+    "coverage": 0.45454545454545453,
+    "mean_width_s": 3.4769740643381657,
+    "lower_misses": 82,
+    "upper_misses": 152,
+    "interval_score_s": 144.50240175427675,
+    "by_subject_pit_stop": {
+      "without_stop": {
+        "n": 374,
+        "mae_s": 6.927797590972786,
+        "bias_s": -2.5228214003984095,
+        "median_error_s": -0.1734779768420367,
+        "mean_error_per_lap_s": -0.5045642800796819,
+        "median_error_per_lap_s": -0.03469559536840734,
+        "mae_per_lap_s": 1.3855595181945572,
+        "coverage": 0.5213903743315508,
+        "mean_width_s": 3.581483927331335,
+        "lower_misses": 82,
+        "upper_misses": 97,
+        "interval_score_s": 61.3134903347332
+      },
+      "with_stop": {
+        "n": 55,
+        "mae_s": 72.13848705877868,
+        "bias_s": -72.13848705877868,
+        "median_error_s": -94.71982404875916,
+        "mean_error_per_lap_s": -14.427697411755737,
+        "median_error_per_lap_s": -18.943964809751833,
+        "mae_per_lap_s": 14.427697411755737,
+        "coverage": 0.0,
+        "mean_width_s": 2.766306995984616,
+        "lower_misses": 0,
+        "upper_misses": 55,
+        "interval_score_s": 710.1869994071727
+      }
+    }
+  },
+  "10": {
+    "n": 379,
+    "mae_s": 31.956897404690057,
+    "bias_s": -26.862274305627924,
+    "median_error_s": -2.575688127627245,
+    "mean_error_per_lap_s": -2.6862274305627922,
+    "median_error_per_lap_s": -0.25756881276272453,
+    "mae_per_lap_s": 3.195689740469006,
+    "coverage": 0.5567282321899736,
+    "mean_width_s": 35.39207963482331,
+    "lower_misses": 61,
+    "upper_misses": 107,
+    "interval_score_s": 221.26238576567957,
+    "by_subject_pit_stop": {
+      "without_stop": {
+        "n": 269,
+        "mae_s": 9.578594928205451,
+        "bias_s": -2.4006687031327782,
+        "median_error_s": -0.12814620080939676,
+        "mean_error_per_lap_s": -0.24006687031327784,
+        "median_error_per_lap_s": -0.012814620080939676,
+        "mae_per_lap_s": 0.957859492820545,
+        "coverage": 0.7137546468401487,
+        "mean_width_s": 35.31866985706786,
+        "lower_misses": 61,
+        "upper_misses": 16,
+        "interval_score_s": 66.39083166979167
+      },
+      "with_stop": {
+        "n": 110,
+        "mae_s": 86.68201891536606,
+        "bias_s": -86.68201891536606,
+        "median_error_s": -99.9392904924207,
+        "mean_error_per_lap_s": -8.668201891536606,
+        "median_error_per_lap_s": -9.99392904924207,
+        "mae_per_lap_s": 8.668201891536606,
+        "coverage": 0.17272727272727273,
+        "mean_width_s": 35.57159990951617,
+        "lower_misses": 0,
+        "upper_misses": 91,
+        "interval_score_s": 599.9937316910781
+      }
+    }
+  },
+  "finish": {
+    "n": 429,
+    "mae_s": 57.35914104063728,
+    "bias_s": -55.723271465598714,
+    "median_error_s": -34.581114371084595,
+    "mean_error_per_lap_s": -2.3410639924890946,
+    "median_error_per_lap_s": -2.315803015679589,
+    "mae_per_lap_s": 2.389169905080925,
+    "coverage": 0.8508158508158508,
+    "mean_width_s": 140.4698675595321,
+    "lower_misses": 10,
+    "upper_misses": 54,
+    "interval_score_s": 181.47630032514866,
+    "by_subject_pit_stop": {
+      "without_stop": {
+        "n": 278,
+        "mae_s": 30.810082944936216,
+        "bias_s": -28.686727608498103,
+        "median_error_s": -30.9238603204887,
+        "mean_error_per_lap_s": -2.1582314017036577,
+        "median_error_per_lap_s": -1.8152509823537595,
+        "mae_per_lap_s": 2.220670840648081,
+        "coverage": 0.7733812949640287,
+        "mean_width_s": 110.08761884244952,
+        "lower_misses": 9,
+        "upper_misses": 54,
+        "interval_score_s": 171.65421608733672
+      },
+      "with_stop": {
+        "n": 151,
+        "mae_s": 106.23753938901407,
+        "bias_s": -105.49916015615482,
+        "median_error_s": -113.7796407886326,
+        "mean_error_per_lap_s": -2.6776696894318204,
+        "median_error_per_lap_s": -2.6302759938418085,
+        "mae_per_lap_s": 2.6993867256923867,
+        "coverage": 0.9933774834437086,
+        "mean_width_s": 196.40539831018748,
+        "lower_misses": 1,
+        "upper_misses": 0,
+        "interval_score_s": 199.55934282919978
+      }
+    }
+  }
+}

@@ -508,4 +508,54 @@ The event ends at that predicted boundary, never at its actual future ending.
 Onset timestamp must be <= cutoff; the frozen prior is available before session
 start and records latest source year 2019 and its hash. Default engine behavior
 outside evaluation remains compatible via ongoing_neutralization_laps=None.
-`nCorrection 1 results: Bahrain and Spain metrics are unchanged. France finish MAE falls from 130.620 to 67.441 s; mean bias moves from +2.818 to -60.361 s, median error remains -36.519 s, and coverage remains 0% (11 below p10 / 418 above p90). See docs/evaluation/development_ongoing/REPORT.md for all horizons and pit strata. Full verification: 179 tests passed, including real SC-cutoff future poisoning; offline source hashes and parameter timestamps verified.
+
+Correction 1 results: Bahrain and Spain metrics are unchanged. France finish MAE falls from 130.620 to 67.441 s; mean bias moves from +2.818 to -60.361 s, median error remains -36.519 s, and coverage remains 0% (11 below p10 / 418 above p90). See docs/evaluation/development_ongoing/REPORT.md for all horizons and pit strata. Full verification: 179 tests passed, including real SC-cutoff future poisoning; offline source hashes and parameter timestamps verified.
+
+## Structural neutralization correction 2: future event risk and pace
+
+The same frozen 2019 evidence supplies constant, non-track-specific per-green-lap
+onset probabilities: SC 0.00883196 and VSC 0.00588797. A categorical draw permits
+at most one onset on an eligible lap. No onset is sampled while the ongoing
+expected event or a sampled event is active. Each Monte Carlo draw has an
+independent seed+1000+index stream, shared across policies and weather branches;
+the existing weather, pit, wear and driver pace draws are unchanged.
+
+For a new event, sample uniformly from the external completed durations (8 SC,
+6 VSC). Convert seconds to whole laps with ceil(duration / (cutoff nominal green
+pace * prior pace multiplier)), minimum one lap. Events can extend past finish;
+the simulated trace clips there. Rates and distributions are not adjusted using
+Bahrain/Spain/France coverage. Whole-lap discretization particularly coarsens
+short VSC episodes. Ongoing expected duration remains deterministic from step 1.
+
+SC running pace uses cutoff nominal subject green pace, fuel progression and
+existing subject pace uncertainty, multiplied by 1.3417544; rivals share that
+pace. VSC multiplies each car's projected green pace by 1.3553914 without pack
+compression. These external pace effects apply to both sampled and ongoing
+events. This replaces the old SC maximum-of-cutoff-rival-pace plus 20 seconds,
+which can double count a rival's neutralised or pit lap. Under this enabled
+model, SC compression changes relative rival gaps but preserves subject elapsed
+time: pack rearrangement cannot move the subject's clock backward. Traffic
+penalties are disabled while neutralised. This is a coarse whole-lap model,
+not a reconstruction of the actual restart or SC train.
+
+Actual-plan entry laps active under a sampled/ongoing event use existing SC/VSC
+pit losses and the same frozen 50/50 allocation. The out-lap retains the entry
+price; no extra pit draw or later repricing occurs. Entry-lap status replaces
+boundary status only in this enabled risk model, as needed for a stop falling
+under a sampled event. Rivals retain causal tyre-life/weather assumptions. A
+policy may react to an event already active at its boundary, but never receives
+the sampled future schedule in its stop-opportunity forecast. Legacy configs
+have zero risk and preserve fixture numbers. No degradation fitting or interval
+tuning is performed; 32 draws per branch remain unchanged.
+
+Correction 2 finish results (ongoing -> future risk): Bahrain MAE 8.519 ->
+12.697 s, coverage 47.6% -> 71.6%; Spain MAE 16.702 -> 16.007 s, coverage
+39.7% -> 77.7%; France MAE 67.441 -> 57.359 s, coverage 0% -> 85.1%.
+France misses change from 11/418 below/above to 10/54; width 13.650 ->
+140.470 s. Prediction-pooled finish coverage is 78.1%, with 184 below / 123
+above among 1,400 predictions. France finish median error remains -34.581 s:
+the prior models risk, not the observed future event schedule. Bahrain point
+accuracy worsens while coverage improves. No rates or intervals were tuned.
+All horizons, pit strata and matched metrics: docs/evaluation/development_future/REPORT.md.
+Verification: 183 full-suite tests plus the added SC subject-clock regression
+passed; all three offline manifests/source hashes and cutoff timestamps checked.
