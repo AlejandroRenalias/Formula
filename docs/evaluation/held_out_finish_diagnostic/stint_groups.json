@@ -1,0 +1,200 @@
+[
+  {
+    "race": "bahrain_2024",
+    "compound": "HARD",
+    "wear": "fallback",
+    "cliff_laps": "0",
+    "stint_exposures": 36,
+    "unique_predictions": 20,
+    "mean_parent_finish_error_s": 46.05547199875736,
+    "mean_stint_length": 22.833333333333332,
+    "mean_stint_cliff_cost_s": 0.0
+  },
+  {
+    "race": "bahrain_2024",
+    "compound": "HARD",
+    "wear": "fitted",
+    "cliff_laps": "0",
+    "stint_exposures": 258,
+    "unique_predictions": 217,
+    "mean_parent_finish_error_s": 27.898034095595477,
+    "mean_stint_length": 23.492248062015506,
+    "mean_stint_cliff_cost_s": 0.0
+  },
+  {
+    "race": "bahrain_2024",
+    "compound": "SOFT",
+    "wear": "fallback",
+    "cliff_laps": "1-5",
+    "stint_exposures": 2,
+    "unique_predictions": 2,
+    "mean_parent_finish_error_s": 18.343611610846438,
+    "mean_stint_length": 21.0,
+    "mean_stint_cliff_cost_s": 2.25
+  },
+  {
+    "race": "bahrain_2024",
+    "compound": "SOFT",
+    "wear": "fallback",
+    "cliff_laps": "6-10",
+    "stint_exposures": 1,
+    "unique_predictions": 1,
+    "mean_parent_finish_error_s": 57.24873322748954,
+    "mean_stint_length": 22.0,
+    "mean_stint_cliff_cost_s": 3.15
+  },
+  {
+    "race": "bahrain_2024",
+    "compound": "SOFT",
+    "wear": "fitted",
+    "cliff_laps": "1-5",
+    "stint_exposures": 28,
+    "unique_predictions": 28,
+    "mean_parent_finish_error_s": -1.2470757933116374,
+    "mean_stint_length": 21.0,
+    "mean_stint_cliff_cost_s": 2.25
+  },
+  {
+    "race": "bahrain_2024",
+    "compound": "SOFT",
+    "wear": "fitted",
+    "cliff_laps": "6-10",
+    "stint_exposures": 29,
+    "unique_predictions": 29,
+    "mean_parent_finish_error_s": 15.724304606143914,
+    "mean_stint_length": 22.0,
+    "mean_stint_cliff_cost_s": 3.150000000000001
+  },
+  {
+    "race": "spain_2023",
+    "compound": "HARD",
+    "wear": "fallback",
+    "cliff_laps": "0",
+    "stint_exposures": 18,
+    "unique_predictions": 16,
+    "mean_parent_finish_error_s": 54.49298087410443,
+    "mean_stint_length": 27.666666666666668,
+    "mean_stint_cliff_cost_s": 0.0
+  },
+  {
+    "race": "spain_2023",
+    "compound": "HARD",
+    "wear": "fitted",
+    "cliff_laps": "0",
+    "stint_exposures": 222,
+    "unique_predictions": 220,
+    "mean_parent_finish_error_s": 38.213742264528314,
+    "mean_stint_length": 27.71171171171171,
+    "mean_stint_cliff_cost_s": 0.0
+  },
+  {
+    "race": "spain_2023",
+    "compound": "MEDIUM",
+    "wear": "fallback",
+    "cliff_laps": "0",
+    "stint_exposures": 3,
+    "unique_predictions": 3,
+    "mean_parent_finish_error_s": 84.60670808913225,
+    "mean_stint_length": 20.666666666666668,
+    "mean_stint_cliff_cost_s": 0.0
+  },
+  {
+    "race": "spain_2023",
+    "compound": "MEDIUM",
+    "wear": "fallback",
+    "cliff_laps": "1-5",
+    "stint_exposures": 2,
+    "unique_predictions": 2,
+    "mean_parent_finish_error_s": 34.18595584613968,
+    "mean_stint_length": 26.0,
+    "mean_stint_cliff_cost_s": 0.15
+  },
+  {
+    "race": "spain_2023",
+    "compound": "MEDIUM",
+    "wear": "fitted",
+    "cliff_laps": "0",
+    "stint_exposures": 39,
+    "unique_predictions": 39,
+    "mean_parent_finish_error_s": 45.06541483065439,
+    "mean_stint_length": 20.358974358974358,
+    "mean_stint_cliff_cost_s": 0.0
+  },
+  {
+    "race": "spain_2023",
+    "compound": "MEDIUM",
+    "wear": "fitted",
+    "cliff_laps": "1-5",
+    "stint_exposures": 27,
+    "unique_predictions": 27,
+    "mean_parent_finish_error_s": 9.847446461546193,
+    "mean_stint_length": 26.0,
+    "mean_stint_cliff_cost_s": 0.14999999999999997
+  },
+  {
+    "race": "spain_2023",
+    "compound": "SOFT",
+    "wear": "fallback",
+    "cliff_laps": "0",
+    "stint_exposures": 2,
+    "unique_predictions": 2,
+    "mean_parent_finish_error_s": 18.670370383486897,
+    "mean_stint_length": 15.0,
+    "mean_stint_cliff_cost_s": 0.0
+  },
+  {
+    "race": "spain_2023",
+    "compound": "SOFT",
+    "wear": "fallback",
+    "cliff_laps": "1-5",
+    "stint_exposures": 3,
+    "unique_predictions": 3,
+    "mean_parent_finish_error_s": 57.41071596515091,
+    "mean_stint_length": 18.0,
+    "mean_stint_cliff_cost_s": 0.6
+  },
+  {
+    "race": "spain_2023",
+    "compound": "SOFT",
+    "wear": "fallback",
+    "cliff_laps": "6-10",
+    "stint_exposures": 2,
+    "unique_predictions": 2,
+    "mean_parent_finish_error_s": 101.81556345325771,
+    "mean_stint_length": 23.5,
+    "mean_stint_cliff_cost_s": 4.95
+  },
+  {
+    "race": "spain_2023",
+    "compound": "SOFT",
+    "wear": "fitted",
+    "cliff_laps": "0",
+    "stint_exposures": 44,
+    "unique_predictions": 44,
+    "mean_parent_finish_error_s": -2.8154730485412385,
+    "mean_stint_length": 15.0,
+    "mean_stint_cliff_cost_s": 0.0
+  },
+  {
+    "race": "spain_2023",
+    "compound": "SOFT",
+    "wear": "fitted",
+    "cliff_laps": "1-5",
+    "stint_exposures": 94,
+    "unique_predictions": 94,
+    "mean_parent_finish_error_s": 10.368333354711208,
+    "mean_stint_length": 17.25531914893617,
+    "mean_stint_cliff_cost_s": 0.2648936170212768
+  },
+  {
+    "race": "spain_2023",
+    "compound": "SOFT",
+    "wear": "fitted",
+    "cliff_laps": "6-10",
+    "stint_exposures": 51,
+    "unique_predictions": 51,
+    "mean_parent_finish_error_s": 25.026999533457374,
+    "mean_stint_length": 22.764705882352942,
+    "mean_stint_cliff_cost_s": 4.067647058823531
+  }
+]

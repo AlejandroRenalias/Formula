@@ -1,0 +1,21 @@
+{
+  "report_only": true,
+  "network_blocked": true,
+  "no_model_calls": true,
+  "input_sha256": {
+    "data\\cache\\evaluation\\spain_2023\\snapshots_held_out.jsonl": "e7e8cd28c3941e131dbafb950a4605d9683bb0f35eb8eeed13af4815bdf7bdf4",
+    "docs\\evaluation\\held_out\\spain_2023\\predictions.jsonl": "8df3d7afb9861c212e670681e03ef91f2f3d5d40915634a8eeec34232210d13f",
+    "docs\\evaluation\\held_out\\spain_2023\\manifest.json": "56d2bec51e4a562aee481561941c9ed71910ad3f23c6d9aed975a2a3a8cb2f1d",
+    "data\\cache\\evaluation\\bahrain_2024\\snapshots_held_out.jsonl": "7def1ce0b3a0f0db9e6f7c2536b3a416fcba91d244dfcf03148e1e699c6c75df",
+    "docs\\evaluation\\held_out\\bahrain_2024\\predictions.jsonl": "f536ac166f0bab96df4b2dce49711beaa8b9c16dda9a2e04f5bdb5be2f5b2e55",
+    "docs\\evaluation\\held_out\\bahrain_2024\\manifest.json": "1832a7d4827e924f40c398341bf879fcc660e3ee71a2583e9a0ea678011ebf79"
+  },
+  "reporter_sha256": "68647fcb2a3b295ca736db7dbdc52228513d460d68fcd312833269ccdb702378",
+  "predictions": 645,
+  "output_sha256": {
+    "metrics.json": "aa5c08a81855b6c7787e2e1427ca7b175c910db896d6c6697aaf93ffdc2c19fb",
+    "prediction_stint_details.jsonl": "f7d0160d7309442d7da429ddf554098e0add8c24d9c73182e39df850f31d1582",
+    "REPORT.md": "5dbe399df31e259f5bd3e3441dc0636fbbc9678b934e0bd262d45996ea28f5b8",
+    "stint_groups.json": "57880c49aaed7fb17dd5149eabc9af9b25ec37a9786f2bdd6547f5f86e08939d"
+  }
+}
