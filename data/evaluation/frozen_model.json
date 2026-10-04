@@ -1,7 +1,7 @@
 {
   "configuration": "wear",
   "label": "pit+wear",
-  "freeze_tag": "frozen-development-model",
+  "freeze_tag": "frozen-development-model-calibrated",
   "historical_behavior_reference_commit": "02341a7",
   "ablation_implementation_commit": "e795a55",
   "selection": {
@@ -61,8 +61,36 @@
   "limitations": [
     "Spain SOFT no-stop finish mean error -1.067 s/lap.",
     "Per-race finish bias cancels in the pool: Bahrain +7.270 s, Spain -9.935 s.",
-    "Green p10-p90 undercoverage: pooled 10 laps 52.35%, finish 37.94%.",
+    "Before interval calibration, green p10-p90 undercoverage: pooled 10 laps 52.35%, finish 37.94%.",
     "Fixed fuel correction confounds track evolution with within-stint wear; compound offsets remain defaults.",
-    "Three development races cannot establish neutralisation calibration or generalisation."
-  ]
+    "Three development races cannot establish neutralisation calibration or generalisation.",
+    "Selected per-lap multiplier is on the lower grid edge; search was not extended.",
+    "Calibrated equal-race green finish coverage 73.82%; stop-containing 1-lap coverage 10.67%.",
+    "Coverage selection is in-sample; interval score increases at 1, 5 and 10 laps despite improved coverage.",
+    "Calibration does not correct Spain SOFT bias or validate neutralisation probabilities."
+  ],
+  "mean_model_freeze_tag": "frozen-development-model",
+  "pace_uncertainty_multipliers": {
+    "base_pace_uncertainty_multiplier": 3.0,
+    "lap_noise_uncertainty_multiplier": 1.0
+  },
+  "interval_calibration": {
+    "protocol_commit": "38fa925",
+    "mean_model_reference_commit": "26468084db6520ac7cb9ad2ae4898aca80257b7b",
+    "objective": "mean absolute distance to 0.80 equal-race conditional-green coverage across 1,5,10,finish",
+    "tie_break": "smaller mean horizon width; then lexicographic multipliers",
+    "selected_objective": 0.02053826343099155,
+    "selected_mean_width_s": 18.880512496678087,
+    "edge_of_grid": true,
+    "boundary": "per-lap multiplier 1.0, lower bound",
+    "candidate_count": 169,
+    "eligible_prediction_count": 4704,
+    "evidence_sha256": {
+      "PROTOCOL.md": "eaefbb097291d3adf39d149fdfb132fee242537af20fb6492d835912be5b7713",
+      "selection.json": "2ac4442861e6292fd90cfcff88c2246a40eec535fb4def8e137070eaea9f157e",
+      "metrics.json": "6fcae8b699fa6b472346ed2467fde3c67ebc4d4988f96a1110ebbb0556021882",
+      "manifest.json": "eacc0acf17d72728c9ad1c658ec708b4f23a5bcdac712045b903fccd12d907da",
+      "predictions.jsonl": "03a5725161db7c03d4ced0ff8b1445da5afa76c75773b2cff2e57f631f02e97f"
+    }
+  }
 }

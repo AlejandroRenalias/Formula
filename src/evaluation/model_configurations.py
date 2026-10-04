@@ -19,3 +19,12 @@ def resolve_configuration(configuration=None):
         configuration=json.loads(FREEZE_PATH.read_text())['configuration'] if FREEZE_PATH.exists() else 'offsets'
     if configuration not in PROFILES:raise ValueError(f'Unknown evaluation configuration: {configuration}')
     return configuration,PROFILES[configuration]
+
+
+def frozen_uncertainty_multipliers():
+    """Only the default frozen evaluation profile applies development calibration.
+
+    Explicit historical profiles keep unit multipliers for reproducibility.
+    """
+    return (json.loads(FREEZE_PATH.read_text()).get('pace_uncertainty_multipliers', {})
+            if FREEZE_PATH.exists() else {})

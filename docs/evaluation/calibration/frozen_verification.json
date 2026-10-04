@@ -1,0 +1,38 @@
+{
+  "configuration": "wear",
+  "network_blocked": true,
+  "all_saved_snapshots_match": 1400,
+  "representative_predictions_match": 31,
+  "per_race": {
+    "bahrain_2021": {
+      "snapshot_count": 429,
+      "representative_predictions_verified": 10
+    },
+    "spain_2022": {
+      "snapshot_count": 542,
+      "representative_predictions_verified": 10
+    },
+    "france_2022": {
+      "snapshot_count": 429,
+      "representative_predictions_verified": 11
+    }
+  },
+  "source_and_inputs_sha256": {
+    "data\\cache\\evaluation\\bahrain_2021\\session.json": "7b415e3a8e090ca9b5e969890f552f02238f2b4cd0e87e3fac7f73444597b15b",
+    "data\\cache\\evaluation\\bahrain_2021\\snapshots_parameters_wear.jsonl": "553a741ce82f75c2c5079f071b29cd98ca1aaac91f83fb699a7b8bfa02d023ef",
+    "docs\\evaluation\\development_parameters_wear\\bahrain_2021\\predictions.jsonl": "19839f8a020eefe1995eb7060efcee98ef6ce60a26426728a61929b245be191d",
+    "data\\cache\\evaluation\\spain_2022\\session.json": "5ac519a6f9b168b95670688adbba59d95f8620444aacb1de78a99705e758b931",
+    "data\\cache\\evaluation\\spain_2022\\snapshots_parameters_wear.jsonl": "4640a6ea294300d48e3ee1f3a45631b10430da40710a9ca39fcb8a126b38a856",
+    "docs\\evaluation\\development_parameters_wear\\spain_2022\\predictions.jsonl": "aa23341ad8f0e8096eac5d201853746d5fd901d5cb4c30555edc1773487305d1",
+    "data\\cache\\evaluation\\france_2022\\session.json": "54b9078b09b5d7cebfb536050e585fe3678d9a6eb8ad46a8e5e1af2e37a56614",
+    "data\\cache\\evaluation\\france_2022\\snapshots_parameters_wear.jsonl": "25b18ce5e07a8c15a13c25d3e5e3ebe9feef82044f500b192d2759662df50617",
+    "docs\\evaluation\\development_parameters_wear\\france_2022\\predictions.jsonl": "f8b05df4afcdfe950afee8df9317f902e848299f99527a5f03eefcf8d2947eb5",
+    "C:\\Users\\aleja\\OneDrive\\Documents\\ChatGPT\\Formula\\Formula-repo\\data\\evaluation\\frozen_model.json": "3e1bb4738d47ee38b2da43f99d9305e6dbeb13215a446f5785bd5d0ee6355605",
+    "C:\\Users\\aleja\\OneDrive\\Documents\\ChatGPT\\Formula\\Formula-repo\\tools\\verify_frozen_model.py": "ef232bbc3cefda93f371fa0204496c3351cb71a6cb9ef774bd03b11683f256c9"
+  },
+  "pace_uncertainty_multipliers": {
+    "base_pace_uncertainty_multiplier": 3.0,
+    "lap_noise_uncertainty_multiplier": 1.0
+  },
+  "prediction_check_scope": "original unit-uncertainty mean-model reference; selected intervals verified by calibration manifest"
+}

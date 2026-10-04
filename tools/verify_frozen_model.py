@@ -1,6 +1,7 @@
 """Offline identity check of the frozen default against the chosen saved run."""
 import hashlib
 import json
+from dataclasses import replace
 from pathlib import Path
 from src.evaluation.model_configurations import FREEZE_PATH,resolve_configuration
 from src.evaluation.snapshot import load_dataset,build_snapshot
@@ -17,6 +18,10 @@ def verify():
     selection_root=Path('docs/evaluation/development_ablation')
     for filename,key in (('metrics.json','selection_metrics_sha256'),('selection.json','selection_json_sha256'),('PROTOCOL.md','protocol_sha256')):
         assert hashlib.sha256((selection_root/filename).read_bytes()).hexdigest()==freeze[key]
+    calibration=freeze.get('interval_calibration')
+    if calibration:
+        for filename,digest in calibration['evidence_sha256'].items():
+            assert hashlib.sha256((Path('docs/evaluation/calibration')/filename).read_bytes()).hexdigest()==digest
     n=checked_predictions=0;hashes={};per_race={}
     with network_blocked():
         for race in RACES:
@@ -30,13 +35,19 @@ def verify():
                 state=snapshot.state.model_dump(mode='json');config=snapshot.config.model_dump(mode='json')
                 assert state==r['state'],(race,i,'state')
                 assert all(config[k]==v for k,v in r['config'].items()),(race,i,'config')
+                assert all(config[k]==v for k,v in freeze.get('pace_uncertainty_multipliers',{}).items())
                 if selected=='wear':assert config['race_trend_s_per_lap'] is None and config['compound_offsets_s']=={}
                 assert all(t<=snapshot.audit['cutoff_session_s'] for t in snapshot.audit['parameter_source_session_s'].values())
                 assert snapshot.audit['configuration']==selected
                 n+=1
                 if i in checks:
                     plan=ActualPlan(tuple(Stop.model_validate(s) for s in r['actual_subject_plan']))
-                    values=predict(snapshot,plan)
+                    # Original freeze verifies the unchanged mean model and unit
+                    # uncertainty. Calibration separately verifies every selected
+                    # conditional-green prediction against ordinary simulation.
+                    unit=snapshot.config.model_copy(update={'base_pace_uncertainty_multiplier':1.0,
+                                                           'lap_noise_uncertainty_multiplier':1.0})
+                    values=predict(replace(snapshot,config=unit),plan)
                     for old in old_rows:
                         if (old['driver_number'],old['lap'])!=(r['driver_number'],r['lap']):continue
                         for k,v in values[old['target_lap']].items():assert v==old[k],(race,i,k,v,old[k])
@@ -49,7 +60,10 @@ def verify():
         'representative_predictions_match':checked_predictions,'per_race':per_race,'source_and_inputs_sha256':hashes}
     hashes[str(FREEZE_PATH)]=hashlib.sha256(FREEZE_PATH.read_bytes()).hexdigest()
     hashes[str(Path(__file__))]=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
-    (selection_root/'frozen_verification.json').write_text(json.dumps(result,indent=2)+'\n')
+    result['pace_uncertainty_multipliers']=freeze.get('pace_uncertainty_multipliers',{})
+    result['prediction_check_scope']='original unit-uncertainty mean-model reference; selected intervals verified by calibration manifest'
+    output=Path('docs/evaluation/calibration') if calibration else selection_root
+    (output/'frozen_verification.json').write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps({k:v for k,v in result.items() if k!='source_and_inputs_sha256'},indent=2))
 
 

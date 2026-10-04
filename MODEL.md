@@ -2,11 +2,53 @@
 
 ## Frozen development model
 
-Local annotated tag: `frozen-development-model`. Active default evaluation profile:
+Mean-model tag: `frozen-development-model`; calibrated tag:
+`frozen-development-model-calibrated`. Active default evaluation profile:
 **pit+wear** (`wear`), reproducing the configuration evaluated at `02341a7`.
 The explicit freeze record is `data/evaluation/frozen_model.json`; candidate
 profiles remain available by name but are not the default. This freeze does not
 authorize running held-out or wet races; they remain unrun.
+
+### Development interval calibration
+
+Predeclared protocol committed at `38fa925` before evaluation:
+[protocol](docs/evaluation/calibration/PROTOCOL.md). The unchanged frozen mean
+model was evaluated on all 169 pairs in the independent 1.0–4.0, step 0.25 grid.
+Selection minimised mean absolute distance from 80% equal-race conditional green
+coverage across 1, 5, 10 laps and finish; ties use smaller mean width. France has
+no green finish outcomes, so that horizon has two contributing races.
+
+Selected persistent base pace offset SD multiplier **3.0**; per-lap noise SD
+multiplier **1.0**. ProjectionConfig defaults remain 1.0. The default frozen
+evaluation profile loads the selected multipliers; explicit historical profiles
+retain 1.0 for reproduction. Raw causal scatter estimates and their timestamps
+are unchanged. Multipliers scale the existing draws, preserving seeds and all
+other uncertainty sources. Traffic interactions are recomputed. Mean-model
+coefficients are unchanged, although finite-sample medians can move.
+
+| Horizon | Equal-race green coverage before → after | Width s before → after | Interval score s before → after |
+| --- | --- | --- | --- |
+| 1 | 65.3% → 80.5% | 1.045 → 1.767 | 2.709 → 2.848 |
+| 5 | 54.4% → 78.5% | 3.645 → 8.052 | 12.143 → 12.380 |
+| 10 | 52.5% → 80.1% | 6.842 → 16.762 | 22.948 → 23.041 |
+| finish | 37.9% → 73.8% | 19.571 → 48.941 | 86.275 → 75.785 |
+
+Average absolute coverage distance improves to 0.020538 (2.05 percentage points).
+**The per-lap multiplier is on the lower grid edge.** The grid was not extended.
+All 4,704 selected green predictions were verified against ordinary engine
+simulation; the offline grid plus verification took 338.6 seconds. Baseline
+trace parity covered 968,671 laps, plus 24,684 corner/interior trace laps.
+[Report](docs/evaluation/calibration/REPORT.md) includes per-race, both pooling
+schemes, pit/no-pit metrics and tail counts; selection.json retains the full grid.
+Run `python -m tools.calibrate_intervals` offline to reproduce the calibration.
+
+Coverage improved through wider intervals; interval score worsened slightly at
+1, 5 and 10 laps. Selection on these same three development races is in-sample
+and cannot establish generalisation. Stop-containing 1-lap coverage remains
+only 10.7% equal-race pooled, and finish coverage remains below 80%. The existing
+Spain SOFT long-stint bias remains a known mean-model limitation. Neutralisation
+probabilities, priors, pit and wear parameters are unchanged. No held-out or wet
+races were run, and no UI files changed.
 
 Final predeclared ablation, equal-race pooled conditional green MAE:
 

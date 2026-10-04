@@ -22,7 +22,7 @@ from src.evaluation.neutralization_prior import ongoing_inputs, load_prior
 from src.evaluation.pit_parameters import pit_inputs
 from src.evaluation.wear_parameters import estimate_wear
 from src.evaluation.joint_parameters import estimate_joint
-from src.evaluation.model_configurations import resolve_configuration
+from src.evaluation.model_configurations import resolve_configuration, frozen_uncertainty_multipliers
 
 EPOCH = datetime(1970, 1, 1, tzinfo=timezone.utc)
 STATUS = {"1": TrackStatus.GREEN, "2": TrackStatus.YELLOW,
@@ -192,6 +192,7 @@ def pace_uncertainty(clean, current_lap):
 
 def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None, fit_wear=None, fit_trend=None, fit_offsets=None, configuration=None):
     """Only coordinate/proxy channels may read corrected crossing Times."""
+    calibration = frozen_uncertainty_multipliers() if configuration is None else {}
     configuration, settings = resolve_configuration(configuration)
     profile_wear, profile_joint, profile_offsets, estimate_trend, extrapolate_trend = settings
     fit_wear = profile_wear if fit_wear is None else fit_wear
@@ -221,7 +222,11 @@ def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None, fit_wear
     uncertainty = pace_uncertainty(clean, lap)
     config = ProjectionConfig(degradation_scale=1.0, base_pace_s=base_pace, pit_in_lap_fraction=0.5,
                               base_pace_sigma_s=uncertainty["base_pace_sigma_s"],
-                              lap_noise_sigma_s=uncertainty["lap_noise_sigma_s"])
+                              lap_noise_sigma_s=uncertainty["lap_noise_sigma_s"], **calibration)
+    uncertainty["multipliers"] = {
+        "base_pace_uncertainty_multiplier": config.base_pace_uncertainty_multiplier,
+        "lap_noise_uncertainty_multiplier": config.lap_noise_uncertainty_multiplier}
+    uncertainty["calibration_basis"] = "frozen development profile" if calibration else "unit multipliers"
     metrics = DerivedPaceMetrics(
         recent_pace_trend_s_per_lap=ProvenanceMetric(value=0., source=DataSource.USER_DEFINED,
                                                    notes="Frozen: no pace regression"),

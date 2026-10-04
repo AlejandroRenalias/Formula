@@ -59,6 +59,8 @@ class ProjectionConfig(BaseModel):
     base_pace_s: float | None = Field(default=None, gt=0)
     base_pace_sigma_s: float = Field(default=0.0, ge=0)
     lap_noise_sigma_s: float = Field(default=0.0, ge=0)
+    base_pace_uncertainty_multiplier: float = Field(default=1.0, gt=0)
+    lap_noise_uncertainty_multiplier: float = Field(default=1.0, gt=0)
     slick_wet_penalty_s: float = Field(default=18.0, ge=0)
     inter_dry_penalty_s: float = Field(default=8.0, ge=0)
     wet_dry_penalty_s: float = Field(default=14.0, ge=0)
@@ -213,7 +215,9 @@ def sample_scenarios(state: RaceState, config: ProjectionConfig) -> tuple[Scenar
         for (offset, pit_offset), wear, pace, noise, events in zip(draws, wear_draws, pace_draws, noise_draws, event_draws):
             rain_lap = (state.current_lap if state.observed_weather.rainfall.value else
                         max(state.current_lap + 1, state.current_lap + int(eta) + offset)) if rains else None
-            scenarios.append(Scenario(rain_lap, pit_offset, mass / len(draws), wear, pace[0], noise, events))
+            scenarios.append(Scenario(rain_lap, pit_offset, mass / len(draws), wear,
+                pace[0] * config.base_pace_uncertainty_multiplier,
+                tuple(v * config.lap_noise_uncertainty_multiplier for v in noise), events))
     return tuple(scenarios)
 
 
@@ -393,7 +397,8 @@ def _sc_opportunity(state, policy, scenario, config, lap, compound, age, stops, 
 
 
 def simulate_policy(state: RaceState, policy: Policy, scenario: Scenario,
-                    config: ProjectionConfig, *, fixed_schedule: bool = False) -> Trace:
+                    config: ProjectionConfig, *, fixed_schedule: bool = False,
+                    green_segments: list | None = None) -> Trace:
     """Project from the completed-lap boundary to the finish; no scored bonuses.
 
     fixed_schedule disables autonomous SC stops for conditional actual-plan
@@ -426,6 +431,7 @@ def simulate_policy(state: RaceState, policy: Policy, scenario: Scenario,
     compressed = False
     total = 0.0
     pending_pit_loss = 0.0
+    green_prefix = True
     for lap in range(state.current_lap + 1, state.total_laps + 1):
         running_status = _status(state, lap, config, scenario)
         running_sc = running_status == TrackStatus.SAFETY_CAR
@@ -479,8 +485,8 @@ def simulate_policy(state: RaceState, policy: Policy, scenario: Scenario,
             stops.append(record)
         fuel = -(config.race_trend_s_per_lap if config.race_trend_s_per_lap is not None else -config.fuel_effect_s_per_lap) * (lap - state.current_lap)
         noise = scenario.lap_noise_s[lap - state.current_lap - 1] if scenario.lap_noise_s else 0.0
-        own_pace = (base + delta(compound, age) - fuel + _weather_delta(compound, wetness, state, config)
-                    + scenario.base_pace_offset_s + noise)
+        nominal_pace = base + delta(compound, age) - fuel + _weather_delta(compound, wetness, state, config)
+        own_pace = nominal_pace + scenario.base_pace_offset_s + noise
         # Rival policies are explicit model assumptions: crossover or a tyre-life stop.
         rival_paces, rival_losses = [], []
         for rival in rivals:
@@ -510,6 +516,12 @@ def simulate_policy(state: RaceState, policy: Policy, scenario: Scenario,
         elif prior_effects and running_status == TrackStatus.VSC:
             own_pace *= config.vsc_pace_multiplier
             rival_paces = [p * config.vsc_pace_multiplier for p in rival_paces]
+        green_prefix = green_prefix and running_status not in (TrackStatus.SAFETY_CAR, TrackStatus.VSC)
+        if green_segments is not None and green_prefix:
+            # Evaluation acceleration observes engine inputs, never changes them.
+            # Rival paths are independent of subject noise until a neutralisation.
+            green_segments.append((nominal_pace, loss,
+                tuple((r['time'], p, cost) for r, p, cost in zip(rivals, rival_paces, rival_losses))))
         traffic = 0.0
         for rival, rival_pace, rival_loss in zip(rivals, rival_paces, rival_losses):
             # Gap at the start of the running segment, after this lap's stop costs.
