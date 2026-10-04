@@ -35,7 +35,7 @@ def run(stage,race):
         data,digest=load_dataset(dataset)
         def one(record):
             driver,lap=record['driver_number'],record['lap']
-            snapshot=build_snapshot(data,driver,lap,cutoff_s=record['audit']['cutoff_session_s'],fit_wear=stage!='pit',fit_trend=stage in ('trend','offsets'))
+            snapshot=build_snapshot(data,driver,lap,cutoff_s=record['audit']['cutoff_session_s'],fit_wear=stage!='pit',fit_trend=stage in ('trend','offsets'),fit_offsets=stage=='offsets')
             plan=ActualPlan(tuple(Stop.model_validate(s) for s in record['actual_subject_plan']))
             predictions=predict(snapshot,plan)
             result=[]

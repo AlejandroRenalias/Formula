@@ -54,6 +54,7 @@ class ProjectionConfig(BaseModel):
     race_trend_s_per_lap: float | None = None
     cliff_rate_s: float = Field(default=0.15, ge=0)
     degradation_rates_s_per_lap: dict[str, float] = Field(default_factory=dict)
+    compound_offsets_s: dict[str, float] = Field(default_factory=dict)
     degradation_scale: float | None = Field(default=None, ge=0)
     base_pace_s: float | None = Field(default=None, gt=0)
     base_pace_sigma_s: float = Field(default=0.0, ge=0)
@@ -85,6 +86,8 @@ class ProjectionConfig(BaseModel):
 
     @model_validator(mode="after")
     def valid_sweep_ranges(self):
+        if any(c not in {x.value for x in DRY} or not isfinite(v) for c,v in self.compound_offsets_s.items()):
+            raise ValueError("Compound offsets require dry compounds and finite values")
         if self.race_trend_s_per_lap is not None and not isfinite(self.race_trend_s_per_lap):
             raise ValueError("Race trend must be finite")
         if any(c not in {x.value for x in DRY} or not isfinite(v) or v < 0
@@ -245,7 +248,8 @@ def _sample_neutralizations(state, config, index):
     lap = state.current_lap + 1
     green_pace = (config.base_pace_s or state.subject_driver.last_lap_time_s) + TyreModel.lap_delta_s(
         state.subject_driver.current_compound, state.subject_driver.stint_length_laps,
-        degradation_rate_s_per_lap=config.degradation_rates_s_per_lap.get(state.subject_driver.current_compound.value))
+        degradation_rate_s_per_lap=config.degradation_rates_s_per_lap.get(state.subject_driver.current_compound.value),
+        compound_offset_s=config.compound_offsets_s.get(state.subject_driver.current_compound.value))
     while lap <= state.total_laps:
         if _status(state, lap, config) in (TrackStatus.SAFETY_CAR, TrackStatus.VSC):
             lap += 1
@@ -375,7 +379,7 @@ def _sc_opportunity(state, policy, scenario, config, lap, compound, age, stops, 
                     total += future_loss
                 if _status(state, future, config) != TrackStatus.SAFETY_CAR:
                     total += TyreModel.lap_delta_s(c, tyre_age, known_scale,
-                        config.cliff_rate_s, config.degradation_rates_s_per_lap.get(c.value)) + _weather_delta(c, w, state, config)
+                        config.cliff_rate_s, config.degradation_rates_s_per_lap.get(c.value), config.compound_offsets_s.get(c.value)) + _weather_delta(c, w, state, config)
                 tyre_age += 1
             if not (used & WET) and len(used & DRY) < 2:
                 return float("inf")
@@ -408,7 +412,7 @@ def simulate_policy(state: RaceState, policy: Policy, scenario: Scenario,
         raise ValueError("Degradation must be finite")
     scale *= scenario.degradation_multiplier
     delta = lambda c, age: TyreModel.lap_delta_s(c, age, scale, config.cliff_rate_s * scenario.degradation_multiplier,
-                                                   config.degradation_rates_s_per_lap.get(c.value))
+                                                   config.degradation_rates_s_per_lap.get(c.value), config.compound_offsets_s.get(c.value))
     base = config.base_pace_s if config.base_pace_s is not None else subject.last_lap_time_s - delta(subject.current_compound, subject.stint_length_laps)
     rivals = [{"time": -r.gap_to_subject_s, "compound": r.current_compound, "age": r.tyre_age_laps,
                "base": (r.last_lap_time_s if r.last_lap_time_s is not None else subject.last_lap_time_s)

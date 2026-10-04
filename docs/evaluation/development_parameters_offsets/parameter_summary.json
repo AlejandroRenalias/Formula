@@ -1,0 +1,167 @@
+{
+  "bahrain_2021": {
+    "SOFT": {
+      "snapshots": 429,
+      "fallback_snapshots": 24,
+      "rate_min": 0.10870037010070897,
+      "rate_median": 0.12223490152731589,
+      "rate_max": 0.12986858978119226,
+      "max_sample_count": 61
+    },
+    "MEDIUM": {
+      "snapshots": 429,
+      "fallback_snapshots": 21,
+      "rate_min": 0.06826377092938615,
+      "rate_median": 0.09622856143718214,
+      "rate_max": 0.10675901045858055,
+      "max_sample_count": 376
+    },
+    "HARD": {
+      "snapshots": 429,
+      "fallback_snapshots": 30,
+      "rate_min": 0.037916828124148254,
+      "rate_median": 0.044550071395234196,
+      "rate_max": 0.06246932638766234,
+      "max_sample_count": 313
+    },
+    "race_trend": {
+      "fallback_snapshots": 89,
+      "min": -0.07023496614072576,
+      "median": -0.060660230634443965,
+      "max": -0.049023544613231176
+    },
+    "offsets": {
+      "SOFT": {
+        "fallback_snapshots": 429,
+        "min": 0.0,
+        "median": 0.0,
+        "max": 0.0,
+        "max_sample_count": 0
+      },
+      "MEDIUM": {
+        "fallback_snapshots": 96,
+        "min": 0.37278742481609145,
+        "median": 0.4,
+        "max": 0.4819426758580733,
+        "max_sample_count": 376
+      },
+      "HARD": {
+        "fallback_snapshots": 101,
+        "min": 0.7712597235244641,
+        "median": 0.8618125948742111,
+        "max": 0.9,
+        "max_sample_count": 313
+      }
+    }
+  },
+  "spain_2022": {
+    "SOFT": {
+      "snapshots": 542,
+      "fallback_snapshots": 10,
+      "rate_min": 0.0846111758206291,
+      "rate_median": 0.10801071593311407,
+      "rate_max": 0.1527815212787301,
+      "max_sample_count": 483
+    },
+    "MEDIUM": {
+      "snapshots": 542,
+      "fallback_snapshots": 30,
+      "rate_min": 0.07,
+      "rate_median": 0.10516484266688728,
+      "rate_max": 0.11683771810720431,
+      "max_sample_count": 442
+    },
+    "HARD": {
+      "snapshots": 542,
+      "fallback_snapshots": 287,
+      "rate_min": 0.03967803118983675,
+      "rate_median": 0.04,
+      "rate_max": 0.11681384692600114,
+      "max_sample_count": 30
+    },
+    "race_trend": {
+      "fallback_snapshots": 98,
+      "min": -0.05904258950993147,
+      "median": -0.05245869114212942,
+      "max": -0.029134163180511555
+    },
+    "offsets": {
+      "SOFT": {
+        "fallback_snapshots": 542,
+        "min": 0.0,
+        "median": 0.0,
+        "max": 0.0,
+        "max_sample_count": 0
+      },
+      "MEDIUM": {
+        "fallback_snapshots": 101,
+        "min": 0.29546746249370087,
+        "median": 0.34998067648969056,
+        "max": 0.4,
+        "max_sample_count": 442
+      },
+      "HARD": {
+        "fallback_snapshots": 287,
+        "min": 0.9,
+        "median": 0.9,
+        "max": 0.9656271517901116,
+        "max_sample_count": 30
+      }
+    }
+  },
+  "france_2022": {
+    "SOFT": {
+      "snapshots": 429,
+      "fallback_snapshots": 429,
+      "rate_min": 0.12,
+      "rate_median": 0.12,
+      "rate_max": 0.12,
+      "max_sample_count": 0
+    },
+    "MEDIUM": {
+      "snapshots": 429,
+      "fallback_snapshots": 10,
+      "rate_min": 0.0636032915636524,
+      "rate_median": 0.0765136596936531,
+      "rate_max": 0.08311835941010068,
+      "max_sample_count": 276
+    },
+    "HARD": {
+      "snapshots": 429,
+      "fallback_snapshots": 20,
+      "rate_min": 0.03651433340935458,
+      "rate_median": 0.04808401096274055,
+      "rate_max": 0.0614509657861502,
+      "max_sample_count": 444
+    },
+    "race_trend": {
+      "fallback_snapshots": 90,
+      "min": -0.06402851318603152,
+      "median": -0.05101495957684935,
+      "max": -0.03273008451297401
+    },
+    "offsets": {
+      "SOFT": {
+        "fallback_snapshots": 429,
+        "min": 0.0,
+        "median": 0.0,
+        "max": 0.0,
+        "max_sample_count": 0
+      },
+      "MEDIUM": {
+        "fallback_snapshots": 429,
+        "min": 0.4,
+        "median": 0.4,
+        "max": 0.4,
+        "max_sample_count": 0
+      },
+      "HARD": {
+        "fallback_snapshots": 100,
+        "min": 0.8506961417393767,
+        "median": 0.9,
+        "max": 0.9385731798150589,
+        "max_sample_count": 444
+      }
+    }
+  }
+}

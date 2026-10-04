@@ -1,0 +1,11 @@
+{
+  "source_and_inputs_sha256": {
+    "docs\\evaluation\\development_parameters_wear\\bahrain_2021\\predictions.jsonl": "19839f8a020eefe1995eb7060efcee98ef6ce60a26426728a61929b245be191d",
+    "docs\\evaluation\\development_parameters_wear\\spain_2022\\predictions.jsonl": "aa23341ad8f0e8096eac5d201853746d5fd901d5cb4c30555edc1773487305d1",
+    "docs\\evaluation\\development_parameters_wear\\france_2022\\predictions.jsonl": "f8b05df4afcdfe950afee8df9317f902e848299f99527a5f03eefcf8d2947eb5",
+    "docs\\evaluation\\development_parameters_offsets\\bahrain_2021\\predictions.jsonl": "2cb1bfea31fc26310923e444b211266e3608a3c550264f0209d39d5a8df4d8ff",
+    "docs\\evaluation\\development_parameters_offsets\\spain_2022\\predictions.jsonl": "eb26f2ffc716e6c32565b42bce0c589ed3e4a0898ee0fd463e5c456f5c373684",
+    "docs\\evaluation\\development_parameters_offsets\\france_2022\\predictions.jsonl": "38f4d6de14d2c0edf41635269b2edf1ba83444d4c3847162ea1c52e1adb225b5",
+    "C:\\Users\\aleja\\OneDrive\\Documents\\ChatGPT\\Formula\\Formula-repo\\tools\\report_regression_baseline.py": "65084d2691e29618a8bf018ca1d522b01780d9a4f4a392420943e0da2151b3be"
+  }
+}

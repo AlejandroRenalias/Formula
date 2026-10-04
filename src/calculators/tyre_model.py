@@ -56,11 +56,11 @@ class TyreModel:
 
     @classmethod
     def lap_delta_s(cls, compound: TireCompound, age: int, degradation_scale: float = 1.0,
-                    cliff_rate_s: float = 0.15, degradation_rate_s_per_lap: float | None = None) -> float:
+                    cliff_rate_s: float = 0.15, degradation_rate_s_per_lap: float | None = None, compound_offset_s: float | None = None) -> float:
         """Simple projection loss: compound offset, linear wear and post-cliff wear."""
         specs = cls.get_compound_specs(compound)
         rate = specs.degradation_base_rate_s_per_lap if degradation_rate_s_per_lap is None else degradation_rate_s_per_lap
-        return (specs.base_pace_delta_s + rate * age * degradation_scale
+        return ((specs.base_pace_delta_s if compound_offset_s is None else compound_offset_s) + rate * age * degradation_scale
                 + max(0, age - specs.cliff_lap_threshold) * cliff_rate_s)
 
     @staticmethod

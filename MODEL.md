@@ -759,3 +759,50 @@ Spain -10.588 -> -11.030 s. No-stop finish error/lap worsens Bahrain
 No tuning after these outcomes. 209 tests pass; all 1,400 snapshot and
 5,446 prediction provenance/probability invariants verified. Full matched
 pit/no-pit and compound/age tables: docs/evaluation/development_parameters_trend/REPORT.md.
+
+## Causal compound offsets (second regression slice)
+
+Add compound-offset adjustments to the same driver-intercept, compound-wear,
+race-trend regression; refit shared coefficients jointly. Offsets have prior
+precision 60 (60 pseudo-laps with a one-second spread), frozen before either
+slice's outcomes. Slopes retain precision 1500; all eligibility rules and
+uncertainty sizing stay unchanged. The response subtracts default compound
+and cliff contributions; offset-adjustment priors are zero.
+
+Only drivers with more than one qualifying observed compound supply offset
+contrasts. A single-compound driver's compound indicator is constant and drops
+out on driver demeaning, while their clean laps can still supply wear/trend
+evidence. Form connected compound comparisons from these multi-compound drivers.
+An absolute offset cannot be distinguished from driver intercepts, so keep the
+first present compound in SOFT/MEDIUM/HARD order at its default for each connected
+component. Thus France, without SOFT observations, retains MEDIUM at +0.4 s and
+fits HARD relative to it; it cannot estimate an unseen SOFT-to-MEDIUM gap.
+
+Add only contrasts increasing design rank beyond the already identified slopes
+and trend. A collinear contrast stays at its default and records that reason;
+reference, unused and unsupported compounds also have explicit fallback flags.
+Offsets may be signed: no ordering/cap selected from evaluation results. Record
+qualifying comparison-lap counts, available comparison counts, driver counts,
+reference compound, fallback reason, prior precision and latest source timestamp.
+Every fitted coefficient's conservative source time includes all joint regression
+rows. Use the fitted offsets both in the median-anchor correction and future
+compound transitions. Preserve pit counterfactuals and uncertainty normalization
+at their preceding nominal definitions; SC/VSC assumptions are unchanged.
+
+
+Offset-only result versus trend commit: pooled green finish MAE
+14.047 -> 13.844 s (equal-race 13.750 -> 13.545), coverage
+36.5% -> 38.5%; pooled 10-lap MAE 3.994 -> 3.955 s. With-stop finish
+bias Bahrain +2.007 -> +2.126 and Spain -11.030 -> -10.210 s.
+No-stop finish error/lap remains poor: Bahrain -0.618, Spain -0.802;
+Spain SOFT -1.060. Both changes versus starting wear baseline reduce
+pooled finish MAE 14.759 -> 13.844 s but worsen bias -2.343 -> -6.172 s.
+The starting no-stop finish MAE was better in both races. No tuning afterward.
+213 tests pass; all 1,400 snapshots / 5,446 predictions retain causal source
+and SC/probability/noise invariants. Full incremental and initial-baseline
+pit/no-pit and compound/age tables: docs/evaluation/development_parameters_offsets/REPORT.md.
+Offline replay commands: python -m tools.evaluate_causal_parameters --stage
+offsets --race <development race>, then --stage offsets --report-only;
+python -m tools.report_regression_baseline adds the cumulative starting-baseline
+tables and JSON artifacts idempotently. Historical slice reproduction should
+use that slice's commit so its model-source hashes match.
