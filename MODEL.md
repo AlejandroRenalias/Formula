@@ -579,3 +579,34 @@ Report and all matched stage comparisons:
 docs/evaluation/development_neutralization_views/REPORT.md and COMPARISONS.md.
 This report-only step leaves every saved prediction unchanged. Held-out and
 wet evaluation races remain unrun; no UI source or artifact was changed.
+
+
+## Same-sample conditional green output and onset calibration
+
+No model or parameter change: retain the existing scenarios and traces. Each
+horizon also reports conditional median/p10/p90 for samples with no SC/VSC
+active anywhere in that projected horizon, using original weights renormalized
+within the retained subset. Keep sample count and probability mass. Empty
+subsets, including horizons containing a known ongoing event, are unavailable;
+never substitute the combined prediction. Evaluate this on the same GREEN
+cutoff/no actual SC/VSC outcome view, with pit/no-pit strata and both pooling
+schemes. These outcome labels never enter predictions.
+
+Report exact marginal probability of a new onset as 1-(1-p_SC-p_VSC)^K, where
+K counts eligible future laps outside the known ongoing-event schedule. Prior
+durations after the first onset cannot affect whether any onset occurs. The
+sampled onset weight fraction is output separately; the original 32 draws have
+no first-lap onsets, so their empirical one-lap estimate is zero despite a
+positive model hazard. Computing the exact marginal changes no rate, draw,
+trace, median or interval. Calibration uses the exact probability against
+actual new status-kind starts in (cutoff time,target crossing]. Already ongoing
+events are not new starts; VSC codes 6/7 and repeated same-kind updates are
+merged. Brier scores and fixed-decile reliability tables are descriptive only:
+three races and strongly correlated driver/cutoff horizons cannot establish
+calibration. No tuning or new races were used.
+
+All 5,446 combined predictions and all per-race combined metrics exactly match
+the previous future-risk run. Conditional green prediction-pooled finish MAE
+is 13.099 s, bias -4.967 s, mean error/lap -0.258 s, coverage 45.5%, and width
+19.060 s; France has no green-only finish outcomes. Full per-race, pit-split,
+equal-race and calibration tables: docs/evaluation/development_conditional/REPORT.md.

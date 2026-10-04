@@ -1,0 +1,35 @@
+{
+  "network_blocked": true,
+  "model_changed": false,
+  "tuning": false,
+  "new_races": false,
+  "baseline": "future-risk development run at 6fa7b86 / fd73b87",
+  "combined_predictions_exactly_equal": true,
+  "combined_per_race_metrics_exactly_equal": true,
+  "snapshots": 1400,
+  "scored_predictions": 5446,
+  "tests_passed": 193,
+  "green_quantiles": "same traces, retained no-neutralization subset with renormalized original weights",
+  "onset_probability": "exact marginal from unchanged hazard; sampled fraction also retained",
+  "source_sha256": {
+    "src\\evaluation\\prediction.py": "91f7156a68eabbd492aff64b933c0aca1ce995678aa3705d4580fc13b42d6369",
+    "tools\\evaluate_conditional.py": "ab7277d3bed52d9703fdc5e58c02d48b353d0c7ebcf8dba0f63678b5dfb5ef47",
+    "tools\\evaluate_bahrain.py": "66f30a386cf100974a2b04efbe48e6e31b0507482cd72d58920bc5f9667781e7"
+  },
+  "artifact_sha256": {
+    "docs\\evaluation\\development_conditional\\metrics.json": "32eeaf5d655330b61c9627dabdb232bd9c4ee5788255f730bb2c53fc79a28a4e",
+    "docs\\evaluation\\development_conditional\\REPORT.md": "c6e8ba0ee7f581f5f79359bb3094f1752436d610b1cf2d69b5293afa1b1ac31c",
+    "docs\\evaluation\\development_conditional\\bahrain_2021\\error_vs_horizon.png": "4ed1325a8d69cd479ef9716033bc3ebfa103fc907c8c24eaaaf1f225b04e4c37",
+    "docs\\evaluation\\development_conditional\\bahrain_2021\\manifest.json": "ee514ca6280fea6e3aa77c0cb0b8dc6854bb96c9038d321d891c00b233eb8411",
+    "docs\\evaluation\\development_conditional\\bahrain_2021\\predicted_vs_actual.png": "785cca0d10ce10a4cc2ec16fe6b9a83d170d53b50b6abcfbd96f420a65ca599f",
+    "docs\\evaluation\\development_conditional\\bahrain_2021\\predictions.jsonl": "76fa279fe0766792c89257f502b6d2c2c694211f8a96716a0b022788a1d753fd",
+    "docs\\evaluation\\development_conditional\\france_2022\\error_vs_horizon.png": "ca0638dc7fac7b2b30c897c4f52e88b06b5cb311d15384ae7fd03ff6cb0c40af",
+    "docs\\evaluation\\development_conditional\\france_2022\\manifest.json": "e40b0ac88496857105050fd67f1369e2ab01dd84fd5111128e1ae23b1adf68ec",
+    "docs\\evaluation\\development_conditional\\france_2022\\predicted_vs_actual.png": "5d73b827914cbade7081043a90fab3543b22bc235ca052d41a8c0a1af357ec22",
+    "docs\\evaluation\\development_conditional\\france_2022\\predictions.jsonl": "5ba75eb74bd457fd774c4ac7a532de42a72112b9e9a4c071f04828fbc3e0ec5f",
+    "docs\\evaluation\\development_conditional\\spain_2022\\error_vs_horizon.png": "480d15628ed536bf2a6bfa6f9d6d2bef95d7613916cf2d8e1263044a17255270",
+    "docs\\evaluation\\development_conditional\\spain_2022\\manifest.json": "52c55d280761913eca499e622aa3fdf5e79f0c91b1bbe3e24e1a22ccdae0c7de",
+    "docs\\evaluation\\development_conditional\\spain_2022\\predicted_vs_actual.png": "00f62447c95273355f0f1a085fce4b5b6c17c548b2aaa077126ddc55a2688979",
+    "docs\\evaluation\\development_conditional\\spain_2022\\predictions.jsonl": "e07091eee2eee2893f98424878b4e6fd93018889273ac0b33b536835a7c92af3"
+  }
+}

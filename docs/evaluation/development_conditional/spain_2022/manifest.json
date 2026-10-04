@@ -1,0 +1,19 @@
+{
+  "race": "spain_2022",
+  "network_blocked": true,
+  "combined_predictions_exactly_equal": true,
+  "snapshots": 542,
+  "predictions": 2114,
+  "runtime_s": 47.951853600000504,
+  "inputs_sha256": {
+    "docs\\evaluation\\spain_2022_future\\predictions.csv": "b1d035769746ebd3297449a5ea43ada45850f0cbaca0e0bc4813483938917b1a",
+    "docs\\evaluation\\spain_2022_future\\manifest.json": "afeb6ab60cfab9041c69cc93386db6990bffa36529afb4e381b92fdb7216b568",
+    "data\\cache\\evaluation\\spain_2022\\snapshots_spain_2022_future.jsonl": "f6d0e53ace8c463045fc80e42a71701ec9e1c8b9ef2c2bff6ad06aa5d8da555d",
+    "data\\cache\\evaluation\\spain_2022\\session.json": "5ac519a6f9b168b95670688adbba59d95f8620444aacb1de78a99705e758b931"
+  },
+  "output_sha256": "e07091eee2eee2893f98424878b4e6fd93018889273ac0b33b536835a7c92af3",
+  "sources_sha256": {
+    "C:\\Users\\aleja\\OneDrive\\Documents\\ChatGPT\\Formula\\Formula-repo\\tools\\evaluate_conditional.py": "98bb3c907fec8c003e5830893a3c473b55d63d124179ed07804f950341e10195",
+    "src\\evaluation\\prediction.py": "91f7156a68eabbd492aff64b933c0aca1ce995678aa3705d4580fc13b42d6369"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "race": "france_2022",
+  "network_blocked": true,
+  "combined_predictions_exactly_equal": true,
+  "snapshots": 429,
+  "predictions": 1666,
+  "runtime_s": 34.5571946,
+  "inputs_sha256": {
+    "docs\\evaluation\\france_2022_future\\predictions.csv": "827125d4a46a25ae4f67811444bc7df6b04f8c4998158e283a85ca4a1079bf65",
+    "docs\\evaluation\\france_2022_future\\manifest.json": "2058c2222b72996f15c6fc343cbe60e19de58b3c1249c20afc47eea50d6cf957",
+    "data\\cache\\evaluation\\france_2022\\snapshots_france_2022_future.jsonl": "312b4ae8f35cd65ceb52ef26975c6c8b86e54703e55081c4e20539246d5c47b1",
+    "data\\cache\\evaluation\\france_2022\\session.json": "54b9078b09b5d7cebfb536050e585fe3678d9a6eb8ad46a8e5e1af2e37a56614"
+  },
+  "output_sha256": "5ba75eb74bd457fd774c4ac7a532de42a72112b9e9a4c071f04828fbc3e0ec5f",
+  "sources_sha256": {
+    "C:\\Users\\aleja\\OneDrive\\Documents\\ChatGPT\\Formula\\Formula-repo\\tools\\evaluate_conditional.py": "98bb3c907fec8c003e5830893a3c473b55d63d124179ed07804f950341e10195",
+    "src\\evaluation\\prediction.py": "91f7156a68eabbd492aff64b933c0aca1ce995678aa3705d4580fc13b42d6369"
+  }
+}

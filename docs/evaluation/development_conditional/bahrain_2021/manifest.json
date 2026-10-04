@@ -1,0 +1,19 @@
+{
+  "race": "bahrain_2021",
+  "network_blocked": true,
+  "combined_predictions_exactly_equal": true,
+  "snapshots": 429,
+  "predictions": 1666,
+  "runtime_s": 33.785631300000205,
+  "inputs_sha256": {
+    "docs\\evaluation\\bahrain_2021_future\\predictions.csv": "599df9a219b3dc9e665a2a04e7dc870d3464635b99ac4300c9f660d4fdb31aed",
+    "docs\\evaluation\\bahrain_2021_future\\manifest.json": "b366d9cf41993161c8cc277d941207408feea2b01da650fd8b9bbd1e61488b97",
+    "data\\cache\\evaluation\\bahrain_2021\\snapshots_bahrain_2021_future.jsonl": "5de79fc782b1469ff981300ff1d1e6d37240dcdd82c0a4aef8ef867bebf1d6f4",
+    "data\\cache\\evaluation\\bahrain_2021\\session.json": "7b415e3a8e090ca9b5e969890f552f02238f2b4cd0e87e3fac7f73444597b15b"
+  },
+  "output_sha256": "76fa279fe0766792c89257f502b6d2c2c694211f8a96716a0b022788a1d753fd",
+  "sources_sha256": {
+    "C:\\Users\\aleja\\OneDrive\\Documents\\ChatGPT\\Formula\\Formula-repo\\tools\\evaluate_conditional.py": "98bb3c907fec8c003e5830893a3c473b55d63d124179ed07804f950341e10195",
+    "src\\evaluation\\prediction.py": "91f7156a68eabbd492aff64b933c0aca1ce995678aa3705d4580fc13b42d6369"
+  }
+}

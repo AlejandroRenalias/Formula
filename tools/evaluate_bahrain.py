@@ -44,6 +44,11 @@ def plots(rows, output, race_label="Bahrain 2021"):
     fig, axes = plt.subplots(2, 2, figsize=(11, 8), layout="constrained")
     for axis, horizon in zip(axes.flat, ("1", "5", "10", "finish")):
         group = [r for r in rows if r["horizon"] == horizon]
+        if not group:
+            axis.set_title(f"{horizon} horizon (n=0)")
+            axis.text(.5,.5,"Unavailable",ha="center",va="center",transform=axis.transAxes)
+            axis.set_axis_off()
+            continue
         actual = [r["actual_s"] for r in group]
         predicted = [r["median_s"] for r in group]
         axis.scatter(actual, predicted, s=12, alpha=.5, color="#2563a6")
@@ -225,11 +230,14 @@ def read_predictions(path):
         rows = list(csv.DictReader(stream))
     for row in rows:
         for k, value in row.items():
+            if value == "":
+                row[k] = None
+                continue
             if k in ("driver", "driver_number", "horizon", "race_key", "cutoff_compound", "cutoff_track_status"):
                 continue
             if k in ("covered", "contains_subject_pit_stop"):
                 row[k] = value == "True"
-            elif k in ("lap", "target_lap", "horizon_laps", "subject_pit_stop_count", "cutoff_tyre_age_laps"):
+            elif k in ("lap", "target_lap", "horizon_laps", "subject_pit_stop_count", "cutoff_tyre_age_laps", "green_sample_count"):
                 row[k] = int(value)
             else:
                 row[k] = float(value)
