@@ -124,3 +124,17 @@ def test_offset_override_and_anchor_consistency_and_validation():
     assert after.times[-1]-before.times[-1]==pytest.approx(3*(2.6-.9))
     for offsets in ({'SOFT':float('inf')},{'UNKNOWN':1.}):
         with pytest.raises(ValueError):ProjectionConfig(compound_offsets_s=offsets)
+
+
+def test_fixed_fuel_ablation_joint_fit_is_causal_and_has_explicit_fixed_trend():
+    p=streams();before=estimate_joint({'events':[]},p,4500.,fit_offsets=True,fit_race_trend=False)
+    assert before[2]==-.05 and before[3]['fallback_reason']=='fixed_fuel_ablation'
+    assert before[3]['latest_source_session_s']==0.
+    bad=deepcopy(p)
+    for driver in bad.values():
+        for r in driver['history']:
+            if r.timestamp.timestamp()>4500:r.lap_time_s=99999.;r.compound=TireCompound.HARD;r.tyre_age_laps=999
+    assert estimate_joint({'events':[{'Driver':'0','Time':99999.,'InPit':True}]},bad,4500.,fit_offsets=True,fit_race_trend=False)==before
+    truncated={d:{'history':[r for r in p['history'] if r.timestamp.timestamp()<=4500.]} for d,p in p.items()}
+    assert estimate_joint({'events':[]},truncated,4500.,fit_offsets=True,fit_race_trend=False)==before
+    assert all(v['latest_source_session_s']<=4500. for v in before[1].values())

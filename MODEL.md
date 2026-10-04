@@ -806,3 +806,27 @@ offsets --race <development race>, then --stage offsets --report-only;
 python -m tools.report_regression_baseline adds the cumulative starting-baseline
 tables and JSON artifacts idempotently. Historical slice reproduction should
 use that slice's commit so its model-source hashes match.
+
+## Final pre-freeze ablation protocol (fixed before replay)
+
+Candidates keep all existing priors, eligibility, ridge strengths, cliff, pit
+parameters, scatter normalization, Monte Carlo draws and SC/VSC priors unchanged.
+A: joint wear/offset/trend fitting exactly as the offsets configuration, including
+fitted-trend correction from historical median-anchor laps up to the cutoff;
+future laps use only signed -0.05 s/lap (fixed fuel). No fitted trend extrapolation.
+B: same joint driver-intercept wear/offset regression, but subtract the fixed
+-0.05 race-lap effect rather than estimating a trend; future laps also use -0.05.
+Neither candidate changes interval sizing. Compare each with wear (02341a7) and
+current offsets (e6270ef), using matched conditional green cohorts and both pools.
+
+Selection uses stored, unrounded metrics. Finish-bias gate is per-prediction
+pooled green absolute mean bias <= 2.3433399051303514 s, the absolute value
+of the wear baseline's stored bias (conservative interpretation of no worse). Rank eligible A/B and the fallback wear configuration by equal-race
+pooled green MAE at 10 laps AND at finish; select a candidate only if it attains
+the minimum at both horizons. If minima belong to different configurations,
+or neither candidate qualifies, retain wear. No post-hoc horizon weighting.
+Offsets is a reference, not an eligible new candidate (its bias fails the gate).
+France has no qualifying green finish outcomes, so finish equal-race pooling
+covers Bahrain and Spain. This development-only selection does not validate
+held-out or wet performance. Freeze the chosen default via an explicit recorded
+profile and tag after the report; preserve all other profiles for reproduction.

@@ -22,6 +22,7 @@ from src.evaluation.neutralization_prior import ongoing_inputs, load_prior
 from src.evaluation.pit_parameters import pit_inputs
 from src.evaluation.wear_parameters import estimate_wear
 from src.evaluation.joint_parameters import estimate_joint
+from src.evaluation.model_configurations import resolve_configuration
 
 EPOCH = datetime(1970, 1, 1, tzinfo=timezone.utc)
 STATUS = {"1": TrackStatus.GREEN, "2": TrackStatus.YELLOW,
@@ -189,8 +190,13 @@ def pace_uncertainty(clean, current_lap):
             "assumption": "normal persistent offset SD=s/sqrt(n); independent lap noise SD=s; one observation gives zero"}
 
 
-def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None, fit_wear=True, fit_trend=True, fit_offsets=True):
+def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None, fit_wear=None, fit_trend=None, fit_offsets=None, configuration=None):
     """Only coordinate/proxy channels may read corrected crossing Times."""
+    configuration, settings = resolve_configuration(configuration)
+    profile_wear, profile_joint, profile_offsets, estimate_trend, extrapolate_trend = settings
+    fit_wear = profile_wear if fit_wear is None else fit_wear
+    fit_trend = profile_joint if fit_trend is None else fit_trend
+    fit_offsets = profile_offsets if fit_offsets is None else fit_offsets
     driver_map = {r["DriverNumber"]: r for r in data["drivers"]}
     own_crossings = crossings(data, driver)
     cutoff = own_crossings.get(lap) if cutoff_s is None else cutoff_s
@@ -295,14 +301,15 @@ def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None, fit_wear
     trend, trend_audit = -.05, {}
     offsets, offset_audit = {}, {}
     if fit_wear and fit_trend:
-        fitted = estimate_joint(data, prefixes, cutoff, fit_offsets=fit_offsets)
+        fitted = estimate_joint(data, prefixes, cutoff, fit_offsets=fit_offsets, fit_race_trend=estimate_trend)
         wear_rates, wear_audit, trend, trend_audit = fitted[:4]
         if fit_offsets:offsets, offset_audit = fitted[4:]
+    projection_trend = trend if extrapolate_trend else -.05
     if fit_wear:
         # Keep the existing ongoing-event conversion and noise sizing unchanged.
         base_pace, observed_median, anchor_laps = median_pace_anchor(clean, lap, wear_rates, trend, offsets)
         config = config.model_copy(update={"base_pace_s":base_pace,
-            "degradation_rates_s_per_lap":wear_rates, "race_trend_s_per_lap":trend if fit_trend else None, "compound_offsets_s":offsets})
+            "degradation_rates_s_per_lap":wear_rates, "race_trend_s_per_lap":projection_trend if fit_trend else None, "compound_offsets_s":offsets})
         metrics = metrics.model_copy(update={"degradation_rate_s_per_lap":ProvenanceMetric(
             value=wear_rates[compound.value], source=DataSource.USER_DEFINED if wear_audit[compound.value]["fallback_used"] else DataSource.DERIVED_MODEL,
             quality=DataQuality.LOW if wear_audit[compound.value]["fallback_used"] else DataQuality.MEDIUM,
@@ -355,6 +362,6 @@ def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None, fit_wear
                  if r.get("Stint") == stint and number(r.get("StartLaps")))),
              "base_pace_anchor_lap": max(r.lap_number for r in anchor_laps),
              "base_pace_anchor_laps": [r.lap_number for r in anchor_laps],
-             "base_pace_method": "median", "compound_offset_estimates":offset_audit, "race_trend_estimate":trend_audit, "wear_estimates":wear_audit, "wear_enabled":fit_wear, "pit_loss_estimate":pit_audit, "pace_uncertainty": uncertainty, "ongoing_neutralization":ongoing_audit,
+             "configuration":configuration, "projected_race_trend_s_per_lap":projection_trend, "base_pace_method": "median", "compound_offset_estimates":offset_audit, "race_trend_estimate":trend_audit, "wear_estimates":wear_audit, "wear_enabled":fit_wear, "pit_loss_estimate":pit_audit, "pace_uncertainty": uncertainty, "ongoing_neutralization":ongoing_audit,
              "parameters": "causal pit components and compound wear; recent six clean laps median anchor; unchanged nominal driver-local noise sizing"}
     return Snapshot(state, config, audit)

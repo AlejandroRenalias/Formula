@@ -378,3 +378,42 @@ def test_development_race_prefix_and_future_poisoning(race,driver,lap):
             if r["Time"]>cutoff:r.update(LapTime=1.,PitInTime=cutoff+1.,PitOutTime=cutoff+2.)
         assert build_snapshot(changed,driver,lap)==before
         assert all(t<=cutoff for t in before.audit["parameter_source_session_s"].values())
+
+
+@pytest.mark.parametrize('configuration',['ablation_a','ablation_b'])
+def test_ablation_snapshots_future_poisoning_truncation_and_offline(configuration):
+    data=dataset();cutoff=800.
+    with network_blocked():expected=build_snapshot(data,'1',8,configuration=configuration)
+    bad=deepcopy(data)
+    for key in ('events','tyres','weather','track_status'):
+        for r in bad[key]:
+            if r['Time']>cutoff:r.update(LastLapTime={'Value':'0:01.000'},Compound='WET',StartLaps=999,Status='4',Rainfall=True)
+    for r in bad['laps']:
+        if r['Time']>cutoff:r.update(LapTime=1.,Compound='WET',TyreLife=999,PitInTime=850.)
+    assert build_snapshot(bad,'1',8,configuration=configuration)==expected
+    prefix=deepcopy(data)
+    for key in ('events','tyres','weather','track_status','laps'):prefix[key]=[r for r in prefix[key] if r['Time']<=cutoff]
+    assert build_snapshot(prefix,'1',8,cutoff_s=cutoff,gap_proxy={'2':crossings(data,'2')[8]},configuration=configuration)==expected
+    assert expected.config.race_trend_s_per_lap==-.05
+    assert all(t<=cutoff for t in expected.audit['parameter_source_session_s'].values())
+
+
+def test_candidate_a_retains_fitted_anchor_but_only_extrapolates_fixed_fuel(monkeypatch):
+    import src.evaluation.snapshot as m
+    rates={'SOFT':.12,'MEDIUM':.12,'HARD':.04}
+    wear={c:{'fallback_used':False,'sample_count':10,'latest_source_session_s':700.} for c in rates}
+    trend={'value_s_per_lap':-.15,'fallback_used':False,'latest_source_session_s':700.}
+    offsets={'SOFT':0.,'MEDIUM':.4,'HARD':.9}
+    oa={c:{'latest_source_session_s':700.} for c in rates}
+    monkeypatch.setattr(m,'estimate_joint',lambda *args,**kwargs:(rates,wear,-.15,trend,offsets,oa))
+    current=build_snapshot(dataset(),'1',8,configuration='offsets');a=build_snapshot(dataset(),'1',8,configuration='ablation_a')
+    assert current.config.base_pace_s==a.config.base_pace_s
+    assert current.config.degradation_rates_s_per_lap==a.config.degradation_rates_s_per_lap
+    assert current.config.compound_offsets_s==a.config.compound_offsets_s
+    assert current.config.race_trend_s_per_lap==-.15 and a.config.race_trend_s_per_lap==-.05
+    from src.calculators.projection import Policy
+    state=a.state.model_copy(update={'total_laps':13,'competitors':[]})
+    policy=Policy(id='hold',label='Hold',max_stops=0,react_to_weather=False)
+    old=simulate_policy(state,policy,Scenario(None,0.,1.),current.config,fixed_schedule=True)
+    new=simulate_policy(state,policy,Scenario(None,0.,1.),a.config,fixed_schedule=True)
+    assert new.times[-1]-old.times[-1]==pytest.approx((-.05-(-.15))*5*6/2)

@@ -30,7 +30,7 @@ def clean_groups(data,prefixes,cutoff):
     return rows,available
 
 
-def estimate_joint(data,prefixes,cutoff, *, fit_offsets=False):
+def estimate_joint(data,prefixes,cutoff, *, fit_offsets=False, fit_race_trend=True):
     rows,available=clean_groups(data,prefixes,cutoff)
     defaults={c:TyreModel.get_compound_specs(TireCompound(c)).degradation_base_rate_s_per_lap for c in COMPOUNDS}
     active=[c for c in COMPOUNDS if any(r.compound.value==c for _,_,r in rows)]
@@ -63,7 +63,7 @@ def estimate_joint(data,prefixes,cutoff, *, fit_offsets=False):
         offset_xs.append(o-o.mean(axis=0))
     x=np.concatenate(xs) if xs else np.empty((0,len(active)+1));y=np.concatenate(ys) if ys else np.empty(0)
     rank=int(np.linalg.matrix_rank(x)) if x.size else 0
-    trend_identified=bool(rows) and rank==len(active)+1
+    trend_identified=fit_race_trend and bool(rows) and rank==len(active)+1
     prior=np.array([defaults[c] for c in active]+([DEFAULT_TREND] if trend_identified else []))
     if not trend_identified:y=y-x[:,-1]*DEFAULT_TREND;x=x[:,:-1]
     # Keep only offset contrasts adding independent information beyond slopes/trend.
@@ -96,6 +96,9 @@ def estimate_joint(data,prefixes,cutoff, *, fit_offsets=False):
         'available_sample_count':len(rows),'driver_count':len(by_driver),'fallback_used':not trend_identified,
         'latest_source_session_s':latest,'design_rank':rank,'design_columns':len(active)+1,'prior_precision':PRIOR_LAPS*SLOPE_PRIOR_LEVERAGE,
         'method':'driver-demeaned joint ridge; causal compound offsets' if fit_offsets else 'driver-demeaned joint ridge; fixed compound offsets; nonnegative wear'}
+    if not fit_race_trend:
+        trend_audit.update(latest_source_session_s=0., fallback_reason="fixed_fuel_ablation",
+                           method="driver-demeaned ridge with fixed -0.05 race trend")
     assert latest<=cutoff
     if not fit_offsets:return rates,audits,trend,trend_audit
     offsets=offset_defaults.copy();offset_audit={}
