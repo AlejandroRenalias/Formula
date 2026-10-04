@@ -1,0 +1,956 @@
+{
+  "spain_2023": {
+    "1": {
+      "n": 550,
+      "brier_score": 0.0002166764447751324,
+      "mean_probability": 0.014719933585961853,
+      "observed_frequency": 0.0,
+      "observed_starts": 0,
+      "reliability": [
+        {
+          "bin": "[0.0, 0.1)",
+          "n": 550,
+          "mean_probability": 0.014719933585961853,
+          "observed_frequency": 0.0,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.1, 0.2)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.2, 0.3)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.3, 0.4)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.4, 0.5)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.5, 0.6)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.6, 0.7)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.7, 0.8)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.8, 0.9)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.9, 1.0]",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        }
+      ]
+    },
+    "5": {
+      "n": 550,
+      "brier_score": 0.005107183916071329,
+      "mean_probability": 0.07146456405849916,
+      "observed_frequency": 0.0,
+      "observed_starts": 0,
+      "reliability": [
+        {
+          "bin": "[0.0, 0.1)",
+          "n": 550,
+          "mean_probability": 0.07146456405849916,
+          "observed_frequency": 0.0,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.1, 0.2)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.2, 0.3)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.3, 0.4)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.4, 0.5)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.5, 0.6)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.6, 0.7)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.7, 0.8)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.8, 0.9)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.9, 1.0]",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        }
+      ]
+    },
+    "10": {
+      "n": 500,
+      "brier_score": 0.018994888303323475,
+      "mean_probability": 0.13782194420092755,
+      "observed_frequency": 0.0,
+      "observed_starts": 0,
+      "reliability": [
+        {
+          "bin": "[0.0, 0.1)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.1, 0.2)",
+          "n": 500,
+          "mean_probability": 0.13782194420092755,
+          "observed_frequency": 0.0,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.2, 0.3)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.3, 0.4)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.4, 0.5)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.5, 0.6)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.6, 0.7)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.7, 0.8)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.8, 0.9)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.9, 1.0]",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        }
+      ]
+    },
+    "finish": {
+      "n": 550,
+      "brier_score": 0.1589189247209962,
+      "mean_probability": 0.36762997606706926,
+      "observed_frequency": 0.0,
+      "observed_starts": 0,
+      "reliability": [
+        {
+          "bin": "[0.0, 0.1)",
+          "n": 30,
+          "mean_probability": 0.0850654800887343,
+          "observed_frequency": 0.0,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.1, 0.2)",
+          "n": 79,
+          "mean_probability": 0.15590706277086394,
+          "observed_frequency": 0.0,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.2, 0.3)",
+          "n": 86,
+          "mean_probability": 0.2567552620490074,
+          "observed_frequency": 0.0,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.3, 0.4)",
+          "n": 95,
+          "mean_probability": 0.35399129429052,
+          "observed_frequency": 0.0,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.4, 0.5)",
+          "n": 116,
+          "mean_probability": 0.45077011660260646,
+          "observed_frequency": 0.0,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.5, 0.6)",
+          "n": 144,
+          "mean_probability": 0.5508917045528579,
+          "observed_frequency": 0.0,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.6, 0.7)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.7, 0.8)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.8, 0.9)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.9, 1.0]",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        }
+      ]
+    }
+  },
+  "bahrain_2024": {
+    "1": {
+      "n": 459,
+      "brier_score": 0.0002166764447751324,
+      "mean_probability": 0.014719933585961863,
+      "observed_frequency": 0.0,
+      "observed_starts": 0,
+      "reliability": [
+        {
+          "bin": "[0.0, 0.1)",
+          "n": 459,
+          "mean_probability": 0.014719933585961863,
+          "observed_frequency": 0.0,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.1, 0.2)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.2, 0.3)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.3, 0.4)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.4, 0.5)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.5, 0.6)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.6, 0.7)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.7, 0.8)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.8, 0.9)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.9, 1.0]",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        }
+      ]
+    },
+    "5": {
+      "n": 459,
+      "brier_score": 0.005107183916071304,
+      "mean_probability": 0.07146456405849862,
+      "observed_frequency": 0.0,
+      "observed_starts": 0,
+      "reliability": [
+        {
+          "bin": "[0.0, 0.1)",
+          "n": 459,
+          "mean_probability": 0.07146456405849862,
+          "observed_frequency": 0.0,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.1, 0.2)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.2, 0.3)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.3, 0.4)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.4, 0.5)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.5, 0.6)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.6, 0.7)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.7, 0.8)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.8, 0.9)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.9, 1.0]",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        }
+      ]
+    },
+    "10": {
+      "n": 409,
+      "brier_score": 0.018994888303323465,
+      "mean_probability": 0.13782194420092772,
+      "observed_frequency": 0.0,
+      "observed_starts": 0,
+      "reliability": [
+        {
+          "bin": "[0.0, 0.1)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.1, 0.2)",
+          "n": 409,
+          "mean_probability": 0.13782194420092772,
+          "observed_frequency": 0.0,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.2, 0.3)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.3, 0.4)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.4, 0.5)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.5, 0.6)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.6, 0.7)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.7, 0.8)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.8, 0.9)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.9, 1.0]",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        }
+      ]
+    },
+    "finish": {
+      "n": 459,
+      "brier_score": 0.12660414177334264,
+      "mean_probability": 0.3280842782267037,
+      "observed_frequency": 0.0,
+      "observed_starts": 0,
+      "reliability": [
+        {
+          "bin": "[0.0, 0.1)",
+          "n": 30,
+          "mean_probability": 0.0850654800887343,
+          "observed_frequency": 0.0,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.1, 0.2)",
+          "n": 80,
+          "mean_probability": 0.15630168493734808,
+          "observed_frequency": 0.0,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.2, 0.3)",
+          "n": 82,
+          "mean_probability": 0.2543733581577388,
+          "observed_frequency": 0.0,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.3, 0.4)",
+          "n": 98,
+          "mean_probability": 0.35403384808538824,
+          "observed_frequency": 0.0,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.4, 0.5)",
+          "n": 110,
+          "mean_probability": 0.44815207281048164,
+          "observed_frequency": 0.0,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.5, 0.6)",
+          "n": 59,
+          "mean_probability": 0.5200665087788398,
+          "observed_frequency": 0.0,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.6, 0.7)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.7, 0.8)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.8, 0.9)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.9, 1.0]",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        }
+      ]
+    }
+  },
+  "pooled_prediction": {
+    "1": {
+      "n": 1009,
+      "brier_score": 0.0002166764447751324,
+      "mean_probability": 0.014719933585961827,
+      "observed_frequency": 0.0,
+      "observed_starts": 0,
+      "reliability": [
+        {
+          "bin": "[0.0, 0.1)",
+          "n": 1009,
+          "mean_probability": 0.014719933585961827,
+          "observed_frequency": 0.0,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.1, 0.2)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.2, 0.3)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.3, 0.4)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.4, 0.5)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.5, 0.6)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.6, 0.7)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.7, 0.8)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.8, 0.9)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.9, 1.0]",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        }
+      ]
+    },
+    "5": {
+      "n": 1009,
+      "brier_score": 0.005107183916071387,
+      "mean_probability": 0.07146456405850038,
+      "observed_frequency": 0.0,
+      "observed_starts": 0,
+      "reliability": [
+        {
+          "bin": "[0.0, 0.1)",
+          "n": 1009,
+          "mean_probability": 0.07146456405850038,
+          "observed_frequency": 0.0,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.1, 0.2)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.2, 0.3)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.3, 0.4)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.4, 0.5)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.5, 0.6)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.6, 0.7)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.7, 0.8)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.8, 0.9)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.9, 1.0]",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        }
+      ]
+    },
+    "10": {
+      "n": 909,
+      "brier_score": 0.018994888303323368,
+      "mean_probability": 0.1378219442009253,
+      "observed_frequency": 0.0,
+      "observed_starts": 0,
+      "reliability": [
+        {
+          "bin": "[0.0, 0.1)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.1, 0.2)",
+          "n": 909,
+          "mean_probability": 0.1378219442009253,
+          "observed_frequency": 0.0,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.2, 0.3)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.3, 0.4)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.4, 0.5)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.5, 0.6)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.6, 0.7)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.7, 0.8)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.8, 0.9)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.9, 1.0]",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        }
+      ]
+    },
+    "finish": {
+      "n": 1009,
+      "brier_score": 0.14421874100149834,
+      "mean_probability": 0.349640406881017,
+      "observed_frequency": 0.0,
+      "observed_starts": 0,
+      "reliability": [
+        {
+          "bin": "[0.0, 0.1)",
+          "n": 60,
+          "mean_probability": 0.08506548008873428,
+          "observed_frequency": 0.0,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.1, 0.2)",
+          "n": 159,
+          "mean_probability": 0.15610561480431492,
+          "observed_frequency": 0.0,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.2, 0.3)",
+          "n": 168,
+          "mean_probability": 0.2555926661020783,
+          "observed_frequency": 0.0,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.3, 0.4)",
+          "n": 193,
+          "mean_probability": 0.3540129019169293,
+          "observed_frequency": 0.0,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.4, 0.5)",
+          "n": 226,
+          "mean_probability": 0.44949584750024446,
+          "observed_frequency": 0.0,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.5, 0.6)",
+          "n": 203,
+          "mean_probability": 0.541932657505236,
+          "observed_frequency": 0.0,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.6, 0.7)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.7, 0.8)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.8, 0.9)",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        },
+        {
+          "bin": "[0.9, 1.0]",
+          "n": 0,
+          "mean_probability": null,
+          "observed_frequency": null,
+          "observed_starts": 0
+        }
+      ]
+    }
+  }
+}
