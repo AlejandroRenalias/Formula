@@ -18,6 +18,7 @@ from src.core.models import (CompetitorState, DerivedPaceMetrics, LapObservation
 from src.core.provenance import DataQuality, DataSource, ProvenanceMetric
 
 from src.evaluation.races import DEVELOPMENT_RACES, race_key
+from src.evaluation.neutralization_prior import ongoing_inputs
 
 EPOCH = datetime(1970, 1, 1, tzinfo=timezone.utc)
 STATUS = {"1": TrackStatus.GREEN, "2": TrackStatus.YELLOW,
@@ -272,6 +273,8 @@ def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None):
     status = STATUS.get(str(track[-1]["Status"]))
     if status is None or status == TrackStatus.RED_FLAG:
         raise ExcludedSnapshot("unsupported_track_status")
+    ongoing_laps, ongoing_audit = ongoing_inputs(track, cutoff, status, base_pace + TyreModel.lap_delta_s(compound, age))
+    config = config.model_copy(update={"ongoing_neutralization_laps":ongoing_laps})
     loss = PitLossModel.calculate_pit_loss(status).current_pit_loss_s
     pos, gap = TrafficModel.predict_rejoin(own, rivals, loss)
     def measured(value):
@@ -294,6 +297,8 @@ def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None):
                   "rival_inputs": max(rival_sources, default=0.),
                   "weather": w["Time"], "track_status": track[-1]["Time"]}
     timestamps["pace_uncertainty"] = uncertainty["source_session_s"]
+    timestamps["neutralization_onset"] = ongoing_audit["source_session_s"]
+    timestamps["neutralization_prior"] = 0.
     if any(t > cutoff for t in timestamps.values()):
         raise ValueError("Future parameter/input source timestamp")
     audit = {"cutoff_session_s": cutoff, "clock": "session-relative epoch encoding; not wall UTC",
@@ -305,6 +310,6 @@ def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None):
                  if r.get("Stint") == stint and number(r.get("StartLaps")))),
              "base_pace_anchor_lap": max(r.lap_number for r in anchor_laps),
              "base_pace_anchor_laps": [r.lap_number for r in anchor_laps],
-             "base_pace_method": "median", "pace_uncertainty": uncertainty,
+             "base_pace_method": "median", "pace_uncertainty": uncertainty, "ongoing_neutralization":ongoing_audit,
              "parameters": "frozen defaults; recent six clean laps median pace and driver-local scatter"}
     return Snapshot(state, config, audit)

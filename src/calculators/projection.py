@@ -64,6 +64,7 @@ class ProjectionConfig(BaseModel):
     traffic_penalty_s: float = Field(default=0.4, ge=0)
     dry_grid_step_laps: int = Field(default=4, ge=1)
     max_policies: int = Field(default=9, ge=2, le=20)
+    ongoing_neutralization_laps: int | None = Field(default=None, ge=0)
     safety_car_lap: int | None = Field(default=None, ge=1)
     safety_car_duration_laps: int = Field(default=2, ge=1)
     safety_car_pack_gap_s: float = Field(default=0.5, ge=0)
@@ -216,6 +217,9 @@ def _wet_compound(state, wetness, config):
 
 def _status(state, boundary, config):
     if config.safety_car_lap is None:
+        if (config.ongoing_neutralization_laps is not None and state.track_status in
+                (TrackStatus.SAFETY_CAR, TrackStatus.VSC)):
+            return state.track_status if boundary <= state.current_lap+config.ongoing_neutralization_laps else TrackStatus.GREEN
         return state.track_status
     return (TrackStatus.SAFETY_CAR if config.safety_car_lap <= boundary <
             config.safety_car_lap + config.safety_car_duration_laps else TrackStatus.GREEN)

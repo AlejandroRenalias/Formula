@@ -356,7 +356,7 @@ def test_no_stop_tyre_groups_keep_row_normalized_errors_and_drop_pit_rows():
     assert all(r["n"]==2 and r["mean_error_per_lap_s"]==-1.5 for r in groups)
 
 
-@pytest.mark.parametrize("race,driver,lap",[("spain_2022","1",22),("spain_2022","44",40),("france_2022","1",25),("france_2022","55",40)])
+@pytest.mark.parametrize("race,driver,lap",[("spain_2022","1",22),("spain_2022","44",40),("france_2022","1",25),("france_2022","63",19),("france_2022","55",40)])
 def test_development_race_prefix_and_future_poisoning(race,driver,lap):
     path=Path("data/cache/evaluation")/race/"session.json"
     if not path.exists(): pytest.skip("Local real cache optional; tests never download")

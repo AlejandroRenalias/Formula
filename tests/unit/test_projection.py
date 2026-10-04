@@ -232,9 +232,10 @@ def test_committed_fixture_reproduces_from_its_source_inputs():
     # The previous uncertainty slice added disabled-by-default config fields.
     # Check their values explicitly, then compare the original fixture contract
     # without modifying its UI artifact or accepting numeric projection drift.
-    added = {"base_pace_sigma_s", "lap_noise_sigma_s", "pit_in_lap_fraction"}
+    added = set(ProjectionConfig.model_fields) - set(source["config"])
+    defaults = ProjectionConfig().model_dump(mode="json")
     assert {r["name"]: r["value"] for r in result["assumptions"] if r["name"] in added} == {
-        name: (1.0 if name == "pit_in_lap_fraction" else 0.0) for name in added}
+        name: defaults[name] for name in added}
     result["assumptions"] = [r for r in result["assumptions"] if r["name"] not in added]
     result["ui"]["display"]["assumptions"] = [
         r for r in result["ui"]["display"]["assumptions"]

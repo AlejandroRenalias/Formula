@@ -1,0 +1,1017 @@
+{
+  "schema_version": 1,
+  "year": 2019,
+  "latest_available_year": 2019,
+  "included_races": [
+    "Australia",
+    "Bahrain",
+    "China",
+    "Azerbaijan",
+    "Spain",
+    "Canada",
+    "France",
+    "Austria",
+    "Great Britain",
+    "Hungary",
+    "Belgium",
+    "Italy",
+    "Singapore",
+    "Japan",
+    "Mexico",
+    "United States",
+    "Brazil",
+    "Abu Dhabi"
+  ],
+  "excluded_wet_race": "Germany omitted in advance; any rainy station session also excluded",
+  "green_lap_exposure": 1019.0263367971355,
+  "sc_event_count": 9,
+  "vsc_event_count": 6,
+  "sc_probability_per_green_lap": 0.008831960151577212,
+  "vsc_probability_per_green_lap": 0.005887973434384808,
+  "sc_durations_s": [
+    846.5590000000002,
+    470.43200000000024,
+    607.4880000000003,
+    694.4280000000008,
+    553.1079999999993,
+    209.42799999999988,
+    613.8559999999998,
+    355.8189999999995
+  ],
+  "vsc_durations_s": [
+    63.5920000000001,
+    205.77800000000025,
+    32.785000000000764,
+    53.47600000000057,
+    78.65400000000045,
+    150.53900000000021
+  ],
+  "duration_censoring": "Right-censored finish episodes count as onsets, not completed durations",
+  "sc_pace_multiplier": 1.3417544143306586,
+  "vsc_pace_multiplier": 1.355391438428345,
+  "pace_ratio_sample_counts": {
+    "SC": 283,
+    "VSC": 2
+  },
+  "tail_remaining_assumption_s": {
+    "SC": 90.0,
+    "VSC": 30.0
+  },
+  "race_evidence": [
+    {
+      "race": "Australia",
+      "api_path": "/static/2019/2019-03-17_Australian_Grand_Prix/2019-03-17_Race/",
+      "green_pace_s": 89.1905,
+      "episodes": [],
+      "status": [
+        [
+          0.0,
+          "1"
+        ],
+        [
+          2047.225,
+          "2"
+        ],
+        [
+          2090.255,
+          "1"
+        ],
+        [
+          4755.47,
+          "2"
+        ],
+        [
+          4764.296,
+          "1"
+        ]
+      ],
+      "green_driver_count": 20
+    },
+    {
+      "race": "Bahrain",
+      "api_path": "/static/2019/2019-03-31_Bahrain_Grand_Prix/2019-03-31_Race/",
+      "green_pace_s": 97.807,
+      "episodes": [
+        {
+          "kind": "SC",
+          "start": 7335.423,
+          "end": 7672.888,
+          "right_censored": true
+        }
+      ],
+      "status": [
+        [
+          695.413,
+          "1"
+        ],
+        [
+          695.413,
+          "1"
+        ],
+        [
+          695.413,
+          "2"
+        ],
+        [
+          2053.604,
+          "2"
+        ],
+        [
+          2055.208,
+          "1"
+        ],
+        [
+          2061.3,
+          "2"
+        ],
+        [
+          2063.498,
+          "1"
+        ],
+        [
+          2081.968,
+          "2"
+        ],
+        [
+          2087.654,
+          "1"
+        ],
+        [
+          2097.343,
+          "2"
+        ],
+        [
+          2115.885,
+          "1"
+        ],
+        [
+          2160.703,
+          "2"
+        ],
+        [
+          2164.956,
+          "1"
+        ],
+        [
+          2342.3,
+          "2"
+        ],
+        [
+          2357.245,
+          "1"
+        ],
+        [
+          2549.779,
+          "2"
+        ],
+        [
+          2557.415,
+          "1"
+        ],
+        [
+          3179.771,
+          "2"
+        ],
+        [
+          3189.611,
+          "1"
+        ],
+        [
+          5667.384,
+          "2"
+        ],
+        [
+          5677.647,
+          "1"
+        ],
+        [
+          5926.084,
+          "2"
+        ],
+        [
+          5934.802,
+          "1"
+        ],
+        [
+          6170.19,
+          "2"
+        ],
+        [
+          6178.341,
+          "1"
+        ],
+        [
+          7247.445,
+          "2"
+        ],
+        [
+          7335.423,
+          "4"
+        ]
+      ],
+      "green_driver_count": 20
+    },
+    {
+      "race": "China",
+      "api_path": "/static/2019/2019-04-14_Chinese_Grand_Prix/2019-04-14_Race/",
+      "green_pace_s": 99.92150000000001,
+      "episodes": [
+        {
+          "kind": "VSC",
+          "start": 2092.298,
+          "end": 2155.89,
+          "right_censored": false
+        }
+      ],
+      "status": [
+        [
+          132.673,
+          "1"
+        ],
+        [
+          2056.094,
+          "2"
+        ],
+        [
+          2061.312,
+          "1"
+        ],
+        [
+          2092.298,
+          "6"
+        ],
+        [
+          2143.635,
+          "7"
+        ],
+        [
+          2155.89,
+          "1"
+        ]
+      ],
+      "green_driver_count": 20
+    },
+    {
+      "race": "Azerbaijan",
+      "api_path": "/static/2019/2019-04-28_Azerbaijan_Grand_Prix/2019-04-28_Race/",
+      "green_pace_s": 108.0505,
+      "episodes": [
+        {
+          "kind": "VSC",
+          "start": 6224.117,
+          "end": 6429.895,
+          "right_censored": false
+        }
+      ],
+      "status": [
+        [
+          0.0,
+          "1"
+        ],
+        [
+          82.039,
+          "2"
+        ],
+        [
+          86.109,
+          "1"
+        ],
+        [
+          90.027,
+          "2"
+        ],
+        [
+          176.309,
+          "1"
+        ],
+        [
+          499.127,
+          "2"
+        ],
+        [
+          522.22,
+          "1"
+        ],
+        [
+          540.023,
+          "2"
+        ],
+        [
+          543.208,
+          "1"
+        ],
+        [
+          1740.646,
+          "2"
+        ],
+        [
+          1750.24,
+          "1"
+        ],
+        [
+          5357.788,
+          "2"
+        ],
+        [
+          5406.538,
+          "1"
+        ],
+        [
+          5534.82,
+          "2"
+        ],
+        [
+          5544.573,
+          "1"
+        ],
+        [
+          6204.755,
+          "2"
+        ],
+        [
+          6224.117,
+          "6"
+        ],
+        [
+          6415.319,
+          "7"
+        ],
+        [
+          6429.895,
+          "1"
+        ]
+      ],
+      "green_driver_count": 20
+    },
+    {
+      "race": "Spain",
+      "api_path": "/static/2019/2019-05-12_Spanish_Grand_Prix/2019-05-12_Race/",
+      "green_pace_s": 83.52275,
+      "episodes": [
+        {
+          "kind": "SC",
+          "start": 5768.106,
+          "end": 6614.665,
+          "right_censored": false
+        }
+      ],
+      "status": [
+        [
+          716.307,
+          "1"
+        ],
+        [
+          1289.417,
+          "2"
+        ],
+        [
+          1294.798,
+          "1"
+        ],
+        [
+          2024.426,
+          "2"
+        ],
+        [
+          2032.697,
+          "1"
+        ],
+        [
+          5742.72,
+          "2"
+        ],
+        [
+          5768.106,
+          "4"
+        ],
+        [
+          6614.665,
+          "1"
+        ]
+      ],
+      "green_driver_count": 20
+    },
+    {
+      "race": "Monaco",
+      "excluded": "any rainfall station sample"
+    },
+    {
+      "race": "Canada",
+      "api_path": "/static/2019/2019-06-09_Canadian_Grand_Prix/2019-06-09_Race/",
+      "green_pace_s": 77.29499999999999,
+      "episodes": [],
+      "status": [
+        [
+          0.0,
+          "1"
+        ],
+        [
+          1998.614,
+          "2"
+        ],
+        [
+          2002.966,
+          "1"
+        ],
+        [
+          2005.699,
+          "2"
+        ],
+        [
+          2026.005,
+          "1"
+        ],
+        [
+          2041.29,
+          "2"
+        ],
+        [
+          2072.859,
+          "1"
+        ],
+        [
+          2652.84,
+          "2"
+        ],
+        [
+          2841.107,
+          "1"
+        ],
+        [
+          2935.236,
+          "2"
+        ],
+        [
+          3005.274,
+          "1"
+        ],
+        [
+          4297.549,
+          "2"
+        ],
+        [
+          4375.045,
+          "1"
+        ]
+      ],
+      "green_driver_count": 20
+    },
+    {
+      "race": "France",
+      "api_path": "/static/2019/2019-06-23_French_Grand_Prix/2019-06-23_Race/",
+      "green_pace_s": 96.76650000000001,
+      "episodes": [
+        {
+          "kind": "VSC",
+          "start": 6772.485,
+          "end": 6805.27,
+          "right_censored": false
+        }
+      ],
+      "status": [
+        [
+          478.968,
+          "1"
+        ],
+        [
+          4130.612,
+          "2"
+        ],
+        [
+          4140.562,
+          "1"
+        ],
+        [
+          5406.581,
+          "2"
+        ],
+        [
+          5413.252,
+          "1"
+        ],
+        [
+          6675.945,
+          "2"
+        ],
+        [
+          6684.673,
+          "1"
+        ],
+        [
+          6761.127,
+          "2"
+        ],
+        [
+          6772.485,
+          "6"
+        ],
+        [
+          6790.512,
+          "7"
+        ],
+        [
+          6805.27,
+          "1"
+        ],
+        [
+          7124.418,
+          "2"
+        ],
+        [
+          7127.914,
+          "1"
+        ]
+      ],
+      "green_driver_count": 20
+    },
+    {
+      "race": "Austria",
+      "api_path": "/static/2019/2019-06-30_Austrian_Grand_Prix/2019-06-30_Race/",
+      "green_pace_s": 70.12575,
+      "episodes": [],
+      "status": [
+        [
+          229.534,
+          "1"
+        ]
+      ],
+      "green_driver_count": 20
+    },
+    {
+      "race": "Great Britain",
+      "api_path": "/static/2019/2019-07-14_British_Grand_Prix/2019-07-14_Race/",
+      "green_pace_s": 91.51675,
+      "episodes": [
+        {
+          "kind": "SC",
+          "start": 3795.462,
+          "end": 4265.894,
+          "right_censored": false
+        }
+      ],
+      "status": [
+        [
+          719.774,
+          "1"
+        ],
+        [
+          3765.401,
+          "2"
+        ],
+        [
+          3795.462,
+          "4"
+        ],
+        [
+          4265.894,
+          "1"
+        ],
+        [
+          4542.668,
+          "2"
+        ],
+        [
+          4567.893,
+          "1"
+        ],
+        [
+          5530.021,
+          "2"
+        ],
+        [
+          5545.277,
+          "1"
+        ]
+      ],
+      "green_driver_count": 20
+    },
+    {
+      "race": "Hungary",
+      "api_path": "/static/2019/2019-08-04_Hungarian_Grand_Prix/2019-08-04_Race/",
+      "green_pace_s": 82.87100000000001,
+      "episodes": [],
+      "status": [
+        [
+          385.173,
+          "1"
+        ],
+        [
+          2080.576,
+          "2"
+        ],
+        [
+          2085.606,
+          "1"
+        ]
+      ],
+      "green_driver_count": 20
+    },
+    {
+      "race": "Belgium",
+      "api_path": "/static/2019/2019-09-01_Belgian_Grand_Prix/2019-09-01_Race/",
+      "green_pace_s": 110.4685,
+      "episodes": [
+        {
+          "kind": "SC",
+          "start": 2062.787,
+          "end": 2670.275,
+          "right_censored": false
+        }
+      ],
+      "status": [
+        [
+          0.0,
+          "1"
+        ],
+        [
+          73.199,
+          "2"
+        ],
+        [
+          120.652,
+          "1"
+        ],
+        [
+          2017.55,
+          "2"
+        ],
+        [
+          2018.896,
+          "1"
+        ],
+        [
+          2020.221,
+          "2"
+        ],
+        [
+          2027.489,
+          "1"
+        ],
+        [
+          2029.537,
+          "2"
+        ],
+        [
+          2062.787,
+          "4"
+        ],
+        [
+          2670.275,
+          "1"
+        ],
+        [
+          6975.637,
+          "2"
+        ]
+      ],
+      "green_driver_count": 18
+    },
+    {
+      "race": "Italy",
+      "api_path": "/static/2019/2019-09-08_Italian_Grand_Prix/2019-09-08_Race/",
+      "green_pace_s": 85.568,
+      "episodes": [
+        {
+          "kind": "VSC",
+          "start": 4407.092,
+          "end": 4460.568,
+          "right_censored": false
+        },
+        {
+          "kind": "VSC",
+          "start": 4590.375,
+          "end": 4669.029,
+          "right_censored": false
+        }
+      ],
+      "status": [
+        [
+          486.272,
+          "1"
+        ],
+        [
+          2017.039,
+          "2"
+        ],
+        [
+          2020.003,
+          "1"
+        ],
+        [
+          2225.594,
+          "2"
+        ],
+        [
+          2229.759,
+          "1"
+        ],
+        [
+          2494.8,
+          "2"
+        ],
+        [
+          2515.548,
+          "1"
+        ],
+        [
+          4377.265,
+          "2"
+        ],
+        [
+          4407.092,
+          "6"
+        ],
+        [
+          4448.119,
+          "7"
+        ],
+        [
+          4460.568,
+          "1"
+        ],
+        [
+          4577.115,
+          "2"
+        ],
+        [
+          4590.375,
+          "6"
+        ],
+        [
+          4654.771,
+          "7"
+        ],
+        [
+          4669.029,
+          "1"
+        ]
+      ],
+      "green_driver_count": 20
+    },
+    {
+      "race": "Singapore",
+      "api_path": "/static/2019/2019-09-22_Singapore_Grand_Prix/2019-09-22_Race/",
+      "green_pace_s": 108.6665,
+      "episodes": [
+        {
+          "kind": "SC",
+          "start": 5921.623,
+          "end": 6616.051,
+          "right_censored": false
+        },
+        {
+          "kind": "SC",
+          "start": 7008.216,
+          "end": 7561.324,
+          "right_censored": false
+        },
+        {
+          "kind": "SC",
+          "start": 7861.543,
+          "end": 8070.971,
+          "right_censored": false
+        }
+      ],
+      "status": [
+        [
+          505.229,
+          "1"
+        ],
+        [
+          5838.32,
+          "2"
+        ],
+        [
+          5921.623,
+          "4"
+        ],
+        [
+          6616.051,
+          "1"
+        ],
+        [
+          6960.932,
+          "2"
+        ],
+        [
+          7008.216,
+          "4"
+        ],
+        [
+          7561.324,
+          "1"
+        ],
+        [
+          7811.514,
+          "2"
+        ],
+        [
+          7812.138,
+          "1"
+        ],
+        [
+          7813.449,
+          "2"
+        ],
+        [
+          7861.543,
+          "4"
+        ],
+        [
+          8070.971,
+          "1"
+        ]
+      ],
+      "green_driver_count": 20
+    },
+    {
+      "race": "Russia",
+      "excluded": "any rainfall station sample"
+    },
+    {
+      "race": "Japan",
+      "api_path": "/static/2019/2019-10-13_Japanese_Grand_Prix/2019-10-13_Race/",
+      "green_pace_s": 96.16274999999999,
+      "episodes": [],
+      "status": [
+        [
+          600.843,
+          "1"
+        ],
+        [
+          2321.877,
+          "2"
+        ],
+        [
+          2333.609,
+          "1"
+        ],
+        [
+          6961.099,
+          "2"
+        ],
+        [
+          7264.937,
+          "1"
+        ]
+      ],
+      "green_driver_count": 20
+    },
+    {
+      "race": "Mexico",
+      "api_path": "/static/2019/2019-10-27_Mexican_Grand_Prix/2019-10-27_Race/",
+      "green_pace_s": 81.897,
+      "episodes": [
+        {
+          "kind": "VSC",
+          "start": 2053.665,
+          "end": 2204.204,
+          "right_censored": false
+        }
+      ],
+      "status": [
+        [
+          0.0,
+          "1"
+        ],
+        [
+          2053.665,
+          "6"
+        ],
+        [
+          2185.134,
+          "7"
+        ],
+        [
+          2204.204,
+          "1"
+        ],
+        [
+          2412.845,
+          "2"
+        ],
+        [
+          2429.452,
+          "1"
+        ],
+        [
+          7807.154,
+          "2"
+        ],
+        [
+          7811.735,
+          "1"
+        ]
+      ],
+      "green_driver_count": 20
+    },
+    {
+      "race": "United States",
+      "api_path": "/static/2019/2019-11-03_United_States_Grand_Prix/2019-11-03_Race/",
+      "green_pace_s": 101.728,
+      "episodes": [],
+      "status": [
+        [
+          0.0,
+          "1"
+        ],
+        [
+          2799.218,
+          "2"
+        ],
+        [
+          2863.187,
+          "1"
+        ],
+        [
+          7465.783,
+          "2"
+        ]
+      ],
+      "green_driver_count": 20
+    },
+    {
+      "race": "Brazil",
+      "api_path": "/static/2019/2019-11-17_Brazilian_Grand_Prix/2019-11-17_Race/",
+      "green_pace_s": 74.20175,
+      "episodes": [
+        {
+          "kind": "SC",
+          "start": 5923.182,
+          "end": 6537.038,
+          "right_censored": false
+        },
+        {
+          "kind": "SC",
+          "start": 7038.072,
+          "end": 7393.891,
+          "right_censored": false
+        }
+      ],
+      "status": [
+        [
+          0.0,
+          "1"
+        ],
+        [
+          2543.641,
+          "2"
+        ],
+        [
+          2550.955,
+          "1"
+        ],
+        [
+          5825.268,
+          "2"
+        ],
+        [
+          5923.182,
+          "4"
+        ],
+        [
+          6537.038,
+          "1"
+        ],
+        [
+          7038.072,
+          "4"
+        ],
+        [
+          7393.891,
+          "1"
+        ],
+        [
+          7483.624,
+          "2"
+        ],
+        [
+          7491.254,
+          "1"
+        ]
+      ],
+      "green_driver_count": 20
+    },
+    {
+      "race": "Abu Dhabi",
+      "api_path": "/static/2019/2019-12-01_Abu_Dhabi_Grand_Prix/2019-12-01_Race/",
+      "green_pace_s": 104.465,
+      "episodes": [],
+      "status": [
+        [
+          0.0,
+          "1"
+        ],
+        [
+          2024.715,
+          "2"
+        ],
+        [
+          2090.953,
+          "1"
+        ]
+      ],
+      "green_driver_count": 20
+    }
+  ]
+}

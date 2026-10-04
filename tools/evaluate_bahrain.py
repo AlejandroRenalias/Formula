@@ -21,7 +21,7 @@ from src.evaluation.prediction import actual_plan, predict, score_targets
 from src.evaluation.snapshot import ExcludedSnapshot, build_snapshot, load_dataset
 
 DEFAULT_DATA = Path("data/cache/evaluation/bahrain_2021/session.json")
-DEFAULT_OUTPUT = Path("docs/evaluation/bahrain_2021_pit_split")
+DEFAULT_OUTPUT = Path("docs/evaluation/bahrain_2021_ongoing")
 
 
 def evaluate_one(data, driver, lap):
@@ -73,8 +73,8 @@ def explanation(row, record):
     audit, config = record["audit"], record["config"]
     stop_count = sum(s["lap"] < row["target_lap"] for s in record["actual_subject_plan"])
     if record["state"]["track_status"] == "SAFETY_CAR":
-        return ("Safety car observed at cutoff; the unchanged engine persists that status "
-                "through the projection and adds its frozen neutralized pace delay. "
+        return ("Safety car observed at cutoff; the engine ends it after the external prior's "
+                "expected remaining duration conditional on its observed elapsed time. "
                 "A real restart is not supplied as future input. This can dominate long-horizon "
                 "error; it is not evidence of tyre wear. The pit allocation remains 50/50.")
     method = audit.get("base_pace_method", "minimum")
@@ -203,9 +203,10 @@ def write_report(rows, exclusions, snapshots, manifest, output):
         "The share is an unestimated neutral default, not fitted to evaluation data. "
         "Fresh tyre timing remains the existing entry-lap approximation; used replacement "
         "tyres are not modeled. Subject snapshots inside the pit are excluded.",
-        "- Fixed status persistence follows the existing engine. No actual future status "
-        "is injected. Final classification selects subjects outside the engine (survivor bias). "
-        "No held-out or wet races were acquired or evaluated by this slice.", "",
+        "- Ongoing SC/VSC ends after an expected remaining duration conditioned on causal "
+        "elapsed time, using the committed 2019 dry-race prior, never the actual ending. "
+        "No later status is injected. Final classification selects subjects outside the engine "
+        "(survivor bias). No held-out/wet evaluation is performed.", "",
         "## Reproduction", "", "From the repository root, after acquiring the authorized race once:", "",
         "```powershell", reproduction, "```", "",
         "The command loads only the hash-verified local normalized cache, blocks network "
@@ -326,7 +327,8 @@ def run(dataset=DEFAULT_DATA, output=DEFAULT_OUTPUT, compare_to=None):
                    Path("src/calculators/weather_model.py"), Path("src/calculators/traffic_model.py"),
                    Path("src/core/models.py"), Path("src/core/provenance.py"),
                    *sorted(Path("src/evaluation").glob("*.py")),
-                   Path("tools/evaluate_bahrain.py"), Path("tools/acquire_bahrain_evaluation.py")]
+                   Path("tools/evaluate_bahrain.py"), Path("tools/acquire_bahrain_evaluation.py"),
+                   Path("data/priors/neutralization_2019.json")]
         manifest = {"dataset_sha256": digest, "dataset_path": str(dataset),
             "race_key": race_key(data), "race_label": f"{data['race']} {data['year']}",
             "scheduled_laps": data["scheduled_laps"], "fastf1_version": data["fastf1_version"],
@@ -342,9 +344,9 @@ def run(dataset=DEFAULT_DATA, output=DEFAULT_OUTPUT, compare_to=None):
             "base_pace_method": snapshots[0]["audit"].get("base_pace_method", "minimum"),
             "snapshot_path": str(snapshot_path), "compare_to": str(compare_to) if compare_to else None,
             "network_blocked": True, "forecast_mode": "no_forecast_dry_persistence",
-            "variable_config_from_pre_cutoff_clean_laps": ["base_pace_s", "base_pace_sigma_s", "lap_noise_sigma_s"],
+            "variable_config_from_pre_cutoff_clean_laps": ["base_pace_s", "base_pace_sigma_s", "lap_noise_sigma_s", "ongoing_neutralization_laps"],
             "fixed_config_except_base_pace": {k: v for k, v in snapshots[0]["config"].items()
-                                             if k not in ("base_pace_s", "base_pace_sigma_s", "lap_noise_sigma_s")}}
+                                             if k not in ("base_pace_s", "base_pace_sigma_s", "lap_noise_sigma_s", "ongoing_neutralization_laps")}}
         save_predictions(rows, output)
         (output / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
         plots(rows, output, manifest["race_label"])

@@ -474,3 +474,38 @@ pit-loss changes use the fixture's scaled profile and fixed cutoff gaps to redra
 the equivalent-progress ghost and neighbours; they do not simulate the pit lane
 or change the precomputed recommendation. The forecast sector is a soft static
 overlay; no rain motion or wind vector is inferred.
+
+
+## Structural neutralization correction 1: ongoing events end
+
+The external prior is built only from 2019 races, before all evaluation years.
+Germany was omitted in advance; sessions with any rain station sample are
+excluded. The included 18 races and raw status/episode evidence are committed
+in data/priors/neutralization_2019.json with a SHA-256 sidecar. Acquisition reads
+only 2019 public timing/status/weather and caches it locally; no projection is
+run on those prior races. Held-out and wet evaluation races remain untouched.
+
+Green-lap exposure is green/yellow race-running seconds divided by each race's
+median driver clean-lap pace; red flags and SC/VSC seconds are not exposure.
+There are 9 SC and 6 VSC onsets over 1019.026 green-lap equivalents. Total-duration
+observations ending at race finish are right-censored: count their onset but
+exclude their unfinished duration from the completed-duration distribution.
+Full-lap pace ratios exclude pit laps, lap 1/2, and mixed-status laps and are
+normalized to the same driver's median green pace within that prior race.
+This small dry-only prior has selection and censoring limitations; VSC pace has
+only two qualifying observations. No evaluation outcomes enter any estimate.
+
+For an ongoing event, use the prefix's most recent uninterrupted SC (code 4)
+or VSC (codes 6/7 together) onset. Elapsed time is cutoff minus that onset.
+Expected remaining seconds is the mean of D-elapsed among external completed
+durations D greater than elapsed. Beyond the largest observed duration, use an
+explicit untuned remaining-duration assumption: 90 s SC / 30 s VSC. Convert to
+remaining whole laps by ceil(seconds / (cutoff nominal green pace * external
+pace multiplier)), at least one lap. These multipliers are 1.34175 SC and
+1.35539 VSC; in this first correction they only convert clock duration to laps.
+Existing SC running pace/pack behavior and VSC running pace remain unchanged.
+The event ends at that predicted boundary, never at its actual future ending.
+Onset timestamp must be <= cutoff; the frozen prior is available before session
+start and records latest source year 2019 and its hash. Default engine behavior
+outside evaluation remains compatible via ongoing_neutralization_laps=None.
+`nCorrection 1 results: Bahrain and Spain metrics are unchanged. France finish MAE falls from 130.620 to 67.441 s; mean bias moves from +2.818 to -60.361 s, median error remains -36.519 s, and coverage remains 0% (11 below p10 / 418 above p90). See docs/evaluation/development_ongoing/REPORT.md for all horizons and pit strata. Full verification: 179 tests passed, including real SC-cutoff future poisoning; offline source hashes and parameter timestamps verified.

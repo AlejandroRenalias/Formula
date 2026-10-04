@@ -1,0 +1,178 @@
+{
+  "1": {
+    "n": 429,
+    "mae_s": 0.7085548690905292,
+    "bias_s": 0.259846695454282,
+    "median_error_s": -0.0869347279535333,
+    "mean_error_per_lap_s": 0.259846695454282,
+    "median_error_per_lap_s": -0.0869347279535333,
+    "mae_per_lap_s": 0.7085548690905292,
+    "coverage": 0.6130536130536131,
+    "mean_width_s": 1.0198654152099855,
+    "lower_misses": 78,
+    "upper_misses": 88,
+    "interval_score_s": 5.207469163009707,
+    "by_subject_pit_stop": {
+      "without_stop": {
+        "n": 409,
+        "mae_s": 0.40249257991312,
+        "bias_s": -0.0681573137053398,
+        "median_error_s": -0.10616147781303198,
+        "mean_error_per_lap_s": -0.0681573137053398,
+        "median_error_per_lap_s": -0.10616147781303198,
+        "mae_per_lap_s": 0.40249257991312,
+        "coverage": 0.6430317848410758,
+        "mean_width_s": 1.0038422369711606,
+        "lower_misses": 58,
+        "upper_misses": 88,
+        "interval_score_s": 2.325422098412862
+      },
+      "with_stop": {
+        "n": 20,
+        "mae_s": 6.967528682768547,
+        "bias_s": 6.967528682768547,
+        "median_error_s": 7.063137504869935,
+        "mean_error_per_lap_s": 6.967528682768547,
+        "median_error_per_lap_s": 7.063137504869935,
+        "mae_per_lap_s": 6.967528682768547,
+        "coverage": 0.0,
+        "mean_width_s": 1.347539410193955,
+        "lower_misses": 20,
+        "upper_misses": 0,
+        "interval_score_s": 64.14533163401518
+      }
+    }
+  },
+  "5": {
+    "n": 429,
+    "mae_s": 2.296325869914167,
+    "bias_s": -0.5961656342401286,
+    "median_error_s": -0.7282728453787399,
+    "mean_error_per_lap_s": -0.11923312684802571,
+    "median_error_per_lap_s": -0.14565456907574797,
+    "mae_per_lap_s": 0.4592651739828334,
+    "coverage": 0.4662004662004662,
+    "mean_width_s": 3.261079005481438,
+    "lower_misses": 75,
+    "upper_misses": 154,
+    "interval_score_s": 15.097840340183712,
+    "by_subject_pit_stop": {
+      "without_stop": {
+        "n": 326,
+        "mae_s": 1.841409269570977,
+        "bias_s": -0.4831723914978928,
+        "median_error_s": -0.505641629197811,
+        "mean_error_per_lap_s": -0.09663447829957857,
+        "median_error_per_lap_s": -0.10112832583956219,
+        "mae_per_lap_s": 0.3682818539141954,
+        "coverage": 0.5276073619631901,
+        "mean_width_s": 3.2388331491860143,
+        "lower_misses": 52,
+        "upper_misses": 102,
+        "interval_score_s": 11.242798985176902
+      },
+      "with_stop": {
+        "n": 103,
+        "mae_s": 3.7361589933304775,
+        "bias_s": -0.9537947326281757,
+        "median_error_s": -1.7706006066233044,
+        "mean_error_per_lap_s": -0.19075894652563516,
+        "median_error_per_lap_s": -0.35412012132466086,
+        "mae_per_lap_s": 0.7472317986660955,
+        "coverage": 0.27184466019417475,
+        "mean_width_s": 3.3314882205523895,
+        "lower_misses": 23,
+        "upper_misses": 52,
+        "interval_score_s": 27.299233366710116
+      }
+    }
+  },
+  "10": {
+    "n": 379,
+    "mae_s": 3.794738597066858,
+    "bias_s": -0.9580848750151177,
+    "median_error_s": -0.53037289849442,
+    "mean_error_per_lap_s": -0.09580848750151177,
+    "median_error_per_lap_s": -0.053037289849442004,
+    "mae_per_lap_s": 0.3794738597066858,
+    "coverage": 0.45646437994722955,
+    "mean_width_s": 5.93815846266765,
+    "lower_misses": 80,
+    "upper_misses": 126,
+    "interval_score_s": 24.970814628708204,
+    "by_subject_pit_stop": {
+      "without_stop": {
+        "n": 204,
+        "mae_s": 3.6171664002810586,
+        "bias_s": -0.5773320824597755,
+        "median_error_s": -0.5280546745330525,
+        "mean_error_per_lap_s": -0.05773320824597755,
+        "median_error_per_lap_s": -0.052805467453305256,
+        "mae_per_lap_s": 0.3617166400281059,
+        "coverage": 0.47549019607843135,
+        "mean_width_s": 6.040011985398219,
+        "lower_misses": 47,
+        "upper_misses": 60,
+        "interval_score_s": 22.71046746475229
+      },
+      "with_stop": {
+        "n": 175,
+        "mae_s": 4.001737043605732,
+        "bias_s": -1.4019338446224883,
+        "median_error_s": -0.5773331618488555,
+        "mean_error_per_lap_s": -0.14019338446224883,
+        "median_error_per_lap_s": -0.05773331618488555,
+        "mae_per_lap_s": 0.4001737043605732,
+        "coverage": 0.4342857142857143,
+        "mean_width_s": 5.8194263561703,
+        "lower_misses": 33,
+        "upper_misses": 66,
+        "interval_score_s": 27.60573360840538
+      }
+    }
+  },
+  "finish": {
+    "n": 429,
+    "mae_s": 8.518889667673125,
+    "bias_s": -1.4578483089832261,
+    "median_error_s": -2.1851214319290193,
+    "mean_error_per_lap_s": -0.18621849557743625,
+    "median_error_per_lap_s": -0.08351350330264223,
+    "mae_per_lap_s": 0.38555545939407004,
+    "coverage": 0.4755244755244755,
+    "mean_width_s": 15.763108829685967,
+    "lower_misses": 57,
+    "upper_misses": 168,
+    "interval_score_s": 51.74046654099012,
+    "by_subject_pit_stop": {
+      "without_stop": {
+        "n": 158,
+        "mae_s": 6.3148188606794236,
+        "bias_s": -4.573116934962596,
+        "median_error_s": -4.882869520538179,
+        "mean_error_per_lap_s": -0.44886326472944377,
+        "median_error_per_lap_s": -0.4962840835155234,
+        "mae_per_lap_s": 0.539378269849954,
+        "coverage": 0.3227848101265823,
+        "mean_width_s": 7.302140108694371,
+        "lower_misses": 12,
+        "upper_misses": 95,
+        "interval_score_s": 41.69463493600057
+      },
+      "with_stop": {
+        "n": 271,
+        "mae_s": 9.803919879868713,
+        "bias_s": 0.3584337681560376,
+        "median_error_s": 0.6637141397350206,
+        "mean_error_per_lap_s": -0.03308981097958685,
+        "median_error_per_lap_s": 0.014428568255109143,
+        "mae_per_lap_s": 0.29587278761536284,
+        "coverage": 0.5645756457564576,
+        "mean_width_s": 20.69607214303162,
+        "lower_misses": 45,
+        "upper_misses": 73,
+        "interval_score_s": 57.597445853124256
+      }
+    }
+  }
+}
