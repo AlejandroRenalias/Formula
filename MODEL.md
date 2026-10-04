@@ -715,3 +715,47 @@ parameter or interval tuning: this remains an unvalidated, mixed experiment.
 Full per-race/pooled pit strata and compound/age before/after tables:
 docs/evaluation/development_parameters_wear/REPORT.md. All 205 tests pass;
 1,400 snapshots / 5,446 predictions preserve probability/subset invariants.
+
+## Joint race trend and wear (first regression slice)
+
+Fit clean pre-cutoff laps with driver intercepts, fixed default compound offsets,
+compound-specific nonnegative linear wear and a signed race-lap trend. Keep the
+same clean-lap, pit-lap and three-lap/three-age-span eligibility rules as before.
+Subtract the unchanged fixed cliff term. Demean the design and response within
+drivers (not stints) to eliminate driver intercepts; different stint start laps
+supply the separation between age and race lap. Do not use future tyre labels.
+
+Before viewing outcomes, freeze slope regularization at 60 pseudo-laps with
+five-lap standard deviation: ridge precision 60*25=1500 for each wear slope and
+race trend. Priors are the existing compound slopes and signed trend -0.05 s/lap
+(the existing positive 0.05 fuel effect). This is joint prior-centered ridge,
+not the preceding count-weight blend. Solve nonnegative wear by an active set;
+allow either sign of race trend. With a rank-deficient driver-demeaned design,
+keep the trend exactly at its prior and label fallback; absent compounds also
+retain their priors. Regularization does not make unidentifiable trend evidence.
+Record counts, design rank, fallback and latest source time for every coefficient.
+Jointly fitted coefficients depend on all included rows, so their source timestamp
+is the latest included observation, not only rows of their own compound.
+
+Use the fitted curve and trend to reanchor the same recent raw-median lap(s),
+and use the trend for future race-lap increments. Preserve pit parameters,
+nominal scatter sizing, uncertainty spreads and neutralisation priors/initial
+ongoing-duration conversion. The trend absorbs fuel, track evolution and other
+race-wide effects; it is not a separate physical fuel estimate. Extrapolating
+one linear trend to the finish remains an assumption. No interval tuning.
+
+The next offset slice's prior is also fixed before these replays: 60 pseudo-laps
+with one-second offset-design spread (ridge precision 60). Only drivers with
+multiple qualifying observed compounds identify offset contrasts; unsupported
+compound comparisons retain defaults. No evaluation errors select prior strength.
+
+
+Trend-only result versus the preceding wear run: pooled green finish MAE
+14.759 -> 14.047 s (equal-race 14.597 -> 13.750), but bias
+-2.343 -> -6.635 s, coverage 37.9% -> 36.5%. Pooled 10-lap MAE
+3.961 -> 3.994 s. Bahrain with-stop finish bias +12.899 -> +2.007;
+Spain -10.588 -> -11.030 s. No-stop finish error/lap worsens Bahrain
+-0.278 -> -0.649 and Spain -0.762 -> -0.809. Spain SOFT remains poor.
+No tuning after these outcomes. 209 tests pass; all 1,400 snapshot and
+5,446 prediction provenance/probability invariants verified. Full matched
+pit/no-pit and compound/age tables: docs/evaluation/development_parameters_trend/REPORT.md.

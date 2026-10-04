@@ -21,6 +21,7 @@ from src.evaluation.races import DEVELOPMENT_RACES, race_key
 from src.evaluation.neutralization_prior import ongoing_inputs, load_prior
 from src.evaluation.pit_parameters import pit_inputs
 from src.evaluation.wear_parameters import estimate_wear
+from src.evaluation.joint_parameters import estimate_joint
 
 EPOCH = datetime(1970, 1, 1, tzinfo=timezone.utc)
 STATUS = {"1": TrackStatus.GREEN, "2": TrackStatus.YELLOW,
@@ -163,13 +164,13 @@ class Snapshot:
     audit: dict
 
 
-def median_pace_anchor(clean, current_lap, wear_rates=None):
+def median_pace_anchor(clean, current_lap, wear_rates=None, race_trend=-.05):
     """Use the raw median, retaining baseline nominal wear/fuel corrections."""
     ordered = sorted(clean, key=lambda r: r.lap_time_s)
     middle = ordered[(len(ordered) - 1) // 2:len(ordered) // 2 + 1]
     base = statistics.mean(r.lap_time_s - TyreModel.lap_delta_s(r.compound, r.tyre_age_laps,
                                degradation_rate_s_per_lap=(wear_rates or {}).get(r.compound.value))
-                           - 0.05 * (current_lap - r.lap_number) for r in middle)
+                           + race_trend * (current_lap - r.lap_number) for r in middle)
     return base, statistics.median(r.lap_time_s for r in clean), middle
 
 
@@ -187,7 +188,7 @@ def pace_uncertainty(clean, current_lap):
             "assumption": "normal persistent offset SD=s/sqrt(n); independent lap noise SD=s; one observation gives zero"}
 
 
-def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None, fit_wear=True):
+def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None, fit_wear=True, fit_trend=True):
     """Only coordinate/proxy channels may read corrected crossing Times."""
     driver_map = {r["DriverNumber"]: r for r in data["drivers"]}
     own_crossings = crossings(data, driver)
@@ -290,11 +291,14 @@ def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None, fit_wear
     green_loss, in_fraction, pit_audit = pit_inputs(data, prefixes, cutoff)
     config = config.model_copy(update={"pit_in_lap_fraction":in_fraction})
     wear_rates, wear_audit = estimate_wear(data, prefixes, cutoff) if fit_wear else ({},{})
+    trend, trend_audit = -.05, {}
+    if fit_wear and fit_trend:
+        wear_rates, wear_audit, trend, trend_audit = estimate_joint(data, prefixes, cutoff)
     if fit_wear:
         # Keep the existing ongoing-event conversion and noise sizing unchanged.
-        base_pace, observed_median, anchor_laps = median_pace_anchor(clean, lap, wear_rates)
+        base_pace, observed_median, anchor_laps = median_pace_anchor(clean, lap, wear_rates, trend)
         config = config.model_copy(update={"base_pace_s":base_pace,
-            "degradation_rates_s_per_lap":wear_rates})
+            "degradation_rates_s_per_lap":wear_rates, "race_trend_s_per_lap":trend if fit_trend else None})
         metrics = metrics.model_copy(update={"degradation_rate_s_per_lap":ProvenanceMetric(
             value=wear_rates[compound.value], source=DataSource.USER_DEFINED if wear_audit[compound.value]["fallback_used"] else DataSource.DERIVED_MODEL,
             quality=DataQuality.LOW if wear_audit[compound.value]["fallback_used"] else DataQuality.MEDIUM,
@@ -320,6 +324,8 @@ def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None, fit_wear
                   "subject_timing": subject["latest_source_s"], "subject_tyres": tyre_source,
                   "rival_inputs": max(rival_sources, default=0.),
                   "weather": w["Time"], "track_status": track[-1]["Time"]}
+    if trend_audit:
+        timestamps["race_trend"] = trend_audit["latest_source_session_s"]
     for c, estimate in wear_audit.items():
         timestamps["tyre_wear_"+c] = estimate["latest_source_session_s"]
     if fit_wear:
@@ -341,6 +347,6 @@ def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None, fit_wear
                  if r.get("Stint") == stint and number(r.get("StartLaps")))),
              "base_pace_anchor_lap": max(r.lap_number for r in anchor_laps),
              "base_pace_anchor_laps": [r.lap_number for r in anchor_laps],
-             "base_pace_method": "median", "wear_estimates":wear_audit, "wear_enabled":fit_wear, "pit_loss_estimate":pit_audit, "pace_uncertainty": uncertainty, "ongoing_neutralization":ongoing_audit,
+             "base_pace_method": "median", "race_trend_estimate":trend_audit, "wear_estimates":wear_audit, "wear_enabled":fit_wear, "pit_loss_estimate":pit_audit, "pace_uncertainty": uncertainty, "ongoing_neutralization":ongoing_audit,
              "parameters": "causal pit components and compound wear; recent six clean laps median anchor; unchanged nominal driver-local noise sizing"}
     return Snapshot(state, config, audit)

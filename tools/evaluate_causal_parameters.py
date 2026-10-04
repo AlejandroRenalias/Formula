@@ -13,7 +13,7 @@ from tools.evaluate_bahrain import plots
 
 
 def root(stage):return Path('docs/evaluation')/f'development_parameters_{stage}'
-def previous_root(stage):return Path('docs/evaluation/development_conditional') if stage=='pit' else root('pit')
+def previous_root(stage):return Path('docs/evaluation/development_conditional') if stage=='pit' else root({'wear':'pit','trend':'wear','offsets':'trend'}[stage])
 
 
 def run(stage,race):
@@ -35,7 +35,7 @@ def run(stage,race):
         data,digest=load_dataset(dataset)
         def one(record):
             driver,lap=record['driver_number'],record['lap']
-            snapshot=build_snapshot(data,driver,lap,cutoff_s=record['audit']['cutoff_session_s'],fit_wear=stage=='wear')
+            snapshot=build_snapshot(data,driver,lap,cutoff_s=record['audit']['cutoff_session_s'],fit_wear=stage!='pit',fit_trend=stage in ('trend','offsets'))
             plan=ActualPlan(tuple(Stop.model_validate(s) for s in record['actual_subject_plan']))
             predictions=predict(snapshot,plan)
             result=[]
@@ -143,7 +143,7 @@ def report(stage):
     print(json.dumps({r:{h:{k:v for k,v in m.items() if k!='by_subject_pit_stop'} for h,m in s.items()} for r,s in summaries.items()},indent=2))
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--stage',choices=('pit','wear'),required=True);p.add_argument('--race',choices=RACES);p.add_argument('--report-only',action='store_true');a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--stage',choices=('pit','wear','trend','offsets'),required=True);p.add_argument('--race',choices=RACES);p.add_argument('--report-only',action='store_true');a=p.parse_args()
     if a.race:run(a.stage,a.race)
     elif a.report_only:report(a.stage)
     else:p.error('Choose --race or --report-only')

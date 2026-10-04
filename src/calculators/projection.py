@@ -51,6 +51,7 @@ class ProjectionConfig(BaseModel):
     wetness_ramp_laps: float = Field(default=2.0, gt=0)
     light_rain_wetness: float = Field(default=0.7, gt=0, le=1)
     fuel_effect_s_per_lap: float = Field(default=0.05, ge=0)
+    race_trend_s_per_lap: float | None = None
     cliff_rate_s: float = Field(default=0.15, ge=0)
     degradation_rates_s_per_lap: dict[str, float] = Field(default_factory=dict)
     degradation_scale: float | None = Field(default=None, ge=0)
@@ -84,6 +85,8 @@ class ProjectionConfig(BaseModel):
 
     @model_validator(mode="after")
     def valid_sweep_ranges(self):
+        if self.race_trend_s_per_lap is not None and not isfinite(self.race_trend_s_per_lap):
+            raise ValueError("Race trend must be finite")
         if any(c not in {x.value for x in DRY} or not isfinite(v) or v < 0
                for c,v in self.degradation_rates_s_per_lap.items()):
             raise ValueError("Compound wear overrides require dry compounds and finite nonnegative rates")
@@ -470,7 +473,7 @@ def simulate_policy(state: RaceState, policy: Policy, scenario: Scenario,
                 record.update(in_lap_loss_s=in_loss, out_lap_loss_s=pending_pit_loss,
                               out_lap=lap+1 if pending_pit_loss else None)
             stops.append(record)
-        fuel = config.fuel_effect_s_per_lap * (lap - state.current_lap)
+        fuel = -(config.race_trend_s_per_lap if config.race_trend_s_per_lap is not None else -config.fuel_effect_s_per_lap) * (lap - state.current_lap)
         noise = scenario.lap_noise_s[lap - state.current_lap - 1] if scenario.lap_noise_s else 0.0
         own_pace = (base + delta(compound, age) - fuel + _weather_delta(compound, wetness, state, config)
                     + scenario.base_pace_offset_s + noise)
