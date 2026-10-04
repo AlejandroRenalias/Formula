@@ -19,6 +19,7 @@ from src.core.provenance import DataQuality, DataSource, ProvenanceMetric
 
 from src.evaluation.races import DEVELOPMENT_RACES, race_key
 from src.evaluation.neutralization_prior import ongoing_inputs, load_prior
+from src.evaluation.pit_parameters import pit_inputs
 
 EPOCH = datetime(1970, 1, 1, tzinfo=timezone.utc)
 STATUS = {"1": TrackStatus.GREEN, "2": TrackStatus.YELLOW,
@@ -225,10 +226,12 @@ def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None):
         total_pit_stops=subject["pit_count"], used_compounds=used,
         last_lap_time_s=history[-1].lap_time_s)
     rivals, gap_audit, rival_sources, omitted = [], [], [], []
+    prefixes = {driver: subject}
     for rival in sorted(driver_map):
         if rival == driver:
             continue
         prefix = driver_prefix(data, rival, cutoff)
+        prefixes[rival] = prefix
         if prefix["retired"] or not prefix["history"] or prefix["position"] is None:
             omitted.append({"driver": rival, "reason": "causal_retired_or_no_completed_timing"})
             continue
@@ -282,7 +285,9 @@ def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None):
         "vsc_duration_prior_s":tuple(prior["vsc_durations_s"]),
         "sc_pace_multiplier":prior["sc_pace_multiplier"],
         "vsc_pace_multiplier":prior["vsc_pace_multiplier"]})
-    loss = PitLossModel.calculate_pit_loss(status).current_pit_loss_s
+    green_loss, in_fraction, pit_audit = pit_inputs(data, prefixes, cutoff)
+    config = config.model_copy(update={"pit_in_lap_fraction":in_fraction})
+    loss = PitLossModel.calculate_pit_loss(status, green_loss_s=green_loss).current_pit_loss_s
     pos, gap = TrafficModel.predict_rejoin(own, rivals, loss)
     def measured(value):
         return ProvenanceMetric(value=value, source=DataSource.REAL_FASTF1)
@@ -298,11 +303,13 @@ def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None):
             expected_arrival_laps=ProvenanceMetric(value=None, source=DataSource.USER_DEFINED),
             intensity=ProvenanceMetric(value="DRY", source=DataSource.USER_DEFINED),
             confidence=DataQuality.LOW), derived_pace=metrics, lap_history=history,
-        pit_loss=PitLossModel.calculate_pit_loss(status, pos, gap))
+        pit_loss=PitLossModel.calculate_pit_loss(status, pos, gap, green_loss_s=green_loss))
     timestamps = {"frozen_defaults": 0., "base_pace": max((r.timestamp - EPOCH).total_seconds() for r in anchor_laps),
                   "subject_timing": subject["latest_source_s"], "subject_tyres": tyre_source,
                   "rival_inputs": max(rival_sources, default=0.),
                   "weather": w["Time"], "track_status": track[-1]["Time"]}
+    timestamps["pit_loss_estimate"] = pit_audit["latest_source_session_s"]
+    timestamps["pit_loss_prior"] = 0.
     timestamps["pace_uncertainty"] = uncertainty["source_session_s"]
     timestamps["neutralization_onset"] = ongoing_audit["source_session_s"]
     timestamps["neutralization_prior"] = 0.
@@ -317,6 +324,6 @@ def build_snapshot(data, driver, lap, *, cutoff_s=None, gap_proxy=None):
                  if r.get("Stint") == stint and number(r.get("StartLaps")))),
              "base_pace_anchor_lap": max(r.lap_number for r in anchor_laps),
              "base_pace_anchor_laps": [r.lap_number for r in anchor_laps],
-             "base_pace_method": "median", "pace_uncertainty": uncertainty, "ongoing_neutralization":ongoing_audit,
+             "base_pace_method": "median", "pit_loss_estimate":pit_audit, "pace_uncertainty": uncertainty, "ongoing_neutralization":ongoing_audit,
              "parameters": "frozen defaults; recent six clean laps median pace and driver-local scatter"}
     return Snapshot(state, config, audit)

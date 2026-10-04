@@ -126,7 +126,8 @@ def test_frozen_parameters_and_source_timestamps(monkeypatch):
     monkeypatch.setattr(PaceModel, "calculate_pace_metrics", forbidden)
     snap = build_snapshot(dataset(), "1", 8)
     assert snap.config.degradation_scale == 1
-    assert snap.state.pit_loss.green_pit_loss_s == 21.5
+    assert snap.state.pit_loss.green_pit_loss_s == snap.audit["pit_loss_estimate"]["green_total_loss_s"]
+    assert snap.config.pit_in_lap_fraction == snap.audit["pit_loss_estimate"]["in_lap_fraction"]
     assert all(t <= 800 for t in snap.audit["parameter_source_session_s"].values())
     assert snap.state.subject_driver.stint_length_laps == 11  # used tyres: 3 + 8
     assert snap.audit["subject_completed_stint_laps"] == 8

@@ -610,3 +610,54 @@ the previous future-risk run. Conditional green prediction-pooled finish MAE
 is 13.099 s, bias -4.967 s, mean error/lap -0.258 s, coverage 45.5%, and width
 19.060 s; France has no green-only finish outcomes. Full per-race, pit-split,
 equal-race and calibration tables: docs/evaluation/development_conditional/REPORT.md.
+
+## Causal pit prior and completed-stop updates
+
+The effective green-stop prior comes from Bahrain 2019, Spain 2019 and France
+2019 only, outside every evaluation race. Public raw timing/tyre/status/weather
+responses are cached locally; no projections are run on those prior races.
+Venue-specific medians are recorded in data/priors/pit_2019.json with SHA-256.
+France puts its stop mainly before the timing line (entry-heavy); Bahrain and
+Spain are exit-heavy. Do not pool those structurally different lap allocations.
+This estimates effective elapsed loss including warm-up and local pace effects,
+not pure stationary service time. Venue-specific defaults use the earlier 2019 season, never evaluation outcomes.
+A pooled fallback is retained only for an unknown venue.
+
+Reduce raw TimingData packets only before the cutoff. Identify entry lap from
+completed-lap count at an observed pit entry. Require both entry/out-lap lap-time
+packets and a pit exit received before the cutoff. Both full laps must be green.
+Counterfactual in-lap pace uses the median of up to three earlier clean laps in
+the same stint, at least two and after lap 2, adjusted with frozen nominal
+compound/wear and fuel 0.05 s/lap. Out-lap pace uses up to three already observed
+clean new-stint laps within five laps of entry, if available; otherwise use the
+pre-stop fresh-pace anchor and new nominal compound/age. Never use a following
+stint or a clean lap after the cutoff. Physical measurement quality bounds are
+0<entry excess<40 s, 0<exit excess<40 s, 5<total<60 s; these quality bounds allow either timing-line allocation and are not tuned
+to evaluation errors. Green-only stops are
+pooled across all causally observed drivers, without finisher selection.
+
+Update the two component medians with weight n/(n+5), an untuned five-stop prior
+strength. Derive total and share from these shrunken components. Record n,
+fallback, component values, prior weight/hash/year, every accepted stop and the
+latest source timestamp <= cutoff. With no complete stop, use the external prior.
+SC/VSC total pit losses stay 9.5/12.5 s; the revised allocation fraction is
+shared as in the existing model. No interval-width parameters, event rates,
+fuel, degradation, tyre reset timing or UI behavior change in this pit slice.
+
+
+2019 venue priors (64 stops total): Bahrain 23 stops, total 24.382 s and entry
+share 12.05%; Spain 23 stops, total 23.125 s and entry share 15.41%; France
+18 stops, total 24.4165 s and entry share 82.46%. The different France split is
+observed in the 2019 evidence itself, not selected from its 2022 predictions.
+Old car/tyre and service differences remain a limitation of this starting prior;
+the already completed current-race stop updates provide causal adaptation.
+
+
+Pit slice results: one-lap stop MAE changes from 6.968 to 1.048 s Bahrain,
+5.303 to 1.767 s Spain, and 13.052 to 4.722 s France (only two cases).
+Prediction-pooled one-lap stop MAE falls from 6.279 to 1.598 s; bias changes
+from +5.234 to -1.545 s and coverage from 0% to 8%. The remaining entry-lap
+fresh-tyre approximation and individual service/pace variations are unchanged.
+Pooled conditional finish MAE is 13.099 -> 13.210 s, bias -4.967 -> -3.327 s;
+this change primarily fixes entry horizons. No interval parameters were tuned.
+All horizons, pit/no-pit and race pools: docs/evaluation/development_parameters_pit/REPORT.md.

@@ -1,3 +1,4 @@
 
 # Prior hashes refer to exact acquired bytes across platforms.
 data/priors/neutralization_2019.json -text
+data/priors/pit_2019.json -text
