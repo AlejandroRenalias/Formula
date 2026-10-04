@@ -119,10 +119,10 @@ def test_pre_race_pit_visits_do_not_count_and_old_stint_updates_are_not_used_com
     assert snap.state.subject_driver.used_compounds == [TireCompound.MEDIUM]
 
 
-def test_frozen_parameters_and_source_timestamps(monkeypatch):
+def test_causal_parameters_and_source_timestamps(monkeypatch):
     from src.calculators.pace_model import PaceModel
     def forbidden(*args, **kwargs):
-        raise AssertionError("Parameter fitting is forbidden")
+        raise AssertionError("Legacy subject pace regression is not the parameter source")
     monkeypatch.setattr(PaceModel, "calculate_pace_metrics", forbidden)
     snap = build_snapshot(dataset(), "1", 8)
     assert snap.config.degradation_scale == 1
@@ -332,7 +332,8 @@ def test_other_driver_pace_cannot_size_subject_uncertainty():
             row["LastLapTime"] = {"Value": "1:20.000"}
     actual = build_snapshot(data,"1",8)
     assert actual.audit["pace_uncertainty"] == expected.audit["pace_uncertainty"]
-    assert actual.config == expected.config
+    assert actual.config.base_pace_sigma_s == expected.config.base_pace_sigma_s
+    assert actual.config.lap_noise_sigma_s == expected.config.lap_noise_sigma_s
 
 
 @pytest.mark.parametrize("year,race",[(2023,"Spain"),(2024,"Bahrain"),(2021,"Russia"),(2023,"Netherlands"),(2024,"Canada")])

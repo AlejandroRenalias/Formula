@@ -1,0 +1,80 @@
+{
+  "bahrain_2021": {
+    "SOFT": {
+      "snapshots": 429,
+      "fallback_snapshots": 24,
+      "rate_min": 0.0810301474926257,
+      "rate_median": 0.08301373530438866,
+      "rate_max": 0.16501363636363764,
+      "max_sample_count": 61
+    },
+    "MEDIUM": {
+      "snapshots": 429,
+      "fallback_snapshots": 21,
+      "rate_min": 0.06096296296296333,
+      "rate_median": 0.08706686764800145,
+      "rate_max": 0.11738295451660413,
+      "max_sample_count": 376
+    },
+    "HARD": {
+      "snapshots": 429,
+      "fallback_snapshots": 30,
+      "rate_min": 0.04,
+      "rate_median": 0.06925127460580056,
+      "rate_max": 0.10827695463870511,
+      "max_sample_count": 313
+    }
+  },
+  "spain_2022": {
+    "SOFT": {
+      "snapshots": 542,
+      "fallback_snapshots": 10,
+      "rate_min": 0.07745002124197777,
+      "rate_median": 0.1069442344894016,
+      "rate_max": 0.191235121042502,
+      "max_sample_count": 483
+    },
+    "MEDIUM": {
+      "snapshots": 542,
+      "fallback_snapshots": 30,
+      "rate_min": 0.07,
+      "rate_median": 0.10974905618430952,
+      "rate_max": 0.1554361121009902,
+      "max_sample_count": 442
+    },
+    "HARD": {
+      "snapshots": 542,
+      "fallback_snapshots": 287,
+      "rate_min": 0.036923076923076927,
+      "rate_median": 0.04,
+      "rate_max": 0.08028591549295785,
+      "max_sample_count": 30
+    }
+  },
+  "france_2022": {
+    "SOFT": {
+      "snapshots": 429,
+      "fallback_snapshots": 429,
+      "rate_min": 0.12,
+      "rate_median": 0.12,
+      "rate_max": 0.12,
+      "max_sample_count": 0
+    },
+    "MEDIUM": {
+      "snapshots": 429,
+      "fallback_snapshots": 10,
+      "rate_min": 0.05980511223210618,
+      "rate_median": 0.07585988386473637,
+      "rate_max": 0.1114813568670695,
+      "max_sample_count": 276
+    },
+    "HARD": {
+      "snapshots": 429,
+      "fallback_snapshots": 20,
+      "rate_min": 0.024453076571665098,
+      "rate_median": 0.047413349548221954,
+      "rate_max": 0.06814939416848861,
+      "max_sample_count": 444
+    }
+  }
+}

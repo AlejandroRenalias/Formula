@@ -661,3 +661,57 @@ fresh-tyre approximation and individual service/pace variations are unchanged.
 Pooled conditional finish MAE is 13.099 -> 13.210 s, bias -4.967 -> -3.327 s;
 this change primarily fixes entry horizons. No interval parameters were tuned.
 All horizons, pit/no-pit and race pools: docs/evaluation/development_parameters_pit/REPORT.md.
+
+
+## Causal compound wear estimation
+
+For each cutoff, use all drivers' already received raw clean lap observations,
+never corrected full-session lap times or future tyre labels. Fit one linear
+coefficient per dry compound with a separate intercept for each driver/stint:
+demean age and fuel-corrected time within each stint, then sum within-stint
+cross-products across drivers. Fuel correction is +0.05 s times race lap number.
+Remove the existing fixed 0.15 s/lap post-cliff contribution from the fitted
+response, so the unchanged cliff term is not counted twice. Compound offsets,
+cliff thresholds, tyre life, fuel and stop timing remain unchanged.
+
+Exclude race laps 1/2, all pit-entry/out laps, non-GREEN/unusable lap flags,
+nonfinite times and invalid ages. A stint needs at least three clean laps and
+an age span of at least three laps. Clamp a negative empirical slope to zero
+(physical constraint), then shrink it toward the existing compound default with
+weight n/(n+60), where n is the number of qualifying clean laps. The sixty-lap
+prior strength and eligibility rules were chosen before viewing this slice's
+outcomes; they are not fitted to its errors. With no qualifying stint, use the exact
+existing default. Every compound records used/available counts, stint/driver
+counts, raw slope, shrink weight, fallback/clipping flags, within-stint sufficient
+statistics, and latest source session time <= cutoff. Defaults for an unused
+compound have source 0; thin-data fallback records the latest available evidence
+used for that decision. Traffic, driver management and track evolution can still
+confound these empirical slopes; they are not a measurement of tyre chemistry.
+
+Projection uses these rates per compound and the original +/-15% wear draws.
+The recent-six raw median selects the same anchor lap(s), but removing wear to
+recover fresh pace now uses the fitted curve. Record upstream wear timestamps
+in the anchor's parameter provenance. Pit-loss estimates keep their step-1
+nominal counterfactuals so this wear slice does not refit the pit parameters.
+The driver-local noise sigmas deliberately keep their existing nominal-wear
+normalization and identical draws; no interval-width sizing or tuning changes.
+Known ongoing-event duration conversion remains the previous nominal cutoff
+pace calculation, preserving onset probabilities. SC/VSC priors are unchanged.
+Future event duration conversion can consume the updated nominal tyre curve,
+but this cannot change the probability of any first new onset in a horizon.
+The staged CLI can still run pit-only with fit_wear=False.
+
+
+Wear-only development result versus the preceding causal-pit run (matched
+conditional green cohorts): per-prediction 10-lap MAE 4.041 -> 3.961 s,
+coverage 50.0% -> 52.3%; equal-race 10-lap MAE 3.808 -> 3.829 s.
+Pooled finish MAE worsens 13.210 -> 14.759 s, coverage 44.5% -> 37.9%.
+No-stop finish MAE improves Bahrain 6.196 -> 5.151 s and Spain
+9.835 -> 8.648 s, but Spain's signed error/lap worsens -0.723 -> -0.762.
+Bahrain's no-stop finish error/lap improves -0.445 -> -0.278. France's
+10-lap bias is nearly zero, with worse MAE; no green finish cohort exists there.
+Across races no-stop finish HARD/MEDIUM improve, SOFT worsens. No post-result
+parameter or interval tuning: this remains an unvalidated, mixed experiment.
+Full per-race/pooled pit strata and compound/age before/after tables:
+docs/evaluation/development_parameters_wear/REPORT.md. All 205 tests pass;
+1,400 snapshots / 5,446 predictions preserve probability/subset invariants.
