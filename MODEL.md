@@ -922,3 +922,22 @@ France has no qualifying green finish outcomes, so finish equal-race pooling
 covers Bahrain and Spain. This development-only selection does not validate
 held-out or wet performance. Freeze the chosen default via an explicit recorded
 profile and tag after the report; preserve all other profiles for reproduction.
+
+
+## Decision engine v1: pre-agreement candidate amendment
+
+On 2026-10-05, before any agreement benchmark or scored decision, the inspected
+missing zero-stop candidate was corrected. `stay_to_finish` is added only when
+two dry compounds (including current) have already been used, or wet tyres have
+been used. It has no reactive or scheduled stops. A reserved extra default slot
+preserves every existing policy; explicit policy-set caps are unchanged.
+Tag `decision-engine-v1` identifies this decision-search change. The separate
+`frozen-development-model-calibrated` prediction profile, sampler, simulator,
+SC prior, fitted parameters and 3.0/1.0 uncertainty remain unchanged. Actual-plan
+replay parity is recorded in `docs/evaluation/agreement/prediction_parity.json`.
+
+Timing agreement does not validate compound choice: immediate target remains
+HARD, or MEDIUM when currently on HARD; same-compound/SOFT choices are not
+searched. Four-lap deferrals and up to two future stops remain limitations.
+The registered later-early-box hypothesis and matching rules are unchanged;
+see `docs/evaluation/AGREEMENT_PLAN.md`.

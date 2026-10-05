@@ -173,6 +173,11 @@ def default_policies(state: RaceState, config: ProjectionConfig) -> tuple[Policy
                     dry_stops=(Stop(lap=initial, compound=compound), Stop(lap=later, compound=other))))
     if len(policies) == 1:
         policies.append(Policy(id="stay", label="STAY; switch at crossover", dry_stops=()))
+    used = set(state.subject_driver.used_compounds) | {state.subject_driver.current_compound}
+    if used & WET or len(used & DRY) >= 2:
+        # One reserved extra slot: never displace an existing search candidate.
+        policies.append(Policy(id="stay_to_finish", label="STAY to the finish",
+                               react_to_weather=False, max_stops=0))
     return tuple(policies)
 
 
@@ -606,8 +611,10 @@ def project(state: RaceState, policies: tuple[Policy, ...] | None = None,
             config: ProjectionConfig | None = None, include_flips: bool = True) -> dict:
     config = config or ProjectionConfig()
     state = _snapshot(state, config)
+    default_search = policies is None
     policies = policies if policies is not None else default_policies(state, config)
-    if not policies or len(policies) > config.max_policies or len({p.id for p in policies}) != len(policies):
+    policy_cap = config.max_policies + int(default_search and any(p.id == "stay_to_finish" for p in policies))
+    if not policies or len(policies) > policy_cap or len({p.id for p in policies}) != len(policies):
         raise ValueError("Policy IDs must be unique and set size must fit max_policies")
     if any(stop.lap < state.current_lap or stop.lap >= state.total_laps for p in policies for stop in p.dry_stops):
         raise ValueError("Scheduled stop boundaries must be between cutoff and finish")

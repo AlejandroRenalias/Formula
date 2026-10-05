@@ -1,7 +1,7 @@
 # Agreement layer: inspection and proposed protocol
 
-Inspection/plan only. No decision engine calls, agreement implementation or
-benchmarks executed in this slice. This follows [EVALUATION_PLAN.md](../EVALUATION_PLAN.md).
+Originally inspection/plan only; execution now authorized. The amendment below
+was written before any agreement decision or benchmark call. This follows [EVALUATION_PLAN.md](../EVALUATION_PLAN.md).
 The prediction score and frozen profile remain unchanged.
 
 ## Frozen decision input and output
@@ -50,19 +50,28 @@ action. It is not decided by the median prediction, specialist vote or a newly
 chosen confidence cutoff. `call_tolerance_s` affects confidence diagnostics,
 not a new abstention rule.
 
-The default search has up to nine policies, delayed boundaries on a four-lap
+The amended default search has up to ten policies, delayed boundaries on a four-lap
 grid, and up to two future stops per policy. Its immediate dry target is HARD
 unless the current compound is HARD, in which case it is MEDIUM. It does not
 search all compounds, same-compound replacements or arbitrary real schedules.
 The matched two-stop variants apply to both immediate-action groups.
 
-**Structural limitation discovered in inspection:** the default set has no
-zero-stop-to-finish option throughout the scored cutoff range. Even after the
-two-compound requirement is satisfied, its STAY_OUT policies still schedule a
-later stop. This can produce unnecessary late BOX alerts. Record the candidate
-set, remaining laps, compounds already used and legal-action availability;
-flag this limitation in the agreement report. Do not add a no-stop policy or
-SOFT candidate, refine the grid or otherwise fix the frozen engine in this run.
+**Pre-run candidate-set amendment (2026-10-05):** inspection found no zero-stop
+to-finish option. Before any agreement results or benchmark calls exist, add
+`stay_to_finish` if the cutoff already proves finish legality: at least two
+dry compounds used (including the current compound), or any wet compound used.
+This policy has no scheduled or reactive stops and a zero-stop budget. Preserve
+every existing candidate and its ordering; allow one additional default-search
+slot beyond the existing configured cap. Custom explicit policy sets retain
+their existing cap. No prediction sampler, simulator, fitted parameter, prior,
+uncertainty, action objective or actual-plan replay changes. Verify actual-plan
+outputs against the frozen implementation and saved scores before tagging
+`decision-engine-v1`, before the benchmark/scored agreement run. The calibrated
+prediction tag/profile remains unchanged. This is a structural inspection fix,
+not a response to agreement results. Report its availability and win fraction
+by phase. Immediate target HARD (MEDIUM when on HARD) remains a limitation;
+primary scoring tests box timing, not compound choice.
+
 When one action has no legal candidate or no policy is legal, report it and
 its coverage separately rather than silently dropping or inventing a call.
 
@@ -157,8 +166,8 @@ future team compounds. Keep the broad early-phase score as well.
 This is a falsifiable mechanism prediction, not something absolute finish bias
 alone guarantees: a common pace-anchor/fuel error can cancel between actions;
 excessive current-tyre wear can push in the opposite, earlier direction; the
-SC discount can encourage waiting; and the missing no-stop option can create
-late-race false BOX alerts. Report the sign actually observed and reject the
+SC discount can encourage waiting; and the inspected missing no-stop option could create
+late-race false BOX alerts (addressed by the pre-run amendment above). Report the sign actually observed and reject the
 directional hypothesis if early calls are earlier or show no delay. Do not
 relabel the expected direction after seeing agreement results.
 
@@ -170,7 +179,7 @@ development prediction replay took 33.1/63.4/40.7 s for 429/542/429 snapshots:
 states; held-out prediction runs including state construction took 543.6 and
 370.2 s. Using saved states avoids paying that construction cost again.
 
-The primary decision search uses 2-9 policies per scored state (up to 288
+The primary decision search uses 2-10 policies per scored state (up to 320
 Monte Carlo traces versus 32 in prediction), plus display traces, legality
 checks and autonomous SC opportunity lookahead. A planning estimate for all
 2,409 snapshots is **20-60 minutes serial**, with substantial uncertainty.
@@ -207,3 +216,18 @@ hashes against the tag, block networking, fail on model/data mismatch and never
 repair/tune the frozen engine based on agreement. Keep UI untouched. Save calls,
 episode/match audit, exclusions, per-race/set metrics and a Markdown report;
 stop for review before any disagreement/counterfactual analysis.
+
+## Exact benchmark selection before calls
+
+For each race and each primary phase, select the valid saved snapshot with
+maximum candidate count; ties choose the lap nearest phase midpoint (9.5, 22,
+and midpoint of 30..scheduled_laps-5), then driver number and lap. Also select
+the minimum-candidate snapshot per race (ties latest lap, then driver number),
+and France's ongoing-SC snapshot nearest lap 19 (driver number tie). Deduplicate
+keys. Select from causal records only, before producing any decision. Weight
+phase mean call-only timings by scored phase counts to estimate each race.
+For full-wrapper parity, use three benchmark states: Bahrain 2021 early phase,
+France ongoing SC, and Bahrain 2024 late phase. Compare canonical call, chosen
+policy, ranking, candidate means, best action policies, margin and confidence;
+ignore wrapper-only commentary and sensitivity fields. Save benchmark outputs
+and reuse call-only results in the scored run.

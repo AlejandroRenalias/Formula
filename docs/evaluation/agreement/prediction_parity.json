@@ -1,0 +1,76 @@
+{
+  "network_blocked": true,
+  "changed_definitions": [
+    "default_policies",
+    "project"
+  ],
+  "decision_calls": 0,
+  "races": {
+    "bahrain_2021": {
+      "snapshots": 429,
+      "scored_predictions": 1666,
+      "fields_checked": 16660,
+      "bit_exact_fields": 16660,
+      "maximum_absolute_difference": 0.0,
+      "input_sha256": {
+        "data\\cache\\evaluation\\bahrain_2021\\snapshots_parameters_wear.jsonl": "553a741ce82f75c2c5079f071b29cd98ca1aaac91f83fb699a7b8bfa02d023ef",
+        "docs\\evaluation\\held_out\\development_reference\\bahrain_2021\\predictions.jsonl": "8b944bf2820134de1fba6d520ee92b2f9f533b5e6f3ff1117103f1e1a2b650db",
+        "docs\\evaluation\\held_out\\development_reference\\bahrain_2021\\manifest.json": "656eaa6d59321f160812f914a096d00381b0cc55981ba44625a2cc302a62063f",
+        "data\\cache\\evaluation\\bahrain_2021\\session.json": "7b415e3a8e090ca9b5e969890f552f02238f2b4cd0e87e3fac7f73444597b15b"
+      }
+    },
+    "spain_2022": {
+      "snapshots": 542,
+      "scored_predictions": 2114,
+      "fields_checked": 21140,
+      "bit_exact_fields": 21140,
+      "maximum_absolute_difference": 0.0,
+      "input_sha256": {
+        "data\\cache\\evaluation\\spain_2022\\snapshots_parameters_wear.jsonl": "4640a6ea294300d48e3ee1f3a45631b10430da40710a9ca39fcb8a126b38a856",
+        "docs\\evaluation\\held_out\\development_reference\\spain_2022\\predictions.jsonl": "41b941d6de47d99bf69e8185ed3056b768a03ef13acccd8b6f07c4c74d33c716",
+        "docs\\evaluation\\held_out\\development_reference\\spain_2022\\manifest.json": "422e1ae03df49fa49764e96d4cd2e4e20782c5a094268ff7f1c329079e56af7c",
+        "data\\cache\\evaluation\\spain_2022\\session.json": "5ac519a6f9b168b95670688adbba59d95f8620444aacb1de78a99705e758b931"
+      }
+    },
+    "france_2022": {
+      "snapshots": 429,
+      "scored_predictions": 1666,
+      "fields_checked": 16660,
+      "bit_exact_fields": 16660,
+      "maximum_absolute_difference": 0.0,
+      "input_sha256": {
+        "data\\cache\\evaluation\\france_2022\\snapshots_parameters_wear.jsonl": "25b18ce5e07a8c15a13c25d3e5e3ebe9feef82044f500b192d2759662df50617",
+        "docs\\evaluation\\held_out\\development_reference\\france_2022\\predictions.jsonl": "2633ecf5adb756ea74c0aebbb554852f8beb7680aa372ab7afc10234e27f8266",
+        "docs\\evaluation\\held_out\\development_reference\\france_2022\\manifest.json": "b2d1d80a06cceeb14856561ac2c5ebfa99614868dec94d00affd80cd13f5f19a",
+        "data\\cache\\evaluation\\france_2022\\session.json": "54b9078b09b5d7cebfb536050e585fe3678d9a6eb8ad46a8e5e1af2e37a56614"
+      }
+    },
+    "spain_2023": {
+      "snapshots": 550,
+      "scored_predictions": 2150,
+      "fields_checked": 21500,
+      "bit_exact_fields": 21500,
+      "maximum_absolute_difference": 0.0,
+      "input_sha256": {
+        "data\\cache\\evaluation\\spain_2023\\snapshots_held_out.jsonl": "e7e8cd28c3941e131dbafb950a4605d9683bb0f35eb8eeed13af4815bdf7bdf4",
+        "docs\\evaluation\\held_out\\spain_2023\\predictions.jsonl": "8df3d7afb9861c212e670681e03ef91f2f3d5d40915634a8eeec34232210d13f",
+        "docs\\evaluation\\held_out\\spain_2023\\manifest.json": "56d2bec51e4a562aee481561941c9ed71910ad3f23c6d9aed975a2a3a8cb2f1d",
+        "data\\cache\\evaluation\\spain_2023\\session.json": "aecb81d08dce62df18c0677fe094ffa600da5f32debcf98347ef579ba46609d8"
+      }
+    },
+    "bahrain_2024": {
+      "snapshots": 459,
+      "scored_predictions": 1786,
+      "fields_checked": 17860,
+      "bit_exact_fields": 17860,
+      "maximum_absolute_difference": 0.0,
+      "input_sha256": {
+        "data\\cache\\evaluation\\bahrain_2024\\snapshots_held_out.jsonl": "7def1ce0b3a0f0db9e6f7c2536b3a416fcba91d244dfcf03148e1e699c6c75df",
+        "docs\\evaluation\\held_out\\bahrain_2024\\predictions.jsonl": "f536ac166f0bab96df4b2dce49711beaa8b9c16dda9a2e04f5bdb5be2f5b2e55",
+        "docs\\evaluation\\held_out\\bahrain_2024\\manifest.json": "1832a7d4827e924f40c398341bf879fcc660e3ee71a2583e9a0ea678011ebf79",
+        "data\\cache\\evaluation\\bahrain_2024\\session.json": "1377ed8b173885224396bd755e43261ede5c05790b1c2a8377c41fdf4035d1f7"
+      }
+    }
+  },
+  "runtime_s": 180.44083649999993
+}

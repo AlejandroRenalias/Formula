@@ -505,3 +505,37 @@ def test_pit_split_out_lap_retains_entry_status_price():
     assert trace.stops[0]["in_lap_loss_s"] == 11.5
     assert trace.stops[0]["out_lap_loss_s"] == 11.5
     assert trace.stops[0]["out_lap"] == 20
+
+
+@pytest.mark.parametrize("used,legal", [
+    ([TireCompound.MEDIUM], False),
+    ([TireCompound.MEDIUM, TireCompound.HARD], True),
+    ([TireCompound.INTERMEDIATE], True),
+    ([TireCompound.WET], True),
+])
+def test_stay_to_finish_reserved_candidate_is_causally_finish_legal(used, legal):
+    from src.calculators.projection import default_policies
+    s = state()
+    baseline = default_policies(s, cfg())
+    s.subject_driver.used_compounds = used
+    candidates = default_policies(s, cfg())
+    assert candidates[:len(baseline)] == baseline
+    assert len(candidates) == len(baseline) + int(legal)
+    if legal:
+        stay = candidates[-1]
+        assert stay.id == "stay_to_finish" and stay.max_stops == 0
+        trace = simulate_policy(_snapshot(s, cfg()), stay, Scenario(None, 0, 1), cfg())
+        assert trace.legal and trace.stops == []
+        assert project(s, config=cfg(), include_flips=False)["plans"][-1]["id"] == stay.id
+
+
+def test_stay_to_finish_reserves_one_slot_without_relaxing_explicit_policy_cap():
+    from src.calculators.projection import default_policies
+    s = state()
+    s.subject_driver.used_compounds = [TireCompound.MEDIUM, TireCompound.HARD]
+    config = cfg(max_policies=2)
+    candidates = default_policies(s, config)
+    assert len(candidates) == 3
+    assert project(s, config=config, include_flips=False)["plans"][-1]["id"] == "stay_to_finish"
+    with pytest.raises(ValueError, match="max_policies"):
+        project(s, policies=candidates, config=config, include_flips=False)
