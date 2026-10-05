@@ -1,6 +1,6 @@
 # Phase 6 foundation: gate, per-record export and track geometry
 
-Completed the approved (a)–(c) slice on 2026-10-05. The historical UI is **not built** and the current page/synthetic fixture is unchanged. Predictive calculators, evaluation state builder, profile, priors and accepted scores remain frozen. No new engine race runs or new test races.
+Completed the approved (a)Ã¢â‚¬â€œ(c) slice on 2026-10-05. The historical UI is **not built** and the current page/synthetic fixture is unchanged. Predictive calculators, evaluation state builder, profile, priors and accepted scores remain frozen. No new engine race runs or new test races.
 
 ## Verification
 
@@ -12,6 +12,8 @@ Completed the approved (a)–(c) slice on 2026-10-05. The historical UI is **not
 - `git diff --check` passed. All output file hashes are sealed in [the export manifest](../static/historical/manifest.json). Policy: [reservations.json](../data/access/reservations.json); gate: [reservation_gate.py](../tools/reservation_gate.py).
 
 The first full-suite run reported two legacy fake-identity failures: `Test GP` is intentionally unauthorized. Those tests now use authorized Bahrain with the same mocked FastF1 behavior. The final full suite passes. Earlier sandbox temporary-directory cleanup noise was avoided by putting Python temporary files inside the workspace.
+After normalizing sealed JSON to LF: **89 new foundation tests passed in 10.17 seconds**; all 4,818 per-record JSON files retained identical bytes.
+
 
 ## Static delivery and coverage
 
@@ -42,10 +44,10 @@ Only qualifying sessions from already-evaluated weekends were acquired. The gate
 
 | Asset | Year | Session | Reference driver | Lap | Measured distance m | JSON KiB |
 | --- | --- | --- | --- | --- | --- | --- |
-| [bahrain](../data/tracks/bahrain.json) | 2021 | Q | VER | 14 | 5399.8 | 103.1 |
-| [barcelona](../data/tracks/barcelona.json) | 2022 | Q | LEC | 10 | 4636.7 | 100.1 |
-| [barcelona_2023](../data/tracks/barcelona_2023.json) | 2023 | Q | VER | 17 | 4638.2 | 102.3 |
-| [paul_ricard](../data/tracks/paul_ricard.json) | 2022 | Q | LEC | 16 | 5775.3 | 102.7 |
+| [bahrain](../data/tracks/bahrain.json) | 2021 | Q | VER | 14 | 5399.8 | 98.6 |
+| [barcelona](../data/tracks/barcelona.json) | 2022 | Q | LEC | 10 | 4636.7 | 95.7 |
+| [barcelona_2023](../data/tracks/barcelona_2023.json) | 2023 | Q | VER | 17 | 4638.2 | 97.9 |
+| [paul_ricard](../data/tracks/paul_ricard.json) | 2022 | Q | LEC | 16 | 5775.3 | 98.3 |
 
 ## One record for review
 
@@ -63,7 +65,7 @@ Only qualifying sessions from already-evaluated weekends were acquired. The gate
 | Causal file bytes | 9702 |
 
 
-Reveal only: the team entered on physical lap **13**, accepted stop boundary **12**, fitted **HARD**. That is within ±1 boundary lap of this selected cutoff, so the pointwise team action is BOX and Formula's STAY disagrees. The missed-stop record tags strategy count; undercut/cover evidence is unknown. This interaction label is separate from the accepted one-to-one episode-start matching. Outcome file: 1,188 bytes. No claim about the better decision.
+Reveal only: the team entered on physical lap **13**, accepted stop boundary **12**, fitted **HARD**. That is within Ã‚Â±1 boundary lap of this selected cutoff, so the pointwise team action is BOX and Formula's STAY disagrees. The missed-stop record tags strategy count; undercut/cover evidence is unknown. This interaction label is separate from the accepted one-to-one episode-start matching. Outcome file: 1,188 bytes. No claim about the better decision.
 
 ## Reproduction and next boundary
 

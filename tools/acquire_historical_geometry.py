@@ -66,7 +66,7 @@ def acquire(track_id,offline=False):
         'telemetry_sha256':hashlib.sha256(telemetry[['Time','Distance','X','Y']].to_csv(index=False).encode()).hexdigest()}
     result=geometry(track_id,telemetry,lap['LapTime'].total_seconds(),lap['Sector1Time'].total_seconds(),lap['Sector2Time'].total_seconds(),source)
     target=ROOT/'data/tracks'/f'{track_id}.json'
-    target.write_text(json.dumps(result,indent=2,allow_nan=False)+'\n',encoding='utf-8')
+    target.write_bytes((json.dumps(result,indent=2,allow_nan=False)+'\n').encode('utf-8'))
     print(json.dumps({'track':track_id,'path':str(target),'bytes':target.stat().st_size,'length_m':result['lap_length_m'],'source':source}),flush=True)
     return result
 

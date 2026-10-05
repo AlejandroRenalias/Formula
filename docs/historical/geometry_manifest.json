@@ -2,10 +2,10 @@
   "pre_race_only": true,
   "offline_cache_verified_with_network_blocked": true,
   "asset_sha256": {
-    "data/tracks/bahrain.json": "b49850261f36379dacb98541de51c80fc358b55b3ad40e8750a85e09ec80f2ca",
-    "data/tracks/barcelona.json": "c9cb9d6d1566e79d952cae777a0f7720bc0466ae1cdb503b8267e5397a5765f3",
-    "data/tracks/barcelona_2023.json": "0b46abe265a767f993e00eb6769a09db53c22701f9d97b89e3d7304f3c0fc6d2",
-    "data/tracks/paul_ricard.json": "aebd309f81b3290378df989df5f94368e91aee9d5e2b41112e94ff23dd9e70ea"
+    "data/tracks/bahrain.json": "d9d86f1a6644fb61efb1cb75ac4e68fa6a30cebaa36e1e013e8b3700bf502229",
+    "data/tracks/barcelona.json": "cedf5f8518a885e20c5edcd2a462b8bdee7062f8cc4ee305221673bf1abfa5c4",
+    "data/tracks/barcelona_2023.json": "bb98b23e4aea1ee9a8afce5048d9d018a04b4d6d4044b96e2712cf94d7437f47",
+    "data/tracks/paul_ricard.json": "0de5de6cf294cfda7878e6ef78507d67f507369b283ebb6c6f94c5041d02f811"
   },
-  "acquisition_tool_sha256": "030aa26ca957fc9e17ea5a7045092e9334a117c242262cbc5ad9bc71382838f7"
+  "acquisition_tool_sha256": "f459bd4e57a52b4cb73abe33d5f55f82ee3b257354ed816a68daa3c9572aa28b"
 }
