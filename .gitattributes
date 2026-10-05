@@ -1,4 +1,11 @@
-
-# Prior hashes refer to exact acquired bytes across platforms.
-data/priors/neutralization_2019.json -text
-data/priors/pit_2019.json -text
+# Immutable generated assets must retain the bytes sealed by their manifests.
+static/historical/** -text
+data/access/reservations.json -text
+data/tracks/bahrain.json -text
+data/tracks/barcelona.json -text
+data/tracks/barcelona_2023.json -text
+data/tracks/paul_ricard.json -text
+docs/historical/geometry_manifest.json -text
+tools/export_historical.py text eol=lf
+tools/acquire_historical_geometry.py text eol=lf
+tools/reservation_gate.py text eol=lf
