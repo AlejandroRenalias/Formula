@@ -124,4 +124,3 @@ FN = missed observable team stop; FP = unmatched first BOX alert. Tag definition
 | bahrain_2024:FP:55:31 / SAI | compound_outside_candidates | none | False | 31 | 34 / 3 | accepted_wide_match |
 | bahrain_2024:FN:81:33 / PIA | undercut_cover, compound_outside_candidates | none | False | 33 | 33 / 0 | missed_team_stop |
 | bahrain_2024:FP:81:30 / PIA | undercut_cover, compound_outside_candidates | none | False | 30 | 33 / 3 | accepted_wide_match |
-

@@ -69,7 +69,7 @@ def render():
     for pool in ('development', 'held_out'):
         register += f'## {pool}\n'
         register += table(['Event / driver', 'Observed tags', 'Unknown tags', 'Complete none', 'Reference cutoff', 'Context boundary / offset', 'Context basis'], [[e['id'] + ' / ' + e['driver'], ', '.join(e['observed_tags']) or 'none', ', '.join(e['unknown_tags']) or 'none', e['none_with_complete_evidence'], e['reference']['lap'], f"{e['team_stop_context']['lap']} / {e['context_offset_laps']}" if e['team_stop_context'] else 'unknown', e['team_stop_context_basis']] for e in events if e['set'] == pool])
-    (OUT / 'EVENT_TAGS.md').write_text(register, encoding='utf-8')
+    (OUT / 'EVENT_TAGS.md').write_text(register.rstrip() + '\n', encoding='utf-8')
     def rows(groups):
         return [[name, d, s['n']] + [f"{s['tag_counts'][t]}/{s['unknown_counts'][t]}" for t in tags] + [s['none'], s['none_complete'], s['multiple_tags']] for name, ds in groups.items() for d, s in ds.items()]
     headers = ['Set/race', 'Direction', 'Events'] + tags + ['None', 'Complete none', '2+ tags']
@@ -91,7 +91,7 @@ def render():
         windows += table(['Cutoff lap', 'Time s', 'Pre-entry', 'Call', 'Recommended', 'BOX−STAY s', 'STAY mass', 'BOX mass', 'Close mass', 'Label', 'Track', 'Neutral trigger visible'], [[w['lap'], f(w['cutoff_session_s']), w['before_entry'], w['call'], w['recommended'], f(w['box_minus_stay_s']), f(w['confidence']['stay_clearly_better']), f(w['confidence']['box_clearly_better']), f(w['confidence']['too_close_to_call']), w['confidence_label'], w['track_status'], w['neutral_trigger_visible']] for w in e['visibility']['cutoffs']])
         absent = sorted(set(range(context['lap']-1, context['lap']+2)) - {w['lap'] for w in e['visibility']['cutoffs']})
         windows += f"Unavailable boundary cutoffs: {', '.join(map(str, absent)) or 'none'}.\n\n"
-    (OUT / 'MISSED_STOP_WINDOWS.md').write_text(windows, encoding='utf-8')
+    (OUT / 'MISSED_STOP_WINDOWS.md').write_text(windows.rstrip() + '\n', encoding='utf-8')
     text += '## Most confident disagreements\n\nFive cards in each direction for each set, ranked by the predeclared confidence mass and margin, not actual outcomes. FN cards use the strongest saved pre-entry STAY cutoff in the window; tag references remain the last pre-entry cutoff and may differ. FP cards use the first unmatched BOX alert. Full causal state, competitors, parameter counts/fallbacks/timestamps, sampled stop-count distributions and effective configuration are preserved in [case_cards.json](case_cards.json).\n\n'
     for pool, dirs in cards.items():
         for direction, group in dirs.items():

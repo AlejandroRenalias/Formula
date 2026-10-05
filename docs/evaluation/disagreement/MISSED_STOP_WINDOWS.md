@@ -870,4 +870,3 @@ Team entry 6938.558 s, fitted HARD; tags: undercut_cover, compound_outside_candi
 | 33 | 6840.976 | True | BOX_NOW | box_now | -2.282 | 0.031 | 0.969 | 0.000 | confident_BOX | GREEN | False |
 
 Unavailable boundary cutoffs: 34.
-
