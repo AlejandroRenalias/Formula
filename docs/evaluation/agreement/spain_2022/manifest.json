@@ -1,0 +1,29 @@
+{
+  "race": "spain_2022",
+  "set": "development",
+  "decision_tag": "18e1bb0b093b4f7e175af8e962702737b8676a8e",
+  "stride": 1,
+  "valid_cutoffs": 542,
+  "excluded_cutoffs": 28,
+  "unselected_stride_cutoffs": 0,
+  "runtime_s": 458.59411090000003,
+  "benchmark_reused": 4,
+  "network_blocked": true,
+  "input_sha256": {
+    "data\\cache\\evaluation\\spain_2022\\snapshots_parameters_wear.jsonl": "4640a6ea294300d48e3ee1f3a45631b10430da40710a9ca39fcb8a126b38a856",
+    "docs\\evaluation\\held_out\\development_reference\\spain_2022\\predictions.jsonl": "41b941d6de47d99bf69e8185ed3056b768a03ef13acccd8b6f07c4c74d33c716",
+    "docs\\evaluation\\held_out\\development_reference\\spain_2022\\manifest.json": "422e1ae03df49fa49764e96d4cd2e4e20782c5a094268ff7f1c329079e56af7c",
+    "data\\cache\\evaluation\\spain_2022\\session.json": "5ac519a6f9b168b95670688adbba59d95f8620444aacb1de78a99705e758b931"
+  },
+  "output_sha256": {
+    "calls.jsonl": "ab6977f2e21c9e30f09ba97280ad4dba7166d9cbbf096e490225fa7196360d8f",
+    "excluded_cutoffs.json": "59babdbc6cf116724e185cf9fbc49233dbcfc3d2fa40f56428bc7d270c1af8f4",
+    "matching_audit.json": "fff69a847cf434ddebd7c97f5c2e41a4ccca5373747a10652d9226e03380786c",
+    "metrics.json": "83ea5c2f9e9a1f72f42a7faab27b7b2efd52e54f3e798b06cf2d233f64c0eeab",
+    "raw_calls.jsonl.gz": "9facdaaf64fccf25f6778df02013bdf0f0b6b3f4fcd78eb7a4985c91e0c22379",
+    "RUN_STARTED.json": "0b219c36926a301cb465c897602836416bc07cc9cd978bb490400fe3df66c5c3"
+  },
+  "exclusion_source_sha256": {
+    "docs\\evaluation\\spain_2022_future\\exclusions.json": "7de793c76b78a69355091fb4d25c718c292a72bcb6cda9910e128a30c0851a1a"
+  }
+}

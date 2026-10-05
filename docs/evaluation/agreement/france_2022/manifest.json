@@ -1,0 +1,29 @@
+{
+  "race": "france_2022",
+  "set": "development",
+  "decision_tag": "18e1bb0b093b4f7e175af8e962702737b8676a8e",
+  "stride": 1,
+  "valid_cutoffs": 429,
+  "excluded_cutoffs": 11,
+  "unselected_stride_cutoffs": 0,
+  "runtime_s": 285.7520523000003,
+  "benchmark_reused": 5,
+  "network_blocked": true,
+  "input_sha256": {
+    "data\\cache\\evaluation\\france_2022\\snapshots_parameters_wear.jsonl": "25b18ce5e07a8c15a13c25d3e5e3ebe9feef82044f500b192d2759662df50617",
+    "docs\\evaluation\\held_out\\development_reference\\france_2022\\predictions.jsonl": "2633ecf5adb756ea74c0aebbb554852f8beb7680aa372ab7afc10234e27f8266",
+    "docs\\evaluation\\held_out\\development_reference\\france_2022\\manifest.json": "b2d1d80a06cceeb14856561ac2c5ebfa99614868dec94d00affd80cd13f5f19a",
+    "data\\cache\\evaluation\\france_2022\\session.json": "54b9078b09b5d7cebfb536050e585fe3678d9a6eb8ad46a8e5e1af2e37a56614"
+  },
+  "output_sha256": {
+    "calls.jsonl": "107c582505338d40a770bcccbf72aad101b589bc02a948282eb6ec28bd00d3cf",
+    "excluded_cutoffs.json": "7ca2f084882c2a021926f28fb43513c392209b00f5504b191ff83e9c0d9525ba",
+    "matching_audit.json": "7eda9f1a9a9be25f953b0d6d796206439be59b0bb886388264688ea6bd626a99",
+    "metrics.json": "e09d24c6d21857e6bfa705c6019401c7ec4bc31e72a21dc252f886e4fe147883",
+    "raw_calls.jsonl.gz": "9c385a0cfed7cecab16d24f766b99e96e343b83198cce5dd37341551fba489ac",
+    "RUN_STARTED.json": "756a6d457f9b1c91879db14a5e2f94e172b62c51bc2080f9a8623eb95053c004"
+  },
+  "exclusion_source_sha256": {
+    "docs\\evaluation\\france_2022_future\\exclusions.json": "319b8927e1ea685a762574c861197245c92c9bebbe77e382ea6cdae1820055ad"
+  }
+}

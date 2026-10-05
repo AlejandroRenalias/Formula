@@ -1,0 +1,107 @@
+[
+  {
+    "driver_number": "1",
+    "lap": 17,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "1",
+    "lap": 37,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "11",
+    "lap": 12,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "11",
+    "lap": 36,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "14",
+    "lap": 15,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "14",
+    "lap": 41,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "16",
+    "lap": 11,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "16",
+    "lap": 34,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "18",
+    "lap": 9,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "18",
+    "lap": 27,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "4",
+    "lap": 13,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "4",
+    "lap": 33,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "44",
+    "lap": 12,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "44",
+    "lap": 33,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "55",
+    "lap": 14,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "55",
+    "lap": 35,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "63",
+    "lap": 11,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "63",
+    "lap": 12,
+    "reason": "unknown_compound"
+  },
+  {
+    "driver_number": "63",
+    "lap": 31,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "81",
+    "lap": 12,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "81",
+    "lap": 34,
+    "reason": "subject_stop_straddles_cutoff"
+  }
+]

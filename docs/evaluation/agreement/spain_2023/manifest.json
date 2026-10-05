@@ -1,0 +1,29 @@
+{
+  "race": "spain_2023",
+  "set": "held_out",
+  "decision_tag": "18e1bb0b093b4f7e175af8e962702737b8676a8e",
+  "stride": 1,
+  "valid_cutoffs": 550,
+  "excluded_cutoffs": 20,
+  "unselected_stride_cutoffs": 0,
+  "runtime_s": 461.1689239000002,
+  "benchmark_reused": 4,
+  "network_blocked": true,
+  "input_sha256": {
+    "data\\cache\\evaluation\\spain_2023\\snapshots_held_out.jsonl": "e7e8cd28c3941e131dbafb950a4605d9683bb0f35eb8eeed13af4815bdf7bdf4",
+    "docs\\evaluation\\held_out\\spain_2023\\predictions.jsonl": "8df3d7afb9861c212e670681e03ef91f2f3d5d40915634a8eeec34232210d13f",
+    "docs\\evaluation\\held_out\\spain_2023\\manifest.json": "56d2bec51e4a562aee481561941c9ed71910ad3f23c6d9aed975a2a3a8cb2f1d",
+    "data\\cache\\evaluation\\spain_2023\\session.json": "aecb81d08dce62df18c0677fe094ffa600da5f32debcf98347ef579ba46609d8"
+  },
+  "output_sha256": {
+    "calls.jsonl": "3fddd6af1ea921699665a720d89c1f5b95ad9ac4a303c58ff91587b8997c55aa",
+    "excluded_cutoffs.json": "21eeb9652a98bbd2bf79675938c9ae05da2711920e6b5b1f62e04400c4680db7",
+    "matching_audit.json": "5f60cefd91405463a3119b35b82dd053d58dad538d978921004d373d06b14004",
+    "metrics.json": "0790c37d7ab096a3adb8e25e6e3e44730906c57f0e31ba3569828cde2654850a",
+    "raw_calls.jsonl.gz": "024876cb32b5d6d43291147f5caf03f5e88819f9c1a918e9f496f02ec7df6516",
+    "RUN_STARTED.json": "2b25a0e812104594f7c2b7b0da7acac83bd1cebd49cdbc4477af11b9a9875e4a"
+  },
+  "exclusion_source_sha256": {
+    "docs\\evaluation\\held_out\\spain_2023\\exclusions.json": "0c0af1a7355ec1ac52611109f16093e22822de379132936869fe55702a450e39"
+  }
+}

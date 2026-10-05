@@ -1,0 +1,11 @@
+{
+  "tag": "18e1bb0b093b4f7e175af8e962702737b8676a8e",
+  "stride": 1,
+  "input_sha256": {
+    "data\\cache\\evaluation\\bahrain_2024\\snapshots_held_out.jsonl": "7def1ce0b3a0f0db9e6f7c2536b3a416fcba91d244dfcf03148e1e699c6c75df",
+    "docs\\evaluation\\held_out\\bahrain_2024\\predictions.jsonl": "f536ac166f0bab96df4b2dce49711beaa8b9c16dda9a2e04f5bdb5be2f5b2e55",
+    "docs\\evaluation\\held_out\\bahrain_2024\\manifest.json": "1832a7d4827e924f40c398341bf879fcc660e3ee71a2583e9a0ea678011ebf79",
+    "data\\cache\\evaluation\\bahrain_2024\\session.json": "1377ed8b173885224396bd755e43261ede5c05790b1c2a8377c41fdf4035d1f7"
+  },
+  "started_utc": "2026-10-05T11:09:56.172027+00:00"
+}

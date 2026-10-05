@@ -1,0 +1,102 @@
+[
+  {
+    "driver_number": "1",
+    "lap": 26,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "1",
+    "lap": 52,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "10",
+    "lap": 19,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "10",
+    "lap": 39,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "11",
+    "lap": 27,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "11",
+    "lap": 50,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "14",
+    "lap": 19,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "14",
+    "lap": 44,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "18",
+    "lap": 14,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "18",
+    "lap": 34,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "24",
+    "lap": 9,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "24",
+    "lap": 36,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "31",
+    "lap": 13,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "31",
+    "lap": 35,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "44",
+    "lap": 24,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "44",
+    "lap": 50,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "55",
+    "lap": 15,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "55",
+    "lap": 41,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "63",
+    "lap": 25,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "63",
+    "lap": 45,
+    "reason": "subject_stop_straddles_cutoff"
+  }
+]

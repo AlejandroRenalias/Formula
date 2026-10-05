@@ -1,0 +1,207 @@
+[
+  {
+    "driver_number": "11",
+    "lap": 5,
+    "reason": "no_recent_clean_pace"
+  },
+  {
+    "driver_number": "11",
+    "lap": 6,
+    "reason": "no_recent_clean_pace"
+  },
+  {
+    "driver_number": "11",
+    "lap": 19,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "11",
+    "lap": 38,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "16",
+    "lap": 5,
+    "reason": "no_recent_clean_pace"
+  },
+  {
+    "driver_number": "16",
+    "lap": 6,
+    "reason": "no_recent_clean_pace"
+  },
+  {
+    "driver_number": "16",
+    "lap": 12,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "16",
+    "lap": 32,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "18",
+    "lap": 5,
+    "reason": "no_recent_clean_pace"
+  },
+  {
+    "driver_number": "18",
+    "lap": 6,
+    "reason": "no_recent_clean_pace"
+  },
+  {
+    "driver_number": "18",
+    "lap": 12,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "18",
+    "lap": 28,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "18",
+    "lap": 29,
+    "reason": "unknown_compound"
+  },
+  {
+    "driver_number": "22",
+    "lap": 5,
+    "reason": "no_recent_clean_pace"
+  },
+  {
+    "driver_number": "22",
+    "lap": 6,
+    "reason": "no_recent_clean_pace"
+  },
+  {
+    "driver_number": "22",
+    "lap": 15,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "22",
+    "lap": 33,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "3",
+    "lap": 5,
+    "reason": "no_recent_clean_pace"
+  },
+  {
+    "driver_number": "3",
+    "lap": 6,
+    "reason": "no_recent_clean_pace"
+  },
+  {
+    "driver_number": "3",
+    "lap": 13,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "3",
+    "lap": 32,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "33",
+    "lap": 5,
+    "reason": "no_recent_clean_pace"
+  },
+  {
+    "driver_number": "33",
+    "lap": 6,
+    "reason": "no_recent_clean_pace"
+  },
+  {
+    "driver_number": "33",
+    "lap": 17,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "33",
+    "lap": 39,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "4",
+    "lap": 5,
+    "reason": "no_recent_clean_pace"
+  },
+  {
+    "driver_number": "4",
+    "lap": 6,
+    "reason": "no_recent_clean_pace"
+  },
+  {
+    "driver_number": "4",
+    "lap": 12,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "4",
+    "lap": 33,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "44",
+    "lap": 5,
+    "reason": "no_recent_clean_pace"
+  },
+  {
+    "driver_number": "44",
+    "lap": 6,
+    "reason": "no_recent_clean_pace"
+  },
+  {
+    "driver_number": "44",
+    "lap": 13,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "44",
+    "lap": 28,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "55",
+    "lap": 5,
+    "reason": "no_recent_clean_pace"
+  },
+  {
+    "driver_number": "55",
+    "lap": 6,
+    "reason": "no_recent_clean_pace"
+  },
+  {
+    "driver_number": "55",
+    "lap": 15,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "55",
+    "lap": 37,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "77",
+    "lap": 5,
+    "reason": "no_recent_clean_pace"
+  },
+  {
+    "driver_number": "77",
+    "lap": 6,
+    "reason": "no_recent_clean_pace"
+  },
+  {
+    "driver_number": "77",
+    "lap": 16,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "77",
+    "lap": 30,
+    "reason": "subject_stop_straddles_cutoff"
+  }
+]

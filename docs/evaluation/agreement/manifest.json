@@ -1,0 +1,228 @@
+{
+  "decision_tag": "18e1bb0b093b4f7e175af8e962702737b8676a8e",
+  "network_blocked": true,
+  "protocol_sha256": "8e5c31bf75ec7aa3515c7b009b6d59b4ff9b3727205484ac90030ff05579fd1f",
+  "races": {
+    "bahrain_2021": {
+      "race": "bahrain_2021",
+      "set": "development",
+      "decision_tag": "18e1bb0b093b4f7e175af8e962702737b8676a8e",
+      "stride": 1,
+      "valid_cutoffs": 429,
+      "excluded_cutoffs": 41,
+      "unselected_stride_cutoffs": 0,
+      "runtime_s": 265.6324557999999,
+      "benchmark_reused": 4,
+      "network_blocked": true,
+      "input_sha256": {
+        "data\\cache\\evaluation\\bahrain_2021\\snapshots_parameters_wear.jsonl": "553a741ce82f75c2c5079f071b29cd98ca1aaac91f83fb699a7b8bfa02d023ef",
+        "docs\\evaluation\\held_out\\development_reference\\bahrain_2021\\predictions.jsonl": "8b944bf2820134de1fba6d520ee92b2f9f533b5e6f3ff1117103f1e1a2b650db",
+        "docs\\evaluation\\held_out\\development_reference\\bahrain_2021\\manifest.json": "656eaa6d59321f160812f914a096d00381b0cc55981ba44625a2cc302a62063f",
+        "data\\cache\\evaluation\\bahrain_2021\\session.json": "7b415e3a8e090ca9b5e969890f552f02238f2b4cd0e87e3fac7f73444597b15b"
+      },
+      "output_sha256": {
+        "calls.jsonl": "3ea54af0cff10f041c16e4064bcba88a0f57ff7e6102d1277fd297883805e046",
+        "excluded_cutoffs.json": "b62f4425f1b7c37159b62e7546e5e0597f5a3f7150a8316e36da7f5c95106052",
+        "matching_audit.json": "21b6ce635843b36ce68da5e264e3c4d36097d9a6984ad7c7aaafd585b5cf1315",
+        "metrics.json": "0732b84cb07f6e21f47db3a7e720e6de858f96406cea895a30c0d048324c015b",
+        "raw_calls.jsonl.gz": "162e780f9517920fbeef1ce41c3e6c44072601e0c17810c5b7f7543f88806b41",
+        "RUN_STARTED.json": "364400779a1f4f9b8042f183568058af30ce4e5d52f3505053dc6289f7354328"
+      },
+      "exclusion_source_sha256": {
+        "docs\\evaluation\\bahrain_2021_future\\exclusions.json": "c49797cd923a19e3bc2949ac8b0a0015281b530f94553bd915fd9c70f98e61cd"
+      }
+    },
+    "spain_2022": {
+      "race": "spain_2022",
+      "set": "development",
+      "decision_tag": "18e1bb0b093b4f7e175af8e962702737b8676a8e",
+      "stride": 1,
+      "valid_cutoffs": 542,
+      "excluded_cutoffs": 28,
+      "unselected_stride_cutoffs": 0,
+      "runtime_s": 458.59411090000003,
+      "benchmark_reused": 4,
+      "network_blocked": true,
+      "input_sha256": {
+        "data\\cache\\evaluation\\spain_2022\\snapshots_parameters_wear.jsonl": "4640a6ea294300d48e3ee1f3a45631b10430da40710a9ca39fcb8a126b38a856",
+        "docs\\evaluation\\held_out\\development_reference\\spain_2022\\predictions.jsonl": "41b941d6de47d99bf69e8185ed3056b768a03ef13acccd8b6f07c4c74d33c716",
+        "docs\\evaluation\\held_out\\development_reference\\spain_2022\\manifest.json": "422e1ae03df49fa49764e96d4cd2e4e20782c5a094268ff7f1c329079e56af7c",
+        "data\\cache\\evaluation\\spain_2022\\session.json": "5ac519a6f9b168b95670688adbba59d95f8620444aacb1de78a99705e758b931"
+      },
+      "output_sha256": {
+        "calls.jsonl": "ab6977f2e21c9e30f09ba97280ad4dba7166d9cbbf096e490225fa7196360d8f",
+        "excluded_cutoffs.json": "59babdbc6cf116724e185cf9fbc49233dbcfc3d2fa40f56428bc7d270c1af8f4",
+        "matching_audit.json": "fff69a847cf434ddebd7c97f5c2e41a4ccca5373747a10652d9226e03380786c",
+        "metrics.json": "83ea5c2f9e9a1f72f42a7faab27b7b2efd52e54f3e798b06cf2d233f64c0eeab",
+        "raw_calls.jsonl.gz": "9facdaaf64fccf25f6778df02013bdf0f0b6b3f4fcd78eb7a4985c91e0c22379",
+        "RUN_STARTED.json": "0b219c36926a301cb465c897602836416bc07cc9cd978bb490400fe3df66c5c3"
+      },
+      "exclusion_source_sha256": {
+        "docs\\evaluation\\spain_2022_future\\exclusions.json": "7de793c76b78a69355091fb4d25c718c292a72bcb6cda9910e128a30c0851a1a"
+      }
+    },
+    "france_2022": {
+      "race": "france_2022",
+      "set": "development",
+      "decision_tag": "18e1bb0b093b4f7e175af8e962702737b8676a8e",
+      "stride": 1,
+      "valid_cutoffs": 429,
+      "excluded_cutoffs": 11,
+      "unselected_stride_cutoffs": 0,
+      "runtime_s": 285.7520523000003,
+      "benchmark_reused": 5,
+      "network_blocked": true,
+      "input_sha256": {
+        "data\\cache\\evaluation\\france_2022\\snapshots_parameters_wear.jsonl": "25b18ce5e07a8c15a13c25d3e5e3ebe9feef82044f500b192d2759662df50617",
+        "docs\\evaluation\\held_out\\development_reference\\france_2022\\predictions.jsonl": "2633ecf5adb756ea74c0aebbb554852f8beb7680aa372ab7afc10234e27f8266",
+        "docs\\evaluation\\held_out\\development_reference\\france_2022\\manifest.json": "b2d1d80a06cceeb14856561ac2c5ebfa99614868dec94d00affd80cd13f5f19a",
+        "data\\cache\\evaluation\\france_2022\\session.json": "54b9078b09b5d7cebfb536050e585fe3678d9a6eb8ad46a8e5e1af2e37a56614"
+      },
+      "output_sha256": {
+        "calls.jsonl": "107c582505338d40a770bcccbf72aad101b589bc02a948282eb6ec28bd00d3cf",
+        "excluded_cutoffs.json": "7ca2f084882c2a021926f28fb43513c392209b00f5504b191ff83e9c0d9525ba",
+        "matching_audit.json": "7eda9f1a9a9be25f953b0d6d796206439be59b0bb886388264688ea6bd626a99",
+        "metrics.json": "e09d24c6d21857e6bfa705c6019401c7ec4bc31e72a21dc252f886e4fe147883",
+        "raw_calls.jsonl.gz": "9c385a0cfed7cecab16d24f766b99e96e343b83198cce5dd37341551fba489ac",
+        "RUN_STARTED.json": "756a6d457f9b1c91879db14a5e2f94e172b62c51bc2080f9a8623eb95053c004"
+      },
+      "exclusion_source_sha256": {
+        "docs\\evaluation\\france_2022_future\\exclusions.json": "319b8927e1ea685a762574c861197245c92c9bebbe77e382ea6cdae1820055ad"
+      }
+    },
+    "spain_2023": {
+      "race": "spain_2023",
+      "set": "held_out",
+      "decision_tag": "18e1bb0b093b4f7e175af8e962702737b8676a8e",
+      "stride": 1,
+      "valid_cutoffs": 550,
+      "excluded_cutoffs": 20,
+      "unselected_stride_cutoffs": 0,
+      "runtime_s": 461.1689239000002,
+      "benchmark_reused": 4,
+      "network_blocked": true,
+      "input_sha256": {
+        "data\\cache\\evaluation\\spain_2023\\snapshots_held_out.jsonl": "e7e8cd28c3941e131dbafb950a4605d9683bb0f35eb8eeed13af4815bdf7bdf4",
+        "docs\\evaluation\\held_out\\spain_2023\\predictions.jsonl": "8df3d7afb9861c212e670681e03ef91f2f3d5d40915634a8eeec34232210d13f",
+        "docs\\evaluation\\held_out\\spain_2023\\manifest.json": "56d2bec51e4a562aee481561941c9ed71910ad3f23c6d9aed975a2a3a8cb2f1d",
+        "data\\cache\\evaluation\\spain_2023\\session.json": "aecb81d08dce62df18c0677fe094ffa600da5f32debcf98347ef579ba46609d8"
+      },
+      "output_sha256": {
+        "calls.jsonl": "3fddd6af1ea921699665a720d89c1f5b95ad9ac4a303c58ff91587b8997c55aa",
+        "excluded_cutoffs.json": "21eeb9652a98bbd2bf79675938c9ae05da2711920e6b5b1f62e04400c4680db7",
+        "matching_audit.json": "5f60cefd91405463a3119b35b82dd053d58dad538d978921004d373d06b14004",
+        "metrics.json": "0790c37d7ab096a3adb8e25e6e3e44730906c57f0e31ba3569828cde2654850a",
+        "raw_calls.jsonl.gz": "024876cb32b5d6d43291147f5caf03f5e88819f9c1a918e9f496f02ec7df6516",
+        "RUN_STARTED.json": "2b25a0e812104594f7c2b7b0da7acac83bd1cebd49cdbc4477af11b9a9875e4a"
+      },
+      "exclusion_source_sha256": {
+        "docs\\evaluation\\held_out\\spain_2023\\exclusions.json": "0c0af1a7355ec1ac52611109f16093e22822de379132936869fe55702a450e39"
+      }
+    },
+    "bahrain_2024": {
+      "race": "bahrain_2024",
+      "set": "held_out",
+      "decision_tag": "18e1bb0b093b4f7e175af8e962702737b8676a8e",
+      "stride": 1,
+      "valid_cutoffs": 459,
+      "excluded_cutoffs": 21,
+      "unselected_stride_cutoffs": 0,
+      "runtime_s": 327.0341817999997,
+      "benchmark_reused": 4,
+      "network_blocked": true,
+      "input_sha256": {
+        "data\\cache\\evaluation\\bahrain_2024\\snapshots_held_out.jsonl": "7def1ce0b3a0f0db9e6f7c2536b3a416fcba91d244dfcf03148e1e699c6c75df",
+        "docs\\evaluation\\held_out\\bahrain_2024\\predictions.jsonl": "f536ac166f0bab96df4b2dce49711beaa8b9c16dda9a2e04f5bdb5be2f5b2e55",
+        "docs\\evaluation\\held_out\\bahrain_2024\\manifest.json": "1832a7d4827e924f40c398341bf879fcc660e3ee71a2583e9a0ea678011ebf79",
+        "data\\cache\\evaluation\\bahrain_2024\\session.json": "1377ed8b173885224396bd755e43261ede5c05790b1c2a8377c41fdf4035d1f7"
+      },
+      "output_sha256": {
+        "calls.jsonl": "d6bd1b62e95dee9174baff960bd647a7d68b2c53716e3bef61233e525bd085c7",
+        "excluded_cutoffs.json": "2f8aad81704ddbde53f0ebbe96b58868252f08cf2c020b82b958cf361d928027",
+        "matching_audit.json": "1010af4a4aa671bca61b280efd97a3af81921f248e59fdff82db141c55e81724",
+        "metrics.json": "e5c35958739b179d767ef8cd5d314ac0a870781686bf3c17152e48f6a544468a",
+        "raw_calls.jsonl.gz": "063dd731b9c37b4a5600fbe63a974a103586e51f918ed35dc412487d5022b818",
+        "RUN_STARTED.json": "a24496a7aa0690b69faba16188333b70e34f8f2a2a8c5f413bb9eae8a7853c6f"
+      },
+      "exclusion_source_sha256": {
+        "docs\\evaluation\\held_out\\bahrain_2024\\exclusions.json": "47ef5ab5b15d3e81002056de168505f9069445e802d8684a373c97c7face2e17"
+      }
+    }
+  },
+  "runner_sha256": "5f2ff61ebaf197a35ede8aeb9943992c8100fc2443cb6ae3538f6b80fcda3738",
+  "scorer_sha256": "d9134df91008ebe12f2fb7fb85c027361ea3d610a56defa96b704f9de4c9e563",
+  "reporter_sha256": "e403485cbae5fe10faeae21bbe44cc442b03334a8ef7bd1997b3ca4be33f4e1c",
+  "report_output_sha256": {
+    "benchmark.json": "36c8e0ab928c4106246287368b5101c080b67624ceb51bcbe52c87dee1bbd520",
+    "benchmark_calls.jsonl": "b719c21b6b939a46779f594d6759e6de5b76f74f9c1e351cd093b65fc04d6324",
+    "benchmark_started.json": "9a546216c8e79e1bdfc4488d1658a2a632612ed642476f32ac7405a6eebdb4dd",
+    "metrics.json": "4df2ded1b4fbfc49931cee19a94af8536a0d076f3c45743fdb7d9fecdb55a683",
+    "prediction_parity.json": "da4005241ccd736afa249d00bb9ca8f5e92889de696f2a4b1113b3a9e9b598bd",
+    "REPORT.md": "726bd79ca00d31a1729de2ce0217446b66a067b5b46580bb6170f0e9ac3784f0",
+    "verification.json": "575f83fb51fa4717d90c347415e4c630e4558d78eae600d7dccdb0ceb0163a6c"
+  },
+  "source_sha256": {
+    "src\\__init__.py": "3196da75569481f6f81c557646a2c8818e5aec6cfc9f8140a2c6459d33dccbe9",
+    "src\\adapters\\fastf1_adapter.py": "e2e3e15f62972e44b3ed9069c9cd00bfbce395afb7ed38ee49c4ac18c26d1339",
+    "src\\adapters\\scenarios.py": "737f2487f7699fcd10bc27789aec504112252a21b8242c84f470d7904712fb65",
+    "src\\adapters\\synthetic_adapter.py": "4c46e99ee25f56d0479e4080b24b0cdada6aa7bff23ce87515cfaebbae24ce64",
+    "src\\adapters\\__init__.py": "2558c8974ff08a416fa05a97409b2a8efbafc74ecdb1686873e8961d0fd2059d",
+    "src\\agents\\base.py": "10b3d78836b01bbb05940d332a1bf6d0a2d0e6848f0ec05f8492c63d6dfa2d65",
+    "src\\agents\\__init__.py": "d32f8a063e13a02cb6244e30c6ec0b020409309c868b1da11a5b6da5e9364bc3",
+    "src\\agents\\rules\\chief.py": "43af3552d4dc40025d8c5b5890371ff8244a5e446e0a08e3523bf2d2f0fc0f24",
+    "src\\agents\\rules\\pace_tyre.py": "027441d438ff6658d49bf2ffec13945a268f52264fb20c0ef34fab01ad684d23",
+    "src\\agents\\rules\\race_control.py": "a47fc8bf91b74396eabcda6548c5aa850b0b1a249e52a3d365fab9464a94d71f",
+    "src\\agents\\rules\\weather.py": "ad7f1d7edca96ef82197da1d1f260ec567ab45ad5b91c94527622f2e1c55de72",
+    "src\\agents\\rules\\__init__.py": "c59f20b3549d7a7d9a8339816a15ce7b01d3b2a059efff31555781478f74b22b",
+    "src\\calculators\\candidate_gen.py": "fed7f4b50e28baa77d7cc6200133f3980123401557cee5052f091a1f0d89482a",
+    "src\\calculators\\circuit_map.py": "32309110a0bdd3e7c63821a553b2e0872cbebf8b1f473ca8cd810e511ffb3a68",
+    "src\\calculators\\pace_model.py": "9949c090a65884ca951a318961763cd48ff9fae517abfc8940b3ea77da0d3031",
+    "src\\calculators\\pit_loss_model.py": "da57bfe2e5088c5c245d5377f003aac8dbbf9c5190863b65a8ecd9c431194d1e",
+    "src\\calculators\\projection.py": "4fb40164ed4086e51b81359134250d407b7b77220d02d1e7912dcc2b72125a1d",
+    "src\\calculators\\rules_engine.py": "6e98ea0ceb98026cdacede151255e7790d99911e5a6355b5816951fc80356279",
+    "src\\calculators\\traffic_model.py": "79d758b31fd6327e139a9cfbd6bd8ff1f7be16bffbe79d05d4c18f1d8b6f500f",
+    "src\\calculators\\tyre_model.py": "e5e9d2a5b59c4cced6948003c84905c043ab0ce861dd03abeded9c5be0561642",
+    "src\\calculators\\weather_model.py": "b938d0e97424d2df652c2f705758a777360044c4766a5c50d399252a8689c464",
+    "src\\calculators\\__init__.py": "8b21efa86e4d853f11a4d749901b50d3d3898ea10c892d7baf36fdd26691d71b",
+    "src\\core\\context_builder.py": "ed409ab005663d7810560988783b735fea81e654d9c2f7e7f02d19ac4a1a2951",
+    "src\\core\\llm.py": "afd2ed6baacb81e234be0ec376cc3815a3cdc50b2f3a1a539ff556757e69407e",
+    "src\\core\\models.py": "c3bbb665fcd25438623dd14279d47430f9f5c37a9e2d0745b7b781de2c1466c6",
+    "src\\core\\provenance.py": "d8ce89fcefc86fd4067b493bc4e00c35bfb8b6fd032b1d88924b6c93bcc215a6",
+    "src\\core\\triggers.py": "add91d22ac3666adfdf0c5f242fd8ab9a8f29bc5af91b2ad1f359d305da51d2c",
+    "src\\core\\__init__.py": "a3c1c3c3f22e78694e187368eee220afa1dd850744695899fffa1964c9743c32",
+    "src\\evaluation\\breakdown.py": "42474859061dd9d5a87a0786d4851b28adb435280137906434555a529b301ec7",
+    "src\\evaluation\\calibration.py": "6f7a5b4dfe85a2ca3990a9ff099c3b3002525df4034149dcdfdee705e76795a3",
+    "src\\evaluation\\diagnostics.py": "8e1c6e603d9ef526bc0be8f6a37f825695ba5cdbed794120f31cb093325438cb",
+    "src\\evaluation\\joint_parameters.py": "037da647c5baa0d7bc966f77734ec40e338651a592360f8a4322e5b33865adc3",
+    "src\\evaluation\\model_configurations.py": "442c1e7a230287aa5fd1932bff1c844d725ddb7e4883a2eec5094828d5d6d529",
+    "src\\evaluation\\neutralization_prior.py": "f9726f1afca2324fb643a366135182225e3f7c66994d991709c3964d5aaaa35c",
+    "src\\evaluation\\offline.py": "cf1f2933ce86bc947e792bb8833cd92264243e1ba37f504a5d234b23f4046760",
+    "src\\evaluation\\pit_parameters.py": "2e29b2f36327eae8d18d95474686c3cbe225e536c93a931ea9da5554b71944b8",
+    "src\\evaluation\\prediction.py": "91f7156a68eabbd492aff64b933c0aca1ce995678aa3705d4580fc13b42d6369",
+    "src\\evaluation\\races.py": "ec524ebc36b76582e922f69ed07266dc73a9318284fde5fec7bd2c8894b871f5",
+    "src\\evaluation\\selection.py": "20d48fdc3caece77d58b385293b07581b0daf819ba33e672f1444e1544816b0d",
+    "src\\evaluation\\snapshot.py": "759b45ed754d1db80303d6bd5a30e6b329ed2695efcbd4447727000605ef0469",
+    "src\\evaluation\\wear_parameters.py": "c2f5a745e6aa1ba9c71c4e2530606d9fe32fbf161ff627a863c724f646873f47",
+    "src\\evaluation\\__init__.py": "dfd0e29bb1e611e076f0bf43f86a180693f8fe7b8ff8f3c3d809a810265ee64a",
+    "src\\orchestrator\\conflict_detector.py": "e92458b92b959d21c5aa3bcfb315ea4a16c583c085a55e5c4535ded8e2712f51",
+    "src\\orchestrator\\pipeline.py": "392c784825398c5b6ff5875ec5ae8a421aca39d565aa8dda57ea9e290ed9e24c",
+    "src\\orchestrator\\projection_pipeline.py": "874001fc9daa87939b75d9fde61535df535727ffab938e4756592151e5bec2e6",
+    "src\\orchestrator\\__init__.py": "74c757f2683707455ff554f94846ed37db670ada17b2eda3c31a4a0cad047f00",
+    "src\\ui\\dashboard.py": "69098b3e565b95c1280352089768cc6eb82467dc08b0f6fabf82dde003b76957",
+    "src\\ui\\projection_dashboard.py": "4ab0946007878cfc08da96a31ab9e13b10095e36ccf928effedcaf830d19c97e",
+    "src\\ui\\projection_fixture.py": "0aa15a16ff3ebece0d1c6876e3cc6f1ad71f1b318677cc21f10a10663adff524",
+    "src\\ui\\components\\decision_card.py": "f0219249592141716cba99e245aecf90dac566711348ce21e006d02b6578f90e",
+    "src\\ui\\components\\factor_breakdown.py": "246d65d50f7ea2653efc17f650b3a2ea231a87b375fdcb152c266f0416fbf407",
+    "src\\ui\\components\\llm_resolution.py": "5cb47f35550ab1583cf1ef9c7d19bd0717264b31bf873b62db02c528c1abddb2",
+    "src\\ui\\components\\specialist_cards.py": "2b8e0dd095879bd6f372356368597df8d87e5254c36819adf530aa236871b219",
+    "src\\ui\\components\\telemetry_charts.py": "59c011c5b7a66ae6b0dabce5475c9bd87a7bc8bfe417c791f5d49a3a688c2891",
+    "data\\priors\\neutralization_2019.json": "787b241c2a124392a0bf59fac2d3a3faf154b060bfa0ac5be8236d554fb9d216",
+    "data\\priors\\pit_2019.json": "e54e5b710954cf3b197302fbcd2bae078f9a0ec5954bf772e7e52ddfe45e0872",
+    "data\\evaluation\\frozen_model.json": "3e1bb4738d47ee38b2da43f99d9305e6dbeb13215a446f5785bd5d0ee6355605"
+  },
+  "decision_profile": {
+    "tag": "decision-engine-v1",
+    "prediction_profile_tag": "frozen-development-model-calibrated",
+    "candidate_only_change": true
+  }
+}

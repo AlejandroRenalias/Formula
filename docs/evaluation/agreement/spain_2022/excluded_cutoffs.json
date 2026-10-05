@@ -1,0 +1,142 @@
+[
+  {
+    "driver_number": "1",
+    "lap": 13,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "1",
+    "lap": 28,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "1",
+    "lap": 44,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "11",
+    "lap": 17,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "11",
+    "lap": 37,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "11",
+    "lap": 53,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "14",
+    "lap": 10,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "14",
+    "lap": 31,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "14",
+    "lap": 53,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "22",
+    "lap": 11,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "22",
+    "lap": 32,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "22",
+    "lap": 52,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "31",
+    "lap": 13,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "31",
+    "lap": 35,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "31",
+    "lap": 52,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "4",
+    "lap": 12,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "4",
+    "lap": 33,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "4",
+    "lap": 51,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "44",
+    "lap": 22,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "44",
+    "lap": 48,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "55",
+    "lap": 10,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "55",
+    "lap": 31,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "55",
+    "lap": 45,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "63",
+    "lap": 13,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "63",
+    "lap": 36,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "63",
+    "lap": 51,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "77",
+    "lap": 14,
+    "reason": "subject_stop_straddles_cutoff"
+  },
+  {
+    "driver_number": "77",
+    "lap": 34,
+    "reason": "subject_stop_straddles_cutoff"
+  }
+]

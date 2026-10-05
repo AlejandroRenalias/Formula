@@ -1,0 +1,29 @@
+{
+  "race": "bahrain_2024",
+  "set": "held_out",
+  "decision_tag": "18e1bb0b093b4f7e175af8e962702737b8676a8e",
+  "stride": 1,
+  "valid_cutoffs": 459,
+  "excluded_cutoffs": 21,
+  "unselected_stride_cutoffs": 0,
+  "runtime_s": 327.0341817999997,
+  "benchmark_reused": 4,
+  "network_blocked": true,
+  "input_sha256": {
+    "data\\cache\\evaluation\\bahrain_2024\\snapshots_held_out.jsonl": "7def1ce0b3a0f0db9e6f7c2536b3a416fcba91d244dfcf03148e1e699c6c75df",
+    "docs\\evaluation\\held_out\\bahrain_2024\\predictions.jsonl": "f536ac166f0bab96df4b2dce49711beaa8b9c16dda9a2e04f5bdb5be2f5b2e55",
+    "docs\\evaluation\\held_out\\bahrain_2024\\manifest.json": "1832a7d4827e924f40c398341bf879fcc660e3ee71a2583e9a0ea678011ebf79",
+    "data\\cache\\evaluation\\bahrain_2024\\session.json": "1377ed8b173885224396bd755e43261ede5c05790b1c2a8377c41fdf4035d1f7"
+  },
+  "output_sha256": {
+    "calls.jsonl": "d6bd1b62e95dee9174baff960bd647a7d68b2c53716e3bef61233e525bd085c7",
+    "excluded_cutoffs.json": "2f8aad81704ddbde53f0ebbe96b58868252f08cf2c020b82b958cf361d928027",
+    "matching_audit.json": "1010af4a4aa671bca61b280efd97a3af81921f248e59fdff82db141c55e81724",
+    "metrics.json": "e5c35958739b179d767ef8cd5d314ac0a870781686bf3c17152e48f6a544468a",
+    "raw_calls.jsonl.gz": "063dd731b9c37b4a5600fbe63a974a103586e51f918ed35dc412487d5022b818",
+    "RUN_STARTED.json": "a24496a7aa0690b69faba16188333b70e34f8f2a2a8c5f413bb9eae8a7853c6f"
+  },
+  "exclusion_source_sha256": {
+    "docs\\evaluation\\held_out\\bahrain_2024\\exclusions.json": "47ef5ab5b15d3e81002056de168505f9069445e802d8684a373c97c7face2e17"
+  }
+}

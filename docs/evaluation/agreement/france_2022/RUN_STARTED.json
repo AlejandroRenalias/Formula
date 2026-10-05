@@ -1,0 +1,11 @@
+{
+  "tag": "18e1bb0b093b4f7e175af8e962702737b8676a8e",
+  "stride": 1,
+  "input_sha256": {
+    "data\\cache\\evaluation\\france_2022\\snapshots_parameters_wear.jsonl": "25b18ce5e07a8c15a13c25d3e5e3ebe9feef82044f500b192d2759662df50617",
+    "docs\\evaluation\\held_out\\development_reference\\france_2022\\predictions.jsonl": "2633ecf5adb756ea74c0aebbb554852f8beb7680aa372ab7afc10234e27f8266",
+    "docs\\evaluation\\held_out\\development_reference\\france_2022\\manifest.json": "b2d1d80a06cceeb14856561ac2c5ebfa99614868dec94d00affd80cd13f5f19a",
+    "data\\cache\\evaluation\\france_2022\\session.json": "54b9078b09b5d7cebfb536050e585fe3678d9a6eb8ad46a8e5e1af2e37a56614"
+  },
+  "started_utc": "2026-10-05T10:57:28.724518+00:00"
+}

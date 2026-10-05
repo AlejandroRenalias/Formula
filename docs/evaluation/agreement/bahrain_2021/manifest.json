@@ -1,0 +1,29 @@
+{
+  "race": "bahrain_2021",
+  "set": "development",
+  "decision_tag": "18e1bb0b093b4f7e175af8e962702737b8676a8e",
+  "stride": 1,
+  "valid_cutoffs": 429,
+  "excluded_cutoffs": 41,
+  "unselected_stride_cutoffs": 0,
+  "runtime_s": 265.6324557999999,
+  "benchmark_reused": 4,
+  "network_blocked": true,
+  "input_sha256": {
+    "data\\cache\\evaluation\\bahrain_2021\\snapshots_parameters_wear.jsonl": "553a741ce82f75c2c5079f071b29cd98ca1aaac91f83fb699a7b8bfa02d023ef",
+    "docs\\evaluation\\held_out\\development_reference\\bahrain_2021\\predictions.jsonl": "8b944bf2820134de1fba6d520ee92b2f9f533b5e6f3ff1117103f1e1a2b650db",
+    "docs\\evaluation\\held_out\\development_reference\\bahrain_2021\\manifest.json": "656eaa6d59321f160812f914a096d00381b0cc55981ba44625a2cc302a62063f",
+    "data\\cache\\evaluation\\bahrain_2021\\session.json": "7b415e3a8e090ca9b5e969890f552f02238f2b4cd0e87e3fac7f73444597b15b"
+  },
+  "output_sha256": {
+    "calls.jsonl": "3ea54af0cff10f041c16e4064bcba88a0f57ff7e6102d1277fd297883805e046",
+    "excluded_cutoffs.json": "b62f4425f1b7c37159b62e7546e5e0597f5a3f7150a8316e36da7f5c95106052",
+    "matching_audit.json": "21b6ce635843b36ce68da5e264e3c4d36097d9a6984ad7c7aaafd585b5cf1315",
+    "metrics.json": "0732b84cb07f6e21f47db3a7e720e6de858f96406cea895a30c0d048324c015b",
+    "raw_calls.jsonl.gz": "162e780f9517920fbeef1ce41c3e6c44072601e0c17810c5b7f7543f88806b41",
+    "RUN_STARTED.json": "364400779a1f4f9b8042f183568058af30ce4e5d52f3505053dc6289f7354328"
+  },
+  "exclusion_source_sha256": {
+    "docs\\evaluation\\bahrain_2021_future\\exclusions.json": "c49797cd923a19e3bc2949ac8b0a0015281b530f94553bd915fd9c70f98e61cd"
+  }
+}

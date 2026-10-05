@@ -1,0 +1,38 @@
+{
+  "network_blocked": true,
+  "decision_reruns": 0,
+  "races": {
+    "bahrain_2021": {
+      "calls_verified": 429,
+      "legal_zero_stop_policies_verified": 334,
+      "matching_audits": 30,
+      "hashes_verified": true
+    },
+    "spain_2022": {
+      "calls_verified": 542,
+      "legal_zero_stop_policies_verified": 457,
+      "matching_audits": 30,
+      "hashes_verified": true
+    },
+    "france_2022": {
+      "calls_verified": 429,
+      "legal_zero_stop_policies_verified": 301,
+      "matching_audits": 30,
+      "hashes_verified": true
+    },
+    "spain_2023": {
+      "calls_verified": 550,
+      "legal_zero_stop_policies_verified": 385,
+      "matching_audits": 30,
+      "hashes_verified": true
+    },
+    "bahrain_2024": {
+      "calls_verified": 459,
+      "legal_zero_stop_policies_verified": 383,
+      "matching_audits": 30,
+      "hashes_verified": true
+    }
+  },
+  "tests_passed": 246,
+  "calls_verified": 2409
+}

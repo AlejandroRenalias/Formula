@@ -1,0 +1,78 @@
+{
+  "timings": {
+    "bahrain_2021": {
+      "predicted_every_lap_runtime_s": 265.0659191000059,
+      "stride": 1,
+      "benchmark_call_only_s": 2.522597399999995,
+      "phase_counts": {
+        "5-14": 75,
+        "15-29": 142,
+        "30+": 212
+      }
+    },
+    "spain_2022": {
+      "predicted_every_lap_runtime_s": 403.9869192499758,
+      "stride": 1,
+      "benchmark_call_only_s": 3.3119445999998334,
+      "phase_counts": {
+        "5-14": 92,
+        "15-29": 147,
+        "30+": 303
+      }
+    },
+    "france_2022": {
+      "predicted_every_lap_runtime_s": 332.65308580000044,
+      "stride": 1,
+      "benchmark_call_only_s": 4.057086799999979,
+      "phase_counts": {
+        "5-14": 100,
+        "15-29": 140,
+        "30+": 189
+      }
+    },
+    "spain_2023": {
+      "predicted_every_lap_runtime_s": 417.0557791999679,
+      "stride": 1,
+      "benchmark_call_only_s": 3.3592677999997704,
+      "phase_counts": {
+        "5-14": 97,
+        "15-29": 143,
+        "30+": 310
+      }
+    },
+    "bahrain_2024": {
+      "predicted_every_lap_runtime_s": 321.3152729999888,
+      "stride": 1,
+      "benchmark_call_only_s": 2.8238607999999203,
+      "phase_counts": {
+        "5-14": 91,
+        "15-29": 147,
+        "30+": 221
+      }
+    }
+  },
+  "wrapper_parity": [
+    {
+      "race": "bahrain_2021",
+      "driver_number": "4",
+      "lap": 13,
+      "full_wrapper_runtime_s": 74.77503980000006,
+      "parity": true
+    },
+    {
+      "race": "france_2022",
+      "driver_number": "1",
+      "lap": 19,
+      "full_wrapper_runtime_s": 94.71205060000011,
+      "parity": true
+    },
+    {
+      "race": "bahrain_2024",
+      "driver_number": "1",
+      "lap": 36,
+      "full_wrapper_runtime_s": 27.354951100000108,
+      "parity": true
+    }
+  ],
+  "network_blocked": true
+}

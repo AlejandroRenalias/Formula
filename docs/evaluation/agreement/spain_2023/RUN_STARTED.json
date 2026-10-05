@@ -1,0 +1,11 @@
+{
+  "tag": "18e1bb0b093b4f7e175af8e962702737b8676a8e",
+  "stride": 1,
+  "input_sha256": {
+    "data\\cache\\evaluation\\spain_2023\\snapshots_held_out.jsonl": "e7e8cd28c3941e131dbafb950a4605d9683bb0f35eb8eeed13af4815bdf7bdf4",
+    "docs\\evaluation\\held_out\\spain_2023\\predictions.jsonl": "8df3d7afb9861c212e670681e03ef91f2f3d5d40915634a8eeec34232210d13f",
+    "docs\\evaluation\\held_out\\spain_2023\\manifest.json": "56d2bec51e4a562aee481561941c9ed71910ad3f23c6d9aed975a2a3a8cb2f1d",
+    "data\\cache\\evaluation\\spain_2023\\session.json": "aecb81d08dce62df18c0677fe094ffa600da5f32debcf98347ef579ba46609d8"
+  },
+  "started_utc": "2026-10-05T11:02:14.745106+00:00"
+}

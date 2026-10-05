@@ -1,0 +1,1553 @@
+[
+  {
+    "driver_number": "1",
+    "tolerance_laps": 0,
+    "alerts": [
+      {
+        "lap": 25,
+        "left_censored": false,
+        "cutoff_session_s": 5745.642,
+        "directional_stratum": false,
+        "driver_number": "1"
+      },
+      {
+        "lap": 41,
+        "left_censored": false,
+        "cutoff_session_s": 7034.855,
+        "directional_stratum": false,
+        "driver_number": "1"
+      }
+    ],
+    "all_stops": [
+      {
+        "lap": 25,
+        "driver_number": "1",
+        "entry_session_s": 5826.753,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      },
+      {
+        "lap": 51,
+        "driver_number": "1",
+        "entry_session_s": 7905.029,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [
+      {
+        "alert": {
+          "lap": 25,
+          "left_censored": false,
+          "cutoff_session_s": 5745.642,
+          "directional_stratum": false,
+          "driver_number": "1"
+        },
+        "stop": {
+          "lap": 25,
+          "driver_number": "1",
+          "entry_session_s": 5826.753,
+          "observable": true,
+          "partial_window": true,
+          "directional_stratum": false
+        },
+        "error_laps": 0,
+        "post_observed_stop": false
+      }
+    ],
+    "unmatched_alert_indices": [
+      1
+    ],
+    "unmatched_eligible_stop_indices": [
+      1
+    ]
+  },
+  {
+    "driver_number": "1",
+    "tolerance_laps": 1,
+    "alerts": [
+      {
+        "lap": 25,
+        "left_censored": false,
+        "cutoff_session_s": 5745.642,
+        "directional_stratum": false,
+        "driver_number": "1"
+      },
+      {
+        "lap": 41,
+        "left_censored": false,
+        "cutoff_session_s": 7034.855,
+        "directional_stratum": false,
+        "driver_number": "1"
+      }
+    ],
+    "all_stops": [
+      {
+        "lap": 25,
+        "driver_number": "1",
+        "entry_session_s": 5826.753,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      },
+      {
+        "lap": 51,
+        "driver_number": "1",
+        "entry_session_s": 7905.029,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [
+      {
+        "alert": {
+          "lap": 25,
+          "left_censored": false,
+          "cutoff_session_s": 5745.642,
+          "directional_stratum": false,
+          "driver_number": "1"
+        },
+        "stop": {
+          "lap": 25,
+          "driver_number": "1",
+          "entry_session_s": 5826.753,
+          "observable": true,
+          "partial_window": true,
+          "directional_stratum": false
+        },
+        "error_laps": 0,
+        "post_observed_stop": false
+      }
+    ],
+    "unmatched_alert_indices": [
+      1
+    ],
+    "unmatched_eligible_stop_indices": [
+      1
+    ]
+  },
+  {
+    "driver_number": "1",
+    "tolerance_laps": 10,
+    "alerts": [
+      {
+        "lap": 25,
+        "left_censored": false,
+        "cutoff_session_s": 5745.642,
+        "directional_stratum": false,
+        "driver_number": "1"
+      },
+      {
+        "lap": 41,
+        "left_censored": false,
+        "cutoff_session_s": 7034.855,
+        "directional_stratum": false,
+        "driver_number": "1"
+      }
+    ],
+    "all_stops": [
+      {
+        "lap": 25,
+        "driver_number": "1",
+        "entry_session_s": 5826.753,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      },
+      {
+        "lap": 51,
+        "driver_number": "1",
+        "entry_session_s": 7905.029,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [
+      {
+        "alert": {
+          "lap": 25,
+          "left_censored": false,
+          "cutoff_session_s": 5745.642,
+          "directional_stratum": false,
+          "driver_number": "1"
+        },
+        "stop": {
+          "lap": 25,
+          "driver_number": "1",
+          "entry_session_s": 5826.753,
+          "observable": true,
+          "partial_window": true,
+          "directional_stratum": false
+        },
+        "error_laps": 0,
+        "post_observed_stop": false
+      },
+      {
+        "alert": {
+          "lap": 41,
+          "left_censored": false,
+          "cutoff_session_s": 7034.855,
+          "directional_stratum": false,
+          "driver_number": "1"
+        },
+        "stop": {
+          "lap": 51,
+          "driver_number": "1",
+          "entry_session_s": 7905.029,
+          "observable": true,
+          "partial_window": true,
+          "directional_stratum": false
+        },
+        "error_laps": -10,
+        "post_observed_stop": false
+      }
+    ],
+    "unmatched_alert_indices": [],
+    "unmatched_eligible_stop_indices": []
+  },
+  {
+    "driver_number": "10",
+    "tolerance_laps": 0,
+    "alerts": [],
+    "all_stops": [
+      {
+        "lap": 18,
+        "driver_number": "10",
+        "entry_session_s": 5298.997,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      },
+      {
+        "lap": 38,
+        "driver_number": "10",
+        "entry_session_s": 6930.39,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [],
+    "unmatched_alert_indices": [],
+    "unmatched_eligible_stop_indices": [
+      0,
+      1
+    ]
+  },
+  {
+    "driver_number": "10",
+    "tolerance_laps": 1,
+    "alerts": [],
+    "all_stops": [
+      {
+        "lap": 18,
+        "driver_number": "10",
+        "entry_session_s": 5298.997,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      },
+      {
+        "lap": 38,
+        "driver_number": "10",
+        "entry_session_s": 6930.39,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [],
+    "unmatched_alert_indices": [],
+    "unmatched_eligible_stop_indices": [
+      0,
+      1
+    ]
+  },
+  {
+    "driver_number": "10",
+    "tolerance_laps": 10,
+    "alerts": [],
+    "all_stops": [
+      {
+        "lap": 18,
+        "driver_number": "10",
+        "entry_session_s": 5298.997,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      },
+      {
+        "lap": 38,
+        "driver_number": "10",
+        "entry_session_s": 6930.39,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [],
+    "unmatched_alert_indices": [],
+    "unmatched_eligible_stop_indices": [
+      0,
+      1
+    ]
+  },
+  {
+    "driver_number": "11",
+    "tolerance_laps": 0,
+    "alerts": [
+      {
+        "lap": 25,
+        "left_censored": false,
+        "cutoff_session_s": 5773.754,
+        "directional_stratum": false,
+        "driver_number": "11"
+      },
+      {
+        "lap": 41,
+        "left_censored": false,
+        "cutoff_session_s": 7068.495,
+        "directional_stratum": false,
+        "driver_number": "11"
+      }
+    ],
+    "all_stops": [
+      {
+        "lap": 26,
+        "driver_number": "11",
+        "entry_session_s": 5937.486,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      },
+      {
+        "lap": 49,
+        "driver_number": "11",
+        "entry_session_s": 7782.859,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [],
+    "unmatched_alert_indices": [
+      0,
+      1
+    ],
+    "unmatched_eligible_stop_indices": [
+      0,
+      1
+    ]
+  },
+  {
+    "driver_number": "11",
+    "tolerance_laps": 1,
+    "alerts": [
+      {
+        "lap": 25,
+        "left_censored": false,
+        "cutoff_session_s": 5773.754,
+        "directional_stratum": false,
+        "driver_number": "11"
+      },
+      {
+        "lap": 41,
+        "left_censored": false,
+        "cutoff_session_s": 7068.495,
+        "directional_stratum": false,
+        "driver_number": "11"
+      }
+    ],
+    "all_stops": [
+      {
+        "lap": 26,
+        "driver_number": "11",
+        "entry_session_s": 5937.486,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      },
+      {
+        "lap": 49,
+        "driver_number": "11",
+        "entry_session_s": 7782.859,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [
+      {
+        "alert": {
+          "lap": 25,
+          "left_censored": false,
+          "cutoff_session_s": 5773.754,
+          "directional_stratum": false,
+          "driver_number": "11"
+        },
+        "stop": {
+          "lap": 26,
+          "driver_number": "11",
+          "entry_session_s": 5937.486,
+          "observable": true,
+          "partial_window": true,
+          "directional_stratum": false
+        },
+        "error_laps": -1,
+        "post_observed_stop": false
+      }
+    ],
+    "unmatched_alert_indices": [
+      1
+    ],
+    "unmatched_eligible_stop_indices": [
+      1
+    ]
+  },
+  {
+    "driver_number": "11",
+    "tolerance_laps": 10,
+    "alerts": [
+      {
+        "lap": 25,
+        "left_censored": false,
+        "cutoff_session_s": 5773.754,
+        "directional_stratum": false,
+        "driver_number": "11"
+      },
+      {
+        "lap": 41,
+        "left_censored": false,
+        "cutoff_session_s": 7068.495,
+        "directional_stratum": false,
+        "driver_number": "11"
+      }
+    ],
+    "all_stops": [
+      {
+        "lap": 26,
+        "driver_number": "11",
+        "entry_session_s": 5937.486,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      },
+      {
+        "lap": 49,
+        "driver_number": "11",
+        "entry_session_s": 7782.859,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [
+      {
+        "alert": {
+          "lap": 25,
+          "left_censored": false,
+          "cutoff_session_s": 5773.754,
+          "directional_stratum": false,
+          "driver_number": "11"
+        },
+        "stop": {
+          "lap": 26,
+          "driver_number": "11",
+          "entry_session_s": 5937.486,
+          "observable": true,
+          "partial_window": true,
+          "directional_stratum": false
+        },
+        "error_laps": -1,
+        "post_observed_stop": false
+      },
+      {
+        "alert": {
+          "lap": 41,
+          "left_censored": false,
+          "cutoff_session_s": 7068.495,
+          "directional_stratum": false,
+          "driver_number": "11"
+        },
+        "stop": {
+          "lap": 49,
+          "driver_number": "11",
+          "entry_session_s": 7782.859,
+          "observable": true,
+          "partial_window": true,
+          "directional_stratum": false
+        },
+        "error_laps": -8,
+        "post_observed_stop": false
+      }
+    ],
+    "unmatched_alert_indices": [],
+    "unmatched_eligible_stop_indices": []
+  },
+  {
+    "driver_number": "14",
+    "tolerance_laps": 0,
+    "alerts": [
+      {
+        "lap": 42,
+        "left_censored": false,
+        "cutoff_session_s": 7160.192,
+        "directional_stratum": false,
+        "driver_number": "14"
+      }
+    ],
+    "all_stops": [
+      {
+        "lap": 18,
+        "driver_number": "14",
+        "entry_session_s": 5290.013,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      },
+      {
+        "lap": 43,
+        "driver_number": "14",
+        "entry_session_s": 7321.492,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [],
+    "unmatched_alert_indices": [
+      0
+    ],
+    "unmatched_eligible_stop_indices": [
+      0,
+      1
+    ]
+  },
+  {
+    "driver_number": "14",
+    "tolerance_laps": 1,
+    "alerts": [
+      {
+        "lap": 42,
+        "left_censored": false,
+        "cutoff_session_s": 7160.192,
+        "directional_stratum": false,
+        "driver_number": "14"
+      }
+    ],
+    "all_stops": [
+      {
+        "lap": 18,
+        "driver_number": "14",
+        "entry_session_s": 5290.013,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      },
+      {
+        "lap": 43,
+        "driver_number": "14",
+        "entry_session_s": 7321.492,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [
+      {
+        "alert": {
+          "lap": 42,
+          "left_censored": false,
+          "cutoff_session_s": 7160.192,
+          "directional_stratum": false,
+          "driver_number": "14"
+        },
+        "stop": {
+          "lap": 43,
+          "driver_number": "14",
+          "entry_session_s": 7321.492,
+          "observable": true,
+          "partial_window": true,
+          "directional_stratum": false
+        },
+        "error_laps": -1,
+        "post_observed_stop": false
+      }
+    ],
+    "unmatched_alert_indices": [],
+    "unmatched_eligible_stop_indices": [
+      0
+    ]
+  },
+  {
+    "driver_number": "14",
+    "tolerance_laps": 10,
+    "alerts": [
+      {
+        "lap": 42,
+        "left_censored": false,
+        "cutoff_session_s": 7160.192,
+        "directional_stratum": false,
+        "driver_number": "14"
+      }
+    ],
+    "all_stops": [
+      {
+        "lap": 18,
+        "driver_number": "14",
+        "entry_session_s": 5290.013,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      },
+      {
+        "lap": 43,
+        "driver_number": "14",
+        "entry_session_s": 7321.492,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [
+      {
+        "alert": {
+          "lap": 42,
+          "left_censored": false,
+          "cutoff_session_s": 7160.192,
+          "directional_stratum": false,
+          "driver_number": "14"
+        },
+        "stop": {
+          "lap": 43,
+          "driver_number": "14",
+          "entry_session_s": 7321.492,
+          "observable": true,
+          "partial_window": true,
+          "directional_stratum": false
+        },
+        "error_laps": -1,
+        "post_observed_stop": false
+      }
+    ],
+    "unmatched_alert_indices": [],
+    "unmatched_eligible_stop_indices": [
+      0
+    ]
+  },
+  {
+    "driver_number": "18",
+    "tolerance_laps": 0,
+    "alerts": [
+      {
+        "lap": 45,
+        "left_censored": false,
+        "cutoff_session_s": 7414.655,
+        "directional_stratum": false,
+        "driver_number": "18"
+      }
+    ],
+    "all_stops": [
+      {
+        "lap": 13,
+        "driver_number": "18",
+        "entry_session_s": 4879.583,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      },
+      {
+        "lap": 33,
+        "driver_number": "18",
+        "entry_session_s": 6514.819,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [],
+    "unmatched_alert_indices": [
+      0
+    ],
+    "unmatched_eligible_stop_indices": [
+      0,
+      1
+    ]
+  },
+  {
+    "driver_number": "18",
+    "tolerance_laps": 1,
+    "alerts": [
+      {
+        "lap": 45,
+        "left_censored": false,
+        "cutoff_session_s": 7414.655,
+        "directional_stratum": false,
+        "driver_number": "18"
+      }
+    ],
+    "all_stops": [
+      {
+        "lap": 13,
+        "driver_number": "18",
+        "entry_session_s": 4879.583,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      },
+      {
+        "lap": 33,
+        "driver_number": "18",
+        "entry_session_s": 6514.819,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [],
+    "unmatched_alert_indices": [
+      0
+    ],
+    "unmatched_eligible_stop_indices": [
+      0,
+      1
+    ]
+  },
+  {
+    "driver_number": "18",
+    "tolerance_laps": 10,
+    "alerts": [
+      {
+        "lap": 45,
+        "left_censored": false,
+        "cutoff_session_s": 7414.655,
+        "directional_stratum": false,
+        "driver_number": "18"
+      }
+    ],
+    "all_stops": [
+      {
+        "lap": 13,
+        "driver_number": "18",
+        "entry_session_s": 4879.583,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      },
+      {
+        "lap": 33,
+        "driver_number": "18",
+        "entry_session_s": 6514.819,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [],
+    "unmatched_alert_indices": [
+      0
+    ],
+    "unmatched_eligible_stop_indices": [
+      0,
+      1
+    ]
+  },
+  {
+    "driver_number": "24",
+    "tolerance_laps": 0,
+    "alerts": [
+      {
+        "lap": 45,
+        "left_censored": false,
+        "cutoff_session_s": 7421.157,
+        "directional_stratum": false,
+        "driver_number": "24"
+      }
+    ],
+    "all_stops": [
+      {
+        "lap": 8,
+        "driver_number": "24",
+        "entry_session_s": 4479.246,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": true
+      },
+      {
+        "lap": 35,
+        "driver_number": "24",
+        "entry_session_s": 6685.957,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [],
+    "unmatched_alert_indices": [
+      0
+    ],
+    "unmatched_eligible_stop_indices": [
+      0,
+      1
+    ]
+  },
+  {
+    "driver_number": "24",
+    "tolerance_laps": 1,
+    "alerts": [
+      {
+        "lap": 45,
+        "left_censored": false,
+        "cutoff_session_s": 7421.157,
+        "directional_stratum": false,
+        "driver_number": "24"
+      }
+    ],
+    "all_stops": [
+      {
+        "lap": 8,
+        "driver_number": "24",
+        "entry_session_s": 4479.246,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": true
+      },
+      {
+        "lap": 35,
+        "driver_number": "24",
+        "entry_session_s": 6685.957,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [],
+    "unmatched_alert_indices": [
+      0
+    ],
+    "unmatched_eligible_stop_indices": [
+      0,
+      1
+    ]
+  },
+  {
+    "driver_number": "24",
+    "tolerance_laps": 10,
+    "alerts": [
+      {
+        "lap": 45,
+        "left_censored": false,
+        "cutoff_session_s": 7421.157,
+        "directional_stratum": false,
+        "driver_number": "24"
+      }
+    ],
+    "all_stops": [
+      {
+        "lap": 8,
+        "driver_number": "24",
+        "entry_session_s": 4479.246,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": true
+      },
+      {
+        "lap": 35,
+        "driver_number": "24",
+        "entry_session_s": 6685.957,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [
+      {
+        "alert": {
+          "lap": 45,
+          "left_censored": false,
+          "cutoff_session_s": 7421.157,
+          "directional_stratum": false,
+          "driver_number": "24"
+        },
+        "stop": {
+          "lap": 35,
+          "driver_number": "24",
+          "entry_session_s": 6685.957,
+          "observable": true,
+          "partial_window": true,
+          "directional_stratum": false
+        },
+        "error_laps": 10,
+        "post_observed_stop": true
+      }
+    ],
+    "unmatched_alert_indices": [],
+    "unmatched_eligible_stop_indices": [
+      0
+    ]
+  },
+  {
+    "driver_number": "31",
+    "tolerance_laps": 0,
+    "alerts": [
+      {
+        "lap": 45,
+        "left_censored": false,
+        "cutoff_session_s": 7417.589,
+        "directional_stratum": false,
+        "driver_number": "31"
+      }
+    ],
+    "all_stops": [
+      {
+        "lap": 12,
+        "driver_number": "31",
+        "entry_session_s": 4802.225,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      },
+      {
+        "lap": 34,
+        "driver_number": "31",
+        "entry_session_s": 6597.599,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [],
+    "unmatched_alert_indices": [
+      0
+    ],
+    "unmatched_eligible_stop_indices": [
+      0,
+      1
+    ]
+  },
+  {
+    "driver_number": "31",
+    "tolerance_laps": 1,
+    "alerts": [
+      {
+        "lap": 45,
+        "left_censored": false,
+        "cutoff_session_s": 7417.589,
+        "directional_stratum": false,
+        "driver_number": "31"
+      }
+    ],
+    "all_stops": [
+      {
+        "lap": 12,
+        "driver_number": "31",
+        "entry_session_s": 4802.225,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      },
+      {
+        "lap": 34,
+        "driver_number": "31",
+        "entry_session_s": 6597.599,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [],
+    "unmatched_alert_indices": [
+      0
+    ],
+    "unmatched_eligible_stop_indices": [
+      0,
+      1
+    ]
+  },
+  {
+    "driver_number": "31",
+    "tolerance_laps": 10,
+    "alerts": [
+      {
+        "lap": 45,
+        "left_censored": false,
+        "cutoff_session_s": 7417.589,
+        "directional_stratum": false,
+        "driver_number": "31"
+      }
+    ],
+    "all_stops": [
+      {
+        "lap": 12,
+        "driver_number": "31",
+        "entry_session_s": 4802.225,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      },
+      {
+        "lap": 34,
+        "driver_number": "31",
+        "entry_session_s": 6597.599,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [],
+    "unmatched_alert_indices": [
+      0
+    ],
+    "unmatched_eligible_stop_indices": [
+      0,
+      1
+    ]
+  },
+  {
+    "driver_number": "44",
+    "tolerance_laps": 0,
+    "alerts": [
+      {
+        "lap": 22,
+        "left_censored": false,
+        "cutoff_session_s": 5515.579,
+        "directional_stratum": false,
+        "driver_number": "44"
+      },
+      {
+        "lap": 48,
+        "left_censored": false,
+        "cutoff_session_s": 7604.217,
+        "directional_stratum": false,
+        "driver_number": "44"
+      }
+    ],
+    "all_stops": [
+      {
+        "lap": 23,
+        "driver_number": "44",
+        "entry_session_s": 5678.319,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      },
+      {
+        "lap": 49,
+        "driver_number": "44",
+        "entry_session_s": 7763.172,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [],
+    "unmatched_alert_indices": [
+      0,
+      1
+    ],
+    "unmatched_eligible_stop_indices": [
+      0,
+      1
+    ]
+  },
+  {
+    "driver_number": "44",
+    "tolerance_laps": 1,
+    "alerts": [
+      {
+        "lap": 22,
+        "left_censored": false,
+        "cutoff_session_s": 5515.579,
+        "directional_stratum": false,
+        "driver_number": "44"
+      },
+      {
+        "lap": 48,
+        "left_censored": false,
+        "cutoff_session_s": 7604.217,
+        "directional_stratum": false,
+        "driver_number": "44"
+      }
+    ],
+    "all_stops": [
+      {
+        "lap": 23,
+        "driver_number": "44",
+        "entry_session_s": 5678.319,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      },
+      {
+        "lap": 49,
+        "driver_number": "44",
+        "entry_session_s": 7763.172,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [
+      {
+        "alert": {
+          "lap": 22,
+          "left_censored": false,
+          "cutoff_session_s": 5515.579,
+          "directional_stratum": false,
+          "driver_number": "44"
+        },
+        "stop": {
+          "lap": 23,
+          "driver_number": "44",
+          "entry_session_s": 5678.319,
+          "observable": true,
+          "partial_window": true,
+          "directional_stratum": false
+        },
+        "error_laps": -1,
+        "post_observed_stop": false
+      },
+      {
+        "alert": {
+          "lap": 48,
+          "left_censored": false,
+          "cutoff_session_s": 7604.217,
+          "directional_stratum": false,
+          "driver_number": "44"
+        },
+        "stop": {
+          "lap": 49,
+          "driver_number": "44",
+          "entry_session_s": 7763.172,
+          "observable": true,
+          "partial_window": true,
+          "directional_stratum": false
+        },
+        "error_laps": -1,
+        "post_observed_stop": false
+      }
+    ],
+    "unmatched_alert_indices": [],
+    "unmatched_eligible_stop_indices": []
+  },
+  {
+    "driver_number": "44",
+    "tolerance_laps": 10,
+    "alerts": [
+      {
+        "lap": 22,
+        "left_censored": false,
+        "cutoff_session_s": 5515.579,
+        "directional_stratum": false,
+        "driver_number": "44"
+      },
+      {
+        "lap": 48,
+        "left_censored": false,
+        "cutoff_session_s": 7604.217,
+        "directional_stratum": false,
+        "driver_number": "44"
+      }
+    ],
+    "all_stops": [
+      {
+        "lap": 23,
+        "driver_number": "44",
+        "entry_session_s": 5678.319,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      },
+      {
+        "lap": 49,
+        "driver_number": "44",
+        "entry_session_s": 7763.172,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [
+      {
+        "alert": {
+          "lap": 22,
+          "left_censored": false,
+          "cutoff_session_s": 5515.579,
+          "directional_stratum": false,
+          "driver_number": "44"
+        },
+        "stop": {
+          "lap": 23,
+          "driver_number": "44",
+          "entry_session_s": 5678.319,
+          "observable": true,
+          "partial_window": true,
+          "directional_stratum": false
+        },
+        "error_laps": -1,
+        "post_observed_stop": false
+      },
+      {
+        "alert": {
+          "lap": 48,
+          "left_censored": false,
+          "cutoff_session_s": 7604.217,
+          "directional_stratum": false,
+          "driver_number": "44"
+        },
+        "stop": {
+          "lap": 49,
+          "driver_number": "44",
+          "entry_session_s": 7763.172,
+          "observable": true,
+          "partial_window": true,
+          "directional_stratum": false
+        },
+        "error_laps": -1,
+        "post_observed_stop": false
+      }
+    ],
+    "unmatched_alert_indices": [],
+    "unmatched_eligible_stop_indices": []
+  },
+  {
+    "driver_number": "55",
+    "tolerance_laps": 0,
+    "alerts": [
+      {
+        "lap": 40,
+        "left_censored": false,
+        "cutoff_session_s": 6985.8,
+        "directional_stratum": false,
+        "driver_number": "55"
+      }
+    ],
+    "all_stops": [
+      {
+        "lap": 14,
+        "driver_number": "55",
+        "entry_session_s": 4953.894,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      },
+      {
+        "lap": 40,
+        "driver_number": "55",
+        "entry_session_s": 7067.341,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [
+      {
+        "alert": {
+          "lap": 40,
+          "left_censored": false,
+          "cutoff_session_s": 6985.8,
+          "directional_stratum": false,
+          "driver_number": "55"
+        },
+        "stop": {
+          "lap": 40,
+          "driver_number": "55",
+          "entry_session_s": 7067.341,
+          "observable": true,
+          "partial_window": true,
+          "directional_stratum": false
+        },
+        "error_laps": 0,
+        "post_observed_stop": false
+      }
+    ],
+    "unmatched_alert_indices": [],
+    "unmatched_eligible_stop_indices": [
+      0
+    ]
+  },
+  {
+    "driver_number": "55",
+    "tolerance_laps": 1,
+    "alerts": [
+      {
+        "lap": 40,
+        "left_censored": false,
+        "cutoff_session_s": 6985.8,
+        "directional_stratum": false,
+        "driver_number": "55"
+      }
+    ],
+    "all_stops": [
+      {
+        "lap": 14,
+        "driver_number": "55",
+        "entry_session_s": 4953.894,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      },
+      {
+        "lap": 40,
+        "driver_number": "55",
+        "entry_session_s": 7067.341,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [
+      {
+        "alert": {
+          "lap": 40,
+          "left_censored": false,
+          "cutoff_session_s": 6985.8,
+          "directional_stratum": false,
+          "driver_number": "55"
+        },
+        "stop": {
+          "lap": 40,
+          "driver_number": "55",
+          "entry_session_s": 7067.341,
+          "observable": true,
+          "partial_window": true,
+          "directional_stratum": false
+        },
+        "error_laps": 0,
+        "post_observed_stop": false
+      }
+    ],
+    "unmatched_alert_indices": [],
+    "unmatched_eligible_stop_indices": [
+      0
+    ]
+  },
+  {
+    "driver_number": "55",
+    "tolerance_laps": 10,
+    "alerts": [
+      {
+        "lap": 40,
+        "left_censored": false,
+        "cutoff_session_s": 6985.8,
+        "directional_stratum": false,
+        "driver_number": "55"
+      }
+    ],
+    "all_stops": [
+      {
+        "lap": 14,
+        "driver_number": "55",
+        "entry_session_s": 4953.894,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      },
+      {
+        "lap": 40,
+        "driver_number": "55",
+        "entry_session_s": 7067.341,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [
+      {
+        "alert": {
+          "lap": 40,
+          "left_censored": false,
+          "cutoff_session_s": 6985.8,
+          "directional_stratum": false,
+          "driver_number": "55"
+        },
+        "stop": {
+          "lap": 40,
+          "driver_number": "55",
+          "entry_session_s": 7067.341,
+          "observable": true,
+          "partial_window": true,
+          "directional_stratum": false
+        },
+        "error_laps": 0,
+        "post_observed_stop": false
+      }
+    ],
+    "unmatched_alert_indices": [],
+    "unmatched_eligible_stop_indices": [
+      0
+    ]
+  },
+  {
+    "driver_number": "63",
+    "tolerance_laps": 0,
+    "alerts": [
+      {
+        "lap": 24,
+        "left_censored": false,
+        "cutoff_session_s": 5686.306,
+        "directional_stratum": false,
+        "driver_number": "63"
+      }
+    ],
+    "all_stops": [
+      {
+        "lap": 24,
+        "driver_number": "63",
+        "entry_session_s": 5768.223,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      },
+      {
+        "lap": 44,
+        "driver_number": "63",
+        "entry_session_s": 7378.429,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [
+      {
+        "alert": {
+          "lap": 24,
+          "left_censored": false,
+          "cutoff_session_s": 5686.306,
+          "directional_stratum": false,
+          "driver_number": "63"
+        },
+        "stop": {
+          "lap": 24,
+          "driver_number": "63",
+          "entry_session_s": 5768.223,
+          "observable": true,
+          "partial_window": true,
+          "directional_stratum": false
+        },
+        "error_laps": 0,
+        "post_observed_stop": false
+      }
+    ],
+    "unmatched_alert_indices": [],
+    "unmatched_eligible_stop_indices": [
+      1
+    ]
+  },
+  {
+    "driver_number": "63",
+    "tolerance_laps": 1,
+    "alerts": [
+      {
+        "lap": 24,
+        "left_censored": false,
+        "cutoff_session_s": 5686.306,
+        "directional_stratum": false,
+        "driver_number": "63"
+      }
+    ],
+    "all_stops": [
+      {
+        "lap": 24,
+        "driver_number": "63",
+        "entry_session_s": 5768.223,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      },
+      {
+        "lap": 44,
+        "driver_number": "63",
+        "entry_session_s": 7378.429,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [
+      {
+        "alert": {
+          "lap": 24,
+          "left_censored": false,
+          "cutoff_session_s": 5686.306,
+          "directional_stratum": false,
+          "driver_number": "63"
+        },
+        "stop": {
+          "lap": 24,
+          "driver_number": "63",
+          "entry_session_s": 5768.223,
+          "observable": true,
+          "partial_window": true,
+          "directional_stratum": false
+        },
+        "error_laps": 0,
+        "post_observed_stop": false
+      }
+    ],
+    "unmatched_alert_indices": [],
+    "unmatched_eligible_stop_indices": [
+      1
+    ]
+  },
+  {
+    "driver_number": "63",
+    "tolerance_laps": 10,
+    "alerts": [
+      {
+        "lap": 24,
+        "left_censored": false,
+        "cutoff_session_s": 5686.306,
+        "directional_stratum": false,
+        "driver_number": "63"
+      }
+    ],
+    "all_stops": [
+      {
+        "lap": 24,
+        "driver_number": "63",
+        "entry_session_s": 5768.223,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      },
+      {
+        "lap": 44,
+        "driver_number": "63",
+        "entry_session_s": 7378.429,
+        "observable": true,
+        "partial_window": true,
+        "directional_stratum": false
+      }
+    ],
+    "matches": [
+      {
+        "alert": {
+          "lap": 24,
+          "left_censored": false,
+          "cutoff_session_s": 5686.306,
+          "directional_stratum": false,
+          "driver_number": "63"
+        },
+        "stop": {
+          "lap": 24,
+          "driver_number": "63",
+          "entry_session_s": 5768.223,
+          "observable": true,
+          "partial_window": true,
+          "directional_stratum": false
+        },
+        "error_laps": 0,
+        "post_observed_stop": false
+      }
+    ],
+    "unmatched_alert_indices": [],
+    "unmatched_eligible_stop_indices": [
+      1
+    ]
+  }
+]

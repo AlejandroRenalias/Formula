@@ -1,0 +1,11 @@
+{
+  "tag": "18e1bb0b093b4f7e175af8e962702737b8676a8e",
+  "stride": 1,
+  "input_sha256": {
+    "data\\cache\\evaluation\\spain_2022\\snapshots_parameters_wear.jsonl": "4640a6ea294300d48e3ee1f3a45631b10430da40710a9ca39fcb8a126b38a856",
+    "docs\\evaluation\\held_out\\development_reference\\spain_2022\\predictions.jsonl": "41b941d6de47d99bf69e8185ed3056b768a03ef13acccd8b6f07c4c74d33c716",
+    "docs\\evaluation\\held_out\\development_reference\\spain_2022\\manifest.json": "422e1ae03df49fa49764e96d4cd2e4e20782c5a094268ff7f1c329079e56af7c",
+    "data\\cache\\evaluation\\spain_2022\\session.json": "5ac519a6f9b168b95670688adbba59d95f8620444aacb1de78a99705e758b931"
+  },
+  "started_utc": "2026-10-05T10:49:49.918281+00:00"
+}

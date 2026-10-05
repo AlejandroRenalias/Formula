@@ -2,7 +2,7 @@
 import json
 from pathlib import Path
 import statistics
-from tools.agreement_inputs import RACES,ROOT,sha
+from tools.agreement_inputs import RACES,ROOT,sha,read_rows,phase
 
 PHASES=('5-14','15-29','30+')
 def mean_available(v):
@@ -17,6 +17,7 @@ def pooled_counts(rows):
         ('stay_finish_win_fraction_available','stay_finish_wins','stay_finish_available')):
         r[name]=r[num]/r[den] if r[den] else None
     r['raw_box_precision']=sum((x['raw_box_precision'] or 0)*x['box_cutoffs'] for x in rows)/r['box_cutoffs'] if r['box_cutoffs'] else None
+    r['f1']=2*r['precision']*r['recall']/(r['precision']+r['recall']) if r['precision'] is not None and r['recall'] is not None and r['precision']+r['recall'] else (0.0 if r['precision'] is not None and r['recall'] is not None else None)
     r['equal_race_precision']=mean_available([x['precision'] for x in rows]);r['equal_race_recall']=mean_available([x['recall'] for x in rows])
     return r
 
@@ -32,7 +33,33 @@ def pooled_time(rows):
 
 def fmt(v,percent=False):return 'NA' if v is None else f'{100*v:.1f}%' if percent else f'{v:+.2f}'
 def run():
+    for race in RACES:
+        source=Path('docs/evaluation')/(('held_out/'+race) if race in RACES[3:] else race+'_future')/'exclusions.json'
+        original={(r['driver'],r['lap']):r['reason'] for r in json.loads(source.read_text()) if r['scope']=='snapshot'}
+        out=ROOT/race
+        excluded=json.loads((out/'excluded_cutoffs.json').read_text())
+        for r in excluded:r['reason']=original[(r['driver_number'],r['lap'])]
+        (out/'excluded_cutoffs.json').write_text(json.dumps(excluded,indent=2)+'\n')
+        m=json.loads((out/'manifest.json').read_text())
+        m['exclusion_source_sha256']={str(source):sha(source)}
+        m['output_sha256']={p.name:sha(p) for p in out.iterdir() if p.name!='manifest.json'}
+        calls=read_rows(out/'calls.jsonl')
+        metrics=json.loads((out/'metrics.json').read_text())
+        audit=json.loads((out/'matching_audit.json').read_text())
+        stops=[s for a in audit if a['tolerance_laps']==1 for s in a['all_stops']]
+        metrics['team_stops_before_lap_5']=[s for s in stops if s['lap']<5]
+        metrics['phase']['5-14']['total_team_stops']=sum(5<=s['lap']<15 for s in stops)
+        metrics['phase']['5-14']['unobservable_team_stops']=sum(5<=s['lap']<15 and not s['observable'] for s in stops)
+        metrics['coverage_by_phase']={ph:{'valid_cutoffs':sum(phase(c['lap'])==ph for c in calls),
+            'excluded_cutoffs':sum(phase(e['lap'])==ph for e in excluded),
+            'no_legal_box_candidate':sum(phase(c['lap'])==ph and c['best_policies_by_call']['BOX_NOW'] is None for c in calls),
+            'no_legal_stay_candidate':sum(phase(c['lap'])==ph and c['best_policies_by_call']['STAY_OUT'] is None for c in calls),
+            'abstentions':sum(phase(c['lap'])==ph and c['call'] not in ('BOX_NOW','STAY_OUT') for c in calls)} for ph in PHASES}
+        (out/'metrics.json').write_text(json.dumps(metrics,indent=2)+'\n')
+        m['output_sha256']={p.name:sha(p) for p in out.iterdir() if p.name!='manifest.json'}
+        (out/'manifest.json').write_text(json.dumps(m,indent=2)+'\n')
     races={r:json.loads((ROOT/r/'metrics.json').read_text()) for r in RACES}
+    audits={r:json.loads((ROOT/r/'matching_audit.json').read_text()) for r in RACES}
     pools={}
     for name,rr in (('development',RACES[:3]),('held_out',RACES[3:])):
         pool={'all':pooled_counts([races[r]['all'] for r in rr]),
@@ -45,6 +72,17 @@ def run():
             for key in ('post_observed_matches','unmatched_alerts','unmatched_observable_stops'):pool['timing'][t][key]=sum(races[r]['timing'][t][key] for r in rr)
         pool['directional']['causal_stratum']=pooled_counts([races[r]['directional']['causal_stratum'] for r in rr])
         for view in ('wide_early_uncensored','wide_stratum_uncensored'):pool['directional'][view]=pooled_time([races[r]['directional'][view] for r in rr])
+        for t in ('0','1','10'):
+            pairs=[p for r in rr for a in audits[r] if a['tolerance_laps']==int(t) for p in a['matches']]
+            for view in ('all','uncensored','censored'):
+                selected=[p for p in pairs if view=='all' or p['alert']['left_censored']==(view=='censored')]
+                pool['timing'][t][view]['median_laps']=statistics.median(p['error_laps'] for p in selected) if selected else None
+            for view,key in (('by_alert_phase','alert'),('by_team_phase','stop')):
+                for ph in PHASES:
+                    selected=[p for p in pairs if phase(p[key]['lap'])==ph]
+                    pool['timing'][t][view][ph]['median_laps']=statistics.median(p['error_laps'] for p in selected) if selected else None
+            pool['timing'][t]['matched_alert_fraction']=pool['timing'][t]['all']['n']/pool['all']['alerts'] if pool['all']['alerts'] else None
+            pool['timing'][t]['matched_stop_fraction']=pool['timing'][t]['all']['n']/pool['all']['observable_team_stops'] if pool['all']['observable_team_stops'] else None
         pool['exact']=pooled_counts([races[r]['exact'] for r in rr]);pools[name]=pool
     (ROOT/'metrics.json').write_text(json.dumps({'races':races,'pools':pools},indent=2)+'\n')
     b=json.loads((ROOT/'benchmark.json').read_text());parity=json.loads((ROOT/'prediction_parity.json').read_text())
@@ -68,7 +106,7 @@ def run():
         'All runs blocked network access and hash-verified cached inputs. Benchmark calls are reused, not scored twice. '
         'Run timings exclude full-wrapper parity overhead.', '',
         'All physical subject stops are labels, including same-compound stops. A stop is recall-observable only if its +/-1 window intersects a valid cutoff. '
-        'Missing cutoffs break alert episodes; the first BOX in an observed segment is left-censored. '
+        'Physical stop labels before lap 5 remain in overall counts and are listed separately, outside the 5-14 phase. Missing cutoffs break alert episodes; the first BOX in an observed segment is left-censored. '
         'Repeated adjacent BOX calls collapse to their first call. Primary matches maximize chronological one-to-one cardinality within +/-1, '
         'then minimize absolute distance, then prefer earlier alerts. No sliding persistent alerts to the actual stop.', '',
         '## Primary +/-1-lap event agreement','',
@@ -83,6 +121,13 @@ def run():
             '| --- | ---: | ---: | ---: | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: |']
         for ph,a in m['phase'].items():
             lines.append(f"| {ph} | {a['valid_cutoffs']} | {fmt(a['box_rate'],True)} | {a['alerts']} | {a['observable_team_stops']} | {a['tp_precision']}/{a['tp_recall']} | {fmt(a['precision'],True)} | {fmt(a['recall'],True)} | {a['stay_finish_available']} | {a['stay_finish_wins']} | {fmt(a['stay_finish_win_fraction_all'],True)} | {fmt(a['stay_finish_win_fraction_available'],True)} |")
+        if name in pools:
+            lines+=['', 'Equal-race phase precision/recall: '+ '; '.join(f"{ph}: {fmt(a['equal_race_precision'],True)} / {fmt(a['equal_race_recall'],True)}" for ph,a in m['phase'].items())+'.']
+        if name in races:
+            lines+=['', '| Phase | Excluded cutoffs | No legal BOX | No legal STAY | Abstentions |',
+                    '| --- | ---: | ---: | ---: | ---: |']
+            for ph,x in m['coverage_by_phase'].items():
+                lines.append(f"| {ph} | {x['excluded_cutoffs']} | {x['no_legal_box_candidate']} | {x['no_legal_stay_candidate']} | {x['abstentions']} |")
         lines+=['','Precision phase belongs to the alert; recall phase belongs to the team stop. Matched counts can differ across a phase boundary.', '',
             '| Timing view | Matched N | Mean laps | Median laps | MAE laps | -1 / 0 / +1 | Earlier 2-10 | Later 2-10 |',
             '| --- | ---: | ---: | ---: | ---: | --- | ---: | ---: |']
@@ -90,6 +135,15 @@ def run():
             for view in ('all','uncensored','censored'):
                 x=m['timing'][t][view]
                 lines.append(f"| +/-{t} {view} | {x['n']} | {fmt(x['mean_laps'])} | {fmt(x.get('median_laps'))} | {fmt(x['mae_laps'])} | {x['minus_1']}/{x['zero']}/{x['plus_1']} | {x['early_2_to_10']} | {x['late_2_to_10']} |")
+        lines+=['', '| Wide diagnostic by team-stop phase | Matches | Mean laps | Median laps | Earlier 2-10 | Later 2-10 |',
+                '| --- | ---: | ---: | ---: | ---: | ---: |']
+        rr=(name,) if name in races else (RACES[:3] if name=='development' else RACES[3:])
+        for ph in PHASES:
+            pairs=[p for race in rr for a in audits[race] if a['tolerance_laps']==10 for p in a['matches']
+                   if phase(p['stop']['lap'])==ph and not p['alert']['left_censored']]
+            from tools.agreement_scoring import timing
+            x=timing(pairs)
+            lines.append(f"| {ph} uncensored | {x['n']} | {fmt(x['mean_laps'])} | {fmt(x['median_laps'])} | {x['early_2_to_10']} | {x['late_2_to_10']} |")
         a=m['all'];exact=m['exact'];lines+=['',f"Exact-lap precision/recall: {fmt(exact['precision'],True)} / {fmt(exact['recall'],True)}. Raw per-cutoff BOX precision: {fmt(a['raw_box_precision'],True)} (repeated alerts allowed). "
             f"Unobservable stops: {a['unobservable_team_stops']}; partial stop windows: {a['partial_stop_windows']}; left-censored alerts: {a['left_censored_alerts']}. "
             f"Primary matches after the stop was observed: {m['timing']['1']['post_observed_matches']}. "
@@ -113,4 +167,9 @@ def run():
         'Per-race manifests seal input/output hashes and snapshot exclusions. See [benchmark.json](benchmark.json), '
         '[metrics.json](metrics.json), [manifest.json](manifest.json) and the [protocol](../AGREEMENT_PLAN.md).']
     (ROOT/'REPORT.md').write_text('\n'.join(lines)+'\n')
+    manifest=json.loads((ROOT/'manifest.json').read_text())
+    manifest['races']={r:json.loads((ROOT/r/'manifest.json').read_text()) for r in RACES}
+    manifest['reporter_sha256']=sha(__file__)
+    manifest['report_output_sha256']={p.name:sha(p) for p in ROOT.iterdir() if p.is_file() and p.name!='manifest.json'}
+    (ROOT/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
 if __name__=='__main__':run()
