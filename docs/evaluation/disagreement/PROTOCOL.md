@@ -58,7 +58,9 @@ Other FP tags use the alert reference, not the context stop's earlier state.
    or later actual stop; report the context distance prominently.
 4. **Strategy count.** Count all physical subject stops strictly after the
    reference cutoff time through its actual race finish, including the event
-   for FN. Compare with the recommended policy's nominal future scheduled dry
+   for FN. The finish is the accepted last positive lap crossing coordinate in the cached
+   session; garage visits after that crossing are excluded from remaining-stop
+   counts, rival stop evidence and FP physical-stop context. Compare with the recommended policy's nominal future scheduled dry
    stop count (`len(dry_stops)`). Different counts tag true. Also show weighted
    mean and min/max stop counts from the saved recommended scenario traces,
    because autonomous sampled SC stops can change nominal counts. Do not replace
