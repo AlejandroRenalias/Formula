@@ -14,7 +14,8 @@ from src.calculators.projection import ProjectionConfig,Stop
 
 from src.core.models import RaceState
 
-from src.evaluation.snapshot import Snapshot,load_dataset,crossings
+from src.evaluation.snapshot import Snapshot, crossings
+from tools.evaluation_cache import load_dataset
 
 from src.evaluation.prediction import ActualPlan,predict
 

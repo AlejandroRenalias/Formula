@@ -6,7 +6,7 @@ from pathlib import Path
 from src.evaluation.diagnostics import metrics, metric_tables
 from src.evaluation.breakdown import attach_cutoff_features
 from src.evaluation.offline import network_blocked
-from src.evaluation.snapshot import load_dataset
+from tools.evaluation_cache import load_dataset
 from tools.evaluate_bahrain import read_predictions
 from tools.report_development_evaluation import actual_neutralization
 from tools.report_neutralization_evaluation import RACES

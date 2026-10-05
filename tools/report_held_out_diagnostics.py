@@ -3,7 +3,8 @@ import json
 from pathlib import Path
 from tools.evaluate_held_out import ROOT, HELD_OUT, authorized_datasets, assert_frozen, read, digest
 from tools.evaluate_conditional import green_rows, calibration, observed_start
-from src.evaluation.snapshot import load_dataset, crossings
+from src.evaluation.snapshot import crossings
+from tools.evaluation_cache import load_dataset
 from src.evaluation.offline import network_blocked
 from src.evaluation.breakdown import no_stop_breakdowns, breakdown_table
 

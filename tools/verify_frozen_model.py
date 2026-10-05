@@ -4,7 +4,8 @@ import json
 from dataclasses import replace
 from pathlib import Path
 from src.evaluation.model_configurations import FREEZE_PATH,resolve_configuration
-from src.evaluation.snapshot import load_dataset,build_snapshot
+from src.evaluation.snapshot import build_snapshot
+from tools.evaluation_cache import load_dataset
 from src.evaluation.prediction import ActualPlan,predict
 from src.evaluation.offline import network_blocked
 from src.calculators.projection import Stop

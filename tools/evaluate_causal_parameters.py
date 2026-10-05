@@ -2,7 +2,8 @@
 import argparse,hashlib,json,time
 from pathlib import Path
 from src.calculators.projection import Stop
-from src.evaluation.snapshot import build_snapshot,load_dataset
+from src.evaluation.snapshot import build_snapshot
+from tools.evaluation_cache import load_dataset
 from src.evaluation.prediction import ActualPlan,predict
 from src.evaluation.diagnostics import metrics,metric_tables
 from src.evaluation.breakdown import no_stop_breakdowns

@@ -18,7 +18,8 @@ from src.evaluation.breakdown import attach_cutoff_features
 from src.evaluation.offline import network_blocked
 from src.evaluation.races import race_key
 from src.evaluation.prediction import actual_plan, predict, score_targets
-from src.evaluation.snapshot import ExcludedSnapshot, build_snapshot, load_dataset
+from src.evaluation.snapshot import ExcludedSnapshot, build_snapshot
+from tools.evaluation_cache import load_dataset
 
 DEFAULT_DATA = Path("data/cache/evaluation/bahrain_2021/session.json")
 DEFAULT_OUTPUT = Path("docs/evaluation/bahrain_2021_future")

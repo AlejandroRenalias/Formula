@@ -1,0 +1,464 @@
+{
+  "schema_version": 1,
+  "reserved": [
+    {
+      "key": "italy_2023",
+      "year": 2023,
+      "event": "Italy",
+      "round": 14,
+      "aliases": [
+        "Italian Grand Prix",
+        "Monza",
+        "Italian GP"
+      ],
+      "purposes": []
+    },
+    {
+      "key": "hungary_2024",
+      "year": 2024,
+      "event": "Hungary",
+      "round": 13,
+      "aliases": [
+        "Hungarian Grand Prix",
+        "Hungaroring",
+        "Hungarian GP"
+      ],
+      "purposes": []
+    },
+    {
+      "key": "bahrain_2025",
+      "year": 2025,
+      "event": "Bahrain",
+      "round": 4,
+      "aliases": [
+        "Bahrain Grand Prix",
+        "Sakhir",
+        "Bahrain GP"
+      ],
+      "purposes": []
+    },
+    {
+      "key": "russia_2021",
+      "year": 2021,
+      "event": "Russia",
+      "round": 15,
+      "aliases": [
+        "Russian Grand Prix",
+        "Sochi",
+        "Russian GP"
+      ],
+      "purposes": []
+    },
+    {
+      "key": "netherlands_2023",
+      "year": 2023,
+      "event": "Netherlands",
+      "round": 13,
+      "aliases": [
+        "Dutch Grand Prix",
+        "Zandvoort",
+        "Dutch GP"
+      ],
+      "purposes": []
+    },
+    {
+      "key": "canada_2024",
+      "year": 2024,
+      "event": "Canada",
+      "round": 9,
+      "aliases": [
+        "Canadian Grand Prix",
+        "Montreal",
+        "Canadian GP"
+      ],
+      "purposes": []
+    }
+  ],
+  "allowed": [
+    {
+      "key": "australia_2019",
+      "year": 2019,
+      "event": "Australia",
+      "round": 1,
+      "aliases": [
+        "Australian Grand Prix",
+        "Melbourne",
+        "Australian GP"
+      ],
+      "purposes": [
+        "prior"
+      ]
+    },
+    {
+      "key": "bahrain_2019",
+      "year": 2019,
+      "event": "Bahrain",
+      "round": 2,
+      "aliases": [
+        "Bahrain Grand Prix",
+        "Sakhir",
+        "Bahrain GP"
+      ],
+      "purposes": [
+        "prior"
+      ]
+    },
+    {
+      "key": "china_2019",
+      "year": 2019,
+      "event": "China",
+      "round": 3,
+      "aliases": [
+        "Chinese Grand Prix",
+        "Shanghai",
+        "Chinese GP"
+      ],
+      "purposes": [
+        "prior"
+      ]
+    },
+    {
+      "key": "azerbaijan_2019",
+      "year": 2019,
+      "event": "Azerbaijan",
+      "round": 4,
+      "aliases": [
+        "Azerbaijan Grand Prix",
+        "Baku",
+        "Azerbaijan GP"
+      ],
+      "purposes": [
+        "prior"
+      ]
+    },
+    {
+      "key": "spain_2019",
+      "year": 2019,
+      "event": "Spain",
+      "round": 5,
+      "aliases": [
+        "Spanish Grand Prix",
+        "Barcelona",
+        "Circuit de Barcelona-Catalunya",
+        "Spanish GP"
+      ],
+      "purposes": [
+        "prior"
+      ]
+    },
+    {
+      "key": "monaco_2019",
+      "year": 2019,
+      "event": "Monaco",
+      "round": 6,
+      "aliases": [
+        "Monaco Grand Prix",
+        "Monaco GP"
+      ],
+      "purposes": [
+        "prior"
+      ]
+    },
+    {
+      "key": "canada_2019",
+      "year": 2019,
+      "event": "Canada",
+      "round": 7,
+      "aliases": [
+        "Canadian Grand Prix",
+        "Montreal",
+        "Canadian GP"
+      ],
+      "purposes": [
+        "prior"
+      ]
+    },
+    {
+      "key": "france_2019",
+      "year": 2019,
+      "event": "France",
+      "round": 8,
+      "aliases": [
+        "French Grand Prix",
+        "Paul Ricard",
+        "Le Castellet",
+        "French GP"
+      ],
+      "purposes": [
+        "prior"
+      ]
+    },
+    {
+      "key": "austria_2019",
+      "year": 2019,
+      "event": "Austria",
+      "round": 9,
+      "aliases": [
+        "Austrian Grand Prix",
+        "Spielberg",
+        "Austrian GP"
+      ],
+      "purposes": [
+        "prior"
+      ]
+    },
+    {
+      "key": "great_britain_2019",
+      "year": 2019,
+      "event": "Great Britain",
+      "round": 10,
+      "aliases": [
+        "British Grand Prix",
+        "Britain",
+        "Silverstone",
+        "British GP"
+      ],
+      "purposes": [
+        "prior"
+      ]
+    },
+    {
+      "key": "hungary_2019",
+      "year": 2019,
+      "event": "Hungary",
+      "round": 12,
+      "aliases": [
+        "Hungarian Grand Prix",
+        "Hungaroring",
+        "Hungarian GP"
+      ],
+      "purposes": [
+        "prior"
+      ]
+    },
+    {
+      "key": "belgium_2019",
+      "year": 2019,
+      "event": "Belgium",
+      "round": 13,
+      "aliases": [
+        "Belgian Grand Prix",
+        "Spa",
+        "Belgian GP"
+      ],
+      "purposes": [
+        "prior"
+      ]
+    },
+    {
+      "key": "italy_2019",
+      "year": 2019,
+      "event": "Italy",
+      "round": 14,
+      "aliases": [
+        "Italian Grand Prix",
+        "Monza",
+        "Italian GP"
+      ],
+      "purposes": [
+        "prior"
+      ]
+    },
+    {
+      "key": "singapore_2019",
+      "year": 2019,
+      "event": "Singapore",
+      "round": 15,
+      "aliases": [
+        "Singapore Grand Prix",
+        "Singapore GP"
+      ],
+      "purposes": [
+        "prior"
+      ]
+    },
+    {
+      "key": "russia_2019",
+      "year": 2019,
+      "event": "Russia",
+      "round": 16,
+      "aliases": [
+        "Russian Grand Prix",
+        "Sochi",
+        "Russian GP"
+      ],
+      "purposes": [
+        "prior"
+      ]
+    },
+    {
+      "key": "japan_2019",
+      "year": 2019,
+      "event": "Japan",
+      "round": 17,
+      "aliases": [
+        "Japanese Grand Prix",
+        "Suzuka",
+        "Japanese GP"
+      ],
+      "purposes": [
+        "prior"
+      ]
+    },
+    {
+      "key": "mexico_2019",
+      "year": 2019,
+      "event": "Mexico",
+      "round": 18,
+      "aliases": [
+        "Mexican Grand Prix",
+        "Mexico City",
+        "Mexican GP"
+      ],
+      "purposes": [
+        "prior"
+      ]
+    },
+    {
+      "key": "united_states_2019",
+      "year": 2019,
+      "event": "United States",
+      "round": 19,
+      "aliases": [
+        "United States Grand Prix",
+        "USA",
+        "Austin",
+        "United States GP"
+      ],
+      "purposes": [
+        "prior"
+      ]
+    },
+    {
+      "key": "brazil_2019",
+      "year": 2019,
+      "event": "Brazil",
+      "round": 20,
+      "aliases": [
+        "Brazilian Grand Prix",
+        "Sao Paulo",
+        "Brazilian GP"
+      ],
+      "purposes": [
+        "prior"
+      ]
+    },
+    {
+      "key": "abu_dhabi_2019",
+      "year": 2019,
+      "event": "Abu Dhabi",
+      "round": 21,
+      "aliases": [
+        "Abu Dhabi Grand Prix",
+        "Yas Marina",
+        "Abu Dhabi GP"
+      ],
+      "purposes": [
+        "prior"
+      ]
+    },
+    {
+      "key": "bahrain_2021",
+      "year": 2021,
+      "event": "Bahrain",
+      "round": 1,
+      "aliases": [
+        "Bahrain Grand Prix",
+        "Sakhir",
+        "Bahrain GP"
+      ],
+      "purposes": [
+        "evaluation",
+        "archive",
+        "geometry",
+        "adapter"
+      ]
+    },
+    {
+      "key": "spain_2022",
+      "year": 2022,
+      "event": "Spain",
+      "round": 6,
+      "aliases": [
+        "Spanish Grand Prix",
+        "Barcelona",
+        "Circuit de Barcelona-Catalunya",
+        "Spanish GP"
+      ],
+      "purposes": [
+        "evaluation",
+        "archive",
+        "geometry",
+        "adapter"
+      ]
+    },
+    {
+      "key": "france_2022",
+      "year": 2022,
+      "event": "France",
+      "round": 12,
+      "aliases": [
+        "French Grand Prix",
+        "Paul Ricard",
+        "Le Castellet",
+        "French GP"
+      ],
+      "purposes": [
+        "evaluation",
+        "archive",
+        "geometry",
+        "adapter"
+      ]
+    },
+    {
+      "key": "spain_2023",
+      "year": 2023,
+      "event": "Spain",
+      "round": 7,
+      "aliases": [
+        "Spanish Grand Prix",
+        "Barcelona",
+        "Circuit de Barcelona-Catalunya",
+        "Spanish GP"
+      ],
+      "purposes": [
+        "evaluation",
+        "archive",
+        "geometry",
+        "adapter"
+      ]
+    },
+    {
+      "key": "bahrain_2024",
+      "year": 2024,
+      "event": "Bahrain",
+      "round": 1,
+      "aliases": [
+        "Bahrain Grand Prix",
+        "Sakhir",
+        "Bahrain GP"
+      ],
+      "purposes": [
+        "evaluation",
+        "archive",
+        "geometry",
+        "adapter"
+      ]
+    },
+    {
+      "key": "great_britain_2024",
+      "year": 2024,
+      "event": "Great Britain",
+      "round": 12,
+      "aliases": [
+        "British Grand Prix",
+        "Britain",
+        "Silverstone",
+        "British GP"
+      ],
+      "purposes": [
+        "adapter"
+      ]
+    }
+  ]
+}

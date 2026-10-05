@@ -7,9 +7,12 @@ from fastf1 import _api
 from tools.acquire_bahrain_evaluation import records
 from src.evaluation.snapshot import driver_prefix
 from src.evaluation.pit_parameters import completed_stop_samples
+from tools.reservation_gate import authorize
 
 
 def run(offline):
+    for name in ('Bahrain','Spain','France'):
+        authorize(2019, name, purpose='prior')
     fastf1.Cache.enable_cache('data/cache');fastf1.Cache.offline_mode(offline)
     all_samples=[];evidence=[]
     for name in ('Bahrain','Spain','France'):

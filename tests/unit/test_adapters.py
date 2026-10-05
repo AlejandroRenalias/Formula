@@ -55,11 +55,11 @@ def test_fastf1_load_session_configures_cache_only_when_loading(monkeypatch):
 
     monkeypatch.setattr("src.adapters.fastf1_adapter.fastf1", _FastF1)
     monkeypatch.setattr("src.adapters.fastf1_adapter.CACHE_DIR", _CacheDir())
-    FastF1Adapter.load_session(2024, "Test GP")
+    FastF1Adapter.load_session(2024, "Bahrain")
     assert calls == [
         ("mkdir", {"parents": True, "exist_ok": True}),
         ("cache", "offline-cache"),
-        ("get", (2024, "Test GP", "R")),
+        ("get", (2024, "Bahrain", "R")),
         ("load", {"telemetry": False, "weather": True, "laps": True}),
     ]
 
@@ -77,7 +77,7 @@ def test_fastf1_load_session_wraps_acquisition_failures(monkeypatch):
 
     monkeypatch.setattr("src.adapters.fastf1_adapter.fastf1", _FastF1)
     with pytest.raises(FastF1AdapterError, match="2024.*network unavailable"):
-        FastF1Adapter.load_session(2024, "Test GP")
+        FastF1Adapter.load_session(2024, "Bahrain")
 
 
 def test_fastf1_snapshot_uses_exact_completed_lap_and_historical_cutoff():

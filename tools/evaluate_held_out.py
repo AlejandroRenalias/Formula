@@ -15,7 +15,8 @@ from unittest.mock import patch
 from src.calculators.projection import ProjectionConfig, Stop
 from src.core.models import RaceState
 from src.evaluation.races import DEVELOPMENT_RACES
-from src.evaluation.snapshot import Snapshot, ExcludedSnapshot, load_dataset
+from src.evaluation.snapshot import Snapshot, ExcludedSnapshot
+from tools.evaluation_cache import load_dataset
 from src.evaluation.prediction import ActualPlan, predict
 from src.evaluation.diagnostics import enrich_rows, metrics, metric_tables
 from src.evaluation.breakdown import attach_cutoff_features, no_stop_breakdowns

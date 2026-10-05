@@ -4,6 +4,7 @@ from pathlib import Path
 import fastf1
 import pandas as pd
 from fastf1 import _api
+from tools.reservation_gate import authorize
 
 RACES = ["Australia","Bahrain","China","Azerbaijan","Spain","Monaco","Canada","France",
          "Austria","Great Britain","Hungary","Belgium","Italy","Singapore","Russia","Japan",
@@ -14,6 +15,8 @@ def kind(code):
 
 
 def run(offline=False):
+    for name in RACES:
+        authorize(2019, name, purpose='prior')
     fastf1.Cache.enable_cache("data/cache");fastf1.Cache.offline_mode(offline)
     sc, vsc, ratios = [], [], {"SC":[],"VSC":[]}
     evidence, exposure, included = [], 0., []

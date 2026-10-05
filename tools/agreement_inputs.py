@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 from src.calculators.projection import ProjectionConfig
 from src.core.models import RaceState
-from src.evaluation.snapshot import load_dataset
+from tools.evaluation_cache import load_dataset
 from src.evaluation.races import DEVELOPMENT_RACES
 from unittest.mock import patch
 
@@ -14,6 +14,8 @@ ROOT=Path('docs/evaluation/agreement')
 def sha(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def read_rows(p): return [json.loads(x) for x in Path(p).read_text().splitlines()]
 def inputs(race):
+    from tools.reservation_gate import authorize
+    authorize(key=race, purpose='archive')
     held=race in RACES[3:]
     folder=Path('docs/evaluation/held_out')/(race if held else 'development_reference/'+race)
     manifest=json.loads((folder/'manifest.json').read_text())

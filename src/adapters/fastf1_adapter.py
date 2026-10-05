@@ -138,6 +138,8 @@ class FastF1Adapter:
     @classmethod
     def load_session(cls, year: int, race_name: str, session_type: str = "R") -> fastf1.core.Session:
         """Loads and caches a FastF1 session."""
+        from tools.reservation_gate import authorize
+        authorize(year, race_name, purpose='adapter', session=session_type)
         try:
             CACHE_DIR.mkdir(parents=True, exist_ok=True)
             fastf1.Cache.enable_cache(str(CACHE_DIR))

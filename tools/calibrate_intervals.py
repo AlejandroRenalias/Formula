@@ -9,7 +9,7 @@ from src.core.models import RaceState, TrackStatus
 from src.evaluation.calibration import GRID, HORIZONS, replay_grid, green_quantiles, select_candidate
 from src.evaluation.prediction import ActualPlan
 from src.evaluation.offline import network_blocked
-from src.evaluation.snapshot import load_dataset
+from tools.evaluation_cache import load_dataset
 from src.evaluation.diagnostics import metrics
 from tools.report_neutralization_views import balanced_metrics
 

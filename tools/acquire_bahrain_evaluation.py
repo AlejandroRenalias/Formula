@@ -8,6 +8,7 @@ import fastf1
 import pandas as pd
 from fastf1 import _api
 from src.evaluation.races import DEVELOPMENT_RACES
+from tools.reservation_gate import authorize
 
 
 def records(frame):
@@ -24,6 +25,7 @@ def main():
     parser.add_argument("--race", choices=tuple(DEVELOPMENT_RACES), default="bahrain_2021")
     args = parser.parse_args()
     race = DEVELOPMENT_RACES[args.race]
+    authorize(race['year'], race['race'], purpose='evaluation')
     root = Path("data/cache/evaluation") / args.race
     root.mkdir(parents=True, exist_ok=True)
     fastf1.Cache.enable_cache("data/cache")
