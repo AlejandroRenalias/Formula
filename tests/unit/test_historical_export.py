@@ -41,7 +41,7 @@ def test_all_2409_records_match_saved_calls_plans_and_states_without_engine():
                     assert abs(actual['box_minus_stay_s'])==pytest.approx(actual['margin_s'],abs=1e-9)
                     label=json.loads((OUTPUT/'outcomes'/race/k[0]/f'{k[1]}.json').read_text())
                     assert label['id']==actual['id']
-                    assert label['formula_agrees_with_team']==(actual['call']==label['team_action_within_one_lap'])
+                    assert label['formula_agrees_with_team']==(('BOX' if actual['call']=='BOX_NOW' else 'STAY')==label['team_action_this_lap'])
                     for stop in label['future_stops_in_window']:
                         assert stop['entry_session_s']>actual['cutoff_session_s']
                         assert abs(stop['boundary_lap']-actual['lap'])<=1
@@ -75,7 +75,7 @@ def test_future_parameter_and_snapshot_corruption_fail_closed():
     with pytest.raises(ValueError,match='Snapshot'):causal_record('bahrain_2021',c,r,p)
 
 def test_no_outcome_keys_or_files_in_public_causal_records():
-    forbidden={'actual_subject_plan','actual_tyres','results','actual_remaining_stops','team_stop','accepted_episode','formula_agrees_with_team','tags','future_stops_in_window','directional_stratum'}
+    forbidden={'actual_subject_plan','actual_tyres','results','actual_remaining_stops','team_stop','accepted_episode','formula_agrees_with_team','tags','future_stops_in_window','directional_stratum','team_action_this_lap','next_team_stop','near_miss'}
     def inspect(value):
         if isinstance(value,dict):
             assert not forbidden.intersection(value)
@@ -100,7 +100,7 @@ def test_no_already_observed_stop_can_earn_pointwise_box_agreement():
     c={'driver_number':'1','lap':10,'cutoff_session_s':1000,'call':'BOX_NOW'}
     stop={'driver_number':'1','boundary_lap':9,'entry_session_s':999}
     label=outcome_record('bahrain_2021',c,[stop],{'matches':[]},[],None)
-    assert label['team_action_within_one_lap']=='STAY_OUT' and label['team_stop'] is None
+    assert label['team_action_this_lap']=='STAY' and label['team_stop'] is None
 
 def test_all_classified_missed_stop_labels_match_physical_cached_stops():
     events=[json.loads(line) for line in (ROOT/'docs/evaluation/disagreement/events.jsonl').read_text().splitlines()]

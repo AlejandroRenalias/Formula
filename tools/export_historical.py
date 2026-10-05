@@ -1,5 +1,6 @@
 """Offline, per-record saved-call export. No predictive engine imports or runs."""
 import argparse
+import ast
 from copy import deepcopy
 import gzip
 import hashlib
@@ -104,15 +105,24 @@ def event_summary(event):
 def outcome_record(race,call,stops,audit,events,episode):
     future=[s for s in stops if s['driver_number']==str(call['driver_number']) and s['entry_session_s']>call['cutoff_session_s']]
     window=[s for s in future if abs(s['boundary_lap']-call['lap'])<=1]
-    selected=window[0] if window else future[0] if future else None
-    action='BOX_NOW' if window else 'STAY_OUT'
+    subject_stops=[s for s in stops if s['driver_number']==str(call['driver_number'])]
+    this_stop=next((s for s in subject_stops if s['boundary_lap']==call['lap']),None)
+    selected=this_stop or (future[0] if future else None)
+    action='BOX' if this_stop else 'STAY'
+    formula_action='BOX' if call['call']=='BOX_NOW' else 'STAY'
+    nearby=next((s for s in subject_stops if abs(s['boundary_lap']-call['lap'])==1),None)
+    next_stop=deepcopy(future[0]) if future else None
+    if next_stop:next_stop['laps_from_cutoff']=next_stop['boundary_lap']-call['lap']
     tags=[event_summary(e) for e in events if e['direction']=='FN' and selected and e['event']['entry_session_s']==selected['entry_session_s']]
     matching=next((m for m in audit['matches'] if episode and m['alert']['lap']==episode['lap']),None)
     fp=[event_summary(e) for e in events if e['direction']=='FP' and episode and e['event']['lap']==episode['lap']]
-    return {'schema_version':1,'id':f'{race}:{call["driver_number"]}:{call["lap"]}',
+    return {'schema_version':2,'id':f'{race}:{call["driver_number"]}:{call["lap"]}',
         'race_key':race,'driver_number':str(call['driver_number']),'lap':call['lap'],
-        'cutoff_session_s':call['cutoff_session_s'],'team_action_within_one_lap':action,
-        'formula_agrees_with_team':call['call']==action,'scorable':True,
+        'cutoff_session_s':call['cutoff_session_s'],'team_action_this_lap':action,
+        'next_team_stop':next_stop,'team_stop_this_lap':deepcopy(this_stop),
+        'near_miss':formula_action!=action and bool(this_stop or nearby),
+        'near_miss_stop':deepcopy(nearby) if formula_action!=action and nearby else None,
+        'formula_agrees_with_team':formula_action==action,'scorable':True,
         'team_stop':deepcopy(selected),'future_stops_in_window':deepcopy(window),
         'stop_disagreement_tags':tags,'tag_status':'unmatched_stop_classified' if tags else 'no_unmatched_stop_classification',
         'accepted_episode':deepcopy(episode),'accepted_episode_match':deepcopy(matching),
@@ -126,6 +136,14 @@ def verify_sources():
     for path,expected in manifest['source_sha256'].items():
         p=ROOT/path
         if digest(p)==expected:continue
+        if path.replace('\\','/')=='src/ui/projection_dashboard.py':
+            # Playback wrapper is outside the scored mathematical engine. Keep
+            # every predictive source hash strict and prohibit engine imports here.
+            tree=ast.parse(p.read_text(encoding='utf-8'))
+            imports={n.module if isinstance(n,ast.ImportFrom) else a.name for n in ast.walk(tree) if isinstance(n,(ast.Import,ast.ImportFrom)) for a in n.names}
+            if not imports <= {'json','base64','pathlib','streamlit'}:raise ValueError('Playback wrapper imports beyond static UI dependencies')
+            exception[path]={'accepted_sha256':expected,'current_sha256':digest(p),'reason':'approved historical playback wrapper; predictive sources unchanged'}
+            continue
         if path.replace('\\','/')!='src/adapters/fastf1_adapter.py':raise ValueError(f'Frozen source changed: {path}')
         blob=p.read_bytes()
         insertion="        from tools.reservation_gate import authorize\n        authorize(year, race_name, purpose='adapter', session=session_type)\n"

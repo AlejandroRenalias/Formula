@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Formula · Decision fork</title><link rel="stylesheet" href="assets/pitwall.css"></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Formula · Decision fork</title><link rel="stylesheet" href="assets/pitwall.css"><link rel="stylesheet" href="assets/historical.css"></head>
 <body><main class="sheet">
-<header class="mast"><div class="brand">FORMULA <span>/</span></div><span class="synthetic">Synthetic scenario</span></header>
+<header class="mast"><div class="brand">FORMULA <span>/</span></div><div class="mode-switch" role="group" aria-label="Mode"><button id="mode-synthetic" aria-pressed="true">Synthetic scenario</button><button id="mode-historical" aria-pressed="false">Historical races</button></div></header>
 <p id="error" role="alert" hidden></p><div id="workspace" hidden>
 <section class="hero hero-grid"><div class="decision"><div class="state-line"><span class="operating" id="operating"></span><div class="lap-counter" aria-label="Race lap"><span>Lap</span> <strong id="lap-current"></strong><span class="lap-total"> / <span id="lap-total"></span></span></div></div><div class="call-row"><h1 id="call"></h1><div class="current-tyre"><svg id="tyre-ring" viewBox="0 0 100 100" role="img"></svg><span id="tyre-age"></span></div></div><div class="margin" id="margin" aria-live="polite"></div><p class="small muted">Expected over all samples</p><div class="why"><p id="reason"></p><p class="confidence" id="confidence"></p><p id="flip" class="flip"></p><p id="plan" class="muted small"></p></div></div><section class="circuit-panel" aria-labelledby="circuit-title"><div class="map-head"><h2 id="circuit-title"></h2><span class="small muted">At the cutoff</span></div><svg id="circuit" viewBox="0 0 660 420" role="img"></svg><p id="rejoin-label" class="rejoin-label" aria-live="polite"></p><p id="rain-label" class="rain-label" hidden></p><p id="map-note" class="small muted"></p></section></section>
 <div class="work-grid"><section class="canvas"><div class="chart-head"><h2>Two futures.</h2><div id="scenario-tabs" class="switch" role="group" aria-label="Example weather scenario"></div></div><p class="small muted chart-unit">Time gained vs shared running reference · seconds · higher is faster</p><div id="chart-wrap"><svg id="fork" viewBox="0 0 1000 410" role="img" aria-label="Observed trace and projected STAY and BOX futures"></svg></div><p id="chart-warning" class="chart-warning" hidden>Chart shows base assumptions</p><p class="chart-caption muted"><span>Representative paths</span><span>At the flag: expected margin and p10–p90 for this weather group.</span></p>
@@ -12,4 +12,30 @@
 <details class="maths"><summary>Show the maths <span>Policies, sweeps & assumptions</span> <svg class="maths-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg></summary><div class="maths-body"><h3>Policies through the finish</h3><p id="plan-margin" class="small muted"></p><div class="table-scroll" id="policy-table"></div><h3>Policy-level flips</h3><div id="policy-flips"></div><h3>Call-level sweeps</h3><div id="sweep-tables"></div><h3>Assumptions</h3><p id="rain-timing" class="small"></p><div id="assumption-tags" class="assumption-tags"></div><h3>Engine factors (legacy scorer)</h3><p class="small muted">Heuristic points explain the specialists' votes. The projection owns the call.</p><div id="factor-table"></div><h3>Raw specialist reasoning</h3><div id="raw-radio"></div></div></details>
 <section class="radio"><div class="radio-head"><h2>On the radio</h2><span class="small muted">Legacy specialists / projection chief</span></div><div id="radio-lines"></div><div class="chief"><div class="chief-role">Chief strategist <span>Projection</span></div><p id="chief"></p><strong id="chief-vote"></strong></div></section>
 <footer><span>Synthetic observations · forecast scenarios · uncalibrated model</span><a href="fixture.json" download="formula-projection.json">Download the fixture ↗</a></footer>
-</div></main><script src="assets/circuit-map.js"></script><script src="assets/pitwall.js"></script></body></html>
+</div><section id="historical-workspace" hidden>
+<div class="history-selectors">
+<label>Race<select id="h-race" aria-label="Race"></select></label>
+<label>Driver<select id="h-driver" aria-label="Driver"></select></label>
+<div class="history-lap-picker"><label for="h-lap">Lap</label><div><button id="h-prev-lap" aria-label="Previous lap">←</button><input id="h-lap" aria-label="Lap" type="number" min="5" value="5"><button id="h-next-lap" aria-label="Next lap">→</button></div></div>
+<button id="h-show">Load situation</button></div>
+<p class="small muted" id="h-archive-note">Archive: top-ten finishers from five races, decision-engine v1</p>
+<label class="history-order"><input id="h-show-first" type="checkbox"> Show Formula's call first</label>
+<p id="h-message" role="status"></p>
+<div id="h-call-content" hidden>
+<div class="history-stage"><section class="decision history-decision">
+<div class="state-line"><span class="operating" id="h-driver-chip"></span><div class="lap-counter"><span>Lap</span> <strong id="h-lap-current"></strong><span class="lap-total"> / <span id="h-lap-total"></span></span></div></div>
+<p id="h-race-name"></p><p id="h-situation" class="history-situation"></p>
+<div class="call-row"><h1 id="h-call">BOX or STAY?</h1><div class="current-tyre"><svg id="h-tyre-ring" viewBox="0 0 100 100" role="img" aria-label="Current tyre"></svg><span id="h-tyre-age"></span></div></div>
+<div id="h-model-summary"></div>
+<p class="muted history-instruction" id="h-instruction">Make your call, then lock to see Formula's.</p>
+<div class="history-actions" aria-label="Your call"><button id="h-box" aria-pressed="false">BOX</button><button id="h-stay" aria-pressed="false">STAY</button><button id="h-lock" disabled>Lock</button><button id="h-reveal" disabled>Reveal</button></div>
+<p id="h-lock-status" aria-live="polite"></p>
+<div id="h-model-details"></div>
+<section id="h-revealed" hidden></section><div id="h-next-step" class="history-actions" hidden><button id="h-next">Next lap</button><span id="h-next-prompt"></span></div>
+</section><aside class="history-context">
+<section class="circuit-panel"><div class="map-head"><h2>On track</h2></div><svg id="h-map" viewBox="0 0 660 420" role="img" aria-label="Schematic positions from timing gaps"></svg><p class="small muted">Schematic positions from timing gaps</p></section>
+<section class="tower"><h2>Timing</h2><p class="small muted">Schematic positions from timing gaps</p><div class="history-timing-scroll" tabindex="0" role="region" aria-label="Archived field timing"><table><thead><tr><th>P</th><th>Driver</th><th>Gap</th><th>Tyre / age</th></tr></thead><tbody id="h-field"></tbody></table></div><p class="small muted" id="h-field-note"></p></section>
+</aside></div><p id="h-version" class="small muted"></p></div>
+<div class="history-tally"><div><p id="h-tally" aria-live="polite"></p><p id="h-other-tally" class="small muted"></p></div><button id="h-reset-tally">Reset tally</button></div>
+<p class="history-footer">Static archive prevents accidental spoilers, not inspection with developer tools. Unavailable cutoffs can hint at a nearby stop. No trajectories, radio or assumption controls were archived. Immediate BOX considered HARD, or MEDIUM when already on HARD.</p>
+</section></main><script src="assets/circuit-map.js"></script><script src="assets/pitwall.js"></script><script id="historical-config" type="application/json">{"base":"../static/"}</script><script src="assets/historical.js"></script></body></html>

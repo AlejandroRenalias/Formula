@@ -1,6 +1,6 @@
 # Phase 6 foundation: gate, per-record export and track geometry
 
-Completed the approved (a)Ã¢â‚¬â€œ(c) slice on 2026-10-05. The historical UI is **not built** and the current page/synthetic fixture is unchanged. Predictive calculators, evaluation state builder, profile, priors and accepted scores remain frozen. No new engine race runs or new test races.
+Completed the approved (a)–(c) slice on 2026-10-05. The historical UI is **not built** and the current page/synthetic fixture is unchanged. Predictive calculators, evaluation state builder, profile, priors and accepted scores remain frozen. No new engine race runs or new test races.
 
 ## Verification
 
@@ -65,7 +65,7 @@ Only qualifying sessions from already-evaluated weekends were acquired. The gate
 | Causal file bytes | 9702 |
 
 
-Reveal only: the team entered on physical lap **13**, accepted stop boundary **12**, fitted **HARD**. That is within Ã‚Â±1 boundary lap of this selected cutoff, so the pointwise team action is BOX and Formula's STAY disagrees. The missed-stop record tags strategy count; undercut/cover evidence is unknown. This interaction label is separate from the accepted one-to-one episode-start matching. Outcome file: 1,188 bytes. No claim about the better decision.
+Reveal only: the team stayed out at cutoff **11**, then boxed after boundary **12** (physical entry lap **13**) for **HARD**. Formula's STAY agrees with the team this lap. The next stop is +1 lap away. The accepted one-to-one episode matching remains unchanged and is a separate reference. The missed-stop record tags strategy count; undercut/cover evidence is unknown. No claim about the better decision.
 
 ## Reproduction and next boundary
 

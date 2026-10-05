@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Formula archive methodology</title><style>body{background:#0d1e32;color:#ecf0f3;font:18px/1.6 system-ui,sans-serif;max-width:800px;margin:40px auto;padding:20px}a{color:#ffb17d}h1{font-size:32px}</style></head><body>
+<h1>Historical calls: decision-engine-v1</h1>
+<p>All 2,409 decisions come from the accepted saved archive: top-ten finishers from Bahrain 2021, Spain 2022, France 2022, Spain 2023 and Bahrain 2024. Playback runs no decision engine. Causal records contain only cutoff information, with the approved same-lap live timing gap proxy.</p>
+<p>BOX means box after the selected lap. STAY means stay out at that boundary. The interactive reveal and tally compare with the team's action at this exact boundary. A future stop is shown with its signed distance from the selected lap; physical pit entry can be numbered one lap later than its decision boundary.</p>
+<p>The accepted evaluation instead matches alert episodes to stops one-to-one within ±1 lap. Its precision, recall and timing score are unchanged. Interactive pointwise agreement is a different label. A close note applies when Formula's action differs this lap and a stop boundary is one lap earlier or later.</p>
+<p>Confidence shares describe agreement among model samples, not probability of correctness. Reliability wording uses fixed race-phase buckets from the existing reports. Predictions and box timing are separate evaluations. The immediate BOX candidate considered HARD, or MEDIUM when already on HARD. No claim is made about who chose the better strategy.</p>
+<p>Outcome files are requested only after Lock and explicit Reveal. This prevents accidental spoilers, not a determined user inspecting developer tools. Missing cutoffs can hint at nearby stops. The schematic map uses pre-race geometry and saved causal timing gaps; it is not measured telemetry.</p>
+<p>Your call comes first by default: Lock shows Formula, then Reveal shows the team. The optional “Show Formula's call first” toggle changes that order. First revealed answer at each race/driver/lap counts once per display order per browser session. Your-call-first and Formula-first tallies are kept separately; earlier sessions migrate into Formula first. Reset clears both tallies and the current attempt.</p>
+<ul>
+<li><a href="reports/agreement-plan.md">Accepted agreement protocol</a></li>
+<li><a href="reports/agreement.md">Development and held-out agreement scores</a></li>
+<li><a href="reports/development-prediction.md">Frozen calibrated development prediction scores</a></li>
+<li><a href="reports/held-out-prediction.md">Frozen held-out prediction scores</a></li>
+<li><a href="reports/comparison.md">Development versus held-out prediction comparison</a></li>
+<li><a href="reports/disagreement.md">Observable disagreement tags and limitations</a></li>
+<li><a href="https://github.com/AlejandroRenalias/Formula/tree/18e1bb0b093b4f7e175af8e962702737b8676a8e">Engine source version: decision-engine-v1</a></li>
+</ul></body></html>

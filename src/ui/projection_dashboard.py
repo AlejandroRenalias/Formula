@@ -21,6 +21,13 @@ def projection_document():
     document = document.replace('<script src="assets/pitwall.js"></script>',
         '<script id="projection-fixture" type="application/json">' + payload + '</script><script>' + js + '</script>')
     document = document.replace('<script src="assets/circuit-map.js"></script>', '<script>' + geometry_js + '</script>')
+    history_css = (ROOT / 'design/assets/historical.css').read_text(encoding='utf-8')
+    history_js = (ROOT / 'design/assets/historical.js').read_text(encoding='utf-8')
+    document = document.replace('<link rel="stylesheet" href="assets/historical.css">', '<style>' + history_css + '</style>')
+    document = document.replace('<script src="assets/historical.js"></script>', '<script>' + history_js + '</script>')
+    prefix = st.get_option('server.baseUrlPath').strip('/')
+    static_base = '/' + (prefix + '/' if prefix else '') + 'app/static/'
+    document = document.replace('{"base":"../static/"}', json.dumps({'base': static_base}))
     return document
 
 
@@ -29,5 +36,5 @@ def run_projection_dashboard():
     st.markdown('<style>.stApp{background:#0d1e32}.block-container{padding:0;max-width:100%}header[data-testid="stHeader"]{background:transparent}</style>', unsafe_allow_html=True)
     with st.sidebar:
         st.link_button('Historical & legacy data tools', '?view=legacy')
-        st.caption('The main workspace uses the saved synthetic projection fixture.')
+        st.caption('Synthetic fixture or saved historical calls; no engine runs in playback.')
     st.iframe(projection_document(), height='content')

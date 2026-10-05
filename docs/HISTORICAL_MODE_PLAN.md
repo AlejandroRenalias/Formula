@@ -41,9 +41,11 @@ Source snapshots are the accepted `snapshots_parameters_wear.jsonl` (development
 
 Store physical `stop_id`, accepted boundary lap, physical pit-entry/out-lap numbers when known, exact entry/exit seconds, fitted compound and data quality. The display must distinguish “after boundary lap N” from “pit entry on physical lap N+1”; do not relabel the accepted coordinate silently. Exclude after-finish garage visits using the accepted finish boundary.
 
-For each playable snapshot, derive the reveal label without engine execution: list **future** entries strictly after its cutoff; the immediate binary team action is BOX if at least one such entry falls within ±1 of its accepted boundary lap, otherwise STAY. Never award BOX for a stop already observed before the cutoff. Show the relevant stop and compound; for STAY reveal the next future stop, or “no further recorded stop”. Missing/ambiguous labels yield unscored, not guessed matches.
+For each playable snapshot, derive the reveal label without engine execution. Outcome schema v2 stores `team_action_this_lap`: BOX exactly when a physical team's stop boundary equals the selected cutoff lap; STAY otherwise. `team_stop_this_lap` supplies that stop's details. `next_team_stop` is the first entry strictly after the cutoff with signed `laps_from_cutoff`, or null. The headline and session tally use this exact pointwise action. HAM, Bahrain 2021, cutoff 11 is STAY, agreeing with Formula; his next stop is boundary 12 (+1), physical entry lap 13, HARD.
 
-The screen's pointwise “Formula agreed within one lap” compares this action with the saved call. It is an interaction label, **not** the published episode-start one-to-one precision/recall score. Preserve the accepted alert episode ID, primary matching and FN/FP IDs separately, including cases where a repeated BOX was near a stop but its episode started too early. Link the scored methodology on reveal. No rematching or altered agreement score.
+`near_miss` follows the requested flag: Formula differs from this lap's action and a team stop boundary is within one lap (including the boundary itself). `near_miss_stop` identifies a nonzero one-lap neighbour, including an earlier stop. Only that neighbour produces the wording “Close: the team boxed one lap later” or “earlier”; an exact missed BOX has no earlier/later note. Missing labels fail closed rather than guessing.
+
+The accepted episode-start one-to-one matching within +/-1 lap stays unchanged, in `accepted_episode` and `accepted_episode_match`. It remains a separate linked evaluation reference; pointwise agreement is not precision/recall. No rematching, new engine run or altered score.
 
 Attach saved tags to their actual unmatched event ID. A missed stop can carry overlapping tags and unknowns; a matched stop has “no unmatched-stop classification”, not “no possible tactical explanation”. FP context can be a different stop ±10 laps away: show its distance and provenance separately, never present those tags as the revealed stop's own tags. No claim about who was right.
 
@@ -54,7 +56,7 @@ Attach saved tags to their actual unmatched event ID. A missed stop can carry ov
 | Choosing | Keep synthetic mode available. Selector label: **Archive: top-ten finishers from five races, decision-engine v1**. Use fixed scheduled lap range 5 through scheduled laps minus 5; no future event markers or finish-order driver sorting. | Static catalog only. |
 | Call shown | Render the saved Formula call, confidence shares, margin, best BOX/STAY plans, causal field/map, tyre/stop-so-far state and reliability note. User chooses BOX or STAY; Reveal disabled. Unavailable cutoff shows “No archived decision at this cutoff”, without revealing a future stop/exclusion reason. | Requested causal record only. |
 | Call locked | Freeze the selected snapshot and user's call. Display the choice and enable Reveal; do not load outcomes yet. Changing race/driver/lap starts a new attempt and clears the lock/reveal; no silent change to a locked attempt. | Same causal record, session-local choice. |
-| Revealed | Explicitly load that snapshot's outcome label. Show team stop boundary/physical lap and compound, pointwise agreement, saved episode match status and relevant tags/unknowns. Evaluation report links become available here because the reports themselves contain outcomes. Offer another lap. | Outcomes allowed only for this revealed attempt. |
+| Revealed | Explicitly load that snapshot's outcome label. Show this-lap team action, next stop boundary and compound, pointwise agreement, near-miss note and relevant tags/unknowns. Link the unchanged episode matching as a separate reference. Evaluation report links become available here because the reports themselves contain outcomes. Offer another lap. | Outcomes allowed only for this revealed attempt. |
 
 Use `sessionStorage` for a simple per-tab tally: attempts revealed, user agreements / scorable attempts, Formula pointwise agreements / scorable attempts. Label it “agreement with the team”, never “correct decisions” or wins. Each snapshot increments once per session; repeated reveal does not score twice. Preserve the locked first answer for that attempt, provide an explicit reset, and never submit a user call to an engine or server for simulation.
 
@@ -118,3 +120,13 @@ Fields unavailable or incomplete in saved **calls alone**, and their handling:
 ## Implementation order after review
 
 Implement the reservation gate and tests first; then the pure offline exporter and parity/leakage tests; then geometry from pre-race sessions of the already evaluated weekends through that gate. Stop after those three foundations. The next slice adds the four-state interaction, static fetching and tally within the existing design, then verifies desktop/mobile rendering, outcome isolation and synthetic parity. Predictive calculators/profile remain unchanged; the adapter's access guard is a documented operational source change, not a new engine score.
+
+
+## Implementation review
+
+The pointwise schema fix and historical UI are implemented; see [UI report and all four desktop/mobile states](historical_ui/REPORT.md). Streamlit enables static serving in `.streamlit/config.toml` and embeds the same playback script with `/app/static/` as its asset base (including a configured server path prefix). The ordinary static page resolves `../static/`. Methodology and exact report copies are linked only after Reveal. Synthetic JS/CSS and fixture content are unchanged. No model reruns, acquisition or publication.
+
+
+## Accepted foundation and UX order
+
+The initial historical mode and exact pointwise reveal were accepted. The subsequent [UX review](historical_ux/REPORT.md) supersedes the display order above: default is situation and user choice, Lock shows Formula, Reveal shows the team. An explicit Formula-first toggle retains the earlier order and has a separate session tally. This is presentation only; per-record causal/outcome JSON, scored artifacts and the frozen engine are unchanged.
