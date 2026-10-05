@@ -1,0 +1,11 @@
+{
+  "pre_race_only": true,
+  "offline_cache_verified_with_network_blocked": true,
+  "asset_sha256": {
+    "data/tracks/bahrain.json": "b49850261f36379dacb98541de51c80fc358b55b3ad40e8750a85e09ec80f2ca",
+    "data/tracks/barcelona.json": "c9cb9d6d1566e79d952cae777a0f7720bc0466ae1cdb503b8267e5397a5765f3",
+    "data/tracks/barcelona_2023.json": "0b46abe265a767f993e00eb6769a09db53c22701f9d97b89e3d7304f3c0fc6d2",
+    "data/tracks/paul_ricard.json": "aebd309f81b3290378df989df5f94368e91aee9d5e2b41112e94ff23dd9e70ea"
+  },
+  "acquisition_tool_sha256": "030aa26ca957fc9e17ea5a7045092e9334a117c242262cbc5ad9bc71382838f7"
+}

@@ -4,6 +4,8 @@ A hybrid deterministic + multi-agent Formula 1 pit-wall strategy system built wi
 
 > Experimental/educational project. Not affiliated with Formula 1, the FIA, any Formula 1 team, or FastF1.
 
+[Project roadmap](docs/ROADMAP.md) · [Historical mode plan](docs/HISTORICAL_MODE_PLAN.md)
+
 ## What it does
 
 Formula Pit Wall combines a deterministic strategy engine with selective LLM reasoning infrastructure. Deterministic Python owns measurable strategy facts and scoring; the LLM layer is constrained to reason over already-computed evidence when the engine flags a close decision.
